@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -15,17 +17,18 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $response = Http::post(env('API_ROUTE') . '/login', [
-            'login' => $request->login,
-            'password' => $request->password
+            'login'    => $request->login,
+            'password' => $request->password,
         ]);
 
         if ($response->failed()) {
-            return back()->withErrors(['error' => 'Credenciais inválidas']);
+            $data = $response->json();
+            return back()->withErrors($data['message'])->withInput();
         }
 
-        $data = $response->json();
-        $token = $data['token'];
-        $user = $data['user'];
+        $data    = $response->json();
+        $token   = $data['token'];
+        $user    = $data['user'];
         $company = $data['company'];
 
         session(['jwt_token' => $token, 'user' => $user, 'company' => $company]);

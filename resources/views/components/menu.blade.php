@@ -30,7 +30,7 @@
                     </svg>
                   </span>
                 </span>
-                <span class="app-brand-text demo menu-text fw-bold text-heading">Vuexy</span>
+                <span class="app-brand-text demo menu-text fw-bold text-heading">Invicta</span>
               </a>
 
               <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
@@ -342,16 +342,21 @@
                     href="javascript:void(0);"
                     data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                      <img src="../../assets/img/avatars/1.png" alt class="rounded-circle" />
+                        @php
+                        $profileImage = file_exists(public_path("assets/user-profiles/{$user['id']}.png"))
+                            ? asset("assets/user-profiles/{$user['id']}.png")
+                            : asset("assets/user-profiles/default.png");
+                        @endphp
+                      <img src="{{$profileImage}}" alt class="rounded-circle" />
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                      <a class="dropdown-item mt-0" href="pages-account-settings-account.html">
+                      <a class="dropdown-item mt-0" href="{{route('my-profile')}}">
                         <div class="d-flex align-items-center">
                           <div class="flex-shrink-0 me-2">
                             <div class="avatar avatar-online">
-                              <img src="../../assets/img/avatars/1.png" alt class="rounded-circle" />
+                              <img src="{{$profileImage}}" alt class="rounded-circle" />
                             </div>
                           </div>
                           <div class="flex-grow-1">
@@ -373,13 +378,13 @@
                     </li>
                     <li>
 
-                      <a class="dropdown-item" href="pages-account-settings-account.html">
+                      <a class="dropdown-item" href="{{route('user.index')}}">
                         <i class="icon-base ti tabler-users me-3 icon-md"></i
                         ><span class="align-middle">Usuários</span>
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="pages-account-settings-account.html">
+                      <a class="dropdown-item" href="{{route('realestatesector.dataEdit', $user['id_imobiliaria'])}}">
                         <i class="icon-base ti tabler-file me-3 icon-md"></i
                         ><span class="align-middle">Dados da imobiliária</span>
                       </a>
