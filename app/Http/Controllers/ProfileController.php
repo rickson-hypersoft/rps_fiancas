@@ -31,13 +31,12 @@ class ProfileController extends Controller
         }
 
         $validator = Validator::make($requestSanitize, [
-            'usuario'   => 'required|string|max:30',
-            'nome'      => 'required|string|max:50',
-            'email'     => 'required|string|max:150',
-            'cpf'       => 'required|string|max:11',
-            'telefone'  => 'nullable|string|max:16',
-            'nivel'     => 'nullable|string|max:50',
-            'categoria' => 'nullable|string|max:50',
+            'usuario'  => 'required|string|max:30',
+            'nome'     => 'required|string|max:50',
+            'email'    => 'required|string|max:150',
+            'cpf'      => 'required|string|max:11',
+            'telefone' => 'nullable|string|max:16',
+            'nivel'    => 'nullable|string|max:50',
         ]);
 
         if ($validator->fails()) {

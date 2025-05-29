@@ -25,7 +25,7 @@
             </div>
             @endif
 
-            <form action="{{route('user.store')}}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
+            <form action="{{route('realestatesector.users.store')}}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
                 @csrf
                 <div class="row gy-4 gx-6 mb-6">
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
@@ -64,46 +64,8 @@
                             <option value="Financeiro">Financeiro</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <label for="categoria" class="form-label">Categoria</label>
-                        <select class="form-select form-select-lg" id="categoria" name="categoria" aria-label="Default select example">
-                            <option selected="">selecionar categoria</option>
-                            <option value="Fianças">Fianças</option>
-                            <option value="Imobiliária">Imobiliária</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4" id="imobiliaria-select-wrapper" style="display: none;">
-                        <label for="imobiliaria_id" class="form-label">Imobiliária</label>
-                        <select class="form-select form-select-lg" name="imobiliaria_id" id="imobiliaria_id">
-                            <option value="">Carregando...</option>
-                        </select>
-                    </div>
                     <hr>
                     <h6 class="m-0 pb-2 pt-2">Permissões</h6>
-                    <div class="col-md-3" id="editar-empresa-wrapper">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="editar-empresa" name="permissoes[]" checked value="1">
-                            <label class="form-check-label" for="editar-empresa">Editar Empresa</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3" id="cadastro-imobiliarias-wrapper">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="cadastro-imobiliarias" name="permissoes[]" checked value="2">
-                            <label class="form-check-label" for="cadastro-imobiliarias">Cadastro de Imobiliárias</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3" id="cadastro-usuarios-wrapper">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="cadastro-usuarios" name="permissoes[]" checked value="3">
-                            <label class="form-check-label" for="cadastro-usuarios">Cadastro de Usuários</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-check form-switch mb-2">
-                            <input class="form-check-input" type="checkbox" id="financeiro-adicionar" name="permissoes[]" checked value="4">
-                            <label class="form-check-label" for="financeiro-adicionar">Financeiro Adicionar</label>
-                        </div>
-                    </div>
                     <div class="col-md-3">
                         <div class="form-check form-switch mb-2">
                             <input class="form-check-input" type="checkbox" id="financeiro-alterar" name="permissoes[]" checked value="5">
@@ -178,98 +140,22 @@
                     </div>
                     <div class="mt-4">
                         <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">Gravar</button>
-                        <a href="{{route('user.index')}}" class="btn btn-label-secondary waves-effect">Cancelar</a>
+                        <a href="{{route('realestatesector.users.index')}}" class="btn btn-label-secondary waves-effect">Cancelar</a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
+@section('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const categoriaSelect = document.getElementById('categoria');
-        const permissoesParaDesabilitar = [
-            document.getElementById('editar-empresa'),
-            document.getElementById('cadastro-imobiliarias'),
-            document.getElementById('cadastro-usuarios'),
-        ];
-
-        const permissoesParaNaoMostrar = [
-            document.getElementById('editar-empresa-wrapper'),
-            document.getElementById('cadastro-imobiliarias-wrapper'),
-            document.getElementById('cadastro-usuarios-wrapper'),
-        ];
-
-        function verificarCategoria() {
-            const isFianca = categoriaSelect.value === 'Fianças';
-            permissoesParaDesabilitar.forEach(el => {
-                el.disabled = !isFianca;
-                if (!isFianca) {
-                    el.checked = false;
-                } else {
-                    el.checked = true;
-                }
-            });
-            permissoesParaNaoMostrar.forEach(el => {
-                el.disabled = !isFianca;
-                if (!isFianca) {
-                    el.classList.add('d-none'); // corrige aqui
-                } else {
-                    el.classList.remove('d-none'); // garante que volte a aparecer
-                }
-            });
-        }
-
-        // Verifica no carregamento da página
-        verificarCategoria();
-
-        // Escuta a mudança
-        categoriaSelect.addEventListener('change', verificarCategoria);
+    IMask(document.getElementById('cpf'), {
+        mask: '000.000.000-00'
     });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const categoriaSelect = document.getElementById('categoria');
-        const imobiliariaWrapper = document.getElementById('imobiliaria-select-wrapper');
-        const imobiliariaSelect = document.getElementById('imobiliaria_id');
-
-        async function loadImobiliarias() {
-            imobiliariaSelect.innerHTML = '<option>Carregando...</option>';
-            try {
-                const response = await fetch('/adm/imobiliarias/listagem');
-                const data = await response.json();
-
-                if (data.length === 0) {
-                    imobiliariaSelect.innerHTML = '<option value="">Nenhuma imobiliária encontrada</option>';
-                    return;
-                }
-
-                imobiliariaSelect.innerHTML = '<option value="">Selecione uma imobiliária</option>';
-                data.data.forEach(imob => {
-                    const option = document.createElement('option');
-                    option.value = imob.id;
-                    option.text = imob.razao;
-                    imobiliariaSelect.appendChild(option);
-                });
-            } catch (error) {
-                imobiliariaSelect.innerHTML = '<option value="">Erro ao carregar</option>';
-                console.error('Erro ao buscar imobiliárias:', error);
-            }
-        }
-
-        function toggleImobiliariaSelect() {
-            if (categoriaSelect.value === 'Imobiliária') {
-                imobiliariaWrapper.style.display = 'block';
-                loadImobiliarias();
-            } else {
-                imobiliariaWrapper.style.display = 'none';
-                imobiliariaSelect.innerHTML = ''; // limpa opções
-            }
-        }
-
-        toggleImobiliariaSelect();
-
-        categoriaSelect.addEventListener('change', toggleImobiliariaSelect);
+    IMask(document.getElementById('telefone'), {
+        mask: '(00) 0 0000-0000'
     });
 </script>
+@endsection
+
 @endsection

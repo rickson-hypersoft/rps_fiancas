@@ -2,24 +2,25 @@
 
 declare(strict_types = 1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\RealEstateSector;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
+class UserRealEstateSectorController extends Controller
 {
     public function index(Request $request)
     {
         $page     = $request->get('page', 1);
         $token    = session('jwt_token');
-        $response = Http::withToken($token)->get(env('API_ROUTE') . '/users', ['page' => $page]);
+        $response = Http::withToken($token)->get(env('API_ROUTE') . '/users/realEstateSector/' . session('user')['id_imobiliaria'], ['page' => $page]);
 
         $data = $response->json();
 
-        return view('user.index', [
+        return view('user.realEstateSector.index', [
             'users'      => $data['data'],
             'pagination' => $data['meta'],
             'links'      => $data['links'],
@@ -28,7 +29,7 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('user.formStore');
+        return view('user.realEstateSector.formStore');
     }
 
     public function store(Request $request)
@@ -38,15 +39,13 @@ class UserController extends Controller
         $requestSanitize = $this->sanitizeData($request->all(), ['cpf', 'telefone']);
 
         $validator = Validator::make($requestSanitize, [
-            'usuario'        => 'required|string|max:30',
-            'nome'           => 'required|string|max:50',
-            'email'          => 'nullable|string|max:150',
-            'cpf'            => 'nullable|string|max:11',
-            'telefone'       => 'nullable|string|max:16',
-            'nivel'          => 'nullable|string|max:50',
-            'categoria'      => 'nullable|string|max:50',
-            'id_imobiliaria' => 'nullable|numeric',
-            'ativo'          => 'nullable|numeric',
+            'usuario'  => 'required|string|max:30',
+            'nome'     => 'required|string|max:50',
+            'email'    => 'nullable|string|max:150',
+            'cpf'      => 'nullable|string|max:11',
+            'telefone' => 'nullable|string|max:16',
+            'nivel'    => 'nullable|string|max:50',
+            'ativo'    => 'nullable|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -57,12 +56,10 @@ class UserController extends Controller
         $permissoes       = $request->get('permissoes') ?? [];
         $permissoesString = '|' . implode('|', $permissoes) . '|';
 
-        if ($request->get('imobiliaria_id')) {
-            $userData['id_imobiliaria'] = $request->get('imobiliaria_id');
-        }
-
-        $userData['permissoes'] = $permissoesString;
-        $userData['senha']      = Hash::make($request->get('senha'));
+        $userData['id_imobiliaria'] = session('user')['id_imobiliaria'];
+        $userData['categoria']      = session('user')['categoria'];
+        $userData['permissoes']     = $permissoesString;
+        $userData['senha']          = Hash::make($request->get('senha'));
 
         $response       = Http::withToken($token)->post(env('API_ROUTE') . '/users/', $userData);
         $returnResponse = $response->json();
@@ -71,7 +68,7 @@ class UserController extends Controller
             return back()->withErrors($returnResponse['message'])->withInput();
         }
 
-        return redirect()->route('user.index')->with('success', $returnResponse['message']);
+        return redirect()->route('realestatesector.users.index')->with('success', $returnResponse['message']);
     }
 
     public function edit(string | int $id)
@@ -79,7 +76,7 @@ class UserController extends Controller
         $response = Http::withToken(session('jwt_token'))->get(getenv('API_ROUTE') . '/users/' . $id);
         $data     = $response->json();
 
-        return view('user.formEdit', [
+        return view('user.realEstateSector.formEdit', [
             'user'       => $data['data'],
             'permissoes' => $data['data']['permissoes'],
         ]);
@@ -92,15 +89,13 @@ class UserController extends Controller
         $requestSanitize = $this->sanitizeData($request->all(), ['cpf', 'telefone']);
 
         $validator = Validator::make($requestSanitize, [
-            'usuario'        => 'required|string|max:30',
-            'nome'           => 'required|string|max:50',
-            'email'          => 'nullable|string|max:150',
-            'cpf'            => 'nullable|string|max:11',
-            'telefone'       => 'nullable|string|max:16',
-            'nivel'          => 'nullable|string|max:50',
-            'categoria'      => 'nullable|string|max:50',
-            'id_imobiliaria' => 'nullable|numeric',
-            'ativo'          => 'nullable|numeric',
+            'usuario'  => 'required|string|max:30',
+            'nome'     => 'required|string|max:50',
+            'email'    => 'nullable|string|max:150',
+            'cpf'      => 'nullable|string|max:11',
+            'telefone' => 'nullable|string|max:16',
+            'nivel'    => 'nullable|string|max:50',
+            'ativo'    => 'nullable|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -111,9 +106,9 @@ class UserController extends Controller
         $permissoes       = $request->get('permissoes') ?? [];
         $permissoesString = '|' . implode('|', $permissoes) . '|';
 
-        $userData['permissoes'] = $permissoesString;
-
-        $userData['id_imobiliaria'] = $request->get('imobiliaria_id') ?? null;
+        $userData['id_imobiliaria'] = session('user')['id_imobiliaria'];
+        $userData['categoria']      = session('user')['categoria'];
+        $userData['permissoes']     = $permissoesString;
 
         $response       = Http::withToken($token)->put(env('API_ROUTE') . '/users/' . $id, $userData);
         $returnResponse = $response->json();
@@ -122,6 +117,6 @@ class UserController extends Controller
             return back()->withErrors($returnResponse['message'])->withInput();
         }
 
-        return redirect()->route('user.index')->with('success', $returnResponse['message']);
+        return redirect()->route('realestatesector.users.index')->with('success', $returnResponse['message']);
     }
 }

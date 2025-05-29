@@ -28,7 +28,7 @@
                             <input id="pesquisar" type="text" class="form-control" placeholder="Pesquisar" aria-label="Pesquisar..." autocomplete="off" spellcheck="false">
                         </div>
                         <div class="col-sm-5 mt-4" style="text-align: right">
-                            <a href="{{route('user.create')}}" class="btn btn-primary waves-effect waves-light">Adicionar Usuário</a>
+                            <a href="{{route('realestatesector.users.create')}}" class="btn btn-primary waves-effect waves-light">Adicionar Usuário</a>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                                                 <i class="icon-base ti tabler-dots-vertical"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item waves-effect" href="{{route('user.edit', $user['id'])}}"><i class="icon-base ti tabler-pencil me-1"></i> Editar</a>
+                                                <a class="dropdown-item waves-effect" href="{{route('realestatesector.users.edit', $user['id'])}}"><i class="icon-base ti tabler-pencil me-1"></i> Editar</a>
                                                 <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Excluir</a>
                                             </div>
                                         </div>

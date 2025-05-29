@@ -34,7 +34,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table table-responsive" style="height: 220px;">
-                        <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 14px;">
+                        <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 18px;">
                             <thead>
                                 <tr>
                                     <th class="align-middle">Razão</th>
@@ -190,7 +190,7 @@
                     </div>
                 `;
 
-                fetch(`/imobiliarias/setup/${setupId}`)
+                fetch(`/adm/imobiliarias/setup/${setupId}`)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Erro ao buscar dados');
@@ -243,7 +243,7 @@
                             });
 
                             html = `
-            <table class="table table-sm table-striped table-hover" style="font-size: 14px;">
+            <table class="table table-sm table-striped table-hover" style="font-size: 18px;">
                 <thead>
                     <tr>
                         <th>Taxa</th>
@@ -286,7 +286,7 @@
             if (!currentImobiliariaId) return;
             console.log(currentImobiliariaId);
 
-            form.action = '/imobiliarias/cadastrar/setup/' + currentImobiliariaId; // Rota de criação
+            form.action = '/adm/imobiliarias/cadastrar/setup/' + currentImobiliariaId; // Rota de criação
             modalTitle.textContent = 'Adicionar Configuração';
             form.reset(); // Limpa o formulário
             document.getElementById('form-id').value = '';
@@ -302,7 +302,7 @@
                 const ativo = btn.dataset.ativo;
                 const switchAtivo = document.getElementById(' user-status-switch')
 
-                form.action = '/imobiliarias/editar/setup/' + imobiliaria + '/' + id;
+                form.action = '/adm/imobiliarias/editar/setup/' + imobiliaria + '/' + id;
                 modalTitle.textContent = 'Editar Configuração';
 
                 document.getElementById('form-id').value = id;

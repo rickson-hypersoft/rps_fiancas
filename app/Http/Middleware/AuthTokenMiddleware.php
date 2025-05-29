@@ -10,15 +10,30 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthTokenMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  Closure(Request): (Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! session('jwt_token')) {
+        $token = session('jwt_token');
+
+        if (! $token) {
             return redirect('/login');
+        }
+
+        // Decodifica o payload do token JWT
+        $parts = explode('.', $token);
+
+        if (count($parts) !== 3) {
+            session()->forget('jwt_token');
+
+            return redirect('/login');
+        }
+
+        $payload = json_decode(base64_decode(strtr($parts[1], '-_', '+/')), true);
+
+        // Verifica se o token expirou
+        if (! isset($payload['exp']) || time() >= $payload['exp']) {
+            session()->forget('jwt_token');
+
+            return redirect('/login')->withErrors(['Sessão expirada. Faça login novamente.']);
         }
 
         return $next($request);

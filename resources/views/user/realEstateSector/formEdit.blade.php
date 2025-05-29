@@ -25,7 +25,7 @@
             </div>
             @endif
 
-            <form action="{{route('user.update', $user['id'])}}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
+            <form action="{{route('realestatesector.users.update', $user['id'])}}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
                 @csrf
                 @method('PUT')
                 <div class="row gy-4 gx-6 mb-6">
@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                         <label for="senha" class="form-label">Senha</label>
-                        <input class="form-control form-control-lg" maxlength="255" type="text" id="senha" name="senha" maxlength="100" value="{{ old('senha', $user['senha'] ?? '') }}">
+                        <input class="form-control form-control-lg" maxlength="255" readonly disabled type="text" id="senha" name="senha" maxlength="100" value="*********">
                         <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                     </div>
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
@@ -67,20 +67,7 @@
                             <option {{ ($user['nivel'] ?? '' )=='Financeiro' ? 'selected' : '' }} value="Financeiro">Financeiro</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <label for="categoria" class="form-label">Categoria</label>
-                        <select class="form-select form-select-lg" id="categoria" name="categoria" aria-label="Default select example">
-                            <option selected="">selecionar categoria</option>
-                            <option {{($user['categoria'] ?? '' )=='Fianças' ? 'selected' : '' }} value="Fianças">Fianças</option>
-                            <option {{($user['categoria'] ?? '' )=='Imobiliária' ? 'selected' : '' }} value="Imobiliária">Imobiliária</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4" id="imobiliaria-select-wrapper" style="display: none;">
-                        <label for="imobiliaria_id" class="form-label">Imobiliária</label>
-                        <select class="form-select form-select-lg" name="imobiliaria_id" id="imobiliaria_id">
-                            <option value="">Carregando...</option>
-                        </select>
-                    </div>
+
                     <hr>
                     <h6 class="m-0 pb-2 pt-2">Permissões</h6>
                     @php
@@ -91,24 +78,6 @@
                     }
                     @endphp
 
-                    <div class="col-md-3" id="editar-empresa-wrapper">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="permissoes[]" id="editar-empresa" {{ in_array('1', $permissoesArray) ? 'checked' : '' }} value="1">
-                            <label class="form-check-label" for="editar-empresa">Editar Empresa</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3" id="cadastro-imobiliarias-wrapper">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="permissoes[]" id="cadastro-imobiliarias" {{ in_array('2', $permissoesArray) ? 'checked' : '' }} value="2">
-                            <label class="form-check-label" for="cadastro-imobiliarias">Cadastro de Imobiliárias</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3" id="cadastro-usuarios-wrapper">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="permissoes[]" id="cadastro-usuarios" {{ in_array('3', $permissoesArray) ? 'checked' : '' }} value="3">
-                            <label class="form-check-label" for="cadastro-usuarios">Cadastro de Usuários</label>
-                        </div>
-                    </div>
                     <div class="col-md-3">
                         <div class="form-check form-switch mb-2">
                             <input class="form-check-input" type="checkbox" name="permissoes[]" id="financeiro-adicionar" {{ in_array('4', $permissoesArray) ? 'checked' : '' }} value="4">
@@ -189,7 +158,7 @@
                     </div>
                     <div class="mt-4">
                         <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">Gravar</button>
-                        <a href="{{route('user.index')}}" class="btn btn-label-secondary waves-effect">Cancelar</a>
+                        <a href="{{route('realestatesector.users.index')}}" class="btn btn-label-secondary waves-effect">Cancelar</a>
                     </div>
                 </div>
             </form>
@@ -197,96 +166,14 @@
     </div>
 </div>
 
+@section('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const categoriaSelect = document.getElementById('categoria');
-        const permissoesParaDesabilitar = [
-            document.getElementById('editar-empresa'),
-            document.getElementById('cadastro-imobiliarias'),
-            document.getElementById('cadastro-usuarios'),
-        ];
-
-        const permissoesParaNaoMostrar = [
-            document.getElementById('editar-empresa-wrapper'),
-            document.getElementById('cadastro-imobiliarias-wrapper'),
-            document.getElementById('cadastro-usuarios-wrapper'),
-        ];
-
-        function verificarCategoria() {
-            const isFianca = categoriaSelect.value === 'Fianças';
-            permissoesParaDesabilitar.forEach(el => {
-                el.disabled = !isFianca;
-                if (!isFianca) {
-                    el.checked = false;
-                } else {
-                    el.checked = true;
-                }
-            });
-            permissoesParaNaoMostrar.forEach(el => {
-                el.disabled = !isFianca;
-                if (!isFianca) {
-                    el.classList.add('d-none'); // corrige aqui
-                } else {
-                    el.classList.remove('d-none'); // garante que volte a aparecer
-                }
-            });
-        }
-
-        // Verifica no carregamento da página
-        verificarCategoria();
-
-        // Escuta a mudança
-        categoriaSelect.addEventListener('change', verificarCategoria);
+    IMask(document.getElementById('cpf'), {
+        mask: '000.000.000-00'
     });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const categoriaSelect = document.getElementById('categoria');
-        const imobiliariaWrapper = document.getElementById('imobiliaria-select-wrapper');
-        const imobiliariaSelect = document.getElementById('imobiliaria_id');
-        const idImobiliariaUsuario = document.getElementById('id_imobiliaria')
-
-        async function loadImobiliarias() {
-            imobiliariaSelect.innerHTML = '<option>Carregando...</option>';
-            try {
-                const response = await fetch('/adm/imobiliarias/listagem');
-                const data = await response.json();
-
-                if (data.length === 0) {
-                    imobiliariaSelect.innerHTML = '<option value="">Nenhuma imobiliária encontrada</option>';
-                    return;
-                }
-
-                imobiliariaSelect.innerHTML = '<option value="">Selecione uma imobiliária</option>';
-                data.data.forEach(imob => {
-                    const option = document.createElement('option');
-                    option.value = imob.id;
-                    option.text = imob.razao;
-
-                    if (imob.id == idImobiliariaUsuario.value) {
-                        option.selected = true;
-                    }
-
-                    imobiliariaSelect.appendChild(option);
-                });
-            } catch (error) {
-                imobiliariaSelect.innerHTML = '<option value="">Erro ao carregar</option>';
-                console.error('Erro ao buscar imobiliárias:', error);
-            }
-        }
-
-        function toggleImobiliariaSelect() {
-            if (categoriaSelect.value === 'Imobiliária') {
-                imobiliariaWrapper.style.display = 'block';
-                loadImobiliarias();
-            } else {
-                imobiliariaWrapper.style.display = 'none';
-                imobiliariaSelect.innerHTML = ''; // limpa opções
-            }
-        }
-
-        toggleImobiliariaSelect();
-
-        categoriaSelect.addEventListener('change', toggleImobiliariaSelect);
+    IMask(document.getElementById('telefone'), {
+        mask: '(00) 0 0000-0000'
     });
 </script>
+@endsection
 @endsection

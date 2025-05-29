@@ -18,15 +18,28 @@ abstract class Controller
                 return null;
             }
 
-            // Apenas números se for um campo com formatação
+            $value = trim($value);
+
+            // Remove o símbolo de porcentagem, se existir
+            $value = str_replace('%', '', $value);
+
+            // Detecta se é um valor monetário/percentual no formato brasileiro (ex: 1.234,56)
+            if (preg_match('/^[\d\.\,]+$/', $value)) {
+                // Remove os pontos de milhar e troca vírgula por ponto
+                $value = str_replace('.', '', $value);
+                $value = str_replace(',', '.', $value);
+
+                return $value;
+            }
+
+            // Caso seja um campo como CPF/CNPJ/telefone/endereço, remove todos os não numéricos
             if (preg_match('/^[\d.\-\/()\s]+$/', $value)) {
                 return preg_replace('/\D/', '', $value);
             }
 
-            return trim($value); // Para nomes ou textos comuns
+            return $value;
         };
 
-        // Campos que precisam de sanitização
         foreach ($fields as $field) {
             if (isset($data[$field])) {
                 $data[$field] = $sanitize($data[$field]);

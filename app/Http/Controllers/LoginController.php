@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
@@ -23,15 +23,16 @@ class LoginController extends Controller
 
         if ($response->failed()) {
             $data = $response->json();
+
             return back()->withErrors($data['message'])->withInput();
         }
 
-        $data    = $response->json();
-        $token   = $data['token'];
-        $user    = $data['user'];
-        $company = $data['company'];
+        $data                      = $response->json();
+        $token                     = $data['token'];
+        $user                      = $data['user'];
+        $realEstateSectorOrCompany = $data['realEstateSectorOrCompany'];
 
-        session(['jwt_token' => $token, 'user' => $user, 'company' => $company]);
+        session(['jwt_token' => $token, 'user' => $user, 'realEstateSectorOrCompany' => $realEstateSectorOrCompany]);
 
         return redirect('/dashboard');
     }

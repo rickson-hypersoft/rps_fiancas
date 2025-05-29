@@ -20,7 +20,7 @@
         <div class="col-12">
             <div class="card mb-0">
                 <div class="card-header">
-                    <h6>Listagem de Usuários</h6>
+                    <h6>Listagem de Contas</h6>
                     <hr>
                     <div class="row align-items-center pt-5">
                         <div class="col-sm-7 col-12 mb-1">
@@ -28,7 +28,7 @@
                             <input id="pesquisar" type="text" class="form-control" placeholder="Pesquisar" aria-label="Pesquisar..." autocomplete="off" spellcheck="false">
                         </div>
                         <div class="col-sm-5 mt-4" style="text-align: right">
-                            <a href="{{route('user.create')}}" class="btn btn-primary waves-effect waves-light">Adicionar Usuário</a>
+                            <a href="{{route('financial.financial_account.create')}}" class="btn btn-primary waves-effect waves-light">Adicionar Conta</a>
                         </div>
                     </div>
                 </div>
@@ -37,46 +37,43 @@
                         <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 18px;">
                             <thead>
                                 <tr>
-                                    <th class="align-middle" style="width: 40px; height:40px">Foto</th>
-                                    <th class="align-middle">Nome</th>
-                                    <th class="align-middle">CPF</th>
-                                    <th class="align-middle">E-mail</th>
+                                    <th class="align-middle">Tipo Conta</th>
+                                    <th class="d-none d-lg-table-cell align-middle">Descrição</th>
+                                    <th class="d-none d-xl-table-cell align-middle">Banco Titular</th>
                                     <th class="align-middle">Ativo</th>
                                     <th class="text-center align-middle" style="width: 100px">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="ViewNiveisLTableItens">
-                                @foreach ($users as $user)
-                                @php
-                                $path = public_path('assets/user-profiles/' . $user['id'] . '.png');
-                                $image = file_exists($path)
-                                ? asset('assets/user-profiles/' . $user['id'] . '.png')
-                                : asset('assets/user-profiles/default.png');
-                                @endphp
+                                @if ($financialAccounts)
 
+
+                                @foreach ($financialAccounts as $financialAccount)
                                 <tr>
-                                    <td> <img class="rounded" src="{{$image}}" alt="avatar" height="38" width="38"></td>
-                                    <td class="align-middle">{{$user['nome']}}</td>
-                                    <td class="align-middle">{{$user['cpf']}}</td>
-                                    <td class="align-middle">{{$user['email']}}</td>
-                                    <td class="align-middle">
-                                        <span class="badge bg-label-{{$user['ativo'] ? 'success' : 'danger'}} me-1">
-                                            {{$user['ativo'] ? 'Ativo' : 'Inativo'}}
-                                        </span>
-                                    </td>
-                                    <td class="align-middle">
+                                    <td class="align-middle">{{$financialAccount['tipo_conta']}}</td>
+                                    <td class="align-middle">{{$financialAccount['descricao']}}</td>
+                                    <td class="align-middle">{{$financialAccount['banco_titular']}}</td>
+                                    <td class="align-middle"><span class="badge bg-label-{{$financialAccount['ativo'] ? 'success' : 'danger'}} me-1">
+                                            {{$financialAccount['ativo'] ? 'Ativo' : 'Inativo'}}
+                                        </span></td>
+                                    <td>
                                         <div class="dropdown" style="text-align: right;">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                 <i class="icon-base ti tabler-dots-vertical"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item waves-effect" href="{{route('user.edit', $user['id'])}}"><i class="icon-base ti tabler-pencil me-1"></i> Editar</a>
+                                                <a class="dropdown-item waves-effect" href="{{route('financial.financial_account.edit', $financialAccount['id'])}}"><i class="icon-base ti tabler-pencil me-1"></i> Editar</a>
                                                 <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Excluir</a>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                                 @endforeach
+                                @else
+                                <tr>
+                                    <td class="text-center" colspan="5">Não possui contas cadastradas</td>
+                                </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -133,5 +130,4 @@
         </div>
     </div>
 </div>
-
 @endsection
