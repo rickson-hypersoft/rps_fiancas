@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -19,6 +19,8 @@ abstract class Controller
             }
 
             $value = trim($value);
+
+            $value = preg_replace('/^R\$\s*/', '', $value);
 
             // Remove o símbolo de porcentagem, se existir
             $value = str_replace('%', '', $value);

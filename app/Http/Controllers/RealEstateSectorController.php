@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -183,7 +183,7 @@ class RealEstateSectorController extends Controller
         return back()->with('success', $returnResponse['message']);
     }
 
-    public function updateSetup(string | int $id, string | int $idImobiliaria, Request $request)
+    public function updateSetup(string | int $idImobiliaria, string | int $id, Request $request)
     {
         $token           = session('jwt_token');
         $requestSanitize = $this->sanitizeData($request->all(), ['taxa']);
@@ -195,6 +195,7 @@ class RealEstateSectorController extends Controller
         }
 
         $requestSanitize['id_imobiliaria'] = $idImobiliaria;
+        $requestSanitize['taxa'] = floatval($requestSanitize['taxa']);
 
         $route = getenv('API_ROUTE') . '/realestatesectorsetup/' . $id;
 

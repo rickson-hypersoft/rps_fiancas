@@ -285,6 +285,50 @@
     @yield('scripts')
 
     <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleBtn = document.getElementById('theme-toggle-btn');
+    const icon = document.getElementById('theme-icon');
+
+    // Recupera tema e ícone salvos
+    const savedTheme = localStorage.getItem('theme');
+    const savedIcon = localStorage.getItem('themeIcon');
+
+    // Aplica tema e ícone salvos, ou usa padrão
+    if (savedTheme && savedIcon) {
+        document.documentElement.setAttribute('data-bs-theme', savedTheme);
+        icon.classList.add(savedIcon);
+    } else {
+        // Tema padrão: claro com ícone de sol
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+        icon.classList.add('tabler-sun');
+        localStorage.setItem('theme', 'light');
+        localStorage.setItem('themeIcon', 'tabler-sun');
+    }
+
+    // Função para alternar tema e salvar no localStorage
+    function toggleTheme() {
+        const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+
+        if (isDark) {
+            // Muda para light
+            document.documentElement.setAttribute('data-bs-theme', 'light');
+            icon.classList.remove('tabler-moon-stars');
+            icon.classList.add('tabler-sun');
+            localStorage.setItem('theme', 'light');
+            localStorage.setItem('themeIcon', 'tabler-sun');
+        } else {
+            // Muda para dark
+            document.documentElement.setAttribute('data-bs-theme', 'dark');
+            icon.classList.remove('tabler-sun');
+            icon.classList.add('tabler-moon-stars');
+            localStorage.setItem('theme', 'dark');
+            localStorage.setItem('themeIcon', 'tabler-moon-stars');
+        }
+    }
+
+    toggleBtn.addEventListener('click', toggleTheme);
+});
+
         document.getElementById('upload').addEventListener('change', function (event) {
             const input = event.target;
             if (input.files && input.files[0]) {

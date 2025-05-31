@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
@@ -108,7 +108,16 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
 
     Route::get('/propostas', [PropostalController::class, 'index'])
         ->name('propostal.index');
+
+
+
     Route::get('/propostas/criar-proposta', [PropostalController::class, 'create'])
         ->name('propostal.create')
         ->middleware('check.permission:11');
+    Route::post('/propostas/criar-proposta', [PropostalController::class, 'store'])
+        ->name('propostal.store')
+        ->middleware('check.permission:11');
+
+    Route::get('/propostas/{id}', [PropostalController::class, 'find'])
+        ->name('propostal.find');
 });
