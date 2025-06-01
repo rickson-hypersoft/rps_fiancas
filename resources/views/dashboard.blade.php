@@ -9,7 +9,7 @@
     <meta name="description" content="">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../../assets/img/favicon/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="{{asset('assets/img/favicon/favicon.ico')}}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,6 +38,8 @@
 
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/dropzone/dropzone.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/swiper/swiper.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/css/pages/cards-advance.css')}}" />
     <!-- endbuild -->
 
     <!-- Page CSS -->
@@ -79,7 +81,7 @@
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
                     <!-- Menu -->
-                    <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu flex-grow-0">
+                    <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu flex-grow-0" data-bs-theme="dark">
                         <div class="container-xxl d-flex h-100">
                             <ul class="menu-inner">
                                 <!-- Administrativo -->
@@ -204,7 +206,7 @@
                     <!--/ Content -->
 
                     <!-- Footer -->
-                    <footer class="content-footer footer bg-footer-theme">
+                    <footer class="content-footer footer bg-footer-theme" style="background: #2f3349;" data-bs-theme="dark">
                         <div class="container-xxl">
                             <div class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
                                 <div class="text-body">
@@ -262,6 +264,9 @@
     <script src="{{asset('assets/vendor/libs/apex-charts/apexcharts.js')}}"></script>
 
     <!-- Page JS -->
+    <script src="{{asset('assets/vendor/libs/swiper/swiper.js')}}"></script>
+    <script src="{{asset('assets/js/cards-advance.js')}}"></script>
+    <script src="{{asset('assets/js/app-ecommerce-dashboard.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/dropzone/dropzone.js')}}"></script>
     <script src="{{asset('assets/js/forms-file-upload.js')}}"></script>
     <script src=".{{asset('assets/js/form-layouts.js')}}"></script>

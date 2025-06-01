@@ -39,11 +39,11 @@ class PropostalController extends Controller
         $requestSanitize['imovel_aluguel'] = floatval($requestSanitize['imovel_aluguel']);
         $requestSanitize['imovel_condominio'] = floatval($requestSanitize['imovel_condominio']);
         $requestSanitize['imovel_taxas'] = floatval($requestSanitize['imovel_taxas']);
-        $requestSanitize['proposta_total_valor'] = floatval($requestSanitize['proposta_total_valor']);
-        $requestSanitize['proposta_setup_valor'] = floatval($requestSanitize['proposta_setup_valor']);
 
-        var_dump($requestSanitize);
-        exit;
+        if(isset($requestSanitize['proposta_total_valor']) || isset($requestSanitize['proposta_setup_valor'])) {
+            $requestSanitize['proposta_total_valor'] = floatval($requestSanitize['proposta_total_valor']);
+            $requestSanitize['proposta_setup_valor'] = floatval($requestSanitize['proposta_setup_valor']);
+        }
 
         $token    = session('jwt_token');
 

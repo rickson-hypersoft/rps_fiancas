@@ -22,9 +22,16 @@
       .st3 {
         fill: #d5953e;
       }
+
+      .text-white {
+        font-family: Montserrat-Regular, Montserrat;
+        font-size: 19px;
+        letter-spacing: .11em;
+        fill: #fff;
+      }
     </style>
   </defs>
-  <text class="st1" transform="translate(426.06 310.6)"><tspan x="0" y="0">FIANÇA LOCATÍCIA</tspan></text>
+  <text class="text-white" transform="translate(426.06 310.6)"><tspan x="0" y="0">FIANÇA LOCATÍCIA</tspan></text>
   <g>
     <circle class="st0" cx="364.21" cy="283.76" r="5"/>
     <polyline class="st0" points="361.32 288.26 360.32 299.76 360.59 299.76 368.09 299.76 367.09 288.26"/>

@@ -12,7 +12,7 @@ class CompanyController extends Controller
 {
     public function index()
     {
-        return view('company.index', ['company' => session('realEstateSectorOrCompany')]);
+       return view('company.index', ['company' => session('company')]);
     }
 
     public function update(string | int $id, Request $request)
@@ -52,7 +52,6 @@ class CompanyController extends Controller
         }
 
         session(['company' => $returnResponse['data']]);
-
         return back()->with('success', $returnResponse['message']);
     }
 }

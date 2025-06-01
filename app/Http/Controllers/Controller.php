@@ -18,8 +18,8 @@ abstract class Controller
                 return null;
             }
 
+            $value = preg_replace('/\xC2\xA0|\xA0|\s+/u', ' ', $value);
             $value = trim($value);
-
             $value = preg_replace('/^R\$\s*/', '', $value);
 
             // Remove o símbolo de porcentagem, se existir

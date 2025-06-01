@@ -297,202 +297,7 @@
                 </div>
 
                 <!-- Social Links -->
-                <div id="dados-complementares" class="content fv-plugins-bootstrap5 fv-plugins-framework">
-                    <div class="content-header mb-4 p-5 bg-primary">
-                        <h4 class="mb-0 text-center fw-bold text-white">Dados complementares</h4>
-                    </div>
-                    <div class="row g-6 justify-content-center">
-                        <div class="col-lg-8 m-0 px-0.5">
-                            <div class="card">
-                                <div class="card-body mb-0 pb-0">
-                                    <div class="content-header mb-4">
-                                        <h6 class="mb-0">Endereço do imóvel a ser alugado</h6>
-                                        <hr>
-                                    </div>
-
-                                    <div class="row mt-5">
-                                        <div class="col-md-4 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="cep">CEP</label>
-                                                <input type="text" name="cep" id="cep" class="form-control form-control-lg" placeholder="_____-__">
-                                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="endereco">Endereço</label>
-                                                <input type="text" name="endereco" id="endereco" class="form-control form-control-lg">
-                                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="bairro">Bairro</label>
-                                                <input type="text" name="bairro" id="bairro" class="form-control form-control-lg">
-                                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="estado">Estado</label>
-                                                <input type="text" name="estado" id="estado" class="form-control form-control-lg">
-                                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="cidade">Cidade</label>
-                                                <input type="text" name="cidade" id="cidade" class="form-control form-control-lg">
-                                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="numero">Número</label>
-                                                <input type="text" name="numero" id="numero" class="form-control form-control-lg">
-                                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="complemento">Complemento</label>
-                                                <input type="text" name="complemento" id="complemento" class="form-control form-control-lg">
-                                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="numero">Subtipo do imóvel</label>
-                                                <select class="form-select form-select-lg" name="banco_finalidade" id="banco_finalidade" aria-label="Default select example">
-                                                    <option value="">Selecionar finalidade</option>
-                                                    <option value="Inadimplência e Comissão">
-                                                        Inadimplência e Comissão
-                                                    </option>
-                                                    <option value="Inadimplência">
-                                                        Inadimplência
-                                                    </option>
-                                                    <option value="Comissão">
-                                                        Comissão
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="tag">Tag</label>
-                                                <input type="text" name="tag" id="tag" class="form-control form-control-lg">
-                                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="content-header mb-4 mt-5">
-                                        <h6 class="mb-0">Contato do inquilino (Pagador)</h6>
-                                        <hr>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="nome">Nome</label>
-                                                <input type="text" name="nome" id="nome" class="form-control form-control-lg">
-                                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="cpf">CPF</label>
-                                                <input type="text" name="cpf" id="cpf" class="form-control form-control-lg">
-                                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="data_nacimento">Data nascimento</label>
-                                                <input type="text" name="data_nacimento" id="data_nacimento" class="form-control form-control-lg">
-                                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="email">E-mail</label>
-                                                <input type="text" name="email" id="email" class="form-control form-control-lg">
-                                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="telefone">Telefone</label>
-                                                <input type="text" name="telefone" id="telefone" class="form-control form-control-lg">
-                                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="numero">Subtipo do imóvel</label>
-                                                <select class="form-select form-select-lg" name="banco_finalidade" id="banco_finalidade" aria-label="Default select example">
-                                                    <option value="">Selecionar finalidade</option>
-                                                    <option value="Inadimplência e Comissão">
-                                                        Inadimplência e Comissão
-                                                    </option>
-                                                    <option value="Inadimplência">
-                                                        Inadimplência
-                                                    </option>
-                                                    <option value="Comissão">
-                                                        Comissão
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 mb-2">
-                                            <div class="form-control-validation fv-plugins-icon-container">
-                                                <label class="form-label" for="numero">Observações</label>
-                                                <textarea id="basic-default-message" class="form-control form-control-lg" rows="5"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row gy-6">
-                                        <div class="col-12 d-none">
-                                            <div class="card">
-                                                <h5 class="card-header">Basic</h5>
-                                                <div class="card-body">
-                                                    <form action="/upload" class="dropzone needsclick dz-clickable" id="dropzone-basic">
-                                                        <div class="dz-message needsclick">
-                                                            Drop files here or click to upload
-                                                            <span class="note needsclick">(This is just a demo dropzone. Selected files are
-                                                                <span class="fw-medium">not</span> actually uploaded.)</span>
-                                                        </div>
-
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="content-header mb-4 mt-5">
-                                                <h6 class="mb-0">Documentos</h6>
-                                            </div>
-                                            <form action="/upload" class="dropzone needsclick dz-clickable" id="dropzone-multi">
-                                                <div class="dz-message needsclick">
-                                                    Arraste para cá ou clique para selecionar arquivos
-                                                    <span class="note needsclick">Envie até 6 arquivos</span>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 d-flex justify-content-between mb-5 mt-5">
-                                <button class="btn btn-label-secondary btn-prev waves-effect">
-                                    <i class="icon-base ti tabler-arrow-left icon-xs me-sm-2 me-0"></i>
-                                    <span class="align-middle d-sm-inline-block d-none">Voltar</span>
-                                </button>
-                                <button id="button-dados" class="btn btn-primary btn-next waves-effect waves-light">
-                                    <span class="align-middle d-sm-inline-block d-none me-sm-2">Salvar</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @include('propostal.components.complementar-data')
             </form>
         </div>
     </div>
@@ -597,6 +402,27 @@
                     document.querySelector('#imovel_tipo_text').textContent = data.imovel_tipo;
                     document.querySelector('#imovel_cidade_text').textContent = data.imovel_cidade;
                     document.querySelector('#imovel_estado_text').textContent = data.imovel_estado;
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao carregar dados da proposta:', error);
+            });
+    }
+
+    function carregarDadosComplementares(id) {
+        fetch(`/propostas/${id}`, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    document.querySelector('#imovel_cep_dados').value = data.imovel_cep;
+                    document.querySelector('#imovel_estado_dados').value = data.imovel_estado;
+                    document.querySelector('#imovel_cidade_dados').value = data.imovel_cidade;
+                    document.querySelector('#pessoa_nome_dados').value = data.pessoa_nome;
+                    document.querySelector('#pessoa_doc_dados').value = data.pessoa_doc;
                 }
             })
             .catch(error => {
@@ -792,8 +618,9 @@
                 propostaId = data.data.id; // Salva o ID retornado
                 localStorage.setItem('proposta_id', propostaId); // Ou sessionStorage
 
+                await carregarDadosComplementares(propostaId)
                 // Avança para o próximo step do wizard
-                document.querySelector('.btn-next').click();
+               document.querySelector('.btn-next').click();
             })
             .catch(error => {
                 Swal.close();
