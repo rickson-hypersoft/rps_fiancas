@@ -41,7 +41,7 @@
                         <div class="col-md-4 mb-2">
                             <div class="form-control-validation fv-plugins-icon-container">
                                 <label class="form-label" for="pessoa_doc">CPF</label>
-                                <input type="text" name="pessoa_doc" id="pessoa_doc" class="form-control form-control-lg" required placeholder="___.___.___-__">
+                                <input type="text" name="pessoa_doc" id="pessoa_doc" class="form-control form-control-lg">
                                 <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                         <div class="row mt-5 mb-4 align-items-center">
                             <div class="col-md-4">
                                 <label class="form-label" for="imovel_cep">CEP</label>
-                                <input type="text" name="imovel_cep" id="imovel_cep" class="form-control form-control-lg" placeholder="_____-___">
+                                <input type="text" name="imovel_cep" id="imovel_cep" class="form-control form-control-lg">
                                 <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                             </div>
                             <div class="pt-4 col-md-3">
@@ -103,21 +103,21 @@
                             <label class="form-label" for="formValidationUsername">Valor Aluguel</label>
                             <div class="input-group input-group-merge">
                                 <span class="input-group-text">R$</span>
-                                <input name="imovel_aluguel" id='imovel_aluguel' type="text" class="form-control form-control-lg" placeholder="100" aria-label="Amount (to the nearest dollar)">
+                                <input name="imovel_aluguel" id='imovel_aluguel' type="number" class="form-control form-control-lg"  aria-label="Amount (to the nearest dollar)">
                             </div>
                         </div>
                         <div class="col-sm-4 mb-4 form-control-validation fv-plugins-icon-container">
                             <label class="form-label" for="formValidationUsername">Valor Condominio</label>
                             <div class="input-group input-group-merge">
                                 <span class="input-group-text">R$</span>
-                                <input name="imovel_condominio" id="imovel_condominio" type="text" class="form-control form-control-lg" placeholder="100" aria-label="Amount (to the nearest dollar)">
+                                <input name="imovel_condominio" id="imovel_condominio" type="number" class="form-control form-control-lg"  aria-label="Amount (to the nearest dollar)">
                             </div>
                         </div>
                         <div class="col-sm-4 mb-4 form-control-validation fv-plugins-icon-container">
                             <label class="form-label" for="formValidationUsername">Taxas</label>
                             <div class="input-group input-group-merge">
                                 <span class="input-group-text">R$</span>
-                                <input name="imovel_taxas" id="imovel_taxas" type="text" class="form-control form-control-lg" placeholder="100" aria-label="Amount (to the nearest dollar)">
+                                <input name="imovel_taxas" id="imovel_taxas" type="number" class="form-control form-control-lg"  aria-label="Amount (to the nearest dollar)">
                             </div>
                         </div>
                         <div class="col-12 d-flex justify-content-end mb-5">

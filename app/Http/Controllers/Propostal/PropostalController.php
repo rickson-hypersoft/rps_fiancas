@@ -12,7 +12,6 @@ class PropostalController extends Controller
 {
     public function index()
     {
-
         return view('propostal.index');
     }
 
@@ -40,7 +39,7 @@ class PropostalController extends Controller
         $requestSanitize['imovel_condominio'] = floatval($requestSanitize['imovel_condominio']);
         $requestSanitize['imovel_taxas'] = floatval($requestSanitize['imovel_taxas']);
 
-        if(isset($requestSanitize['proposta_total_valor']) || isset($requestSanitize['proposta_setup_valor'])) {
+        if (isset($requestSanitize['proposta_total_valor']) || isset($requestSanitize['proposta_setup_valor'])) {
             $requestSanitize['proposta_total_valor'] = floatval($requestSanitize['proposta_total_valor']);
             $requestSanitize['proposta_setup_valor'] = floatval($requestSanitize['proposta_setup_valor']);
         }
@@ -49,6 +48,53 @@ class PropostalController extends Controller
 
         $response = Http::withToken($token)->post(getenv('API_ROUTE') . '/propostal/propostal/create', $requestSanitize);
 
+        $data = $response->json();
+        $propostaId = $data['data']['id'] ?? null;
+        $idImobiliaria = $requestSanitize['id_imobiliaria'];
+
+        if ($request->hasFile('imagens') && $propostaId) {
+            foreach ($request->file('imagens') as $file) {
+                if ($file->isValid()) {
+                    $ext = $file->getClientOriginalExtension();
+                    $nomeOriginal = $file->getClientOriginalName();
+
+                    // Verifica se o anexo já existe para essa proposta
+                    $verificaAnexo = Http::withToken($token)->get(getenv('API_ROUTE') . '/financial/attachment/exists', [
+                        'id_imobiliaria' => $idImobiliaria,
+                        'id_movi'        => $propostaId,
+                        'nome_arquivo'   => $nomeOriginal,
+                    ]);
+
+
+                    if ($verificaAnexo->ok() && ($verificaAnexo->json()['exists'] ?? false)) {
+                        continue; // pula para o próximo arquivo
+                    }
+
+                    $caminho = "anexos/{$idImobiliaria}/propostas/{$propostaId}.{$ext}";
+                    $nomeUnico = uniqid($propostaId . '_') . '.' . $ext;
+                    // Salva o arquivo localmente
+                    $file->storeAs("anexos/{$idImobiliaria}/propostas", $nomeUnico, 'public');
+
+                    // Chamada para a API registrar o anexo no banco
+                    Http::withToken($token)->post(getenv('API_ROUTE') . '/financial/attachment', [
+                        'id_imobiliaria' => $idImobiliaria,
+                        'id_movi'        => $propostaId,
+                        'movi'           => 'propostas',
+                        'movi_sub'       => null,
+                        'data'           => now()->format('Y-m-d H:i:s'),
+                        'nome_arquivo'   => $nomeUnico,
+                        'nome_arquivo_original'            => $nomeOriginal,
+                        'descricao'      => 'Arquivo anexado à proposta'
+                    ]);
+                }
+            }
+        }
+
         return $response;
+    }
+
+    public function resume(string|int $id)
+    {
+        return view('propostal.resume');
     }
 }

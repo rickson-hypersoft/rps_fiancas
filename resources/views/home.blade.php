@@ -15,7 +15,7 @@
                                     <img
                                         src="{{
                                             asset(
-                                                'assets/img/pages/banner2.PNG'
+                                                'assets/img/pages/bannerinvicta2.PNG'
                                             )
                                         }}"
                                     />
@@ -27,7 +27,7 @@
                                     <img
                                         src="{{
                                             asset(
-                                                'assets/img/pages//banner3.PNG'
+                                                'assets/img/pages/bannerinvicta1.PNG'
                                             )
                                         }}"
                                     />
@@ -216,7 +216,7 @@
                     </div>
                 </div>
 
-                <div class="card overflow-hidden" style="height: 474px">
+                <div class="card overflow-hidden" style="height: 440px">
                     <div class="card-header d-flex justify-content-between">
                         <h5
                             class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"
@@ -256,14 +256,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body pb-xxl-0" style="overflow-y: auto; max-height: calc(474px - 60px);">
+                    <div class="card-body pb-xxl-0 table-responsive">
                         <ul class="timeline mb-0">
-                            <li class="timeline-item timeline-item-transparent">
+                            <li class="timeline-item timeline-item-transparent mt-2">
                                 <span
                                     class="timeline-point timeline-point-danger"
                                 ></span>
                                 <div class="timeline-event">
-                                    <div class="timeline-header mb-1">
+                                    <div class="timeline-header mb-1 ">
                                         <h6 class="mb-0">Proposta Cancelada</h6>
                                         <small class="text-body-secondary"
                                             >28/05 10:30</small

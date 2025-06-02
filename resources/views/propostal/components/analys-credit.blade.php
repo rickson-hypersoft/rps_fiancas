@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    <div class="row g-6 mt-5 justify-content-center">
+    <div class="row g-6 mt-5 justify-content-center" id="setup-config">
         <div class="col-lg-8 m-0 px-0.5">
             <div class="card" style="border: 1px solid green;">
                 <div class="card-header pb-1">
@@ -78,7 +78,7 @@
                 </div>
             </div>
 
-            <div class="col-12 d-flex justify-content-end mb-5 mt-5">
+            <div class="col-12 d-flex justify-content-end mb-5 mt-5" id="next-setup-config">
                 <button id="btn-analise-credito" class="btn btn-primary btn-next-analise waves-effect waves-light">
                     <span class="align-middle d-sm-inline-block d-none me-sm-2">Avançar</span>
                     <i class="icon-base ti tabler-arrow-right icon-xs"></i>
