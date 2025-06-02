@@ -30,7 +30,7 @@
                     <span class="small fw-bold mb-0" style="font-size: 16px;">DETALHAMENTO</span>
 
                     <div class="demo-inline-spacing p-0 m-0">
-                        <p class="m-0 p-0">O inquilino <span id="pessoa_nome_text"></span> do CPF <span id="pessoa_doc_text"></span> está pendente de uma análise manual para uma locação com garantia de um imóvel <span id="imovel_tipo_text"></span>, na cidade de <span id="imovel_cidade_text"></spa> - <span id="imovel_estado_text"></span></p>
+                        <p class="m-0 p-0" id="detalhamento"></p>
                     </div>
 
                     <div class="d-flex mt-5 gap-2">
@@ -71,7 +71,7 @@
 
                         <div style="border: 1px solid #387BA8; border-radius: 10px">
                             <div class="card-body bg-label-secondary" style="border-radius: 10px">
-                                <p>A escolha do parcelamento fica na tela de pgamentos visível à pessoa inquilina. O repasse para a imobiliária da taxa setup é feito a vista, mesmo qe a pessoa inquilina pague parcelado.</p>
+                                <p>A escolha do parcelamento fica na tela de pagamentos visível à pessoa inquilina. O repasse para a imobiliária da taxa setup é feito a vista, mesmo que a pessoa inquilina pague parcelado.</p>
                             </div>
                         </div>
                     </div>

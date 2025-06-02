@@ -7,8 +7,8 @@
                 <button type="button" class="step-trigger" aria-selected="true">
                     <span class="bs-stepper-circle">1</span>
                     <span class="bs-stepper-label mt-1">
-                        <span class="bs-stepper-title">Criar proposta de fianças</span>
-                        <span class="bs-stepper-subtitle">Preencha os dados abaixo</span>
+                        <span class="bs-stepper-title">Criar proposta</span>
+                        <span class="bs-stepper-subtitle">de fianças</span>
                     </span>
                 </button>
             </div>
@@ -33,8 +33,8 @@
                 <button type="button" class="step-trigger" aria-selected="false" disabled="disabled">
                     <span class="bs-stepper-circle">3</span>
                     <span class="bs-stepper-label">
-                        <span class="bs-stepper-title">Dados complementares</span>
-                        <span class="bs-stepper-subtitle">Dados osbre o endereço</span>
+                        <span class="bs-stepper-title">Dados</span>
+                        <span class="bs-stepper-subtitle">complementares</span>
                     </span>
                 </button>
             </div>
@@ -46,8 +46,8 @@
                 <button type="button" class="step-trigger" aria-selected="false" disabled="disabled">
                     <span class="bs-stepper-circle">4</span>
                     <span class="bs-stepper-label">
-                        <span class="bs-stepper-title">Resumo da proposta</span>
-                        <span class="bs-stepper-subtitle">Resumo dos dados da proposta</span>
+                        <span class="bs-stepper-title">Resumo</span>
+                        <span class="bs-stepper-subtitle">proposta</span>
                     </span>
                 </button>
             </div>
@@ -59,8 +59,8 @@
                 <button type="button" class="step-trigger" aria-selected="false" disabled="disabled">
                     <span class="bs-stepper-circle">5</span>
                     <span class="bs-stepper-label">
-                        <span class="bs-stepper-title">Proposta enviada</span>
-                        <span class="bs-stepper-subtitle">Aguarde a análise</span>
+                        <span class="bs-stepper-title">Proposta</span>
+                        <span class="bs-stepper-subtitle">concluída</span>
                     </span>
                 </button>
             </div>
@@ -167,6 +167,7 @@
                 const colorText = document.querySelector('#color_text_imovel_aluguel');
                 const icon = document.querySelector('#icon_status_propostal');
                 const badge = document.querySelector('#badge_status_propostal');
+                const detalhamento = document.querySelector('#detalhamento');
 
                 let imovelAluguel = 0;
 
@@ -213,6 +214,7 @@
                         card.className = 'content-header mb-4 p-5 bg-success text-white';
                         icon.className = 'menu-icon icon-base ti tabler-check';
                         badge.textContent = 'Simulação';
+                        detalhamento.textContent = `O inquilino ${data.pessoa_nome} do CPF ${data.pessoa_doc} está aprovado para uma locação com garantia de um imóvel ${data.imovel_tipo}, na cidade de ${data.imovel_cidade} - ${data.imovel_estado}`
                         if (setupConfig) setupConfig.style.display = ''; // mostra novamente se estiver oculto
                         break;
 
@@ -223,6 +225,7 @@
                         card.style.backgroundColor = '#FFA600';
                         badge.textContent = 'Simulação';
                         icon.className = 'menu-icon icon-base ti tabler-clock';
+                        detalhamento.textContent = `O inquilino ${data.pessoa_nome} do CPF ${data.pessoa_doc} está pendente de uma análise manual para uma locação com garantia de um imóvel ${data.imovel_tipo}, na cidade de ${data.imovel_cidade} - ${data.imovel_estado}`
                         if (setupConfig) setupConfig.style.display = ''; // mostra novamente se estiver oculto
                         break;
 
@@ -233,6 +236,7 @@
                         icon.className = 'menu-icon icon-base ti tabler-x';
                         badge.textContent = 'Reprovado';
                         badge.className = 'badge bg-label-secondary';
+                        detalhamento.textContent = `O inquilino ${data.pessoa_nome} do CPF ${data.pessoa_doc} está reprovado para uma locação com garantia de um imóvel ${data.imovel_tipo}, na cidade de ${data.imovel_cidade} - ${data.imovel_estado}`
 
                         if (setupConfig) setupConfig.style.display = 'none'; // mostra novamente se estiver oculto
                         break;
@@ -429,6 +433,12 @@
             return;
         }
 
+        let imovelAluguelPropostal = parseFloat(document.getElementById('imovel_aluguel').value.replace(',', '.'));
+    if (isNaN(imovelAluguelPropostal) || imovelAluguelPropostal <= 0) {
+        Swal.fire('Valor inválido', 'O valor do aluguel é inválido.', 'error');
+        return;
+    }
+
         // Exibe o SweetAlert de carregamento
         Swal.fire({
             title: 'Aguarde...',
@@ -537,7 +547,7 @@
         // Exibe o SweetAlert de carregamento
         Swal.fire({
             title: 'Aguarde...',
-            text: 'Análise de crédito em andamento',
+            text: 'Carregando dados complementares',
             allowOutsideClick: false,
             allowEscapeKey: false,
             didOpen: () => {
@@ -546,9 +556,7 @@
         });
 
         formData.append('proposta_total_valor', document.getElementById('valor_total_vista').textContent);
-        formData.append('proposta_total_parc', 12);
         formData.append('proposta_setup_valor', document.getElementById('setup').value);
-        formData.append('proposta_setup_parc', 3);
         formData.append('id', propostaId);
 
         fetch('/propostas/criar-proposta', {

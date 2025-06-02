@@ -84,6 +84,13 @@
                     <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu flex-grow-0" data-bs-theme="dark">
                         <div class="container-xxl d-flex h-100">
                             <ul class="menu-inner">
+                                <li class="menu-item {{ request()->routeIs('home') ? 'active' : '' }}">
+                                    <a href="javascript:void(0)" class="menu-link">
+                                        <i class="menu-icon icon-base ti tabler-home"></i>
+                                        <div data-i18n="Home">Home</div>
+                                    </a>
+                                </li>
+
                                 <!-- Administrativo -->
                                 @if(session('user')['categoria'] == 'Fianças')
                                 <li class="menu-item {{ request()->is('adm/empresa*', 'adm/imobiliarias*', 'adm/usuarios*') ? 'active' : '' }}">
@@ -112,8 +119,8 @@
                                 @endif
 
                                 <!-- Propostas -->
-                                <li class="menu-item {{ request()->is('propostas*') ? 'active' : '' }}">
-                                    <a href="javascript:void(0)" class="menu-link menu-toggle">
+                                <li class="bg-light menu-item {{ request()->is('propostas*') ? 'active' : '' }}">
+                                    <a href="javascript:void(0)" class="bg-light menu-link menu-toggle">
                                         <i class="menu-icon icon-base ti tabler-chart-pie-2"></i>
                                         <div data-i18n="Propostas">Propostas</div>
                                     </a>

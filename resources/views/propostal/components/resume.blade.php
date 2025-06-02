@@ -41,14 +41,14 @@
 
                     <div class="card-body p-0 m-0 d-flex justify-content-between">
                         <div>
-                            <p>Tipo de pagador</p>
+                            <!--<p>Tipo de pagador</p>-->
                             <p>Valor da taxa</p>
                             <p>Valor do setup</p>
                         </div>
                         <div>
-                            <p id="proposta_tipo_pagador_resumo"></p>
-                            <p id="proposta_total_valor_resumo"></p>
-                            <p id="proposta_setup_valor_resumo"></p>
+                            <!--<p id="proposta_tipo_pagador_resumo"></p>-->
+                            <p class="text-right" id="proposta_total_valor_resumo"></p>
+                            <p class="text-right" id="proposta_setup_valor_resumo"></p>
                         </div>
                     </div>
                 </div>
@@ -75,9 +75,9 @@
                             </div>
                             <div>
                                 <p id="imovel_tipo_resumo"></p>
-                                <p id="imovel_aluguel_resumo"></p>
-                                <p id="imovel_condominio_resumo"></p>
-                                <p id="imovel_taxas_resumo"></p>
+                                <p class="text-right" id="imovel_aluguel_resumo"></p>
+                                <p class="text-right" id="imovel_condominio_resumo"></p>
+                                <p class="text-right" id="imovel_taxas_resumo"></p>
                             </div>
                         </div>
                         <hr>
@@ -86,7 +86,7 @@
                                 <p>Total</p>
                             </div>
                             <div>
-                                <p id="proposta_total_valor_total"></p>
+                                <p class="text-right" id="proposta_total_valor_total"></p>
                             </div>
                         </div>
                     </div>
@@ -180,16 +180,16 @@
                 </div>
             </div>
         </div>
+        <div class="col-12 d-flex justify-content-between mb-5 mt-5">
+            <button class="btn btn-label-secondary btn-prev waves-effect">
+                <i class="icon-base ti tabler-arrow-left icon-xs me-sm-2 me-0"></i>
+                <span class="align-middle d-sm-inline-block d-none">Voltar</span>
+            </button>
+            <button id="btn-confirmation" class="btn btn-primary btn-next waves-effect waves-light">
+                <span class="align-middle d-sm-inline-block d-none me-sm-2">Enviar proposta</span>
+                <i class="icon-base ti tabler-arrow-right icon-xs"></i>
+            </button>
+        </div>
     </div>
 
-   <div class="col-12 d-flex justify-content-between mb-5 mt-5">
-                <button class="btn btn-label-secondary btn-prev waves-effect">
-                    <i class="icon-base ti tabler-arrow-left icon-xs me-sm-2 me-0"></i>
-                    <span class="align-middle d-sm-inline-block d-none">Voltar</span>
-                </button>
-                <button id="btn-confirmation" class="btn btn-primary btn-next waves-effect waves-light">
-                    <span class="align-middle d-sm-inline-block d-none me-sm-2">Enviar proposta</span>
-                    <i class="icon-base ti tabler-arrow-right icon-xs"></i>
-                </button>
-            </div>
 </div>

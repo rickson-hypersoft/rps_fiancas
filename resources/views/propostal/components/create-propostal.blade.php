@@ -17,7 +17,7 @@
                         <div class="col-md mb-md-0 mb-3">
                             <div class="form-check custom-option custom-option-basic">
                                 <label class="form-check-label custom-option-content" for="pessoa_fisica">
-                                    <input name="pessoa_tipo" class="form-check-input" type="radio" value="pf" id="pessoa_fisica">
+                                    <input name="pessoa_tipo" class="form-check-input" type="radio" value="pf" id="pessoa_fisica" checked>
                                     <span class="custom-option-header p-0">
                                         <span class="h6 mb-0">Pessoa Física</span>
                                     </span>
@@ -62,7 +62,7 @@
                         <div class="col-md-6 mb-md-0 mb-5">
                             <div class="form-check custom-option custom-option-basic">
                                 <label class="form-check-label custom-option-content" for="residencial">
-                                    <input name="imovel_tipo" class="form-check-input" type="radio" value="R" id="residencial">
+                                    <input name="imovel_tipo" class="form-check-input" type="radio" value="R" id="residencial" checked>
                                     <span class="custom-option-header p-0">
                                         <span class="h6 mb-0">Residencial</span>
                                     </span>
