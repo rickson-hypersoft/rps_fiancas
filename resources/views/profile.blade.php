@@ -71,11 +71,6 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="nivel" class="form-label">Nível</label>
-                    <input type="text" class="form-control form-control-lg" id="nivel" name="nivel" value="{{$user['nivel']}}" />
-                </div>
-
-                <div class="col-md-6">
                     <label for="categoria" class="form-label">Categória</label>
                     <input type="text" class="form-control form-control-lg" id="categoria" name="categoria" value="{{$user['categoria']}}" disabled />
                 </div>

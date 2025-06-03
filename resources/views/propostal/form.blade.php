@@ -113,6 +113,45 @@
         mask: '00000-000'
     });
 
+    IMask(document.getElementById('imovel_aluguel'), {
+        mask: Number,
+        scale: 2,
+        thousandsSeparator: '.',  // CORRIGIDO: separador de milhar brasileiro
+        padFractionalZeros: true, // Garante que sempre haja duas casas decimais
+        normalizeZeros: true,
+        radix: ',',               // separador decimal brasileiro
+        mapToRadix: ['.'],
+        min: 0,
+        max: 1000000,
+        autofix: true,
+    });
+
+    IMask(document.getElementById('imovel_condominio'), {
+        mask: Number,
+        scale: 2,
+        thousandsSeparator: '.',  // CORRIGIDO: separador de milhar brasileiro
+        padFractionalZeros: true, // Garante que sempre haja duas casas decimais
+        normalizeZeros: true,
+        radix: ',',               // separador decimal brasileiro
+        mapToRadix: ['.'],
+        min: 0,
+        max: 1000000,
+        autofix: true,
+    });
+
+    IMask(document.getElementById('imovel_taxas'), {
+        mask: Number,
+        scale: 2,
+        thousandsSeparator: '.',  // CORRIGIDO: separador de milhar brasileiro
+        padFractionalZeros: true, // Garante que sempre haja duas casas decimais
+        normalizeZeros: true,
+        radix: ',',               // separador decimal brasileiro
+        mapToRadix: ['.'],
+        min: 0,
+        max: 1000000,
+        autofix: true,
+    });
+
     document.getElementById('imovel_cep').addEventListener('blur', function () {
         const cep = this.value.replace(/\D/g, '');
 
@@ -141,110 +180,108 @@
         }
     });
 
-    function carregarDadosProposta(id) {
-        fetch(`/propostas/${id}`, {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (!data) return;
-
-                const {
-                    imovel_aluguel = 0,
-                    imovel_condominio = 0,
-                    imovel_taxas = 0,
-                    pessoa_nome,
-                    pessoa_doc,
-                    imovel_tipo,
-                    imovel_cidade,
-                    imovel_estado
-                } = data;
-
-                const card = document.querySelector('#card_status_propostal');
-                const text = document.querySelector('#text_status_propostal');
-                const colorText = document.querySelector('#color_text_imovel_aluguel');
-                const icon = document.querySelector('#icon_status_propostal');
-                const badge = document.querySelector('#badge_status_propostal');
-                const detalhamento = document.querySelector('#detalhamento');
-
-                let imovelAluguel = 0;
-
-                if (typeof data.imovel_aluguel === 'string') {
-                    imovelAluguel = parseFloat(data.imovel_aluguel.replace(/\./g, '').replace(',', '.'));
-                } else {
-                    imovelAluguel = parseFloat(data.imovel_aluguel);
+    async function carregarDadosProposta(id) {
+        try {
+            const response = await fetch(`/propostas/${id}`, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 }
-
-                const valorTotal = parseFloat(imovel_aluguel) + parseFloat(imovel_condominio) + parseFloat(imovel_taxas);
-                const valorParcela = valorTotal / 12;
-
-                function setTextIfExists(selector, text) {
-                    const el = document.querySelector(selector);
-                    if (el) {
-                        el.textContent = text;
-                    } else {
-                        console.warn(`Elemento não encontrado: ${selector}`);
-                    }
-                }
-
-                // Atualiza campos comuns
-                function preencherCampos() {
-                    setTextIfExists('#valor_total_vista', formatarReais(valorTotal));
-                    setTextIfExists('#valor_parcelado', formatarReais(valorParcela));
-                    setTextIfExists('#imovel_aluguel_text', formatarReais(data.imovel_aluguel));
-                    setTextIfExists('#imovel_condominio_text', formatarReais(data.imovel_condominio));
-                    setTextIfExists('#imovel_taxas_text', formatarReais(data.imovel_taxas));
-                    setTextIfExists('#pessoa_nome_text', data.pessoa_nome);
-                    setTextIfExists('#pessoa_doc_text', data.pessoa_doc);
-                    setTextIfExists('#imovel_tipo_text', data.imovel_tipo);
-                    setTextIfExists('#imovel_cidade_text', data.imovel_cidade);
-                    setTextIfExists('#imovel_estado_text', data.imovel_estado);
-                }
-
-                preencherCampos();
-
-                const setupConfig = document.getElementById('setup-config');
-
-                switch (true) {
-                    case imovelAluguel < 1500:
-                        colorText.className = 'fw-bold text-success';
-                        text.textContent = 'Crédito aprovado!';
-                        card.className = 'content-header mb-4 p-5 bg-success text-white';
-                        icon.className = 'menu-icon icon-base ti tabler-check';
-                        badge.textContent = 'Simulação';
-                        detalhamento.textContent = `O inquilino ${data.pessoa_nome} do CPF ${data.pessoa_doc} está aprovado para uma locação com garantia de um imóvel ${data.imovel_tipo}, na cidade de ${data.imovel_cidade} - ${data.imovel_estado}`
-                        if (setupConfig) setupConfig.style.display = ''; // mostra novamente se estiver oculto
-                        break;
-
-                    case imovelAluguel >= 1500 && imovelAluguel <= 2500:
-                        colorText.className = 'fw-bold text-warning';
-                        text.textContent = 'Crédito pendente de análise!';
-                        card.className = 'content-header mb-4 p-5 text-white';
-                        card.style.backgroundColor = '#FFA600';
-                        badge.textContent = 'Simulação';
-                        icon.className = 'menu-icon icon-base ti tabler-clock';
-                        detalhamento.textContent = `O inquilino ${data.pessoa_nome} do CPF ${data.pessoa_doc} está pendente de uma análise manual para uma locação com garantia de um imóvel ${data.imovel_tipo}, na cidade de ${data.imovel_cidade} - ${data.imovel_estado}`
-                        if (setupConfig) setupConfig.style.display = ''; // mostra novamente se estiver oculto
-                        break;
-
-                    default:
-                        colorText.className = 'fw-bold text-secondary';
-                        text.textContent = 'Crédito reprovado para fiança!';
-                        card.className = 'content-header mb-4 p-5 bg-secondary text-white';
-                        icon.className = 'menu-icon icon-base ti tabler-x';
-                        badge.textContent = 'Reprovado';
-                        badge.className = 'badge bg-label-secondary';
-                        detalhamento.textContent = `O inquilino ${data.pessoa_nome} do CPF ${data.pessoa_doc} está reprovado para uma locação com garantia de um imóvel ${data.imovel_tipo}, na cidade de ${data.imovel_cidade} - ${data.imovel_estado}`
-
-                        if (setupConfig) setupConfig.style.display = 'none'; // mostra novamente se estiver oculto
-                        break;
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao carregar dados da proposta:', error);
             });
+
+            const data = await response.json();
+            if (!data) return;
+
+            const {
+                imovel_aluguel = 0,
+                imovel_condominio = 0,
+                imovel_taxas = 0,
+                pessoa_nome,
+                pessoa_doc,
+                imovel_tipo,
+                imovel_cidade,
+                imovel_estado
+            } = data;
+
+            const card = document.querySelector('#card_status_propostal');
+            const text = document.querySelector('#text_status_propostal');
+            const colorText = document.querySelector('#color_text_imovel_aluguel');
+            const icon = document.querySelector('#icon_status_propostal');
+            const badge = document.querySelector('#badge_status_propostal');
+            const detalhamento = document.querySelector('#detalhamento');
+
+            let imovelAluguel = 0;
+
+            if (typeof data.imovel_aluguel === 'string') {
+                imovelAluguel = parseFloat(data.imovel_aluguel.replace(/\./g, '').replace(',', '.'));
+            } else {
+                imovelAluguel = parseFloat(data.imovel_aluguel);
+            }
+
+            const valorTotal = parseFloat(imovel_aluguel) + parseFloat(imovel_condominio) + parseFloat(imovel_taxas);
+            const valorParcela = valorTotal / 12;
+
+            function setTextIfExists(selector, text) {
+                const el = document.querySelector(selector);
+                if (el) {
+                    el.textContent = text;
+                } else {
+                    console.warn(`Elemento não encontrado: ${selector}`);
+                }
+            }
+
+            function preencherCampos() {
+                setTextIfExists('#valor_total_vista', formatarReais(valorTotal));
+                setTextIfExists('#valor_parcelado', formatarReais(valorParcela));
+                setTextIfExists('#imovel_aluguel_text', formatarReais(data.imovel_aluguel));
+                setTextIfExists('#imovel_condominio_text', formatarReais(data.imovel_condominio));
+                setTextIfExists('#imovel_taxas_text', formatarReais(data.imovel_taxas));
+                setTextIfExists('#pessoa_nome_text', data.pessoa_nome);
+                setTextIfExists('#pessoa_doc_text', data.pessoa_doc);
+                setTextIfExists('#imovel_tipo_text', data.imovel_tipo);
+                setTextIfExists('#imovel_cidade_text', data.imovel_cidade);
+                setTextIfExists('#imovel_estado_text', data.imovel_estado);
+            }
+
+            preencherCampos();
+
+            const setupConfig = document.getElementById('setup-config');
+
+            switch (true) {
+                case data.proposta_credito_status == 'Aprovado':
+                    colorText.className = 'fw-bold text-success';
+                    text.textContent = 'Crédito aprovado!';
+                    card.className = 'content-header mb-4 p-5 bg-success text-white';
+                    icon.className = 'menu-icon icon-base ti tabler-check';
+                    badge.textContent = 'Simulação';
+                    detalhamento.textContent = `O inquilino ${data.pessoa_nome} do CPF ${data.pessoa_doc} está aprovado para uma locação com garantia de um imóvel ${data.imovel_tipo}, na cidade de ${data.imovel_cidade} - ${data.imovel_estado}`;
+                    if (setupConfig) setupConfig.style.display = '';
+                    break;
+
+                case data.proposta_credito_status == 'Pendente':
+                    colorText.className = 'fw-bold text-warning';
+                    text.textContent = 'Crédito pendente de análise!';
+                    card.className = 'content-header mb-4 p-5 text-white';
+                    card.style.backgroundColor = '#FFA600';
+                    badge.textContent = 'Simulação';
+                    icon.className = 'menu-icon icon-base ti tabler-clock';
+                    detalhamento.textContent = `O inquilino ${data.pessoa_nome} do CPF ${data.pessoa_doc} está pendente de uma análise manual para uma locação com garantia de um imóvel ${data.imovel_tipo}, na cidade de ${data.imovel_cidade} - ${data.imovel_estado}`;
+                    if (setupConfig) setupConfig.style.display = '';
+                    break;
+
+                default:
+                    colorText.className = 'fw-bold text-secondary';
+                    text.textContent = 'Crédito reprovado para fiança!';
+                    card.className = 'content-header mb-4 p-5 bg-secondary text-white';
+                    icon.className = 'menu-icon icon-base ti tabler-x';
+                    badge.textContent = 'Reprovado';
+                    badge.className = 'badge bg-label-secondary';
+                    detalhamento.textContent = `O inquilino ${data.pessoa_nome} do CPF ${data.pessoa_doc} está reprovado para uma locação com garantia de um imóvel ${data.imovel_tipo}, na cidade de ${data.imovel_cidade} - ${data.imovel_estado}`;
+                    if (setupConfig) setupConfig.style.display = 'none';
+                    break;
+            }
+        } catch (error) {
+            console.error('Erro ao carregar dados da proposta:', error);
+        }
     }
 
     function carregarDadosComplementares(id) {
@@ -290,7 +327,7 @@
 
                     const campos = [
                         ['#proposta_id', data.id],
-                        ['#contrato_status_resumo', data.contrato_status],
+                        ['#contrato_status_resumo', data.proposta_status],
                         ['#proposta_tipo_pagador_resumo', data.proposta_tipo_pagador],
                         ['#proposta_total_valor_resumo', data.proposta_total_valor],
                         ['#proposta_setup_valor_resumo', data.proposta_setup_valor],
@@ -400,44 +437,53 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
         e.preventDefault(); // Impede a navegação imediata
 
-        const requiredFields = [
-            'id_imobiliaria',
-            'pessoa_tipo',
-            'pessoa_doc',
-            'pessoa_nome',
-            'imovel_cep',
-            'imovel_aluguel',
-            'imovel_condominio',
-            'imovel_taxas'
-        ];
+        const requiredFields = {
+            'id_imobiliaria': 'ID da Imobiliária',
+            'pessoa_tipo': 'Tipo da pessoa',
+            'pessoa_doc': 'Documento',
+            'pessoa_nome': 'Nome',
+            'imovel_tipo': 'Tipo do imóvel',
+            'imovel_cep': 'CEP do imóvel',
+            'imovel_aluguel': 'Valor aluguel',
+            'imovel_condominio': 'Valor condomínio',
+            'imovel_taxas': 'Taxas',
+        };
 
         const missingFields = [];
 
-        requiredFields.forEach(field => {
-            let value;
-            if (field === 'pessoa_tipo') {
-                value = document.querySelector('input[name="pessoa_tipo"]:checked')?.value || '';
+        Object.keys(requiredFields).forEach(field => {
+            let value = '';
+
+            if (field === 'pessoa_tipo' || field === 'imovel_tipo') {
+                // Para inputs do tipo radio, verifica qual está marcado
+                const checkedRadio = document.querySelector(`input[name="${field}"]:checked`);
+                value = checkedRadio ? checkedRadio.value.trim() : '';
             } else {
                 const el = document.getElementById(field);
                 value = el ? el.value.trim() : '';
             }
 
             if (!value) {
-                missingFields.push(field);
+                missingFields.push(requiredFields[field]);
             }
         });
 
         if (missingFields.length > 0) {
-            Swal.fire('Atenção', `Preencha todos os campos obrigatórios.`, 'warning'
-            );
+            const list = missingFields.map(f => `- ${f}`).join('<br>');
+
+            Swal.fire({
+                title: 'Atenção',
+                html: `Preencha os seguintes campos obrigatórios:<br><br>${list}`,
+                icon: 'warning'
+            });
             return;
         }
 
         let imovelAluguelPropostal = parseFloat(document.getElementById('imovel_aluguel').value.replace(',', '.'));
-    if (isNaN(imovelAluguelPropostal) || imovelAluguelPropostal <= 0) {
-        Swal.fire('Valor inválido', 'O valor do aluguel é inválido.', 'error');
-        return;
-    }
+        if (isNaN(imovelAluguelPropostal) || imovelAluguelPropostal <= 0) {
+            Swal.fire('Valor inválido', 'O valor do aluguel é inválido.', 'error');
+            return;
+        }
 
         // Exibe o SweetAlert de carregamento
         Swal.fire({
@@ -460,18 +506,19 @@
         formData.append('imovel_condominio', document.getElementById('imovel_condominio').value ?? 0);
         formData.append('imovel_taxas', document.getElementById('imovel_taxas').value ?? 0);
         formData.append('id', propostaId ?? null);
-        formData.append('contrato_status', 'Rascunho');
+        formData.append('proposta_status', 'Rascunho');
 
-        const imovelAluguel = document.getElementById('imovel_aluguel').value
+        let imovelAluguel = document.getElementById('imovel_aluguel').value
+        imovelAluguel = imovelAluguel.replace(/\./g, '').replace(',', '.');
 
         if (imovelAluguel < 1500) {
-            formData.append('proposta_status', 'Aprovado');
+            formData.append('proposta_credito_status', 'Aprovado');
 
         } else if (imovelAluguel >= 1500 && imovelAluguel <= 2500) {
-            formData.append('proposta_status', 'Pendente Analise');
+            formData.append('proposta_credito_status', 'Pendente');
         }
         else {
-            formData.append('proposta_status', 'Reprovado');
+            formData.append('proposta_credito_status', 'Negado');
         }
 
         fetch('/propostas/criar-proposta', {
@@ -507,6 +554,7 @@
                 salvarDados(propostaId)
 
                 // Avança para o próximo step do wizard
+                document.querySelector('#analise-credito').style.display = '';
                 document.querySelector('.btn-next').click();
             })
             .catch(error => {
@@ -520,40 +568,34 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
         e.preventDefault(); // Impede a navegação imediata
 
-        const requiredFields = [
-            'setup'
-        ];
+        const requiredFields = {
+            'setup': 'Setup',
+        };
 
         const missingFields = [];
 
-        requiredFields.forEach(field => {
-            let value;
-
+        Object.keys(requiredFields).forEach(field => {
             const el = document.getElementById(field);
-            value = el ? el.value.trim() : '';
-
+            const value = el ? el.value.trim() : '';
 
             if (!value) {
-                missingFields.push(field);
+                missingFields.push(requiredFields[field]);
             }
         });
 
         if (missingFields.length > 0) {
-            Swal.fire('Atenção', `Preencha todos os campos obrigatórios.`, 'warning'
-            );
+            const list = missingFields.map(f => `- ${f}`).join('<br>');
+
+            Swal.fire({
+                title: 'Atenção',
+                html: `Por favor preencher o campo de setup`,
+                icon: 'warning'
+            });
             return;
         }
 
         // Exibe o SweetAlert de carregamento
-        Swal.fire({
-            title: 'Aguarde...',
-            text: 'Carregando dados complementares',
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
+
 
         formData.append('proposta_total_valor', document.getElementById('valor_total_vista').textContent);
         formData.append('proposta_setup_valor', document.getElementById('setup').value);
@@ -605,16 +647,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
         e.preventDefault(); // Impede a navegação imediata
 
-        Swal.fire({
-            title: 'Aguarde...',
-            text: 'Análise de crédito em andamento',
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-
         const requiredFields = {
             'imovel_cep_dados': 'CEP do Imóvel',
             'imovel_endereco': 'Endereço do Imóvel',
@@ -645,7 +677,7 @@
 
         if (missingFields.length > 0) {
             const list = missingFields.map(f => `- ${f}`).join('<br>');
-
+            Swal.close();
             Swal.fire({
                 title: 'Atenção',
                 html: `Preencha os seguintes campos obrigatórios:<br><br>${list}`,
@@ -653,6 +685,16 @@
             });
             return;
         }
+
+        Swal.fire({
+            title: 'Aguarde...',
+            text: 'Aguarde o resumo da proposta',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
         formData.append('imovel_cep', document.getElementById('imovel_cep_dados').value);
         formData.append('imovel_endereco', document.getElementById('imovel_endereco').value);
@@ -719,8 +761,8 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
         e.preventDefault(); // Impede a navegação imediata
 
-        formData.append('contrato_status', 'Cancelado');
-        formData.append('proposta_status', 'Proposta cancelada');
+        formData.append('proposta_status', 'Cancelado');
+        formData.append('proposta_credito_status', 'Cancelado');
 
         fetch('/propostas/criar-proposta', {
             method: 'POST',
@@ -790,18 +832,18 @@
                     id_proposta.textContent = data.id
                     link.href = '/proposta/resumo/' + data.id
 
-                    if (data.proposta_status == 'Aprovado') {
+                    if (data.proposta_credito_status == 'Aprovado') {
                         text.textContent = 'A proposta enviada e aguardando ativação pelo inquilino.';
                         text.className = 'fw-bold text-success'
                         paragrapfCard.textContent = 'A ativação do contrato locação com garantia da Invicta é efetivada mediante o aceite dos termos e pagamento. Enviamos os próximos passos para o e-mail e WhatsApp da pessoa inquilina.'
                         card.className = 'content-header mb-4 p-5 bg-success text-white';
-                    } else if (data.proposta_status == 'Pendente Analise') {
+                    } else if (data.proposta_credito_status == 'Pendente') {
                         text.textContent = 'A proposta está em análise manual pelo nosso time interno.';
                         text.className = 'fw-bold text-warning'
                         paragrapfCard.textContent = 'Estaremos em contato através da nossa plataforma e por e-mail para dar retorno em até 30 minutos.'
                         card.className = 'content-header mb-4 p-5 text-white';
                         card.style.backgroundColor = '#FFA600';
-                    } else if (data.proposta_status == 'Cancelada') {
+                    } else if (data.proposta_credito_status == 'Negado') {
                         text.textContent = 'A proposta está em análise manual pelo nosso time interno.';
                         paragrapfCard.textContent = 'Estaremos em contato através da nossa plataforma e por e-mail para dar retorno em até 30 minutos.'
                         card.className = 'content-header mb-4 p-5 bg-success text-white';
@@ -814,6 +856,10 @@
                 console.error('Erro ao carregar dados da CONFIRMAÇÃO:', error);
             });
     });
+
+    document.getElementById('btn-nova-simulacao').addEventListener('click', function (e) {
+        limparFormularioLocal(propostaId)
+    })
 
     window.addEventListener('DOMContentLoaded', () => {
         propostaId = localStorage.getItem('proposta_id'); // Se já existir

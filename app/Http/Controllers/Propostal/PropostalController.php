@@ -35,9 +35,9 @@ class PropostalController extends Controller
     public function store(Request $request)
     {
         $requestSanitize = $this->sanitizeData($request->all(), ['proposta_total_valor', 'proposta_setup_valor', 'imovel_cep', 'pessoa_doc']);
-        $requestSanitize['imovel_aluguel'] = floatval($requestSanitize['imovel_aluguel']);
-        $requestSanitize['imovel_condominio'] = floatval($requestSanitize['imovel_condominio']);
-        $requestSanitize['imovel_taxas'] = floatval($requestSanitize['imovel_taxas']);
+        $requestSanitize['imovel_aluguel'] = floatval(str_replace(',', '.', str_replace('.', '', $requestSanitize['imovel_aluguel'])));
+        $requestSanitize['imovel_condominio'] = floatval(str_replace(',', '.', str_replace('.', '', $requestSanitize['imovel_condominio'])));
+        $requestSanitize['imovel_taxas'] = floatval(str_replace(',', '.', str_replace('.', '', $requestSanitize['imovel_taxas'])));
 
         if (isset($requestSanitize['proposta_total_valor']) || isset($requestSanitize['proposta_setup_valor'])) {
             $requestSanitize['proposta_total_valor'] = floatval($requestSanitize['proposta_total_valor']);
@@ -64,7 +64,6 @@ class PropostalController extends Controller
                         'id_movi'        => $propostaId,
                         'nome_arquivo'   => $nomeOriginal,
                     ]);
-
 
                     if ($verificaAnexo->ok() && ($verificaAnexo->json()['exists'] ?? false)) {
                         continue; // pula para o próximo arquivo

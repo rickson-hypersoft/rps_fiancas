@@ -47,8 +47,8 @@
                         </div>
                         <div>
                             <!--<p id="proposta_tipo_pagador_resumo"></p>-->
-                            <p class="text-right" id="proposta_total_valor_resumo"></p>
-                            <p class="text-right" id="proposta_setup_valor_resumo"></p>
+                            <p style="text-align: right" id="proposta_total_valor_resumo"></p>
+                            <p style="text-align: right" id="proposta_setup_valor_resumo"></p>
                         </div>
                     </div>
                 </div>
@@ -75,9 +75,9 @@
                             </div>
                             <div>
                                 <p id="imovel_tipo_resumo"></p>
-                                <p class="text-right" id="imovel_aluguel_resumo"></p>
-                                <p class="text-right" id="imovel_condominio_resumo"></p>
-                                <p class="text-right" id="imovel_taxas_resumo"></p>
+                                <p style="text-align: right" id="imovel_aluguel_resumo"></p>
+                                <p style="text-align: right" id="imovel_condominio_resumo"></p>
+                                <p style="text-align: right" id="imovel_taxas_resumo"></p>
                             </div>
                         </div>
                         <hr>
@@ -86,7 +86,7 @@
                                 <p>Total</p>
                             </div>
                             <div>
-                                <p class="text-right" id="proposta_total_valor_total"></p>
+                                <p style="text-align: right" id="proposta_total_valor_total"></p>
                             </div>
                         </div>
                     </div>
@@ -133,29 +133,25 @@
                     </div>
 
                     <div class="card-body p-0 m-0">
-                        <span class="badge text-bg-primary">Pagador</span>
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Nome</th>
-                                        <th>CPF</th>
-                                        <th>Telefone</th>
-                                        <th>Data nasicmento</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <span class="fw-medium" id="pessoa_nome_resumo"></span>
-                                        </td>
-                                        <td id="pessoa_doc_resumo"></td>
-                                        <td id="pessoa_telefone_resumo"></td>
-                                        <td id="data_nascimento_resumo"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="card-body p-0 m-0">
+                            <div>
+                                <p class="fw-bold">Nome</p>
+                                <p id="pessoa_nome_resumo"></p>
+                            </div>
+                            <div>
+                                <p class="fw-bold">CPF</p>
+                                <p id="pessoa_doc_resumo"></p>
+                            </div>
+                            <div>
+                                <p class="fw-bold">Telefone</p>
+                                <p id="pessoa_telefone_resumo"></p>
+                            </div>
+                            <div>
+                                <p class="fw-bold">Data Nascimento</p>
+                                <p id="data_nascimento_resumo"></p>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -180,7 +176,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 d-flex justify-content-between mb-5 mt-5">
+
+        <div class="col-lg-8 d-flex justify-content-between mb-5 mt-5">
             <button class="btn btn-label-secondary btn-prev waves-effect">
                 <i class="icon-base ti tabler-arrow-left icon-xs me-sm-2 me-0"></i>
                 <span class="align-middle d-sm-inline-block d-none">Voltar</span>
@@ -191,5 +188,4 @@
             </button>
         </div>
     </div>
-
 </div>

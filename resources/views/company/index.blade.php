@@ -87,6 +87,7 @@
                         <input type="text" class="form-control form-control-lg" value="{{$company['email']}}" id="email" name="email" maxlength="150">
                     </div>
                 </div>
+                
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">Salvar atualização</button>
                     <button type="reset" class="btn btn-label-secondary waves-effect">Cancelar</button>
@@ -104,9 +105,6 @@
     });
     IMask(document.getElementById('cep'), {
         mask: '00000-000'
-    });
-    IMask(document.getElementById('telefone'), {
-        mask: '(00) 0 0000-0000'
     });
 </script>
 @endsection

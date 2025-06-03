@@ -103,15 +103,24 @@
                     </div>
                     <div class="col-md-4">
                         <label for="taxa_padrao" class="form-label">Taxa Padrão</label>
-                        <input type="text" class="form-control form-control-lg" id="taxa_padrao" name="taxa_padrao" value="{{ old('taxa_padrao', $realEstateSector['taxa_padrao'] ?? '') }}">
+                         <div class="input-group input-group-merge">
+                                <span class="input-group-text">%</span>
+                                <input name="taxa_padrao" style="text-align: right" id='taxa_padrao' type="text" class="form-control form-control-lg" name="taxa_padrao" value="{{ old('taxa_padrao', $realEstateSector['taxa_padrao'] ?? '') }}">
+                            </div>
                     </div>
                     <div class="col-md-4">
                         <label for="custo_saida" class="form-label">Custo Saída</label>
-                        <input type="text" class="form-control form-control-lg" id="custo_saida" name="custo_saida" value="{{ old('custo_saida', $realEstateSector['custo_saida'] ?? '') }}">
+                       <div class="input-group input-group-merge">
+                            <span class="input-group-text">R$</span>
+                            <input name="custo_saida" style="text-align: right" id='custo_saida' type="text" class="form-control form-control-lg" value="{{ old('custo_saida', $realEstateSector['custo_saida'] ?? '') }}">
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <label for="cobertura_total" class="form-label">Cobertura Total</label>
-                        <input type="text" class="form-control form-control-lg" id="cobertura_total" name="cobertura_total" value="{{ old('cobertura_total', $realEstateSector['cobertura_total'] ?? '') }}">
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text">R$</span>
+                            <input name="cobertura_total" style="text-align: right" id='cobertura_total' type="text" class="form-control form-control-lg" value="{{ old('cobertura_total', $realEstateSector['cobertura_total'] ?? '') }}">
+                        </div>
                     </div>
                     <div class="mt-4">
                         <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">Gravar</button>
@@ -155,6 +164,31 @@
     });
     IMask(document.getElementById('telefone'), {
         mask: '(00) 0 0000-0000'
+    });
+    IMask(document.getElementById('custo_saida'), {
+        mask: Number,
+        scale: 2,
+        thousandsSeparator: '.',  // CORRIGIDO: separador de milhar brasileiro
+        padFractionalZeros: true, // Garante que sempre haja duas casas decimais
+        normalizeZeros: true,
+        radix: ',',               // separador decimal brasileiro
+        mapToRadix: ['.'],
+        min: 0,
+        max: 1000000,
+        autofix: true,
+    });
+
+    IMask(document.getElementById('cobertura_total'), {
+        mask: Number,
+        scale: 2,
+        thousandsSeparator: '.',  // CORRIGIDO: separador de milhar brasileiro
+        padFractionalZeros: true, // Garante que sempre haja duas casas decimais
+        normalizeZeros: true,
+        radix: ',',               // separador decimal brasileiro
+        mapToRadix: ['.'],
+        min: 0,
+        max: 1000000,
+        autofix: true,
     });
 </script>
 @endsection

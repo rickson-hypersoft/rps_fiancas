@@ -1,4 +1,4 @@
-<div id="analise-credito" class="content fv-plugins-bootstrap5 fv-plugins-framework">
+<div id="analise-credito" style="display: none" class="content fv-plugins-bootstrap5 fv-plugins-framework">
     <div class="content-header mb-4 p-5" id="card_status_propostal">
         <h4 class="mb-0 text-center fw-bold text-white" id="text_status_propostal"></h4>
     </div>
@@ -35,7 +35,7 @@
 
                     <div class="d-flex mt-5 gap-2">
                         <a href="#" data-id="" class="btn-prev btn btn-text-success waves-effect"><i class="menu-icon icon-base ti tabler-pencil"></i> Editar dados</a>
-                        <a href="{{route('propostal.create')}}" class="btn btn-text-success waves-effect"><i class="menu-icon icon-base ti tabler-refresh"></i> Fazer nova simulação</a>
+                        <a href="{{route('propostal.create')}}" id="btn-nova-simulacao" class="btn btn-text-success waves-effect"><i class="menu-icon icon-base ti tabler-refresh"></i> Fazer nova simulação</a>
                     </div>
                 </div>
             </div>

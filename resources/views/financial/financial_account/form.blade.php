@@ -34,7 +34,6 @@
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                         <label for="tipo_conta" class="form-label">Tipo Conta</label>
                         <select class="form-select form-select-lg" name="tipo_conta" id="tipo_conta" aria-label="Default select example">
-                            <option value="">Selecionar conta</option>
                             <option value="Conta Bancária" {{ old('tipo_conta', $financialAccount['tipo_conta'] ?? '' )=='Conta Bancária' ? 'selected' : '' }}>
                                 Conta Bancária
                             </option>
@@ -47,37 +46,42 @@
                         </select>
                     </div>
 
+                    @php
+                    $tipoConta = old('tipo_conta', $financialAccount['tipo_conta'] ?? '');
+                    $mostrarBanco = $tipoConta === 'Conta Bancária';
+                    @endphp
+
                     <div class="col-md-4">
                         <label for="descricao" class="form-label">Descrição</label>
                         <input value="{{ old('descricao', $financialAccount['descricao'] ?? '') }}" type="text" class="form-control form-control-lg" id="descricao" name="descricao" maxlength="100">
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4" style="{{ $mostrarBanco ? '' : 'display: none;' }}">
                         <label for="banco_titular" class="form-label">Titular</label>
                         <input value="{{ old('banco_titular', $financialAccount['banco_titular'] ?? '') }}" type="text" class="form-control form-control-lg" id="banco_titular" name="banco_titular" maxlength="100">
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4" style="{{ $mostrarBanco ? '' : 'display: none;' }}">
                         <label for="banco_cnpj" class="form-label">CNPJ</label>
                         <input value="{{ old('banco_cnpj', $financialAccount['banco_cnpj'] ?? '') }}" type="text" class="form-control form-control-lg" id="banco_cnpj" name="banco_cnpj" maxlength="100">
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4" style="{{ $mostrarBanco ? '' : 'display: none;' }}">
                         <label for="banco" class="form-label">Código do Banco</label>
                         <input value="{{ old('banco', $financialAccount['banco'] ?? '') }}" type="text" class="form-control form-control-lg" id="banco" name="banco" maxlength="3">
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4" style="{{ $mostrarBanco ? '' : 'display: none;' }}">
                         <label for="banco_agencia" class="form-label">Agência</label>
                         <input value="{{ old('banco_agencia', $financialAccount['banco_agencia'] ?? '') }}" type="text" class="form-control form-control-lg" id="banco_agencia" name="banco_agencia" maxlength="100">
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4" style="{{ $mostrarBanco ? '' : 'display: none;' }}">
                         <label for="banco_conta" class="form-label">Conta</label>
                         <input value="{{ old('banco_conta', $financialAccount['banco_conta'] ?? '') }}" type="text" class="form-control form-control-lg" id="banco_conta" name="banco_conta" maxlength="100">
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4" style="{{ $mostrarBanco ? '' : 'display: none;' }}">
                         <label for="banco_finalidade" class="form-label">Finalidade</label>
                         <select class="form-select form-select-lg" name="banco_finalidade" id="banco_finalidade" aria-label="Default select example">
                             <option value="">Selecionar finalidade</option>
@@ -93,7 +97,7 @@
                         </select>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4" style="{{ $mostrarBanco ? '' : 'display: none;' }}">
                         <label for="banco_pix" class="form-label">PIX</label>
                         <input value="{{ old('banco_pix', $financialAccount['banco_pix'] ?? '') }}" type="text" class="form-control form-control-lg" id="banco_pix" name="banco_pix" maxlength="100">
                     </div>
@@ -121,6 +125,38 @@
 <script>
     IMask(document.getElementById('banco_cnpj'), {
         mask: '00.000.000/0000-00'
+    });
+
+    function toggleBancoFields() {
+        const tipoConta = document.getElementById('tipo_conta').value;
+
+        // IDs dos campos que devem aparecer apenas para "Conta Bancária"
+        const bancoFieldsIds = [
+            'banco_titular',
+            'banco_cnpj',
+            'banco',
+            'banco_agencia',
+            'banco_conta',
+            'banco_finalidade',
+            'banco_pix'
+        ];
+
+        bancoFieldsIds.forEach(function (id) {
+            const element = document.getElementById(id);
+            if (element) {
+                const parent = element.closest('.col-md-4') || element.parentElement;
+                if (tipoConta === 'Conta Bancária') {
+                    parent.style.display = 'block';
+                } else {
+                    parent.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        toggleBancoFields();
+        document.getElementById('tipo_conta').addEventListener('change', toggleBancoFields);
     });
 </script>
 @endsection

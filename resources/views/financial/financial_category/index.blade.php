@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="table table-responsive" style="height: 220px;">
+                    <div class="table table-responsive" style="height: 250px;">
                         <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 18px;">
                             <thead>
                                 <tr>

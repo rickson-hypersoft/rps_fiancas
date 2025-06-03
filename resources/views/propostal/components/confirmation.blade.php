@@ -17,7 +17,7 @@
                     <hr>
                     <small>REGISTRO</small>
                     <p>Proposta #<span id="id_proposta"></span></p>
-                    <a id="link" href="#" class="btn btn-text-success waves-effect">Ver detalhes da proposta</a>
+                    <a id="link" href="#" class="btn btn-success waves-effect">Ver detalhes da proposta</a>
                 </div>
             </div>
         </div>

@@ -103,21 +103,21 @@
                             <label class="form-label" for="formValidationUsername">Valor Aluguel</label>
                             <div class="input-group input-group-merge">
                                 <span class="input-group-text">R$</span>
-                                <input name="imovel_aluguel" id='imovel_aluguel' type="number" class="form-control form-control-lg"  aria-label="Amount (to the nearest dollar)">
+                                <input name="imovel_aluguel" style="text-align: right" id='imovel_aluguel' type="text" class="form-control form-control-lg"  aria-label="Amount (to the nearest dollar)">
                             </div>
                         </div>
                         <div class="col-sm-4 mb-4 form-control-validation fv-plugins-icon-container">
-                            <label class="form-label" for="formValidationUsername">Valor Condominio</label>
+                            <label class="form-label" for="formValidationUsername">Valor Condomínio</label>
                             <div class="input-group input-group-merge">
                                 <span class="input-group-text">R$</span>
-                                <input name="imovel_condominio" id="imovel_condominio" type="number" class="form-control form-control-lg"  aria-label="Amount (to the nearest dollar)">
+                                <input style="text-align: right" name="imovel_condominio" id="imovel_condominio" type="text" class="form-control form-control-lg"  aria-label="Amount (to the nearest dollar)">
                             </div>
                         </div>
                         <div class="col-sm-4 mb-4 form-control-validation fv-plugins-icon-container">
                             <label class="form-label" for="formValidationUsername">Taxas</label>
                             <div class="input-group input-group-merge">
                                 <span class="input-group-text">R$</span>
-                                <input name="imovel_taxas" id="imovel_taxas" type="number" class="form-control form-control-lg"  aria-label="Amount (to the nearest dollar)">
+                                <input name="imovel_taxas" style="text-align: right" id="imovel_taxas" type="text" class="form-control form-control-lg"  aria-label="Amount (to the nearest dollar)">
                             </div>
                         </div>
                         <div class="col-12 d-flex justify-content-end mb-5">

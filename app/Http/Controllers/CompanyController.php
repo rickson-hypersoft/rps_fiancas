@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -12,7 +12,7 @@ class CompanyController extends Controller
 {
     public function index()
     {
-       return view('company.index', ['company' => session('company')]);
+        return view('company.index', ['company' => session('realEstateSectorOrCompany')]);
     }
 
     public function update(string | int $id, Request $request)
@@ -51,7 +51,7 @@ class CompanyController extends Controller
             return back()->withErrors($returnResponse['message'])->withInput();
         }
 
-        session(['company' => $returnResponse['data']]);
+        session(['realEstateSectorOrCompany' => $returnResponse['data']]);
         return back()->with('success', $returnResponse['message']);
     }
 }

@@ -36,11 +36,13 @@
                         <input class="form-control form-control-lg" type="text" id="usuario" name="usuario" maxlength="30" value="{{ old('usuario', $user['usuario'] ?? '') }}">
                         <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                     </div>
+                    <!--
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                         <label for="senha" class="form-label">Senha</label>
                         <input class="form-control form-control-lg" maxlength="255" type="text" id="senha" name="senha" maxlength="100" value="{{ old('senha', $user['senha'] ?? '') }}">
                         <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                     </div>
+                -->
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                         <label for="nome" class="form-label">Nome</label>
                         <input class="form-control form-control-lg" type="text" name="nome" maxlength="50" id="nome" value="{{ old('nome', $user['nome'] ?? '') }}">

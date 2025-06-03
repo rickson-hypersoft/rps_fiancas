@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\RealEstateSector;
 
@@ -32,7 +32,6 @@ class RealEstateSectorUserController extends Controller
             'razao'           => 'required|string|max:100',
             'fantasia'        => 'required|string|max:100',
             'creci'           => 'required|string|max:50',
-            'cnpj'            => 'required|string|max:14',
             'endereco'        => 'nullable|string|max:100',
             'numero'          => 'nullable|string|max:30',
             'bairro'          => 'nullable|string|max:100',
