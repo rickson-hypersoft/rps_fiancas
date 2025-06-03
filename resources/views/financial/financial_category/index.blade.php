@@ -20,120 +20,126 @@
         <div class="col-12">
             <div class="card mb-0">
                 <div class="card-header">
-                    <h6>Listagem de Categorias</h6>
+                    <h5>Listagem de Categorias</h5>
                     <hr>
                     <div class="row align-items-center pt-5">
                         <div class="col-sm-7 col-12 mb-1">
                             <form action="{{route('financial.financial_account.index')}}" method="GET">
                                 <label for="pesquisar" class="form-label">Pesquisar</label>
                                 <div class="input-group">
-                                <input type="text" class="form-control form-control-lg" placeholder="Pesquisar pela categória" name="descricao" aria-label="Pesquisar pela categória" aria-describedby="button-addon2">
-                                <button class="btn btn-outline-primary waves-effect" type="submit" id="button-addon2">
-                                <i class="icon-base ti tabler-search"></i>
-                                </button>
+                                    <input type="text" class="form-control form-control-lg" placeholder="Pesquisar pela categoria" name="descricao" aria-label="Pesquisar pela categoria" aria-describedby="button-addon2">
+                                    <button class="btn btn-outline-primary waves-effect" type="submit" id="button-addon2">
+                                        <i class="icon-base ti tabler-search"></i>
+                                    </button>
                             </form>
                         </div>
-                        </div>
-                        <div class="col-sm-5 mt-4" style="text-align: right">
-                            <a href="{{route('financial.financial_category.create')}}" class="btn btn-primary btn-lg waves-effect waves-light">Adicionar Categoria</a>
-                        </div>
+                    </div>
+                    <div class="col-sm-5 mt-4" style="text-align: right">
+                        <a href="{{route('financial.financial_category.create')}}" class="btn btn-primary btn-lg waves-effect waves-light">Adicionar Categoria</a>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="table table-responsive" style="height: 250px;">
-                        <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 18px;">
-                            <thead>
-                                <tr>
-                                    <th class="align-middle">Descrição</th>
-                                    <th class="align-middle">Tipo</th>
-                                    <th class="d-none d-lg-table-cell align-middle">Ativo</th>
-                                    <th class="text-center align-middle" style="width: 100px">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ViewNiveisLTableItens">
-                                @if ($financialCategories)
-                                @foreach ($financialCategories as $financialCategory)
-                                <tr>
-                                    <td class="align-middle">{{$financialCategory['descricao']}}</td>
-                                    <td class="align-middle">{{$financialCategory['tipo']}}</td>
+            </div>
+            <div class="card-body">
+                <div class="table table-responsive" style="height: 250px;">
+                    <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 18px;">
+                        <thead>
+                            <tr>
+                                <th class="align-middle">Descrição</th>
+                                <th class="align-middle">Tipo</th>
+                                <th class="d-none d-lg-table-cell align-middle">Ativo</th>
+                                <th class="text-center align-middle" style="width: 100px">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ViewNiveisLTableItens">
+                            @if ($financialCategories)
+                            @foreach ($financialCategories as $financialCategory)
+                            <tr>
+                                <td class="align-middle">{{$financialCategory['descricao']}}</td>
+                                <td class="align-middle">
+                                    <span class="badge bg-label-{{$financialCategory['tipo'] == 'Crédito' ? 'danger' : 'primary'}} me-1">
+                                        {{$financialCategory['tipo']}}
+                                    </span>
+                                </td>
 
-                                    <td class="align-middle"> <span class="badge bg-label-{{$financialCategory['ativo'] ? 'success' : 'danger'}} me-1">
-                                            {{$financialCategory['ativo'] ? 'Ativo' : 'Inativo'}}
-                                        </span></td>
-                                    @if($financialCategory['sistema'] == 1)
-                                    <td>
-                                        <div class="dropdown" style="text-align: right;">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                <i class="icon-base ti tabler-dots-vertical"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item waves-effect" href="{{route('financial.financial_category.edit', $financialCategory['id'])}}"><i class="icon-base ti tabler-pencil me-1"></i> Editar</a>
-                                                <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Excluir</a>
-                                            </div>
+                                <td class="align-middle">
+                                    <span class="badge bg-label-{{$financialCategory['ativo'] ? 'success' : 'danger'}} me-1">
+                                        {{$financialCategory['ativo'] ? 'Ativo' : 'Inativo'}}
+                                    </span>
+                                </td>
+                                @if($financialCategory['sistema'] == 1)
+                                <td>
+                                    <div class="dropdown" style="text-align: center;">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="icon-base ti tabler-dots-vertical"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item waves-effect" href="{{route('financial.financial_category.edit', $financialCategory['id'])}}"><i class="icon-base ti tabler-pencil me-1"></i> Editar</a>
+                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Excluir</a>
                                         </div>
-                                    </td>
-                                    @endif
-                                </tr>
-                                @endforeach
-                                @else
-                                <tr>
-                                    <td class="text-center" colspan="4">Não possui contas cadastradas</td>
-                                </tr>
+                                    </div>
+                                </td>
                                 @endif
-                            </tbody>
-                        </table>
-                    </div>
+                            </tr>
+                            @endforeach
+                            @else
+                            <tr>
+                                <td class="text-center" colspan="4">Não possui contas cadastradas</td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
 
-                    @php
-                    $firstItem = $pagination['from'];
-                    $lastItem = $pagination['to'];
-                    $total = $pagination['total'];
-                    $currentPage = $pagination['current_page'];
-                    $lastPage = $pagination['last_page'];
-                    @endphp
+                @php
+                $firstItem = $pagination['from'];
+                $lastItem = $pagination['to'];
+                $total = $pagination['total'];
+                $currentPage = $pagination['current_page'];
+                $lastPage = $pagination['last_page'];
+                @endphp
 
-                    <div class="mt-25 float-end">
-                        <div class="d-flex justify-content-between align-items-center mt-3 py-2 px-4" style="background: #eee; border-radius: 5rem;">
-                            <div class="mx-2">
-                                @if($total > 0)
-                                <span>{{ $firstItem }} a {{ $lastItem }} de {{ $total }}</span>
-                                @else
-                                <span>Nenhum registro encontrado.</span>
-                                @endif
-                            </div>
-
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination pagination-sm mb-0">
-                                    <li class="page-item first {{ $currentPage == 1 ? 'disabled' : '' }}">
-                                        <a class="page-link" href="{{ url()->current() . '?page=1' }}" aria-label="Primeira página">
-                                            <i class="icon-base ti tabler-chevrons-left icon-sm"></i>
-                                        </a>
-                                    </li>
-
-                                    <li class="page-item prev {{ $currentPage == 1 ? 'disabled' : '' }}">
-                                        <a class="page-link" href="{{ url()->current() . '?page=' . max(1, $currentPage - 1) }}" aria-label="Página anterior">
-                                            <i class="icon-base ti tabler-chevron-left icon-sm"></i>
-                                        </a>
-                                    </li>
-
-                                    <li class="page-item next {{ $currentPage == $lastPage ? 'disabled' : '' }}">
-                                        <a class="page-link" href="{{ url()->current() . '?page=' . min($lastPage, $currentPage + 1) }}" aria-label="Próxima página">
-                                            <i class="icon-base ti tabler-chevron-right icon-sm"></i>
-                                        </a>
-                                    </li>
-
-                                    <li class="page-item last {{ $currentPage == $lastPage ? 'disabled' : '' }}">
-                                        <a class="page-link" href="{{ url()->current() . '?page=' . $lastPage }}" aria-label="Última página">
-                                            <i class="icon-base ti tabler-chevrons-right icon-sm"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
+                <div class="mt-25 float-end">
+                    <div class="d-flex justify-content-between align-items-center mt-3 py-2 px-4" style="background: #eee; border-radius: 5rem;">
+                        <div class="mx-2">
+                            @if($total > 0)
+                            <span>{{ $firstItem }} a {{ $lastItem }} de {{ $total }}</span>
+                            @else
+                            <span>Nenhum registro encontrado.</span>
+                            @endif
                         </div>
+
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item first {{ $currentPage == 1 ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ url()->current() . '?page=1' }}" aria-label="Primeira página">
+                                        <i class="icon-base ti tabler-chevrons-left icon-sm"></i>
+                                    </a>
+                                </li>
+
+                                <li class="page-item prev {{ $currentPage == 1 ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ url()->current() . '?page=' . max(1, $currentPage - 1) }}" aria-label="Página anterior">
+                                        <i class="icon-base ti tabler-chevron-left icon-sm"></i>
+                                    </a>
+                                </li>
+
+                                <li class="page-item next {{ $currentPage == $lastPage ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ url()->current() . '?page=' . min($lastPage, $currentPage + 1) }}" aria-label="Próxima página">
+                                        <i class="icon-base ti tabler-chevron-right icon-sm"></i>
+                                    </a>
+                                </li>
+
+                                <li class="page-item last {{ $currentPage == $lastPage ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ url()->current() . '?page=' . $lastPage }}" aria-label="Última página">
+                                        <i class="icon-base ti tabler-chevrons-right icon-sm"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection

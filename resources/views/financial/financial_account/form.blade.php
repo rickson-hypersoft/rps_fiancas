@@ -1,11 +1,11 @@
 @extends('dashboard')
 @section('content')
 <div class="col-md-12">
-    <div class="card mb-6">
+    <div class="card">
         <div class="card-header">
-            <h6>
+            <h5>
                 {{$method == 'PUT' ? 'Editar Conta' : 'Cadastrar Conta'}}
-            </h6>
+            </h5>
             <hr>
         </div>
         <div class="card-body">
@@ -25,12 +25,12 @@
             </div>
             @endif
 
-            <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
+            <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework mb-0" novalidate="novalidate">
                 @csrf
                 @if($method === 'PUT')
                 @method('PUT')
                 @endif
-                <div class="row gy-4 gx-6 mb-6">
+                <div class="row gy-4 gx-6">
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                         <label for="tipo_conta" class="form-label">Tipo Conta</label>
                         <select class="form-select form-select-lg" name="tipo_conta" id="tipo_conta" aria-label="Default select example">

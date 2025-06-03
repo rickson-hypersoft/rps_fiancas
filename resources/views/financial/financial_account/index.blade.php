@@ -20,7 +20,7 @@
         <div class="col-12">
             <div class="card mb-0">
                 <div class="card-header">
-                    <h6>Listagem de Contas</h6>
+                    <h5>Listagem de Contas</h5>
                     <hr>
                     <div class="row align-items-center pt-5">
                         <div class="col-sm-7 col-12 mb-1">

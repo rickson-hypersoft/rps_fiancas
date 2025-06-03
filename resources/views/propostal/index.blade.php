@@ -99,7 +99,7 @@
                                 <td><span class="badge bg-label-warning me-1">{{$propostal['proposta_status']}}</span></td>
                                 <td>{{$propostal['data']}}</td>
                                 <td>{{$propostal['data']}}</td>
-                                <td>
+                                <td style="text-align: center">
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                             <i class="icon-base ti tabler-dots-vertical"></i>
@@ -156,7 +156,7 @@
                                 <td><span class="badge bg-label-secondary me-1">{{$propostal['proposta_status']}}</span></td>
                                 <td>{{$propostal['data']}}</td>
                                 <td>{{$propostal['data']}}</td>
-                                <td>
+                                <td style="text-align: center">
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                             <i class="icon-base ti tabler-dots-vertical"></i>

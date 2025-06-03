@@ -1,11 +1,11 @@
 @extends('dashboard')
 @section('content')
 <div class="col-md-12">
-    <div class="card mb-6">
+    <div class="card">
         <div class="card-header">
-            <h6>
+            <h5>
                 {{$method == 'PUT' ? 'Editar Categoria' : 'Cadastrar Categoria'}}
-            </h6>
+            </h5>
             <hr>
         </div>
         <div class="card-body">
@@ -25,12 +25,12 @@
             </div>
             @endif
 
-            <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
+            <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework mb-0" novalidate="novalidate">
                 @csrf
                 @if($method === 'PUT')
                 @method('PUT')
                 @endif
-                <div class="row gy-4 gx-6 mb-6">
+                <div class="row gy-4 gx-6">
                     <div class="col-md-4">
                         <label for="descricao" class="form-label">Descrição</label>
                         <input value="{{ old('descricao', $financialCategory['descricao'] ?? '') }}" type="text" class="form-control form-control-lg" id="descricao" name="descricao" maxlength="100">
