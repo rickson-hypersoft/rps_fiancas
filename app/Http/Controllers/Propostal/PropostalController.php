@@ -1,30 +1,42 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Controllers\Propostal;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class PropostalController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('propostal.index');
+        $token         = session('jwt_token');
+        $idImobiliaria = session('user')['id_imobiliaria'];
+
+        $queryParams = [
+            'search'     => $request->input('search'),
+            'status'     => $request->input('status'),
+            'created_at' => $request->input('created_at'),
+        ];
+
+        $response = Http::withToken($token)->get(getenv('API_ROUTE') . '/propostal/' . $idImobiliaria, $queryParams);
+        $data     = $response->json();
+
+        return view('propostal.index', ['propostals' => $data['data']]);
     }
 
     public function create()
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->get(getenv('API_ROUTE') . '/realestatesectorsetup/' . session('user')['id_imobiliaria']);
-        $setups = $response->json()['data'];
+        $setups   = $response->json()['data'];
 
         return view('propostal.form', ['setups' => $setups]);
     }
 
-    public function find(string|int $id)
+    public function find(string | int $id)
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->get(getenv('API_ROUTE') . '/propostal/propostal/' . $id);
@@ -34,28 +46,28 @@ class PropostalController extends Controller
 
     public function store(Request $request)
     {
-        $requestSanitize = $this->sanitizeData($request->all(), ['proposta_total_valor', 'proposta_setup_valor', 'imovel_cep', 'pessoa_doc']);
-        $requestSanitize['imovel_aluguel'] = floatval(str_replace(',', '.', str_replace('.', '', $requestSanitize['imovel_aluguel'])));
+        $requestSanitize                      = $this->sanitizeData($request->all(), ['proposta_total_valor', 'proposta_setup_valor', 'imovel_cep', 'pessoa_doc']);
+        $requestSanitize['imovel_aluguel']    = floatval(str_replace(',', '.', str_replace('.', '', $requestSanitize['imovel_aluguel'])));
         $requestSanitize['imovel_condominio'] = floatval(str_replace(',', '.', str_replace('.', '', $requestSanitize['imovel_condominio'])));
-        $requestSanitize['imovel_taxas'] = floatval(str_replace(',', '.', str_replace('.', '', $requestSanitize['imovel_taxas'])));
+        $requestSanitize['imovel_taxas']      = floatval(str_replace(',', '.', str_replace('.', '', $requestSanitize['imovel_taxas'])));
 
         if (isset($requestSanitize['proposta_total_valor']) || isset($requestSanitize['proposta_setup_valor'])) {
             $requestSanitize['proposta_total_valor'] = floatval($requestSanitize['proposta_total_valor']);
             $requestSanitize['proposta_setup_valor'] = floatval($requestSanitize['proposta_setup_valor']);
         }
 
-        $token    = session('jwt_token');
+        $token = session('jwt_token');
 
         $response = Http::withToken($token)->post(getenv('API_ROUTE') . '/propostal/propostal/create', $requestSanitize);
 
-        $data = $response->json();
-        $propostaId = $data['data']['id'] ?? null;
+        $data          = $response->json();
+        $propostaId    = $data['data']['id'] ?? null;
         $idImobiliaria = $requestSanitize['id_imobiliaria'];
 
         if ($request->hasFile('imagens') && $propostaId) {
             foreach ($request->file('imagens') as $file) {
                 if ($file->isValid()) {
-                    $ext = $file->getClientOriginalExtension();
+                    $ext          = $file->getClientOriginalExtension();
                     $nomeOriginal = $file->getClientOriginalName();
 
                     // Verifica se o anexo já existe para essa proposta
@@ -69,21 +81,21 @@ class PropostalController extends Controller
                         continue; // pula para o próximo arquivo
                     }
 
-                    $caminho = "anexos/{$idImobiliaria}/propostas/{$propostaId}.{$ext}";
+                    $caminho   = "anexos/{$idImobiliaria}/propostas/{$propostaId}.{$ext}";
                     $nomeUnico = uniqid($propostaId . '_') . '.' . $ext;
                     // Salva o arquivo localmente
                     $file->storeAs("anexos/{$idImobiliaria}/propostas", $nomeUnico, 'public');
 
                     // Chamada para a API registrar o anexo no banco
                     Http::withToken($token)->post(getenv('API_ROUTE') . '/financial/attachment', [
-                        'id_imobiliaria' => $idImobiliaria,
-                        'id_movi'        => $propostaId,
-                        'movi'           => 'propostas',
-                        'movi_sub'       => null,
-                        'data'           => now()->format('Y-m-d H:i:s'),
-                        'nome_arquivo'   => $nomeUnico,
-                        'nome_arquivo_original'            => $nomeOriginal,
-                        'descricao'      => 'Arquivo anexado à proposta'
+                        'id_imobiliaria'        => $idImobiliaria,
+                        'id_movi'               => $propostaId,
+                        'movi'                  => 'propostas',
+                        'movi_sub'              => null,
+                        'data'                  => now()->format('Y-m-d H:i:s'),
+                        'nome_arquivo'          => $nomeUnico,
+                        'nome_arquivo_original' => $nomeOriginal,
+                        'descricao'             => 'Arquivo anexado à proposta',
                     ]);
                 }
             }
@@ -92,8 +104,22 @@ class PropostalController extends Controller
         return $response;
     }
 
-    public function resume(string|int $id)
+    public function resume(string | int $id)
     {
         return view('propostal.resume');
+    }
+
+    public function delete(Request $request, string | int $id)
+    {
+        $token = session('jwt_token');
+
+        $requestSanitize['id_imobiliaria']          = session('user')['id_imobiliaria'];
+        $requestSanitize['proposta_status']         = 'Cancelado';
+        $requestSanitize['proposta_credito_status'] = 'Cancelado';
+        $requestSanitize['observacao']              = $request->input('motivo');
+
+        $response = Http::withToken($token)->post(getenv('API_ROUTE') . '/propostal/propostal/canceled/' . $id, $requestSanitize);
+
+        return $response;
     }
 }

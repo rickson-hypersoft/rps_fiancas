@@ -107,4 +107,16 @@ class FinancialCategoryController extends Controller
 
         return redirect()->route('financial.financial_category.index')->with('success', $returnResponse['message']);
     }
+
+    public function delete(string | int $id)
+    {
+        $response       = Http::withToken(session('jwt_token'))->delete(getenv('API_ROUTE') . '/financial/financial_category/' . $id);
+        $returnResponse = $response->json();
+
+        if (! $returnResponse['success']) {
+            return back()->withErrors($returnResponse['message'])->withInput();
+        }
+
+        return redirect()->route('financial.financial_category.index')->with('success', $returnResponse['message']);
+    }
 }

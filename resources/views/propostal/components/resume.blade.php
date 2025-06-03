@@ -164,7 +164,7 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
                         <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="false" aria-controls="accordionOne">
-                            Historico
+                            Histórico
                         </button>
                     </h2>
 

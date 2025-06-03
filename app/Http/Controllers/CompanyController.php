@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
@@ -52,6 +52,7 @@ class CompanyController extends Controller
         }
 
         session(['realEstateSectorOrCompany' => $returnResponse['data']]);
+
         return back()->with('success', $returnResponse['message']);
     }
 }

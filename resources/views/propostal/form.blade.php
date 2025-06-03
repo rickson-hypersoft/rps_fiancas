@@ -20,8 +20,8 @@
                 <button type="button" class="step-trigger" aria-selected="false" disabled="disabled">
                     <span class="bs-stepper-circle">2</span>
                     <span class="bs-stepper-label">
-                        <span class="bs-stepper-title">Análise de crédito</span>
-                        <span class="bs-stepper-subtitle">Aguarde a análise</span>
+                        <span class="bs-stepper-title">Análise</span>
+                        <span class="bs-stepper-subtitle">de crédito</span>
                     </span>
                 </button>
             </div>

@@ -21,41 +21,45 @@
             </li>
             <li class="nav-item p-3" role="presentation">
                 <button type="button" class="nav-link waves-effect" role="tab" data-bs-toggle="tab" data-bs-target="#navs-excluidos" aria-controls="navs-excluidos" aria-selected="false" tabindex="-1">
-                    Reprovados
+                    Negados
                 </button>
             </li>
         </ul>
         <div class="tab-content">
             <div class="p-5 bordered" style="border-radius: 10px;">
-                <form action="">
+                <form method="GET" action="{{route('propostal.index')}}">
+                    @csrf
                     <div class="row align-items-end">
                         <div class="col-6">
                             <div>
                                 <label for="largeInput" class="form-label">Pesquisar</label>
                                 <div class="input-group input-group-merge">
                                     <span class="input-group-text " id="basic-addon-search31"><i class="icon-base ti tabler-search"></i></span>
-                                    <input type="text" class="form-control form-control-lg" placeholder="Número da proposta, nome/razão social, CPF/CNPJ ou Tag" aria-label="Número da proposta, nome/razão social, CPF/CNPJ ou Tag" aria-describedby="basic-addon-search31">
+                                    <input type="text" name="search" class="form-control form-control-lg" placeholder="Número da proposta, nome/razão social, CPF/CNPJ ou Tag" aria-label="Número da proposta, nome/razão social, CPF/CNPJ ou Tag" value="{{ request('search') }}">
                                 </div>
                             </div>
                         </div>
                         <div class="col-2">
                             <div>
                                 <label for="largeSelect" class="form-label">Status</label>
-                                <select id="largeSelect" class="form-select form-select-lg">
-                                    <option value="1">Todos</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                <select name="status" id="largeSelect" class="form-select form-select-lg">
+                                    <option value="">Todos</option>
+                                    <option value="Pendente" {{ request('status')=='Pendente' ? 'selected' : '' }}>Pendente</option>
+                                    <option value="Aprovado" {{ request('status')=='Aprovado' ? 'selected' : '' }}>Aprovado</option>
+                                    <option value="Cancelado" {{ request('status')=='Cancelado' ? 'selected' : '' }}>Cancelado</option>
+                                    <option value="Negado" {{ request('status')=='Negado' ? 'selected' : '' }}>Negado</option>
+                                    <option value="Rascunho" {{ request('status')=='Rascunho' ? 'selected' : '' }}>Rascunho</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-2">
                             <div>
-                                <label for="largeSelect" class="form-label">Criado em:</label>
-                                <input class="form-control form-control-lg" type="date" id="html5-date-input">
+                                <label id="created_at" class="form-label">Criado em:</label>
+                                <input type="date" name="created_at" id="created_at" class="form-control form-control-lg" value="{{ request('created_at') }}">
                             </div>
                         </div>
                         <div class="col-2">
-                            <button type="button" class="btn btn-primary btn-lg waves-effect waves-light mb-0">
+                            <button type="submit" class="btn btn-primary btn-lg waves-effect waves-light mb-0">
                                 <span class="icon-xs icon-base ti tabler-search me-2"></span>Pesquisar
                             </button>
                         </div>
@@ -80,135 +84,37 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
+                            @foreach ($propostals as $propostal)
+                            @if ($propostal['proposta_status'] == 'Pendente')
                             <tr>
                                 <td>
-                                    <a href="" class="text-success">1</a>
+                                    <a href="" class="text-success">{{$propostal['id']}}</a>
                                 </td>
-                                <td>RICKSON LUCAS</td>
+                                <td>{{$propostal['pessoa_nome']}}</td>
                                 <td>
-                                    160.549.566-20
+                                    {{$propostal['pessoa_doc']}}
                                 </td>
-                                <td>R$ 1.500,00</td>
-                                <td></td>
-                                <td><span class="badge bg-label-warning me-1">Pendente Analise</span></td>
-                                <td>28/05/2025</td>
-                                <td>28/05/2025</td>
+                                <td>{{$propostal['imovel_aluguel']}}</td>
+                                <td>{{$propostal['imovel_tag']}}</td>
+                                <td><span class="badge bg-label-warning me-1">{{$propostal['proposta_status']}}</span></td>
+                                <td>{{$propostal['data']}}</td>
+                                <td>{{$propostal['data']}}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                             <i class="icon-base ti tabler-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Cancelar proposta</a>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item waves-effect" data-bs-toggle="modal" data-bs-target="#modalCancelarProposta" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Cancelar proposta</a>
+                                            </div>
                                             <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-pencil me-1"></i> Alteração imobiliária</a>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-
-                            <tr>
-                                <td>
-                                    <a href="" class="text-success">2</a>
-                                </td>
-                                <td>PAULO HENIRQUE</td>
-                                <td>
-                                    151.635.576-88
-                                </td>
-                                <td>R$ 1.000,00</td>
-                                <td></td>
-                                <td><span class="badge bg-label-success me-1">Aprovado</span></td>
-                                <td>26/05/2025</td>
-                                <td>26/05/2025</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="icon-base ti tabler-dots-vertical"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Cancelar proposta</a>
-                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-pencil me-1"></i> Alteração imobiliária</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <a href="" class="text-success">3</a>
-                                </td>
-                                <td>JOSE CARLOS COSTA</td>
-                                <td>
-                                    329.024.148-38
-                                </td>
-                                <td>R$ 900,00</td>
-                                <td></td>
-                                <td><span class="badge bg-label-secondary me-1">Em análise de estorno</span></td>
-                                <td>06/01/2025</td>
-                                <td>06/01/2025</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="icon-base ti tabler-dots-vertical"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Cancelar proposta</a>
-                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-pencil me-1"></i> Alteração imobiliária</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <a href="" class="text-success">4</a>
-                                </td>
-                                <td>GILMAR BATISTA</td>
-                                <td>
-                                    213.069.118-85
-                                </td>
-                                <td>R$ 2.200,00</td>
-                                <td></td>
-                                <td><span class="badge bg-label-secondary me-1">Em análise de estorno</span></td>
-                                <td>06/01/2025</td>
-                                <td>06/01/2025</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="icon-base ti tabler-dots-vertical"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Cancelar proposta</a>
-                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-pencil me-1"></i> Alteração imobiliária</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <a href="" class="text-success">5</a>
-                                </td>
-                                <td>GILMAR BATISTA</td>
-                                <td>
-                                    213.069.118-85
-                                </td>
-                                <td>R$ 1.700,00</td>
-                                <td></td>
-                                <td><span class="badge bg-label-secondary me-1">Em análise de estorno</span></td>
-                                <td>06/01/2025</td>
-                                <td>06/01/2025</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="icon-base ti tabler-dots-vertical"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Cancelar proposta</a>
-                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-pencil me-1"></i> Alteração imobiliária</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                            @endif
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -216,7 +122,7 @@
 
             <div class="tab-pane fade" id="navs-rascunhos" role="tabpanel">
                 <div class="p-4 bg-label-secondary" style="border-radius: 10px;">
-                    <p class="m-0 p-0">Propostas em rascunho por mais de 30 dias serão automaticamente cancelados. Mas não se preocupe, você poderá criar novas propostas para esses clientes a qualquer momento! Assim, sua imobiliária terá acesso mais fácil às propostas mais quentes e focará nas melhores oportunidades</p>
+                    <p class="m-0 p-0">Propostas em rascunho por mais de 30 dias serão automaticamente canceladas. Mas não se preocupe: você poderá criar novas propostas para esses clientes a qualquer momento! Assim, sua imobiliária terá acesso mais fácil às propostas mais quentes e focará nas melhores oportunidades.</p>
                 </div>
 
                 <div class="table-responsive text-nowrap mt-4 pt-2">
@@ -235,55 +141,34 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
+                            @foreach ($propostals as $propostal)
+                            @if ($propostal['proposta_status'] == 'Rascunho')
                             <tr>
                                 <td>
-                                    <a href="" class="text-success">6</a>
+                                    <a href="" class="text-success">{{$propostal['id']}}</a>
                                 </td>
-                                <td></td>
+                                <td>{{$propostal['pessoa_nome']}}</td>
                                 <td>
-                                    14.483.179/0001-90
+                                    {{$propostal['pessoa_doc']}}
                                 </td>
-                                <td>R$ 1.500,00</td>
-                                <td></td>
-                                <td><span class="badge bg-label-secondary me-1">Rascunho</span></td>
-                                <td>28/05/2025</td>
-                                <td>28/05/2025</td>
+                                <td>{{$propostal['imovel_aluguel']}}</td>
+                                <td>{{$propostal['imovel_tag']}}</td>
+                                <td><span class="badge bg-label-secondary me-1">{{$propostal['proposta_status']}}</span></td>
+                                <td>{{$propostal['data']}}</td>
+                                <td>{{$propostal['data']}}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                             <i class="icon-base ti tabler-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Cancelar proposta</a>
+                                            <a class="dropdown-item waves-effect btnCancelarProposta" data-bs-toggle="modal" data-bs-target="#modalCancelarProposta" href="javascript:void(0);" data-id="{{ $propostal['id'] }}"><i class="icon-base ti tabler-trash me-1"></i> Cancelar proposta</a>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-
-                            <tr>
-                                <td>
-                                    <a href="" class="text-success">7</a>
-                                </td>
-                                <td></td>
-                                <td>
-                                    05.975.981/0001-06
-                                </td>
-                                <td>R$ 3.100,00</td>
-                                <td></td>
-                                <td><span class="badge bg-label-secondary me-1">Rascunho</span></td>
-                                <td>28/05/2025</td>
-                                <td>28/05/2025</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="icon-base ti tabler-dots-vertical"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Cancelar proposta</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                            @endif
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -305,35 +190,24 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
+                            @foreach ($propostals as $propostal)
+                            @if ($propostal['proposta_status'] == 'Cancelado')
                             <tr>
                                 <td>
-                                    <a href="" class="text-success">8</a>
+                                    <a href="" class="text-success">{{$propostal['id']}}</a>
                                 </td>
-                                <td></td>
+                                <td>{{$propostal['pessoa_nome']}}</td>
                                 <td>
-                                    14.483.179/0001-90
+                                    {{$propostal['pessoa_doc']}}
                                 </td>
-                                <td>R$ 1.500,00</td>
-                                <td></td>
-                                <td><span class="badge bg-label-danger me-1">Cancelado</span></td>
-                                <td>28/05/2025</td>
-                                <td>28/05/2025</td>
+                                <td>{{$propostal['imovel_aluguel']}}</td>
+                                <td>{{$propostal['imovel_tag']}}</td>
+                                <td><span class="badge bg-label-danger me-1">{{$propostal['proposta_status']}}</span></td>
+                                <td>{{$propostal['data']}}</td>
+                                <td>{{$propostal['data']}}</td>
                             </tr>
-
-                            <tr>
-                                <td>
-                                    <a href="" class="text-success">9</a>
-                                </td>
-                                <td></td>
-                                <td>
-                                    05.975.981/0001-06
-                                </td>
-                                <td>R$ 3.100,00</td>
-                                <td></td>
-                                <td><span class="badge bg-label-danger me-1">Cancelado</span></td>
-                                <td>28/05/2025</td>
-                                <td>28/05/2025</td>
-                            </tr>
+                            @endif
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -355,35 +229,24 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
+                            @foreach ($propostals as $propostal)
+                            @if ($propostal['proposta_status'] == 'Negado')
                             <tr>
                                 <td>
-                                    <a href="" class="text-success">8</a>
+                                    <a href="" class="text-success">{{$propostal['id']}}</a>
                                 </td>
-                                <td></td>
+                                <td>{{$propostal['pessoa_nome']}}</td>
                                 <td>
-                                    14.483.179/0001-90
+                                    {{$propostal['pessoa_doc']}}
                                 </td>
-                                <td>R$ 1.500,00</td>
-                                <td></td>
-                                <td><span class="badge bg-label-danger me-1">Reprovados</span></td>
-                                <td>28/05/2025</td>
-                                <td>28/05/2025</td>
+                                <td>{{$propostal['imovel_aluguel']}}</td>
+                                <td>{{$propostal['imovel_tag']}}</td>
+                                <td><span class="badge bg-label-dark me-1">{{$propostal['proposta_status']}}</span></td>
+                                <td>{{$propostal['data']}}</td>
+                                <td>{{$propostal['data']}}</td>
                             </tr>
-
-                            <tr>
-                                <td>
-                                    <a href="" class="text-success">9</a>
-                                </td>
-                                <td></td>
-                                <td>
-                                    05.975.981/0001-06
-                                </td>
-                                <td>R$ 3.100,00</td>
-                                <td></td>
-                                <td><span class="badge bg-label-danger me-1">Reprovados</span></td>
-                                <td>28/05/2025</td>
-                                <td>28/05/2025</td>
-                            </tr>
+                            @endif
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -392,4 +255,104 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalCancelarProposta" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCancelarPropostaTitle">Qual o motivo do cancelamento desta proposta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formCancelarProposta" method="POST" action="">
+                @csrf
+                <input type="hidden" name="id" id="propostaIdInput">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-4">
+                            <label for="motivo" class="form-label">Selecionar motivo</label>
+                            <select id="motivo" class="form-select form-select-lg" name="motivo">
+                                <option value="Processo de locação interrompido">Processo de locação interrompido</option>
+                                <option value="Cliente interessado em outra forma de garantia">Cliente interessado em outra forma de garantia</option>
+                                <option value="Cliente interessado em outro imóvel">Cliente interessado em outro imóvel</option>
+                                <option value="Proposta transferida para outra pessoa">Proposta transferida para outra pessoa</option>
+                                <option value="Cliente não respondeu às tentativas de contato">Cliente não respondeu às tentativas de contato</option>
+                                <option value="Imóvel já locado para outro interessado">Imóvel já locado para outro interessado</option>
+                                <option value="Cliente visitou o imóvel, mas desistiu">Cliente visitou o imóvel, mas desistiu</option>
+                                <option value="Imóvel fora do orçamento do cliente">Imóvel fora do orçamento do cliente</option>
+                                <option value="Questões financeiras do cliente">Questões financeiras do cliente</option>
+                                <option value="Inquilino não concordou com o modelo de garantia">Inquilino não concordou com o modelo de garantia</option>
+                                <option value="Desacordo entre inquilino e proprietário">Desacordo entre inquilino e proprietário</option>
+                                <option value="Imobiliária cancelou para cadastrar uma nova proposta no CPF">Imobiliária cancelou para cadastrar uma nova proposta no CPF</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col mb-4">
+                            <label for="exampleFormControlTextarea1" class="form-label">Explicar motivo (opcional)</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="observacao"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modalCancelar = new bootstrap.Modal(document.getElementById('modalCancelarProposta'));
+        const form = document.getElementById('formCancelarProposta');
+
+        console.log(form)
+
+        // Abertura do modal e set do ID e action
+        document.querySelectorAll('.btnCancelarProposta').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.dataset.id;
+                document.getElementById('propostaIdInput').value = id;
+                form.action = "{{ url('/propostas/cancelar') }}/" + id;
+                modalCancelar.show();
+            });
+        });
+
+        // Envio do formulário
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    modalCancelar.hide();
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Proposta cancelada com sucesso!',
+                        confirmButtonText: 'Voltar para listagem'
+                    }).then(() => {
+                        window.location.href = "{{ route('propostal.index') }}";
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                    Swal.fire('Erro', 'Ocorreu um erro ao cancelar a proposta.', 'error');
+                });
+        });
+    });
+</script>
+@endsection
 @endsection

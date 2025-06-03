@@ -24,11 +24,18 @@
                     <hr>
                     <div class="row align-items-center pt-5">
                         <div class="col-sm-7 col-12 mb-1">
-                            <label for="pesquisar" class="form-label">Pesquisar</label>
-                            <input id="pesquisar" type="text" class="form-control" placeholder="Pesquisar" aria-label="Pesquisar..." autocomplete="off" spellcheck="false">
+                            <form action="{{route('financial.financial_account.index')}}" method="GET">
+                                <label for="pesquisar" class="form-label">Pesquisar</label>
+                                <div class="input-group">
+                                <input type="text" class="form-control form-control-lg" placeholder="Pesquisar pela conta" name="descricao" aria-label="Pesquisar pela conta" aria-describedby="button-addon2">
+                                <button class="btn btn-outline-primary waves-effect" type="submit" id="button-addon2">
+                                <i class="icon-base ti tabler-search"></i>
+                                </button>
+                            </form>
+                        </div>
                         </div>
                         <div class="col-sm-5 mt-4" style="text-align: right">
-                            <a href="{{route('financial.financial_account.create')}}" class="btn btn-primary waves-effect waves-light">Adicionar Conta</a>
+                            <a href="{{route('financial.financial_account.create')}}" class="btn btn-lg btn-primary waves-effect waves-light">Adicionar Conta</a>
                         </div>
                     </div>
                 </div>

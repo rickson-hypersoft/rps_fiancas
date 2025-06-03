@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;ampdisplay=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('assets/vendor/fonts/iconify-icons.css')}}">
-
+<script src="https://kit.fontawesome.com/e52263f0c5.js" crossorigin="anonymous"></script>
     <!-- Core CSS -->
     <!-- build:css assets/vendor/css/theme.css  -->
 
@@ -84,7 +84,7 @@
                     <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu flex-grow-0" data-bs-theme="dark">
                         <div class="container-xxl d-flex h-100">
                             <ul class="menu-inner">
-                                <li class="menu-item {{ request()->routeIs('home') ? 'active' : '' }}">
+                                <li class="menu-item">
                                     <a href="javascript:void(0)" class="menu-link">
                                         <i class="menu-icon icon-base ti tabler-home"></i>
                                         <div data-i18n="Home">Home</div>
@@ -119,9 +119,9 @@
                                 @endif
 
                                 <!-- Propostas -->
-                                <li class="bg-light menu-item {{ request()->is('propostas*') ? 'active' : '' }}">
-                                    <a href="javascript:void(0)" class="bg-light menu-link menu-toggle">
-                                        <i class="menu-icon icon-base ti tabler-chart-pie-2"></i>
+                                <li class="menu-item {{ request()->is('propostas*') ? 'active' : '' }}">
+                                    <a href="javascript:void(0)" class="menu-link menu-toggle">
+                                        <i class="menu-icon icon-base ti tabler-file-like"></i>
                                         <div data-i18n="Propostas">Propostas</div>
                                     </a>
                                     <ul class="menu-sub">
@@ -133,6 +133,32 @@
                                         <li class="menu-item {{ request()->routeIs('propostal.index') ? 'active' : '' }}">
                                             <a href="{{route('propostal.index')}}" class="menu-link">
                                                 <div data-i18n="Acompanhar">Acompanhar</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <!-- Contratos -->
+                                <li class="menu-item {{ request()->is('Contratos*') ? 'active' : '' }}">
+                                    <a href="javascript:void(0)" class="menu-link menu-toggle">
+
+                                        <i class="menu-icon icon-base ti tabler-file-check"></i>
+                                        <div data-i18n="Contratos">Contratos</div>
+                                    </a>
+                                    <ul class="menu-sub">
+                                        <li class="menu-item">
+                                            <a href="" class="menu-link">
+                                                <div data-i18n="Acompanhar">Acompanhar</div>
+                                            </a>
+                                        </li>
+                                        <li class="menu-item">
+                                             <a href="#" class="menu-link">
+                                                <div data-i18n="Renovações">Renovações</div>
+                                            </a>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="#" class="menu-link">
+                                                <div data-i18n="Inadimplências">Inadimplências</div>
                                             </a>
                                         </li>
                                     </ul>
@@ -168,25 +194,10 @@
                                 <!-- Relatórios -->
                                 <li class="menu-item">
                                     <a href="javascript:void(0)" class="menu-link menu-toggle">
-                                        <i class="menu-icon icon-base ti tabler-file"></i>
+                                        <i class="menu-icon icon-base ti tabler-printer"></i>
                                         <div data-i18n="Relatórios">Relatórios</div>
                                     </a>
                                     <ul class="menu-sub">
-                                        <li class="menu-item">
-                                            <a href="#" class="menu-link">
-                                                <div data-i18n="Contratos">Contratos</div>
-                                            </a>
-                                        </li>
-                                        <li class="menu-item">
-                                            <a href="#" class="menu-link">
-                                                <div data-i18n="Renovações">Renovações</div>
-                                            </a>
-                                        </li>
-                                        <li class="menu-item">
-                                            <a href="#" class="menu-link">
-                                                <div data-i18n="Inadimplências">Inadimplências</div>
-                                            </a>
-                                        </li>
                                         <li class="menu-item">
                                             <a href="#" class="menu-link">
                                                 <div data-i18n="Minhas Comissões">Minhas Comissões</div>
@@ -213,6 +224,7 @@
                     <!--/ Content -->
 
                     <!-- Footer -->
+                    <!--
                     <footer class="content-footer footer bg-footer-theme" style="background: #2f3349;" data-bs-theme="dark">
                         <div class="container-xxl">
                             <div class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
@@ -226,6 +238,7 @@
                             </div>
                         </div>
                     </footer>
+                -->
                     <!-- / Footer -->
 
                     <div class="content-backdrop fade"></div>

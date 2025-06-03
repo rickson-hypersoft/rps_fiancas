@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
@@ -195,7 +195,7 @@ class RealEstateSectorController extends Controller
         }
 
         $requestSanitize['id_imobiliaria'] = $idImobiliaria;
-        $requestSanitize['taxa'] = floatval($requestSanitize['taxa']);
+        $requestSanitize['taxa']           = floatval($requestSanitize['taxa']);
 
         $route = getenv('API_ROUTE') . '/realestatesectorsetup/' . $id;
 

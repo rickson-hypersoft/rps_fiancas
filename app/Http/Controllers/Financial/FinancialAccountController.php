@@ -120,4 +120,16 @@ class FinancialAccountController extends Controller
 
         return redirect()->route('financial.financial_account.index')->with('success', $returnResponse['message']);
     }
+
+    public function delete(string | int $id)
+    {
+        $response       = Http::withToken(session('jwt_token'))->delete(getenv('API_ROUTE') . '/financial/financial_account/' . $id);
+        $returnResponse = $response->json();
+
+        if (! $returnResponse['success']) {
+            return back()->withErrors($returnResponse['message'])->withInput();
+        }
+
+        return redirect()->route('financial.financial_account.index')->with('success', $returnResponse['message']);
+    }
 }
