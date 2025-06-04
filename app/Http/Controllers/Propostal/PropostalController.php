@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Propostal;
 
@@ -47,13 +47,13 @@ class PropostalController extends Controller
     public function store(Request $request)
     {
         $requestSanitize                      = $this->sanitizeData($request->all(), ['proposta_total_valor', 'proposta_setup_valor', 'imovel_cep', 'pessoa_doc']);
-        $requestSanitize['imovel_aluguel']    = floatval(str_replace(',', '.', str_replace('.', '', $requestSanitize['imovel_aluguel'])));
-        $requestSanitize['imovel_condominio'] = floatval(str_replace(',', '.', str_replace('.', '', $requestSanitize['imovel_condominio'])));
-        $requestSanitize['imovel_taxas']      = floatval(str_replace(',', '.', str_replace('.', '', $requestSanitize['imovel_taxas'])));
+        $requestSanitize['imovel_aluguel'] = floatval(str_replace(',', '.', str_replace('.', '', (string) ($requestSanitize['imovel_aluguel'] ?? '0'))));
+        $requestSanitize['imovel_condominio'] = floatval(str_replace(',', '.', str_replace('.', '', (string) ($requestSanitize['imovel_condominio'] ?? '0'))));
+        $requestSanitize['imovel_taxas'] = floatval(str_replace(',', '.', str_replace('.', '', (string) ($requestSanitize['imovel_taxas'] ?? '0'))));
 
         if (isset($requestSanitize['proposta_total_valor']) || isset($requestSanitize['proposta_setup_valor'])) {
-            $requestSanitize['proposta_total_valor'] = floatval($requestSanitize['proposta_total_valor']);
-            $requestSanitize['proposta_setup_valor'] = floatval($requestSanitize['proposta_setup_valor']);
+            $requestSanitize['proposta_total_valor'] = floatval((string) ($requestSanitize['proposta_total_valor'] ?? '0'));
+            $requestSanitize['proposta_setup_valor'] = floatval((string) ($requestSanitize['proposta_setup_valor'] ?? '0'));
         }
 
         $token = session('jwt_token');

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Financial;
 
@@ -101,6 +101,8 @@ class FinancialCategoryController extends Controller
         if ($ativo) {
             $financialCategory['ativo'] = 1;
         }
+
+        $financialCategory['id_imobiliaria'] = session('user')['id_imobiliaria'];
 
         $response       = Http::withToken(session('jwt_token'))->put(env('API_ROUTE') . '/financial/financial_category/' . $id, $financialCategory);
         $returnResponse = $response->json();

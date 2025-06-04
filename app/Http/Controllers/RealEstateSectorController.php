@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -165,6 +165,16 @@ class RealEstateSectorController extends Controller
         }
 
         $realEstateSectorData = $validator->validated();
+
+        $realEstateSectorData['ativo'] = 0;
+
+        $ativo = $request->get('ativo');
+
+        if ($ativo) {
+            $realEstateSectorData['ativo'] = 1;
+        }
+
+        $realEstateSectorData['id_imobiliaria'] = session('user')['id_imobiliaria'];
 
         $response       = Http::withToken($token)->put(env('API_ROUTE') . '/realestatesector/' . $id, $realEstateSectorData);
         $returnResponse = $response->json();

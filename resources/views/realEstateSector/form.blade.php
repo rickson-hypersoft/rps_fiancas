@@ -3,10 +3,23 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
+             <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
+                @csrf
+                @if($method === 'PUT')
+                @method('PUT')
+                @endif
+                 <div class="d-flex justify-content-between align-items-center">
             <h5>
                 {{$method == 'PUT' ? 'Editar Imobiliária' : 'Cadastrar Imobiliária'}}
             </h5>
-            <hr>
+
+            @if($method === 'PUT')
+                <div class="form-check form-switch mb-0">
+                    <input class="form-check-input" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Ativar/Desativar" type="checkbox" id="user-status-switch" name="ativo" {{ $realEstateSector['ativo'] ? 'checked' : '' }}>
+                </div>
+                @endif
+                 </div>
+            <hr class="mt-0 pt-0">
         </div>
         <div class="card-body pb-1">
             @if ($errors->any())
@@ -24,12 +37,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
-
-            <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
-                @csrf
-                @if($method === 'PUT')
-                @method('PUT')
-                @endif
                 <div class="row gy-4 gx-6">
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                         <label for="razao" class="form-label">Razão</label>
@@ -122,7 +129,7 @@
                             <input name="cobertura_total" style="text-align: right" id='cobertura_total' type="text" class="form-control form-control-lg" value="{{ old('cobertura_total', $realEstateSector['cobertura_total'] ?? '') }}">
                         </div>
                     </div>
-                    <div class="mt-4">
+                    <div class="mt-4 pb-4">
                         <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">{{$method == 'PUT' ? 'Salvar alteração' : 'Gravar'}}</button>
                         <a href="{{route('realestatesector.index')}}" class="btn btn-label-secondary waves-effect">Cancelar</a>
                     </div>

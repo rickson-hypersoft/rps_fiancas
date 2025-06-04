@@ -45,24 +45,24 @@
                     <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 18px;">
                         <thead>
                             <tr>
-                                <th class="align-middle">Descrição</th>
-                                <th class="align-middle">Tipo</th>
-                                <th class="d-none d-lg-table-cell align-middle">Ativo</th>
-                                <th class="text-center align-middle" style="width: 100px">Ações</th>
+                                <th>Descrição</th>
+                                <th>Tipo</th>
+                                <th class="d-none d-lg-table-cell">Ativo</th>
+                                <th class="text-center" style="width: 100px">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="ViewNiveisLTableItens">
                             @if ($financialCategories)
                             @foreach ($financialCategories as $financialCategory)
                             <tr>
-                                <td class="align-middle">{{$financialCategory['descricao']}}</td>
-                                <td class="align-middle">
-                                    <span class="badge bg-label-{{$financialCategory['tipo'] == 'Crédito' ? 'danger' : 'primary'}} me-1">
+                                <td>{{$financialCategory['descricao']}}</td>
+                                <td >
+                                    <span class="badge bg-label-{{$financialCategory['tipo'] == 'Crédito' ? 'danger' : 'primary'}}">
                                         {{$financialCategory['tipo']}}
                                     </span>
                                 </td>
 
-                                <td class="align-middle">
+                                <td >
                                     <span class="badge bg-label-{{$financialCategory['ativo'] ? 'success' : 'danger'}} me-1">
                                         {{$financialCategory['ativo'] ? 'Ativo' : 'Inativo'}}
                                     </span>

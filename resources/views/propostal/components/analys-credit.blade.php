@@ -78,9 +78,13 @@
                 </div>
             </div>
 
-            <div class="col-12 d-flex justify-content-end mb-5 mt-5" id="next-setup-config">
+            <div class="col-12 d-flex justify-content-between mb-5 mt-5" id="next-setup-config">
+                 <button class="btn btn-label-secondary btn-prev waves-effect">
+                    <i class="icon-base ti tabler-arrow-left icon-xs me-sm-2 me-0"></i>
+                    <span class="align-middle d-sm-inline-block d-none">Voltar</span>
+                </button>
                 <button id="btn-analise-credito" class="btn btn-primary btn-next-analise waves-effect waves-light">
-                    <span class="align-middle d-sm-inline-block d-none me-sm-2">Avançar</span>
+                    <span class="align-middle d-sm-inline-block d-none me-sm-2">Salvar e avançar com a proposta</span>
                     <i class="icon-base ti tabler-arrow-right icon-xs"></i>
                 </button>
             </div>

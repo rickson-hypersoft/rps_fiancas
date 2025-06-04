@@ -86,8 +86,17 @@
                                 <input type="text" name="imovel_cep" id="imovel_cep" class="form-control form-control-lg">
                                 <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                             </div>
-                            <div class="pt-4 col-md-3">
-                                <i class="menu-icon icon-base ti tabler-map"></i> <span id="cep-status">CEP não encontrado</span>
+                            <div class="col-md-4" id="estado-container" style="display: none;">
+                                <label class="form-label" for="imovel_estado">Estado</label>
+                                <input type="text" name="imovel_estado" id="imovel_estado" class="form-control form-control-lg" readonly>
+                            </div>
+
+                            <div class="col-md-4" id="cidade-container" style="display: none;">
+                                <label class="form-label" for="imovel_cidade">Cidade</label>
+                                <input type="text" name="imovel_cidade" id="imovel_cidade" class="form-control form-control-lg" readonly>
+                            </div>
+                            <div class="col-md-12">
+                                <small id="cep-status" class="text-muted"></small>
                             </div>
                         </div>
 

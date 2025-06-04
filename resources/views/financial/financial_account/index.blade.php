@@ -45,11 +45,11 @@
                     <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 18px;">
                         <thead>
                             <tr>
-                                <th class="align-middle">Tipo Conta</th>
-                                <th class="d-none d-lg-table-cell align-middle">Descrição</th>
-                                <th class="d-none d-xl-table-cell align-middle">Banco Titular</th>
-                                <th class="align-middle">Ativo</th>
-                                <th class="text-center align-middle" style="width: 100px">Ações</th>
+                                <th>Tipo Conta</th>
+                                <th class="d-none d-lg-table-cell">Descrição</th>
+                                <th class="d-none d-xl-table-cell">Banco Titular</th>
+                                <th>Ativo</th>
+                                <th class="text-center" style="width: 100px">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="ViewNiveisLTableItens">
@@ -58,10 +58,10 @@
 
                             @foreach ($financialAccounts as $financialAccount)
                             <tr>
-                                <td class="align-middle">{{$financialAccount['tipo_conta']}}</td>
-                                <td class="align-middle">{{$financialAccount['descricao']}}</td>
-                                <td class="align-middle">{{$financialAccount['banco_titular']}}</td>
-                                <td class="align-middle"><span class="badge bg-label-{{$financialAccount['ativo'] ? 'success' : 'danger'}} me-1">
+                                <td>{{$financialAccount['tipo_conta']}}</td>
+                                <td>{{$financialAccount['descricao']}}</td>
+                                <td>{{$financialAccount['banco_titular']}}</td>
+                                <td><span class="badge bg-label-{{$financialAccount['ativo'] ? 'success' : 'danger'}} me-1">
                                         {{$financialAccount['ativo'] ? 'Ativo' : 'Inativo'}}
                                     </span></td>
                                 <td>

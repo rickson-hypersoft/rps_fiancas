@@ -155,28 +155,43 @@
     document.getElementById('imovel_cep').addEventListener('blur', function () {
         const cep = this.value.replace(/\D/g, '');
 
+        const statusEl = document.getElementById('cep-status');
+        const estadoInput = document.getElementById('imovel_estado');
+        const cidadeInput = document.getElementById('imovel_cidade');
+        const estadoContainer = document.getElementById('estado-container');
+        const cidadeContainer = document.getElementById('cidade-container');
+
         if (cep.length === 8) {
             fetch(`https://viacep.com.br/ws/${cep}/json/`)
                 .then(response => response.json())
                 .then(data => {
-                    const statusEl = document.getElementById('cep-status');
-
                     if (!data.erro) {
+                        estadoInput.value = data.uf;
+                        cidadeInput.value = data.localidade;
+
+                        estadoContainer.style.display = 'block';
+                        cidadeContainer.style.display = 'block';
+
+                        statusEl.textContent = `${data.localidade} - ${data.uf}`;
+
                         formData.append('imovel_estado', data.uf);
                         formData.append('imovel_cidade', data.localidade);
-
-                        // Atualiza a escrita na div
-                        statusEl.textContent = `${data.localidade} - ${data.uf}`;
                     } else {
                         statusEl.textContent = 'CEP não encontrado';
+                        estadoContainer.style.display = 'none';
+                        cidadeContainer.style.display = 'none';
                     }
                 })
                 .catch(error => {
                     console.error('Erro ao buscar o CEP:', error);
-                    document.getElementById('cep-status').textContent = 'Erro ao buscar o CEP';
+                    statusEl.textContent = 'Erro ao buscar o CEP';
+                    estadoContainer.style.display = 'none';
+                    cidadeContainer.style.display = 'none';
                 });
         } else {
-            document.getElementById('cep-status').textContent = 'CEP inválido';
+            statusEl.textContent = 'CEP inválido';
+            estadoContainer.style.display = 'none';
+            cidadeContainer.style.display = 'none';
         }
     });
 
@@ -445,8 +460,6 @@
             'imovel_tipo': 'Tipo do imóvel',
             'imovel_cep': 'CEP do imóvel',
             'imovel_aluguel': 'Valor aluguel',
-            'imovel_condominio': 'Valor condomínio',
-            'imovel_taxas': 'Taxas',
         };
 
         const missingFields = [];
@@ -482,6 +495,11 @@
         let imovelAluguelPropostal = parseFloat(document.getElementById('imovel_aluguel').value.replace(',', '.'));
         if (isNaN(imovelAluguelPropostal) || imovelAluguelPropostal <= 0) {
             Swal.fire('Valor inválido', 'O valor do aluguel é inválido.', 'error');
+            return;
+        }
+
+        if (imovelAluguelPropostal < 100) {
+            Swal.fire('Valor inválido', 'O valor do aluguel deve ser pelo menos R$ 100,00.', 'error');
             return;
         }
 
@@ -595,7 +613,15 @@
         }
 
         // Exibe o SweetAlert de carregamento
-
+        Swal.fire({
+            title: 'Aguarde...',
+            text: 'Transformando sua simulação em um rascunho de proposta!',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
         formData.append('proposta_total_valor', document.getElementById('valor_total_vista').textContent);
         formData.append('proposta_setup_valor', document.getElementById('setup').value);
@@ -688,7 +714,7 @@
 
         Swal.fire({
             title: 'Aguarde...',
-            text: 'Aguarde o resumo da proposta',
+            text: 'Atualizando dados complementares',
             allowOutsideClick: false,
             allowEscapeKey: false,
             didOpen: () => {

@@ -3,6 +3,11 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
+               <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework mb-0" novalidate="novalidate">
+                @csrf
+                @if($method === 'PUT')
+                @method('PUT')
+                @endif
             <div class="d-flex justify-content-between align-items-center">
 
                 <h5 class="mb-0">
@@ -11,11 +16,11 @@
 
                 @if($method === 'PUT')
                 <div class="form-check form-switch mb-0">
-                    <input class="form-check-input" type="checkbox" id="user-status-switch" name="ativo" {{ $financialAccount['ativo'] ? 'checked' : '' }}>
+                    <input class="form-check-input" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Ativar/Desativar" type="checkbox" id="user-status-switch" name="ativo" {{ $financialAccount['ativo'] ? 'checked' : '' }}>
                 </div>
                 @endif
             </div>
-            <hr>
+            <hr class="mt-0 pt-0">
         </div>
 
         <div class="card-body">
@@ -35,11 +40,7 @@
             </div>
             @endif
 
-            <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework mb-0" novalidate="novalidate">
-                @csrf
-                @if($method === 'PUT')
-                @method('PUT')
-                @endif
+
                 <div class="row gy-4 gx-6">
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                         <label for="tipo_conta" class="form-label">Tipo Conta</label>

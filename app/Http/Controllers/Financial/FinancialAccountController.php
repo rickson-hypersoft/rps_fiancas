@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Financial;
 
@@ -89,11 +89,12 @@ class FinancialAccountController extends Controller
     {
         $requestSanitize = $this->sanitizeData($request->all(), ['banco_cnpj']);
 
+
         $validator = Validator::make($requestSanitize, [
-            'tipo_conta'       => 'required|string|max:50',
-            'descricao'        => 'required|string|max:100',
-            'banco_titular'    => 'required|string|max:100',
-            'banco_cnpj'       => 'required|string|max:14',
+            'tipo_conta'       => 'nullable|string|max:50',
+            'descricao'        => 'nullable|string|max:100',
+            'banco_titular'    => 'nullable|string|max:100',
+            'banco_cnpj'       => 'nullable|string|max:14',
             'banco'            => 'nullable|string|max:3',
             'banco_agencia'    => 'nullable|string|max:100',
             'banco_conta'      => 'nullable|string|max:100',
@@ -114,6 +115,8 @@ class FinancialAccountController extends Controller
         if ($ativo) {
             $financialAccount['ativo'] = 1;
         }
+
+        $financialAccount['id_imobiliaria'] = session('user')['id_imobiliaria'];
 
         $response       = Http::withToken(session('jwt_token'))->put(env('API_ROUTE') . '/financial/financial_account/' . $id, $financialAccount);
         $returnResponse = $response->json();
