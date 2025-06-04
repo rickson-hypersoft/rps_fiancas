@@ -1,5 +1,6 @@
 @extends('dashboard')
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="col-md-12">
     @if ($errors->any())
     <div class="alert alert-danger alert-dismissible" role="alert">
@@ -24,10 +25,10 @@
                     <hr>
                     <div class="row align-items-center pt-5">
                         <div class="col-sm-7 col-12 mb-1">
-                            <form action="{{route('financial.financial_account.index')}}" method="GET">
+                            <form action="{{route('financial.financial_category.index')}}" method="GET">
                                 <label for="pesquisar" class="form-label">Pesquisar</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control form-control-lg" placeholder="Pesquisar pela categoria" name="descricao" aria-label="Pesquisar pela categoria" aria-describedby="button-addon2">
+                                    <input type="text" class="form-control form-control-lg" placeholder="Pesquisar pela descrição" id="pesquisar" value="{{request('search')}}" name="search" aria-label="Pesquisar pela descrição" aria-describedby="button-addon2">
                                     <button class="btn btn-outline-primary waves-effect" type="submit" id="button-addon2">
                                         <i class="icon-base ti tabler-search"></i>
                                     </button>
@@ -74,7 +75,9 @@
                                         </button>
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item waves-effect" href="{{route('financial.financial_category.edit', $financialCategory['id'])}}"><i class="icon-base ti tabler-pencil me-1"></i> Editar</a>
-                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Excluir</a>
+                                            <a class="dropdown-item waves-effect btn-excluir" href="javascript:void(0);" data-id="{{$financialCategory['id']}}" data-route="{{ route('financial.financial_category.delete', ['financeiro_categoria' => '__id__']) }}">
+                                                <i class="icon-base ti tabler-trash me-1"></i> Excluir
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
@@ -98,14 +101,11 @@
                 $lastPage = $pagination['last_page'];
                 @endphp
 
+                @if ($total > 0 && $lastPage > 1)
                 <div class="mt-25 float-end">
                     <div class="d-flex justify-content-between align-items-center mt-3 py-2 px-4" style="background: #eee; border-radius: 5rem;">
                         <div class="mx-2">
-                            @if($total > 0)
                             <span>{{ $firstItem }} a {{ $lastItem }} de {{ $total }}</span>
-                            @else
-                            <span>Nenhum registro encontrado.</span>
-                            @endif
                         </div>
 
                         <nav aria-label="Page navigation">
@@ -137,9 +137,42 @@
                         </nav>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>
 </div>
 </div>
+@endsection
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-excluir').forEach(function (btn) {
+            console.log(btn)
+            btn.addEventListener('click', function () {
+                const id = this.dataset.id;
+                const route = this.dataset.route.replace('__id__', id);
+
+                Swal.fire({
+                    title: 'Tem certeza que deseja excluir?',
+                    html: `
+                        <form id="form-excluir" action="${route}" method="POST">
+                            <input type="hidden" name="_token" value="${document.querySelector('meta[name=csrf-token]').getAttribute('content')}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <p class="mt-3">Essa ação não poderá ser desfeita.</p>
+
+                            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                                <button type="button" class="swal2-cancel swal2-styled" onclick="Swal.close()">Cancelar</button>
+                                <button type="submit" class="swal2-confirm swal2-styled" style="background-color:#d33;">Excluir</button>
+                            </div>
+                        </form>
+                    `,
+                    showConfirmButton: false,
+                    showCancelButton: false,
+                });
+            });
+        });
+    });
+</script>
 @endsection

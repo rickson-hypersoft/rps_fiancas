@@ -1,14 +1,14 @@
 @extends('dashboard')
 @section('content')
 <div class="col-md-12">
-    <div class="card mb-6">
+    <div class="card">
         <div class="card-header">
-            <h6>
+            <h5>
                 Editar Usuário
-            </h6>
+            </h5>
             <hr>
         </div>
-        <div class="card-body">
+        <div class="card-body pb-3">
             @if ($errors->any())
             <div class="alert alert-danger alert-dismissible" role="alert">
                 @foreach ($errors->all() as $error)
@@ -28,17 +28,12 @@
             <form action="{{route('realestatesector.users.update', $user['id'])}}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
                 @csrf
                 @method('PUT')
-                <div class="row gy-4 gx-6 mb-6">
+                <div class="row gy-4 gx-6">
                     <input class="form-control form-control-lg" type="text" id="id_imobiliaria" name="id_imobiliaria" hidden value="{{ old('id_imobiliaria', $user['id_imobiliaria'] ?? '') }}">
                     <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                         <label for="usuario" class="form-label">Usuário</label>
                         <input class="form-control form-control-lg" type="text" id="usuario" name="usuario" maxlength="30" value="{{ old('usuario', $user['usuario'] ?? '') }}">
-                        <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                    </div>
-                    <div class="col-md-4 form-control-validation fv-plugins-icon-container">
-                        <label for="senha" class="form-label">Senha</label>
-                        <input class="form-control form-control-lg" maxlength="255" readonly disabled type="text" id="senha" name="senha" maxlength="100" value="*********">
                         <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                     </div>
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">

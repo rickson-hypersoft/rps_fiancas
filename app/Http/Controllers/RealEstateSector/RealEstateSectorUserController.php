@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Validator;
 
 class RealEstateSectorUserController extends Controller
 {
-    public function index(string | int $id)
+    public function index(Request $request, string | int $id)
     {
-        $response = Http::withToken(session('jwt_token'))->get(getenv('API_ROUTE') . '/realestatesector/' . $id);
+        $response = Http::withToken(session('jwt_token'))->get(env('API_ROUTE') . '/realestatesector/' . $id);
         $data     = $response->json();
 
         return view('realEstateSector.index_real_estate_sector', [
@@ -26,7 +26,7 @@ class RealEstateSectorUserController extends Controller
         $token = session('jwt_token');
 
         $requestSanitize = $request->all();
-        $requestSanitize = $this->sanitizeData($request->all(), ['cnpj', 'telefone', 'cep', 'taxa_padrao', 'custo_saida', 'cobertura_total']);
+        $requestSanitize = $this->sanitizeData($request->all(), ['telefone', 'cep', 'taxa_padrao', 'custo_saida', 'cobertura_total']);
 
         $validator = Validator::make($requestSanitize, [
             'razao'           => 'required|string|max:100',

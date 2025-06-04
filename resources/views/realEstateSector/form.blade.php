@@ -1,14 +1,14 @@
 @extends('dashboard')
 @section('content')
 <div class="col-md-12">
-    <div class="card mb-6">
+    <div class="card">
         <div class="card-header">
-            <h6>
+            <h5>
                 {{$method == 'PUT' ? 'Editar Imobiliária' : 'Cadastrar Imobiliária'}}
-            </h6>
+            </h5>
             <hr>
         </div>
-        <div class="card-body">
+        <div class="card-body pb-1">
             @if ($errors->any())
             <div class="alert alert-danger alert-dismissible" role="alert">
                 @foreach ($errors->all() as $error)
@@ -30,7 +30,7 @@
                 @if($method === 'PUT')
                 @method('PUT')
                 @endif
-                <div class="row gy-4 gx-6 mb-6">
+                <div class="row gy-4 gx-6">
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                         <label for="razao" class="form-label">Razão</label>
                         <input class="form-control form-control-lg" type="text" id="razao" name="razao" maxlength="100" value="{{ old('razao', $realEstateSector['razao'] ?? '') }}">
@@ -103,14 +103,14 @@
                     </div>
                     <div class="col-md-4">
                         <label for="taxa_padrao" class="form-label">Taxa Padrão</label>
-                         <div class="input-group input-group-merge">
-                                <span class="input-group-text">%</span>
-                                <input name="taxa_padrao" style="text-align: right" id='taxa_padrao' type="text" class="form-control form-control-lg" name="taxa_padrao" value="{{ old('taxa_padrao', $realEstateSector['taxa_padrao'] ?? '') }}">
-                            </div>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text">%</span>
+                            <input name="taxa_padrao" style="text-align: right" id='taxa_padrao' type="text" class="form-control form-control-lg" name="taxa_padrao" value="{{ old('taxa_padrao', $realEstateSector['taxa_padrao'] ?? '') }}">
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <label for="custo_saida" class="form-label">Custo Saída</label>
-                       <div class="input-group input-group-merge">
+                        <div class="input-group input-group-merge">
                             <span class="input-group-text">R$</span>
                             <input name="custo_saida" style="text-align: right" id='custo_saida' type="text" class="form-control form-control-lg" value="{{ old('custo_saida', $realEstateSector['custo_saida'] ?? '') }}">
                         </div>
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                     <div class="mt-4">
-                        <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">Gravar</button>
+                        <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">{{$method == 'PUT' ? 'Salvar alteração' : 'Gravar'}}</button>
                         <a href="{{route('realestatesector.index')}}" class="btn btn-label-secondary waves-effect">Cancelar</a>
                     </div>
                 </div>

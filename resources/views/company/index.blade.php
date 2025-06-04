@@ -1,9 +1,14 @@
 @extends('dashboard')
 @section('content')
 <div class="col-md-12">
-    <div class="card mb-6">
+    <div class="card">
+        <div class="card-header">
+            <h5>Empresa</h5>
+            <hr>
+        </div>
+
         <!-- Account -->
-        <div class="card-body pt-4">
+        <div class="card-body pb-3">
             @if ($errors->any())
             <div class="alert alert-danger alert-dismissible" role="alert">
                 @foreach ($errors->all() as $error)
@@ -87,9 +92,9 @@
                         <input type="text" class="form-control form-control-lg" value="{{$company['email']}}" id="email" name="email" maxlength="150">
                     </div>
                 </div>
-                
+
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">Salvar atualização</button>
+                    <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">Salvar alteração</button>
                     <button type="reset" class="btn btn-label-secondary waves-effect">Cancelar</button>
                 </div>
                 <input type="hidden">

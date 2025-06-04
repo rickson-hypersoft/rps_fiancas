@@ -41,6 +41,9 @@ Route::middleware(['auth.token', 'check.category:Fianças'])->group(function () 
     Route::get('/adm/imobiliarias/editar/{imobiliaria}', [RealEstateSectorController::class, 'edit'])->name('realestatesector.edit');
     Route::put('/adm/imobiliarias/editar/{imobiliaria}', [RealEstateSectorController::class, 'update'])
         ->name('realestatesector.update');
+    Route::delete('/adm/imobiliarias/excluir/{imobiliaria}', [RealEstateSectorController::class, 'delete'])
+        ->name('realestatesector.delete');
+
     Route::post('/adm/imobiliarias/cadastrar/setup/{imobiliaria}', [RealEstateSectorController::class, 'storeSetup'])->name('setup.store');
     Route::post('/adm/imobiliarias/editar/setup/{imobiliaria}/{setup}', [RealEstateSectorController::class, 'updateSetup'])->name('setup.update');
     Route::get('/adm/usuarios', [UserController::class, 'index'])->name('user.index');
@@ -48,6 +51,7 @@ Route::middleware(['auth.token', 'check.category:Fianças'])->group(function () 
     Route::post('/adm/usuarios/cadastrar', [UserController::class, 'store'])->name('user.store');
     Route::get('/adm/usuarios/editar/{usuario}', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/adm/usuarios/editar/{usuario}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/adm/usuarios/excluir/{usuario}', [UserController::class, 'delete'])->name('user.delete');
 
     // Imobiliárias
     Route::get('/imobiliaria/imobiliarias/{imobiliaria}', [RealEstateSectorUserController::class, 'index'])->name('realestatesector.realestatesectors.index');
@@ -93,6 +97,8 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         ->name('financial.financial_account.store')->middleware('check.permission:4');
     Route::put('/imobiliaria/financeiro/conta/editar/{financeiro_conta}', [FinancialAccountController::class, 'update'])
         ->name('financial.financial_account.update')->middleware('check.permission:5');
+    Route::delete('/imobiliaria/financeiro/conta/excluir/{financeiro_conta}', [FinancialAccountController::class, 'delete'])
+        ->name('financial.financial_account.delete')->middleware('check.permission:5');
 
     Route::get('/imobiliaria/financeiro/categoria', [FinancialCategoryController::class, 'index'])
         ->name('financial.financial_category.index');
@@ -104,6 +110,9 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         ->name('financial.financial_category.store')->middleware('check.permission:4');
     Route::put('/imobiliaria/financeiro/categoria/editar/{financeiro_categoria}', [FinancialCategoryController::class, 'update'])
         ->name('financial.financial_category.update')->middleware('check.permission:5');
+
+    Route::delete('/imobiliaria/financeiro/categoria/excluir/{financeiro_categoria}', [FinancialCategoryController::class, 'delete'])
+        ->name('financial.financial_category.delete')->middleware('check.permission:5');
 
     Route::get('/propostas', [PropostalController::class, 'index'])
         ->name('propostal.index');

@@ -14,9 +14,11 @@ class UserRealEstateSectorController extends Controller
 {
     public function index(Request $request)
     {
-        $page     = $request->get('page', 1);
-        $token    = session('jwt_token');
-        $response = Http::withToken($token)->get(env('API_ROUTE') . '/users/realEstateSector/' . session('user')['id_imobiliaria'], ['page' => $page]);
+        $page        = $request->get('page', 1);
+        $token       = session('jwt_token');
+        $queryParams = ['search' => $request->input('search'), 'page' => $page];
+
+        $response = Http::withToken($token)->get(env('API_ROUTE') . '/users/realEstateSector/' . session('user')['id_imobiliaria'], $queryParams);
 
         $data = $response->json();
 
@@ -52,6 +54,12 @@ class UserRealEstateSectorController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
+        if (! $this->validaCpf($requestSanitize['cpf'])) {
+            return back()
+                ->withErrors(['cpf' => 'O CPF informado é inválido.'])
+                ->withInput();
+        }
+
         $userData         = $validator->validated();
         $permissoes       = $request->get('permissoes') ?? [];
         $permissoesString = '|' . implode('|', $permissoes) . '|';
@@ -73,7 +81,7 @@ class UserRealEstateSectorController extends Controller
 
     public function edit(string | int $id)
     {
-        $response = Http::withToken(session('jwt_token'))->get(getenv('API_ROUTE') . '/users/' . $id);
+        $response = Http::withToken(session('jwt_token'))->get(env('API_ROUTE') . '/users/' . $id);
         $data     = $response->json();
 
         return view('user.realEstateSector.formEdit', [

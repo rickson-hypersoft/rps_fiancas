@@ -21,7 +21,7 @@ class PropostalController extends Controller
             'created_at' => $request->input('created_at'),
         ];
 
-        $response = Http::withToken($token)->get(getenv('API_ROUTE') . '/propostal/' . $idImobiliaria, $queryParams);
+        $response = Http::withToken($token)->get(env('API_ROUTE') . '/propostal/' . $idImobiliaria, $queryParams);
         $data     = $response->json();
 
         return view('propostal.index', ['propostals' => $data['data']]);
@@ -30,7 +30,7 @@ class PropostalController extends Controller
     public function create()
     {
         $token    = session('jwt_token');
-        $response = Http::withToken($token)->get(getenv('API_ROUTE') . '/realestatesectorsetup/' . session('user')['id_imobiliaria']);
+        $response = Http::withToken($token)->get(env('API_ROUTE') . '/realestatesectorsetup/' . session('user')['id_imobiliaria']);
         $setups   = $response->json()['data'];
 
         return view('propostal.form', ['setups' => $setups]);
@@ -39,7 +39,7 @@ class PropostalController extends Controller
     public function find(string | int $id)
     {
         $token    = session('jwt_token');
-        $response = Http::withToken($token)->get(getenv('API_ROUTE') . '/propostal/propostal/' . $id);
+        $response = Http::withToken($token)->get(env('API_ROUTE') . '/propostal/propostal/' . $id);
 
         return $response;
     }
@@ -58,7 +58,7 @@ class PropostalController extends Controller
 
         $token = session('jwt_token');
 
-        $response = Http::withToken($token)->post(getenv('API_ROUTE') . '/propostal/propostal/create', $requestSanitize);
+        $response = Http::withToken($token)->post(env('API_ROUTE') . '/propostal/propostal/create', $requestSanitize);
 
         $data          = $response->json();
         $propostaId    = $data['data']['id'] ?? null;
@@ -71,7 +71,7 @@ class PropostalController extends Controller
                     $nomeOriginal = $file->getClientOriginalName();
 
                     // Verifica se o anexo já existe para essa proposta
-                    $verificaAnexo = Http::withToken($token)->get(getenv('API_ROUTE') . '/financial/attachment/exists', [
+                    $verificaAnexo = Http::withToken($token)->get(env('API_ROUTE') . '/financial/attachment/exists', [
                         'id_imobiliaria' => $idImobiliaria,
                         'id_movi'        => $propostaId,
                         'nome_arquivo'   => $nomeOriginal,
@@ -87,7 +87,7 @@ class PropostalController extends Controller
                     $file->storeAs("anexos/{$idImobiliaria}/propostas", $nomeUnico, 'public');
 
                     // Chamada para a API registrar o anexo no banco
-                    Http::withToken($token)->post(getenv('API_ROUTE') . '/financial/attachment', [
+                    Http::withToken($token)->post(env('API_ROUTE') . '/financial/attachment', [
                         'id_imobiliaria'        => $idImobiliaria,
                         'id_movi'               => $propostaId,
                         'movi'                  => 'propostas',
@@ -118,7 +118,7 @@ class PropostalController extends Controller
         $requestSanitize['proposta_credito_status'] = 'Cancelado';
         $requestSanitize['observacao']              = $request->input('motivo');
 
-        $response = Http::withToken($token)->post(getenv('API_ROUTE') . '/propostal/propostal/canceled/' . $id, $requestSanitize);
+        $response = Http::withToken($token)->post(env('API_ROUTE') . '/propostal/propostal/canceled/' . $id, $requestSanitize);
 
         return $response;
     }

@@ -13,9 +13,13 @@ class FinancialCategoryController extends Controller
 {
     public function index(Request $request)
     {
-        $page     = $request->get('page', 1);
+        $queryParams = [
+            'page'   => $request->get('page', 1),
+            'search' => $request->input('search'),
+        ];
+
         $user     = session('user');
-        $response = Http::withToken(session('jwt_token'))->get(getenv('API_ROUTE') . '/financial/financial_category/' . $user['id_imobiliaria'], ['page' => $page]);
+        $response = Http::withToken(session('jwt_token'))->get(env('API_ROUTE') . '/financial/financial_category/' . $user['id_imobiliaria'], $queryParams);
         $data     = $response->json();
 
         return view('financial.financial_category.index', [
@@ -36,7 +40,7 @@ class FinancialCategoryController extends Controller
 
     public function edit(string | int $id)
     {
-        $response = Http::withToken(session('jwt_token'))->get(getenv('API_ROUTE') . "/financial/{$id}/financial_category/");
+        $response = Http::withToken(session('jwt_token'))->get(env('API_ROUTE') . "/financial/{$id}/financial_category/");
         $data     = $response->json();
 
         return view('financial.financial_category.form', [
@@ -98,7 +102,7 @@ class FinancialCategoryController extends Controller
             $financialCategory['ativo'] = 1;
         }
 
-        $response       = Http::withToken(session('jwt_token'))->put(getenv('API_ROUTE') . '/financial/financial_category/' . $id, $financialCategory);
+        $response       = Http::withToken(session('jwt_token'))->put(env('API_ROUTE') . '/financial/financial_category/' . $id, $financialCategory);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {
@@ -110,7 +114,7 @@ class FinancialCategoryController extends Controller
 
     public function delete(string | int $id)
     {
-        $response       = Http::withToken(session('jwt_token'))->delete(getenv('API_ROUTE') . '/financial/financial_category/' . $id);
+        $response       = Http::withToken(session('jwt_token'))->delete(env('API_ROUTE') . '/financial/financial_category/' . $id);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

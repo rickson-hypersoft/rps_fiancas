@@ -43,6 +43,12 @@ class ProfileController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
+        if (! $this->validaCpf($requestSanitize['cpf'])) {
+            return back()
+                ->withErrors(['cpf' => 'O CPF informado é inválido.'])
+                ->withInput();
+        }
+
         $userData          = $validator->validated();
         $userData['ativo'] = 0;
 

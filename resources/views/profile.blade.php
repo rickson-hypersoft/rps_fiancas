@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('content')
 <div class="col-md-12">
-    <div class="card mb-6">
+    <div class="card">
         <!-- Account -->
         <div class="card-body pb-0">
             @if ($errors->any())
@@ -44,7 +44,7 @@
                 </div>
         </div>
         <div class="card-body">
-            <div class="row gy-4 gx-6 mb-6">
+            <div class="row gy-4 gx-6">
                 <div class="col-md-6 form-control-validation">
                     <label for="usuario" class="form-label">Usuário</label>
                     <input class="form-control form-control-lg" type="text" id="usuario" name="usuario" value="{{$user['usuario']}}" autofocus />

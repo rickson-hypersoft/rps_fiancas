@@ -3,11 +3,21 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
-            <h5>
-                {{$method == 'PUT' ? 'Editar Conta' : 'Cadastrar Conta'}}
-            </h5>
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h5 class="mb-0">
+                    {{ $method == 'PUT' ? 'Editar Conta' : 'Cadastrar Conta' }}
+                </h5>
+
+                @if($method === 'PUT')
+                <div class="form-check form-switch mb-0">
+                    <input class="form-check-input" type="checkbox" id="user-status-switch" name="ativo" {{ $financialAccount['ativo'] ? 'checked' : '' }}>
+                </div>
+                @endif
+            </div>
             <hr>
         </div>
+
         <div class="card-body">
             @if ($errors->any())
             <div class="alert alert-danger alert-dismissible" role="alert">
@@ -34,11 +44,11 @@
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                         <label for="tipo_conta" class="form-label">Tipo Conta</label>
                         <select class="form-select form-select-lg" name="tipo_conta" id="tipo_conta" aria-label="Default select example">
-                            <option value="Conta Bancária" {{ old('tipo_conta', $financialAccount['tipo_conta'] ?? '' )=='Conta Bancária' ? 'selected' : '' }}>
-                                Conta Bancária
-                            </option>
                             <option value="Conta Caixa" {{ old('tipo_conta', $financialAccount['tipo_conta'] ?? '' )=='Conta Caixa' ? 'selected' : '' }}>
                                 Conta Caixa
+                            </option>
+                            <option value="Conta Bancária" {{ old('tipo_conta', $financialAccount['tipo_conta'] ?? '' )=='Conta Bancária' ? 'selected' : '' }}>
+                                Conta Bancária
                             </option>
                             <option value="Outros" {{ old('tipo_conta', $financialAccount['tipo_conta'] ?? '' )=='Outros' ? 'selected' : '' }}>
                                 Outros
@@ -102,17 +112,10 @@
                         <input value="{{ old('banco_pix', $financialAccount['banco_pix'] ?? '') }}" type="text" class="form-control form-control-lg" id="banco_pix" name="banco_pix" maxlength="100">
                     </div>
 
-                    @if($method === 'PUT')
-                    <div class="col-md-4">
-                        <label for="ativo" class="form-label">Ativo</label>
-                        <div class="form-check form-switch mb-2">
-                            <input class="form-check-input" type="checkbox" id="user-status-switch" name="ativo" {{ $financialAccount['ativo'] ? 'checked' : '' }}>
-                        </div>
-                    </div>
-                    @endif
+
 
                     <div class="mt-4">
-                        <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">Gravar</button>
+                        <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">{{$method == 'PUT' ? 'Salvar alterações' : 'Gravar'}}</button>
                         <a href="{{route('financial.financial_account.index')}}" class="btn btn-label-secondary waves-effect">Cancelar</a>
                     </div>
                 </div>
@@ -154,10 +157,9 @@
         });
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        toggleBancoFields();
-        document.getElementById('tipo_conta').addEventListener('change', toggleBancoFields);
-    });
+    toggleBancoFields();
+    document.getElementById('tipo_conta').addEventListener('change', toggleBancoFields);
+
 </script>
 @endsection
 @endsection

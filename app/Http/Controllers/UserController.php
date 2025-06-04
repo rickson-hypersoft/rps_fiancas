@@ -13,11 +13,11 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $page     = $request->get('page', 1);
-        $token    = session('jwt_token');
-        $response = Http::withToken($token)->get(env('API_ROUTE') . '/users', ['page' => $page]);
-
-        $data = $response->json();
+        $page        = $request->get('page', 1);
+        $queryParams = ['search' => $request->input('search'), 'page' => $page];
+        $token       = session('jwt_token');
+        $response    = Http::withToken($token)->get(env('API_ROUTE') . '/users', $queryParams);
+        $data        = $response->json();
 
         return view('user.index', [
             'users'      => $data['data'],
@@ -76,7 +76,7 @@ class UserController extends Controller
 
     public function edit(string | int $id)
     {
-        $response = Http::withToken(session('jwt_token'))->get(getenv('API_ROUTE') . '/users/' . $id);
+        $response = Http::withToken(session('jwt_token'))->get(env('API_ROUTE') . '/users/' . $id);
         $data     = $response->json();
 
         return view('user.formEdit', [
@@ -116,6 +116,18 @@ class UserController extends Controller
         $userData['id_imobiliaria'] = $request->get('imobiliaria_id') ?? null;
 
         $response       = Http::withToken($token)->put(env('API_ROUTE') . '/users/' . $id, $userData);
+        $returnResponse = $response->json();
+
+        if (! $returnResponse['success']) {
+            return back()->withErrors($returnResponse['message'])->withInput();
+        }
+
+        return redirect()->route('user.index')->with('success', $returnResponse['message']);
+    }
+
+    public function delete(string | int $id)
+    {
+        $response       = Http::withToken(session('jwt_token'))->delete(env('API_ROUTE') . '/users/' . $id);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

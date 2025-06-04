@@ -1,14 +1,14 @@
 @extends('dashboard')
 @section('content')
 <div class="col-md-12">
-    <div class="card mb-6">
+    <div class="card">
         <div class="card-header">
-            <h6>
+            <h5>
                 Editar Imobiliária
-            </h6>
+            </h5>
             <hr>
         </div>
-        <div class="card-body">
+        <div class="card-body pb-3">
             @if ($errors->any())
             <div class="alert alert-danger alert-dismissible" role="alert">
                 @foreach ($errors->all() as $error)
@@ -28,7 +28,7 @@
             <form action="{{route('realestatesector.realestatesectors.update', $realEstateSector['id'])}}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
                 @csrf
                 @method('PUT')
-                <div class="row gy-4 gx-6 mb-6">
+                <div class="row gy-4 gx-6">
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                         <label for="razao" class="form-label">Razão</label>
                         <input class="form-control form-control-lg" type="text" id="razao" name="razao" maxlength="100" value="{{ old('razao', $realEstateSector['razao'] ?? '') }}">
@@ -101,29 +101,29 @@
                     </div>
                     <div class="col-md-4">
                         <label for="taxa_padrao" class="form-label">Taxa Padrão</label>
-                         <div class="input-group input-group-merge">
-                                <span class="input-group-text">%</span>
-                                <input name="taxa_padrao" style="text-align: right" id='taxa_padrao' type="text" class="form-control form-control-lg" name="taxa_padrao" value="{{ old('taxa_padrao', $realEstateSector['taxa_padrao'] ?? '') }}">
-                            </div>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text">%</span>
+                            <input name="taxa_padrao" style="text-align: right" id='taxa_padrao' type="text" class="form-control form-control-lg" name="taxa_padrao" value="{{ old('taxa_padrao', $realEstateSector['taxa_padrao'] ?? '') }}">
+                        </div>
 
                         <!-- <input type="text" class="form-control form-control-lg" id="taxa_padrao" name="taxa_padrao" value="{{ old('taxa_padrao', $realEstateSector['taxa_padrao'] ?? '') }}"> -->
                     </div>
                     <div class="col-md-4">
                         <label for="custo_saida" class="form-label">Custo Saída</label>
-                         <div class="input-group input-group-merge">
+                        <div class="input-group input-group-merge">
                             <span class="input-group-text">R$</span>
                             <input name="custo_saida" style="text-align: right" id='custo_saida' type="text" class="form-control form-control-lg" value="{{ old('custo_saida', $realEstateSector['custo_saida'] ?? '') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <label for="cobertura_total" class="form-label">Cobertura Total</label>
-                         <div class="input-group input-group-merge">
+                        <div class="input-group input-group-merge">
                             <span class="input-group-text">R$</span>
                             <input name="cobertura_total" style="text-align: right" id='cobertura_total' type="text" class="form-control form-control-lg" value="{{ old('cobertura_total', $realEstateSector['cobertura_total'] ?? '') }}">
                         </div>
                     </div>
                     <div class="mt-4">
-                        <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">Gravar</button>
+                        <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">Salvar alterações</button>
                         <button type="reset" class="btn btn-label-secondary">Cancelar</button>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
         mask: '(00) 0 0000-0000'
     });
 
-     IMask(document.getElementById('custo_saida'), {
+    IMask(document.getElementById('custo_saida'), {
         mask: Number,
         scale: 2,
         thousandsSeparator: '.',  // CORRIGIDO: separador de milhar brasileiro

@@ -1,14 +1,14 @@
 @extends('dashboard')
 @section('content')
 <div class="col-md-12">
-    <div class="card mb-6">
+    <div class="card">
         <div class="card-header">
-            <h6>
+            <h5>
                 Cadastrar Usuário
-            </h6>
+            </h5>
             <hr>
         </div>
-        <div class="card-body">
+        <div class="card-body pb-3">
             @if ($errors->any())
             <div class="alert alert-danger alert-dismissible" role="alert">
                 @foreach ($errors->all() as $error)
@@ -27,7 +27,7 @@
 
             <form action="{{route('realestatesector.users.store')}}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
                 @csrf
-                <div class="row gy-4 gx-6 mb-6">
+                <div class="row gy-4 gx-6">
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                         <label for="usuario" class="form-label">Usuário</label>
                         <input value="{{ old('usuario') }}" class="form-control form-control-lg" type="text" id="usuario" name="usuario" maxlength="30">
@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                         <label for="senha" class="form-label">Senha</label>
-                        <input value="{{ old('senha') }}" class="form-control form-control-lg" maxlength="255" type="text" id="senha" name="senha" maxlength="100">
+                        <input value="{{ old('senha') }}" class="form-control form-control-lg" type="password" name="senha" maxlength="50" id="senha">
                         <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                     </div>
                     <div class="col-md-4 form-control-validation fv-plugins-icon-container">
@@ -43,10 +43,12 @@
                         <input value="{{ old('nome') }}" class="form-control form-control-lg" type="text" name="nome" maxlength="50" id="nome">
                         <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                     </div>
+
                     <div class="col-md-4">
                         <label for="email" class="form-label">E-mail</label>
                         <input value="{{ old('email') }}" class="form-control form-control-lg" type="text" id="email" name="email" maxlength="150">
                     </div>
+
                     <div class="col-md-4">
                         <label for="cpf" class="form-label">CPF</label>
                         <input value="{{ old('cpf') }}" class="form-control form-control-lg" type="text" id="cpf" name="cpf" maxlength="18">

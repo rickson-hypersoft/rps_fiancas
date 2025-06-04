@@ -13,9 +13,13 @@ class FinancialAccountController extends Controller
 {
     public function index(Request $request)
     {
-        $page     = $request->get('page', 1);
+        $queryParams = [
+            'page'   => $request->get('page', 1),
+            'search' => $request->input('search'),
+        ];
+
         $user     = session('user');
-        $response = Http::withToken(session('jwt_token'))->get(getenv('API_ROUTE') . '/financial/financial_account/' . $user['id_imobiliaria'], ['page' => $page]);
+        $response = Http::withToken(session('jwt_token'))->get(env('API_ROUTE') . '/financial/financial_account/' . $user['id_imobiliaria'], $queryParams);
         $data     = $response->json();
 
         return view('financial.financial_account.index', [
@@ -36,7 +40,7 @@ class FinancialAccountController extends Controller
 
     public function edit(string | int $id)
     {
-        $response = Http::withToken(session('jwt_token'))->get(getenv('API_ROUTE') . "/financial/{$id}/financial_account/");
+        $response = Http::withToken(session('jwt_token'))->get(env('API_ROUTE') . "/financial/{$id}/financial_account/");
         $data     = $response->json();
 
         return view('financial.financial_account.form', [
@@ -55,8 +59,8 @@ class FinancialAccountController extends Controller
         $validator = Validator::make($requestSanitize, [
             'tipo_conta'       => 'required|string|max:50',
             'descricao'        => 'required|string|max:100',
-            'banco_titular'    => 'required|string|max:100',
-            'banco_cnpj'       => 'required|string|max:14',
+            'banco_titular'    => 'nullable|string|max:100',
+            'banco_cnpj'       => 'nullable|string|max:14',
             'banco'            => 'nullable|string|max:3',
             'banco_agencia'    => 'nullable|string|max:100',
             'banco_conta'      => 'nullable|string|max:100',
@@ -111,7 +115,7 @@ class FinancialAccountController extends Controller
             $financialAccount['ativo'] = 1;
         }
 
-        $response       = Http::withToken(session('jwt_token'))->put(getenv('API_ROUTE') . '/financial/financial_account/' . $id, $financialAccount);
+        $response       = Http::withToken(session('jwt_token'))->put(env('API_ROUTE') . '/financial/financial_account/' . $id, $financialAccount);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {
@@ -123,7 +127,7 @@ class FinancialAccountController extends Controller
 
     public function delete(string | int $id)
     {
-        $response       = Http::withToken(session('jwt_token'))->delete(getenv('API_ROUTE') . '/financial/financial_account/' . $id);
+        $response       = Http::withToken(session('jwt_token'))->delete(env('API_ROUTE') . '/financial/financial_account/' . $id);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

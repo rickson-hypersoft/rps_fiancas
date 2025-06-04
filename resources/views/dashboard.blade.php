@@ -17,13 +17,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;ampdisplay=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('assets/vendor/fonts/iconify-icons.css')}}">
-<script src="https://kit.fontawesome.com/e52263f0c5.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/e52263f0c5.js" crossorigin="anonymous"></script>
     <!-- Core CSS -->
     <!-- build:css assets/vendor/css/theme.css  -->
 
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/node-waves/node-waves.css')}}">
 
-     <link rel="stylesheet" href=".{{asset('assets/vendor/libs/pickr/pickr-themes.css')}}">
+    <link rel="stylesheet" href=".{{asset('assets/vendor/libs/pickr/pickr-themes.css')}}">
 
     <link rel="stylesheet" href="{{asset('assets/vendor/css/core.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}">
@@ -37,9 +37,9 @@
     <!-- Vendors CSS -->
 
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/dropzone/dropzone.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/swiper/swiper.css')}}" />
-<link rel="stylesheet" href="{{asset('assets/vendor/css/pages/cards-advance.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/dropzone/dropzone.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/swiper/swiper.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/css/pages/cards-advance.css')}}" />
     <!-- endbuild -->
 
     <!-- Page CSS -->
@@ -81,7 +81,7 @@
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
                     <!-- Menu -->
-                    <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu flex-grow-0" data-bs-theme="dark">
+                    <aside id="layout-menu" class="bg-dark layout-menu-horizontal menu-horizontal menu flex-grow-0" data-bs-theme="dark">
                         <div class="container-xxl d-flex h-100">
                             <ul class="menu-inner">
                                 <li class="menu-item">
@@ -152,7 +152,7 @@
                                             </a>
                                         </li>
                                         <li class="menu-item">
-                                             <a href="#" class="menu-link">
+                                            <a href="#" class="menu-link">
                                                 <div data-i18n="Renovações">Renovações</div>
                                             </a>
                                         </li>
@@ -310,49 +310,49 @@
     @yield('scripts')
 
     <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const toggleBtn = document.getElementById('theme-toggle-btn');
-    const icon = document.getElementById('theme-icon');
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleBtn = document.getElementById('theme-toggle-btn');
+            const icon = document.getElementById('theme-icon');
 
-    // Recupera tema e ícone salvos
-    const savedTheme = localStorage.getItem('theme');
-    const savedIcon = localStorage.getItem('themeIcon');
+            // Recupera tema e ícone salvos
+            const savedTheme = localStorage.getItem('theme');
+            const savedIcon = localStorage.getItem('themeIcon');
 
-    // Aplica tema e ícone salvos, ou usa padrão
-    if (savedTheme && savedIcon) {
-        document.documentElement.setAttribute('data-bs-theme', savedTheme);
-        icon.classList.add(savedIcon);
-    } else {
-        // Tema padrão: claro com ícone de sol
-        document.documentElement.setAttribute('data-bs-theme', 'light');
-        icon.classList.add('tabler-sun');
-        localStorage.setItem('theme', 'light');
-        localStorage.setItem('themeIcon', 'tabler-sun');
-    }
+            // Aplica tema e ícone salvos, ou usa padrão
+            if (savedTheme && savedIcon) {
+                document.documentElement.setAttribute('data-bs-theme', savedTheme);
+                icon.classList.add(savedIcon);
+            } else {
+                // Tema padrão: claro com ícone de sol
+                document.documentElement.setAttribute('data-bs-theme', 'light');
+                icon.classList.add('tabler-sun');
+                localStorage.setItem('theme', 'light');
+                localStorage.setItem('themeIcon', 'tabler-sun');
+            }
 
-    // Função para alternar tema e salvar no localStorage
-    function toggleTheme() {
-        const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+            // Função para alternar tema e salvar no localStorage
+            function toggleTheme() {
+                const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
 
-        if (isDark) {
-            // Muda para light
-            document.documentElement.setAttribute('data-bs-theme', 'light');
-            icon.classList.remove('tabler-moon-stars');
-            icon.classList.add('tabler-sun');
-            localStorage.setItem('theme', 'light');
-            localStorage.setItem('themeIcon', 'tabler-sun');
-        } else {
-            // Muda para dark
-            document.documentElement.setAttribute('data-bs-theme', 'dark');
-            icon.classList.remove('tabler-sun');
-            icon.classList.add('tabler-moon-stars');
-            localStorage.setItem('theme', 'dark');
-            localStorage.setItem('themeIcon', 'tabler-moon-stars');
-        }
-    }
+                if (isDark) {
+                    // Muda para light
+                    document.documentElement.setAttribute('data-bs-theme', 'light');
+                    icon.classList.remove('tabler-moon-stars');
+                    icon.classList.add('tabler-sun');
+                    localStorage.setItem('theme', 'light');
+                    localStorage.setItem('themeIcon', 'tabler-sun');
+                } else {
+                    // Muda para dark
+                    document.documentElement.setAttribute('data-bs-theme', 'dark');
+                    icon.classList.remove('tabler-sun');
+                    icon.classList.add('tabler-moon-stars');
+                    localStorage.setItem('theme', 'dark');
+                    localStorage.setItem('themeIcon', 'tabler-moon-stars');
+                }
+            }
 
-    toggleBtn.addEventListener('click', toggleTheme);
-});
+            toggleBtn.addEventListener('click', toggleTheme);
+        });
 
         document.getElementById('upload').addEventListener('change', function (event) {
             const input = event.target;

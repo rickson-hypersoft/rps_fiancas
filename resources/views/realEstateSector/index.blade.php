@@ -1,5 +1,6 @@
 @extends('dashboard')
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="col-md-12">
     @if ($errors->any())
     <div class="alert alert-danger alert-dismissible" role="alert">
@@ -20,109 +21,116 @@
         <div class="col-12">
             <div class="card mb-0">
                 <div class="card-header">
-                    <h6>Listagem de Imobiliárias</h6>
+                    <h5>Listagem de Imobiliárias</h5>
                     <hr>
                     <div class="row align-items-center pt-5">
                         <div class="col-sm-7 col-12 mb-1">
-                            <label for="pesquisar" class="form-label">Pesquisar</label>
-                            <input id="pesquisar" type="text" class="form-control" placeholder="Pesquisar" aria-label="Pesquisar..." autocomplete="off" spellcheck="false">
-                        </div>
-                        <div class="col-sm-5 mt-4" style="text-align: right">
-                            <a href="{{route('realestatesector.create')}}" class="btn btn-primary waves-effect waves-light">Adicionar Imobiliária</a>
+                            <form action="{{route('realestatesector.index')}}" method="GET">
+                                <label for="pesquisar" class="form-label">Pesquisar</label>
+                                <div class="input-group">
+                                    <input type="text" id="pesquisar" class="form-control form-control-lg" placeholder="Pesquisar por razão, fantásia ou CNPJ" name="search" value="{{request('search')}}" aria-label="Pesquisar por razão, fantásia ou CNPJ" aria-describedby="button-addon2">
+                                    <button class="btn btn-outline-primary waves-effect" type="submit" id="button-addon2">
+                                        <i class="icon-base ti tabler-search"></i>
+                                    </button>
+                            </form>
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="table table-responsive" style="height: 250px;">
-                        <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 18px;">
-                            <thead>
-                                <tr>
-                                    <th class="align-middle">Razão</th>
-                                    <th class="align-middle">Fantásia</th>
-                                    <th class="d-none d-lg-table-cell align-middle">CRECI</th>
-                                    <th class="d-none d-xl-table-cell align-middle">CNPJ</th>
-                                    <th class="text-center align-middle" style="width: 100px">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ViewNiveisLTableItens">
-                                @foreach ($realEstateSectors as $realEstateSector)
-                                <tr>
-                                    <td class="align-middle">{{$realEstateSector['razao']}}</td>
-                                    <td class="align-middle">{{$realEstateSector['fantasia']}}</td>
-                                    <td class="d-none d-lg-table-cell align-middle">{{$realEstateSector['creci']}}</td>
-                                    <td class="d-none d-xl-table-cell align-middle">{{$realEstateSector['cnpj']}}</td>
-
-                                    <td>
-                                        <div class="dropdown" style="text-align: right;">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                <i class="icon-base ti tabler-dots-vertical"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a href="javascript:void(0);" class="dropdown-item waves-effect open-setup-modal" data-bs-toggle="modal" data-bs-target="#modalToggle" data-id="{{ $realEstateSector['id'] }}">
-                                                    <i class="icon-base ti tabler-settings me-1"></i> Configurações
-                                                </a>
-                                                <a class="dropdown-item waves-effect" href="{{route('realestatesector.edit', $realEstateSector['id'])}}"><i class="icon-base ti tabler-pencil me-1"></i> Editar</a>
-                                                <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Excluir</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-
-                    @php
-                    $firstItem = $pagination['from'];
-                    $lastItem = $pagination['to'];
-                    $total = $pagination['total'];
-                    $currentPage = $pagination['current_page'];
-                    $lastPage = $pagination['last_page'];
-                    @endphp
-
-                    <div class="mt-25 float-end">
-                        <div class="d-flex justify-content-between align-items-center mt-3 py-2 px-4" style="background: #eee; border-radius: 5rem;">
-                            <div class="mx-2">
-                                @if($total > 0)
-                                <span>{{ $firstItem }} a {{ $lastItem }} de {{ $total }}</span>
-                                @else
-                                <span>Nenhum registro encontrado.</span>
-                                @endif
-                            </div>
-
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination pagination-sm mb-0">
-                                    <li class="page-item first {{ $currentPage == 1 ? 'disabled' : '' }}">
-                                        <a class="page-link" href="{{ url()->current() . '?page=1' }}" aria-label="Primeira página">
-                                            <i class="icon-base ti tabler-chevrons-left icon-sm"></i>
-                                        </a>
-                                    </li>
-
-                                    <li class="page-item prev {{ $currentPage == 1 ? 'disabled' : '' }}">
-                                        <a class="page-link" href="{{ url()->current() . '?page=' . max(1, $currentPage - 1) }}" aria-label="Página anterior">
-                                            <i class="icon-base ti tabler-chevron-left icon-sm"></i>
-                                        </a>
-                                    </li>
-
-                                    <li class="page-item next {{ $currentPage == $lastPage ? 'disabled' : '' }}">
-                                        <a class="page-link" href="{{ url()->current() . '?page=' . min($lastPage, $currentPage + 1) }}" aria-label="Próxima página">
-                                            <i class="icon-base ti tabler-chevron-right icon-sm"></i>
-                                        </a>
-                                    </li>
-
-                                    <li class="page-item last {{ $currentPage == $lastPage ? 'disabled' : '' }}">
-                                        <a class="page-link" href="{{ url()->current() . '?page=' . $lastPage }}" aria-label="Última página">
-                                            <i class="icon-base ti tabler-chevrons-right icon-sm"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                    <div class="col-sm-5 mt-4" style="text-align: right">
+                        <a href="{{route('realestatesector.create')}}" class="btn btn-lg btn-primary waves-effect waves-light">Adicionar Imobiliária</a>
                     </div>
                 </div>
             </div>
+            <div class="card-body">
+                <div class="table table-responsive" style="height: 250px;">
+                    <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 18px;">
+                        <thead>
+                            <tr>
+                                <th class="align-middle">Razão</th>
+                                <th class="align-middle">Fantásia</th>
+                                <th class="d-none d-lg-table-cell align-middle">CRECI</th>
+                                <th class="d-none d-xl-table-cell align-middle">CNPJ</th>
+                                <th class="text-center align-middle" style="width: 100px">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ViewNiveisLTableItens">
+                            @foreach ($realEstateSectors as $realEstateSector)
+                            <tr>
+                                <td class="align-middle">{{$realEstateSector['razao']}}</td>
+                                <td class="align-middle">{{$realEstateSector['fantasia']}}</td>
+                                <td class="d-none d-lg-table-cell align-middle">{{$realEstateSector['creci']}}</td>
+                                <td class="d-none d-xl-table-cell align-middle">{{$realEstateSector['cnpj']}}</td>
+
+                                <td>
+                                    <div class="dropdown" style="text-align: center;">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="icon-base ti tabler-dots-vertical"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="javascript:void(0);" class="dropdown-item waves-effect open-setup-modal" data-bs-toggle="modal" data-bs-target="#modalToggle" data-id="{{ $realEstateSector['id'] }}">
+                                                <i class="icon-base ti tabler-settings me-1"></i> Configurações
+                                            </a>
+                                            <a class="dropdown-item waves-effect" href="{{route('realestatesector.edit', $realEstateSector['id'])}}"><i class="icon-base ti tabler-pencil me-1"></i> Editar</a>
+                                            <a class="dropdown-item waves-effect btn-excluir" href="javascript:void(0);" data-id="{{$realEstateSector['id']}}" data-route="{{ route('realestatesector.delete', ['imobiliaria' => '__id__']) }}">
+                                                <i class="icon-base ti tabler-trash me-1"></i> Excluir
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                @php
+                $firstItem = $pagination['from'];
+                $lastItem = $pagination['to'];
+                $total = $pagination['total'];
+                $currentPage = $pagination['current_page'];
+                $lastPage = $pagination['last_page'];
+                @endphp
+
+                @if ($total > 0 && $lastPage > 1)
+                <div class="mt-25 float-end">
+                    <div class="d-flex justify-content-between align-items-center mt-3 py-2 px-4" style="background: #eee; border-radius: 5rem;">
+                        <div class="mx-2">
+                            <span>{{ $firstItem }} a {{ $lastItem }} de {{ $total }}</span>
+                        </div>
+
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item first {{ $currentPage == 1 ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ url()->current() . '?page=1' }}" aria-label="Primeira página">
+                                        <i class="icon-base ti tabler-chevrons-left icon-sm"></i>
+                                    </a>
+                                </li>
+
+                                <li class="page-item prev {{ $currentPage == 1 ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ url()->current() . '?page=' . max(1, $currentPage - 1) }}" aria-label="Página anterior">
+                                        <i class="icon-base ti tabler-chevron-left icon-sm"></i>
+                                    </a>
+                                </li>
+
+                                <li class="page-item next {{ $currentPage == $lastPage ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ url()->current() . '?page=' . min($lastPage, $currentPage + 1) }}" aria-label="Próxima página">
+                                        <i class="icon-base ti tabler-chevron-right icon-sm"></i>
+                                    </a>
+                                </li>
+
+                                <li class="page-item last {{ $currentPage == $lastPage ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ url()->current() . '?page=' . $lastPage }}" aria-label="Última página">
+                                        <i class="icon-base ti tabler-chevrons-right icon-sm"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                @endif
+            </div>
         </div>
     </div>
+</div>
 </div>
 
 <!-- Modal 1-->
@@ -177,6 +185,7 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.open-setup-modal').forEach(function (el) {
@@ -310,6 +319,31 @@
                 document.getElementById('user-status-switch').checked = (ativo === "1" || ativo === "true" || ativo === 1 || ativo === true);
 
             }
+        });
+    });
+
+    document.querySelectorAll('.btn-excluir').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const id = this.dataset.id;
+            const route = this.dataset.route.replace('__id__', id);
+
+            Swal.fire({
+                title: 'Tem certeza que deseja excluir?',
+                html: `
+        <form id="form-excluir" action="${route}" method="POST">
+            <input type="hidden" name="_token" value="${document.querySelector('meta[name=csrf-token]').getAttribute('content')}">
+            <input type="hidden" name="_method" value="DELETE">
+            <p class="mt-3">Essa ação não poderá ser desfeita.</p>
+
+            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                <button type="button" class="swal2-cancel swal2-styled" onclick="Swal.close()">Cancelar</button>
+                <button type="submit" class="swal2-confirm swal2-styled" style="background-color:#d33;">Excluir</button>
+            </div>
+        </form>
+    `,
+                showConfirmButton: false,
+                showCancelButton: false,
+            });
         });
     });
 </script>
