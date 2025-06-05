@@ -1,17 +1,20 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Propostal;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Client\Response as ClientResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Services\EmailService;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\Response as ClientResponse;
 
 class PropostalController extends Controller
 {
+    public function __construct(protected EmailService $emailService) {}
+
     public function index(Request $request): View
     {
         $token         = session('jwt_token');
@@ -48,7 +51,11 @@ class PropostalController extends Controller
 
     public function store(Request $request): ClientResponse
     {
-        $requestSanitize                      = $this->sanitizeData($request->all(), ['proposta_total_valor', 'proposta_setup_valor', 'imovel_cep', 'pessoa_doc']);
+        $requestSanitize                      = $this->sanitizeData(
+            $request->all(),
+            ['proposta_total_valor', 'proposta_setup_valor', 'imovel_cep', 'pessoa_doc']
+        );
+
         $requestSanitize['imovel_aluguel']    = floatval(str_replace(',', '.', str_replace('.', '', (string) ($requestSanitize['imovel_aluguel'] ?? '0'))));
         $requestSanitize['imovel_condominio'] = floatval(str_replace(',', '.', str_replace('.', '', (string) ($requestSanitize['imovel_condominio'] ?? '0'))));
         $requestSanitize['imovel_taxas']      = floatval(str_replace(',', '.', str_replace('.', '', (string) ($requestSanitize['imovel_taxas'] ?? '0'))));
@@ -108,7 +115,12 @@ class PropostalController extends Controller
 
     public function resume(string | int $id): View
     {
-        return view('propostal.resume');
+        $token = session('jwt_token');
+
+        $response = Http::withToken($token)->get(config('api.route') . '/propostal/propostal/' . $id);
+        $data = $response->json();
+
+        return view('propostal.resume', ['resume' => $data]);
     }
 
     public function delete(Request $request, string | int $id): ClientResponse
@@ -123,5 +135,21 @@ class PropostalController extends Controller
         $response = Http::withToken($token)->post(config('api.route') . '/propostal/propostal/canceled/' . $id, $requestSanitize);
 
         return $response;
+    }
+
+    public function sendNotification()
+    {
+        $dados = [
+            'nome' => 'João',
+            'mensagem' => 'Sua conta foi ativada.'
+        ];
+
+        $email = 'rickson@hypersoft.com.br';
+
+        if ($this->emailService->send($dados, $email)) {
+            return response()->json(['mensagem' => 'E-mail enviado com sucesso!']);
+        }
+
+        return response()->json(['erro' => 'Falha ao enviar o e-mail.'], 500);
     }
 }

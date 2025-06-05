@@ -1,19 +1,20 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PropostaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RealEstateSectorController;
+use App\Http\Controllers\Propostal\PropostalController;
 use App\Http\Controllers\Financial\FinancialAccountController;
 use App\Http\Controllers\Financial\FinancialCategoryController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Propostal\PropostalController;
 use App\Http\Controllers\RealEstateSector\RealEstateSectorUserController;
 use App\Http\Controllers\RealEstateSector\UserRealEstateSectorController;
-use App\Http\Controllers\RealEstateSectorController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
 
@@ -135,6 +136,9 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
     Route::get('/propostas', [PropostalController::class, 'index'])
         ->name('propostal.index');
 
+    Route::get('/propostas/resumo/{id}', [PropostalController::class, 'resume'])
+        ->name('propostal.resume');
+
     Route::post('/propostas/cancelar/{id}', [PropostalController::class, 'delete'])
         ->name('propostal.delete')
         ->middleware('check.permission:11');
@@ -149,4 +153,13 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
 
     Route::get('/propostas/{id}', [PropostalController::class, 'find'])
         ->name('propostal.find');
+
+    Route::prefix('prospotas')->group(function () {
+        Route::get('/criar', [PropostaController::class, 'create'])->name('propostas.create');
+        Route::post('/salvar-step1', [PropostaController::class, 'saveStep1'])->name('propostas.save.step1');
+        Route::get('/step2/{id}', [PropostaController::class, 'step2'])->name('propostas.step2');
+        Route::post('/salvar-step2/{id}', [PropostaController::class, 'saveStep2'])->name('propostas.save.step2');
+    });
+
+    Route::get('/email', [PropostalController::class, 'sendNotification'])->name('propostal.send');
 });

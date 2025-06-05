@@ -1,14 +1,17 @@
+@extends('dashboard')
+@section('content')
+<div class="col-12">
 <div id="resumo" class="content fv-plugins-bootstrap5 fv-plugins-framework">
-    <div class="row g-6 pt-5 mb-5 mb-5 pb-5 justify-content-center">
+    <div class="row g-6 pt-5 mb-5 pb-5 justify-content-center">
         <div class="col-lg-8 m-0 px-0.5">
             <div class="d-flex align-items-start">
-                <div class="badge rounded bg-label-primary p-2 me-3 rounded">
+                <div class="badge bg-label-primary p-2 me-3 rounded">
                     <i class="icon-base ti tabler-file icon-lg"></i>
                 </div>
                 <div class="d-flex justify-content-between w-100 gap-2 align-items-center">
                     <div class="me-2">
                         <h6 class="mb-0">Resumo da proposta</h6>
-                        <small class="text-body">Solicitação <span id="proposta_id"></span></small>
+                        <small class="text-body">Solicitação {{$resume['id']}}</small>
                     </div>
                 </div>
             </div>
@@ -21,10 +24,23 @@
                 <div class="card-body d-flex justify-content-between">
                     <div>
                         <p class="mb-2 p-0 fw-bold">Status da proposta</p>
-                        <span class="badge text-bg-secondary"><span id="contrato_status_resumo"></span></span>
+                        @php
+                             $status = $resume['proposta_status'];
+
+                            $badge = match ($status) {
+                                'Negado'   => 'dark',
+                                'Aprovado' => 'success',
+                                'Pendente' => 'warning',
+                                'Cancelado'=> 'danger',
+                                default    => 'secondary',
+                            };
+                        @endphp
+                        <span class="badge text-bg-{{$badge}}">{{$resume['proposta_status']}}</span>
                     </div>
 
+                    <!--
                     <button id="propostal-canceled" class="btn btn-outline-secondary">Cancelar proposta</button>
+                    -->
                 </div>
             </div>
         </div>
@@ -47,8 +63,12 @@
                         </div>
                         <div>
                             <!--<p id="proposta_tipo_pagador_resumo"></p>-->
-                            <p style="text-align: right" id="proposta_total_valor_resumo"></p>
-                            <p style="text-align: right" id="proposta_setup_valor_resumo"></p>
+                            <p style="text-align: right" id="proposta_total_valor_resumo">
+                                {{$resume['proposta_total_valor']}}
+                            </p>
+                            <p style="text-align: right" id="proposta_setup_valor_resumo">
+                                {{$resume['proposta_setup_valor']}}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -74,10 +94,18 @@
                                 <p>Outras taxas</p>
                             </div>
                             <div>
-                                <p id="imovel_tipo_resumo"></p>
-                                <p style="text-align: right" id="imovel_aluguel_resumo"></p>
-                                <p style="text-align: right" id="imovel_condominio_resumo"></p>
-                                <p style="text-align: right" id="imovel_taxas_resumo"></p>
+                                <p id="imovel_tipo_resumo">
+                                     {{$resume['imovel_tipo']}}
+                                </p>
+                                <p style="text-align: right" id="imovel_aluguel_resumo">
+                                     {{$resume['imovel_aluguel']}}
+                                </p>
+                                <p style="text-align: right" id="imovel_condominio_resumo">
+                                     {{$resume['imovel_condominio']}}
+                                </p>
+                                <p style="text-align: right" id="imovel_taxas_resumo">
+                                     {{$resume['imovel_taxas']}}
+                                </p>
                             </div>
                         </div>
                         <hr>
@@ -86,7 +114,9 @@
                                 <p>Total</p>
                             </div>
                             <div>
-                                <p style="text-align: right" id="proposta_total_valor_total"></p>
+                                <p style="text-align: right" id="proposta_total_valor_total">
+                                     {{$resume['proposta_total_valor']}}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -107,15 +137,21 @@
                     <div class="card-body p-0 m-0">
                         <div>
                             <p class="fw-bold">CEP</p>
-                            <p id="imovel_cep_resumo"></p>
+                            <p id="imovel_cep_resumo">
+                                {{$resume["imovel_cep" ]}}
+                            </p>
                         </div>
                         <div>
                             <p class="fw-bold">Endereço</p>
-                            <p id="imovel_endereco_completo">Av. Filadelfo Rodrigues de Lima, 78, Alto da Boa Vista, Iturama - MG</p>
+                            <p id="imovel_endereco_completo">
+                                {{$resume["endereco_completo" ]}}
+                            </p>
                         </div>
                         <div>
                             <p class="fw-bold">Complemento</p>
-                            <p id="imovel_complemento_resumo"></p>
+                            <p id="imovel_complemento_resumo">
+                                {{$resume["imovel_complemento" ]}}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -136,19 +172,27 @@
                         <div class="card-body p-0 m-0">
                             <div>
                                 <p class="fw-bold">Nome</p>
-                                <p id="pessoa_nome_resumo"></p>
+                                <p id="pessoa_nome_resumo">
+                                    {{$resume["pessoa_nome" ]}}
+                                </p>
                             </div>
                             <div>
                                 <p class="fw-bold">CPF</p>
-                                <p id="pessoa_doc_resumo"></p>
+                                <p id="pessoa_doc_resumo">
+                                    {{$resume["pessoa_doc" ]}}
+                                </p>
                             </div>
                             <div>
                                 <p class="fw-bold">Telefone</p>
-                                <p id="pessoa_telefone_resumo"></p>
+                                <p id="pessoa_telefone_resumo">
+                                    {{$resume["pessoa_telefone" ]}}
+                                </p>
                             </div>
                             <div>
                                 <p class="fw-bold">Data Nascimento</p>
-                                <p id="data_nascimento_resumo"></p>
+                                <p id="data_nascimento_resumo">
+                                    {{$resume["data_nascimento" ]}}
+                                </p>
                             </div>
                         </div>
 
@@ -177,15 +221,12 @@
             </div>
         </div>
 
-        <div class="col-lg-8 d-flex justify-content-between mb-5 mt-5">
-            <button class="btn btn-label-secondary btn-prev waves-effect">
+        <div class="col-lg-8 d-flex justify-content-between mt-5">
+            <a href="{{route('propostal.index')}}" class="btn btn-label-secondary btn-prev waves-effect">
                 <i class="icon-base ti tabler-arrow-left icon-xs me-sm-2 me-0"></i>
                 <span class="align-middle d-sm-inline-block d-none">Voltar</span>
-            </button>
-            <button id="btn-confirmation" class="btn btn-primary btn-next waves-effect waves-light">
-                <span class="align-middle d-sm-inline-block d-none me-sm-2">Enviar proposta</span>
-                <i class="icon-base ti tabler-arrow-right icon-xs"></i>
-            </button>
+            </a>
         </div>
     </div>
 </div>
+@endsection

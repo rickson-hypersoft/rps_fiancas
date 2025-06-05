@@ -226,13 +226,20 @@
 
             let imovelAluguel = 0;
 
-            if (typeof data.imovel_aluguel === 'string') {
-                imovelAluguel = parseFloat(data.imovel_aluguel.replace(/\./g, '').replace(',', '.'));
-            } else {
-                imovelAluguel = parseFloat(data.imovel_aluguel);
+            function parseValorBR(valor) {
+                if (typeof valor === 'string') {
+                    return parseFloat(
+                        valor.replace('R$', '').replace(/\s/g, '').replace(/\./g, '').replace(',', '.')
+                    );
+                }
+                return parseFloat(valor);
             }
 
-            const valorTotal = parseFloat(imovel_aluguel) + parseFloat(imovel_condominio) + parseFloat(imovel_taxas);
+            imovelAluguel = parseValorBR(data.imovel_aluguel);
+            const imovelCondominio = parseValorBR(data.imovel_condominio);
+            const imovelTaxas = parseValorBR(data.imovel_taxas);
+
+            const valorTotal = imovelAluguel + imovelCondominio + imovelTaxas;
             const valorParcela = valorTotal / 12;
 
             function setTextIfExists(selector, text) {
@@ -244,12 +251,20 @@
                 }
             }
 
+            function formatarBRL(valor) {
+                return new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                    minimumFractionDigits: 2
+                }).format(valor);
+            }
+
             function preencherCampos() {
-                setTextIfExists('#valor_total_vista', formatarReais(valorTotal));
-                setTextIfExists('#valor_parcelado', formatarReais(valorParcela));
-                setTextIfExists('#imovel_aluguel_text', formatarReais(data.imovel_aluguel));
-                setTextIfExists('#imovel_condominio_text', formatarReais(data.imovel_condominio));
-                setTextIfExists('#imovel_taxas_text', formatarReais(data.imovel_taxas));
+                setTextIfExists('#valor_total_vista', formatarBRL(valorTotal));
+                setTextIfExists('#valor_parcelado', formatarBRL(valorParcela));
+                setTextIfExists('#imovel_aluguel_text', data.imovel_aluguel);
+                setTextIfExists('#imovel_condominio_text', data.imovel_condominio);
+                setTextIfExists('#imovel_taxas_text', data.imovel_taxas);
                 setTextIfExists('#pessoa_nome_text', data.pessoa_nome);
                 setTextIfExists('#pessoa_doc_text', data.pessoa_doc);
                 setTextIfExists('#imovel_tipo_text', data.imovel_tipo);
@@ -374,7 +389,7 @@
                         const campo = document.querySelector(seletor);
                         if (campo) {
                             const id = campo.id;
-                            campo.textContent = camposReais.includes(id) ? formatarReais(valor) : valor;
+                            campo.textContent = camposReais.includes(id) ? valor : valor;
                         }
                     });
                 }
@@ -388,6 +403,10 @@
         const numero = parseFloat(valor);
         if (isNaN(numero)) return 'Valor inválido';
         return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function pad2(n) {
+        return n.toString().padStart(2, '0');
     }
 
     const FORM_PREFIX = 'form_data_';
@@ -492,13 +511,14 @@
             return;
         }
 
-        let imovelAluguelPropostal = parseFloat(document.getElementById('imovel_aluguel').value.replace(',', '.'));
-        if (isNaN(imovelAluguelPropostal) || imovelAluguelPropostal <= 0) {
+        let imovelAluguelPropostal = document.getElementById('imovel_aluguel').value
+        let valorFormatado = parseFloat(imovelAluguelPropostal.replace(/\./g, '').replace(',', '.'));
+        if (isNaN(valorFormatado) || valorFormatado <= 0) {
             Swal.fire('Valor inválido', 'O valor do aluguel é inválido.', 'error');
             return;
         }
 
-        if (imovelAluguelPropostal < 100) {
+        if (valorFormatado < 100) {
             Swal.fire('Valor inválido', 'O valor do aluguel deve ser pelo menos R$ 100,00.', 'error');
             return;
         }
@@ -514,6 +534,10 @@
             }
         });
 
+        let data = new Date()
+        let dataHoje = `${data.getFullYear()}-${pad2(data.getMonth() + 1)}-${pad2(data.getDate())}`;
+        let horaAgora = `${pad2(data.getHours())}:${pad2(data.getMinutes())}:${pad2(data.getSeconds())}`;
+
         formData.append('id_imobiliaria', document.getElementById('id_imobiliaria').value);
         formData.append('pessoa_tipo', document.querySelector('input[name="pessoa_tipo"]:checked')?.value || '');
         formData.append('imovel_tipo', document.querySelector('input[name="imovel_tipo"]:checked')?.value || '');
@@ -525,6 +549,8 @@
         formData.append('imovel_taxas', document.getElementById('imovel_taxas').value ?? 0);
         formData.append('id', propostaId ?? null);
         formData.append('proposta_status', 'Rascunho');
+        formData.append('data', dataHoje);
+        formData.append('hora', horaAgora);
 
         let imovelAluguel = document.getElementById('imovel_aluguel').value
         imovelAluguel = imovelAluguel.replace(/\./g, '').replace(',', '.');
@@ -623,9 +649,15 @@
             }
         });
 
+        let data = new Date()
+        let dataHoje = `${data.getFullYear()}-${pad2(data.getMonth() + 1)}-${pad2(data.getDate())}`;
+        let horaAgora = `${pad2(data.getHours())}:${pad2(data.getMinutes())}:${pad2(data.getSeconds())}`;
+
         formData.append('proposta_total_valor', document.getElementById('valor_total_vista').textContent);
         formData.append('proposta_setup_valor', document.getElementById('setup').value);
         formData.append('id', propostaId);
+        formData.append('data_ultima_atualizacao', dataHoje);
+        formData.append('hora_ultima_atualizacao', horaAgora);
 
         fetch('/propostas/criar-proposta', {
             method: 'POST',

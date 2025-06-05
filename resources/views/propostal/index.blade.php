@@ -88,7 +88,7 @@
                             @if ($propostal['proposta_status'] == 'Pendente')
                             <tr>
                                 <td>
-                                    <a href="" class="text-success">{{$propostal['id']}}</a>
+                                    <a href="{{route('propostal.resume', $propostal['id'])}}" class="text-success">{{$propostal['id']}}</a>
                                 </td>
                                 <td>{{$propostal['pessoa_nome']}}</td>
                                 <td>
@@ -145,7 +145,7 @@
                             @if ($propostal['proposta_status'] == 'Rascunho')
                             <tr>
                                 <td>
-                                    <a href="" class="text-success">{{$propostal['id']}}</a>
+                                     <a href="{{route('propostal.resume', $propostal['id'])}}" class="text-success">{{$propostal['id']}}</a>
                                 </td>
                                 <td>{{$propostal['pessoa_nome']}}</td>
                                 <td>
@@ -194,7 +194,7 @@
                             @if ($propostal['proposta_status'] == 'Cancelado')
                             <tr>
                                 <td>
-                                    <a href="" class="text-success">{{$propostal['id']}}</a>
+                                     <a href="{{route('propostal.resume', $propostal['id'])}}" class="text-success">{{$propostal['id']}}</a>
                                 </td>
                                 <td>{{$propostal['pessoa_nome']}}</td>
                                 <td>
@@ -233,7 +233,7 @@
                             @if ($propostal['proposta_status'] == 'Negado')
                             <tr>
                                 <td>
-                                    <a href="" class="text-success">{{$propostal['id']}}</a>
+                                    <a href="{{route('propostal.resume', $propostal['id'])}}" class="text-success">{{$propostal['id']}}</a>
                                 </td>
                                 <td>{{$propostal['pessoa_nome']}}</td>
                                 <td>
