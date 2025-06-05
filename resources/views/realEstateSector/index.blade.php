@@ -330,17 +330,17 @@
             Swal.fire({
                 title: 'Tem certeza que deseja excluir?',
                 html: `
-        <form id="form-excluir" action="${route}" method="POST">
-            <input type="hidden" name="_token" value="${document.querySelector('meta[name=csrf-token]').getAttribute('content')}">
-            <input type="hidden" name="_method" value="DELETE">
-            <p class="mt-3">Essa ação não poderá ser desfeita.</p>
+                    <form id="form-excluir" action="${route}" method="POST">
+                        <input type="hidden" name="_token" value="${document.querySelector('meta[name=csrf-token]').getAttribute('content')}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <p class="mt-3">Essa ação não poderá ser desfeita.</p>
 
-            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
-                <button type="button" class="swal2-cancel swal2-styled" onclick="Swal.close()">Cancelar</button>
-                <button type="submit" class="swal2-confirm swal2-styled" style="background-color:#d33;">Excluir</button>
-            </div>
-        </form>
-    `,
+                        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                            <button type="button" class="swal2-cancel swal2-styled" onclick="Swal.close()">Cancelar</button>
+                            <button type="submit" class="swal2-confirm swal2-styled" style="background-color:#d33;">Excluir</button>
+                        </div>
+                    </form>
+                `,
                 showConfirmButton: false,
                 showCancelButton: false,
             });

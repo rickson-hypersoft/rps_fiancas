@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Controllers\Financial;
 
@@ -88,7 +88,6 @@ class FinancialAccountController extends Controller
     public function update(Request $request, string | int $id)
     {
         $requestSanitize = $this->sanitizeData($request->all(), ['banco_cnpj']);
-
 
         $validator = Validator::make($requestSanitize, [
             'tipo_conta'       => 'nullable|string|max:50',

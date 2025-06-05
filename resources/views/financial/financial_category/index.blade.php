@@ -56,13 +56,13 @@
                             @foreach ($financialCategories as $financialCategory)
                             <tr>
                                 <td>{{$financialCategory['descricao']}}</td>
-                                <td >
+                                <td>
                                     <span class="badge bg-label-{{$financialCategory['tipo'] == 'Crédito' ? 'danger' : 'primary'}}">
                                         {{$financialCategory['tipo']}}
                                     </span>
                                 </td>
 
-                                <td >
+                                <td>
                                     <span class="badge bg-label-{{$financialCategory['ativo'] ? 'success' : 'danger'}} me-1">
                                         {{$financialCategory['ativo'] ? 'Ativo' : 'Inativo'}}
                                     </span>

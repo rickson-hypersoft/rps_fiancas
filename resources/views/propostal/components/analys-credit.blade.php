@@ -79,7 +79,7 @@
             </div>
 
             <div class="col-12 d-flex justify-content-between mb-5 mt-5" id="next-setup-config">
-                 <button class="btn btn-label-secondary btn-prev waves-effect">
+                <button class="btn btn-label-secondary btn-prev waves-effect">
                     <i class="icon-base ti tabler-arrow-left icon-xs me-sm-2 me-0"></i>
                     <span class="align-middle d-sm-inline-block d-none">Voltar</span>
                 </button>
