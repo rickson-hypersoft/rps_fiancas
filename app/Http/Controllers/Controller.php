@@ -6,10 +6,10 @@ namespace App\Http\Controllers;
 
 abstract class Controller
 {
-    /*
-     * @param array<string, string|null> $data
-     * @param array<string> $fields
-     * @return array<string, string|null>
+    /**
+     * @param array<string, string|null>|null $data
+     * @param array<int, string>|null $fields
+     * @return array<string, string|null>|null
      */
     protected function sanitizeData(?array $data, ?array $fields): ?array
     {
@@ -61,12 +61,12 @@ abstract class Controller
 
         for ($t = 9; $t < 11; $t++) {
             for ($d = 0, $c = 0; $c < $t; $c++) {
-                $d += $cpf[$c] * (($t + 1) - $c);
+                $d += (int) $cpf[$c] * (($t + 1) - $c);
             }
 
             $d = ((10 * $d) % 11) % 10;
 
-            if ($cpf[$c] != $d) {
+            if ((int) $cpf[$c] !== $d) {
                 return false;
             }
         }

@@ -4,18 +4,20 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         return view('profile', ['user' => session('user')]);
     }
 
-    public function update(int | string $id, Request $request)
+    public function update(int | string $id, Request $request): RedirectResponse
     {
         $token           = session('jwt_token');
         $requestSanitize = $this->sanitizeData($request->all(), ['cpf', 'telefone']);
@@ -58,7 +60,7 @@ class ProfileController extends Controller
             $userData['ativo'] = 1;
         }
 
-        $response       = Http::withToken($token)->put(env('API_ROUTE') . '/users/' . $id, $userData);
+        $response       = Http::withToken($token)->put(config('api.route') . '/users/' . $id, $userData);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

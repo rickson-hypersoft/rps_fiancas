@@ -4,13 +4,16 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class RealEstateSectorController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $search = $request->input('search');
 
@@ -32,7 +35,7 @@ class RealEstateSectorController extends Controller
 
         $token    = session('jwt_token');
         $response = Http::withToken($token)
-            ->get(env('API_ROUTE') . '/realestatesector', $queryParams);
+            ->get(config('api.route') . '/realestatesector', $queryParams);
 
         $data = $response->json();
 
@@ -43,26 +46,26 @@ class RealEstateSectorController extends Controller
         ]);
     }
 
-    public function listAll()
+    public function listAll(): JsonResponse
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)
-            ->get(env('API_ROUTE') . '/realestatesector/listAll');
+            ->get(config('api.route') . '/realestatesector/listAll');
 
         $data = $response->json();
 
         return response()->json($data);
     }
 
-    public function setup(int | string $id)
+    public function setup(int | string $id): JsonResponse
     {
         $token    = session('jwt_token');
-        $response = Http::withToken($token)->get(env('API_ROUTE') . '/realestatesectorsetup/' . $id);
+        $response = Http::withToken($token)->get(config('api.route') . '/realestatesectorsetup/' . $id);
 
         return $response->json()['data'];
     }
 
-    public function create()
+    public function create(): View
     {
         return view('realEstateSector.form', [
             'realEstateSector' => null,
@@ -71,7 +74,7 @@ class RealEstateSectorController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $token = session('jwt_token');
 
@@ -107,7 +110,7 @@ class RealEstateSectorController extends Controller
 
         $realEstateSectorData = $validator->validated();
 
-        $response       = Http::withToken($token)->post(env('API_ROUTE') . '/realestatesector/', $realEstateSectorData);
+        $response       = Http::withToken($token)->post(config('api.route') . '/realestatesector/', $realEstateSectorData);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {
@@ -117,9 +120,9 @@ class RealEstateSectorController extends Controller
         return redirect()->route('realestatesector.index')->with('success', $returnResponse['message']);
     }
 
-    public function edit(string | int $id)
+    public function edit(string | int $id): View
     {
-        $response = Http::withToken(session('jwt_token'))->get(env('API_ROUTE') . '/realestatesector/' . $id);
+        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/realestatesector/' . $id);
         $data     = $response->json();
 
         return view('realEstateSector.form', [
@@ -130,7 +133,7 @@ class RealEstateSectorController extends Controller
         ]);
     }
 
-    public function update(string | int $id, Request $request)
+    public function update(string | int $id, Request $request): RedirectResponse
     {
         $token = session('jwt_token');
 
@@ -176,7 +179,7 @@ class RealEstateSectorController extends Controller
 
         $realEstateSectorData['id_imobiliaria'] = session('user')['id_imobiliaria'];
 
-        $response       = Http::withToken($token)->put(env('API_ROUTE') . '/realestatesector/' . $id, $realEstateSectorData);
+        $response       = Http::withToken($token)->put(config('api.route') . '/realestatesector/' . $id, $realEstateSectorData);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {
@@ -186,7 +189,7 @@ class RealEstateSectorController extends Controller
         return redirect()->route('realestatesector.index')->with('success', $returnResponse['message']);
     }
 
-    public function storeSetup(string | int $id, Request $request)
+    public function storeSetup(string | int $id, Request $request): RedirectResponse
     {
         $token           = session('jwt_token');
         $requestSanitize = $this->sanitizeData($request->all(), ['taxa']);
@@ -199,7 +202,7 @@ class RealEstateSectorController extends Controller
 
         $requestSanitize['id_imobiliaria'] = $id;
 
-        $response = Http::withToken($token)->post(env('API_ROUTE') . '/realestatesectorsetup/' . $id, $requestSanitize);
+        $response = Http::withToken($token)->post(config('api.route') . '/realestatesectorsetup/' . $id, $requestSanitize);
 
         $returnResponse = $response->json();
 
@@ -210,7 +213,7 @@ class RealEstateSectorController extends Controller
         return back()->with('success', $returnResponse['message']);
     }
 
-    public function updateSetup(string | int $idImobiliaria, string | int $id, Request $request)
+    public function updateSetup(string | int $idImobiliaria, string | int $id, Request $request): RedirectResponse
     {
         $token           = session('jwt_token');
         $requestSanitize = $this->sanitizeData($request->all(), ['taxa']);
@@ -224,7 +227,7 @@ class RealEstateSectorController extends Controller
         $requestSanitize['id_imobiliaria'] = $idImobiliaria;
         $requestSanitize['taxa']           = floatval($requestSanitize['taxa']);
 
-        $route = env('API_ROUTE') . '/realestatesectorsetup/' . $id;
+        $route = config('api.route') . '/realestatesectorsetup/' . $id;
 
         $response = Http::withToken($token)->put($route, $requestSanitize);
 
@@ -237,9 +240,9 @@ class RealEstateSectorController extends Controller
         return back()->with('success', $returnResponse['message']);
     }
 
-    public function delete(string | int $id)
+    public function delete(string | int $id): RedirectResponse
     {
-        $response       = Http::withToken(session('jwt_token'))->delete(env('API_ROUTE') . '/realestatesector/' . $id);
+        $response       = Http::withToken(session('jwt_token'))->delete(config('api.route') . '/realestatesector/' . $id);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

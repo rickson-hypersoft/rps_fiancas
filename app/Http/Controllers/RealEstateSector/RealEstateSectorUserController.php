@@ -5,15 +5,17 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\RealEstateSector;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class RealEstateSectorUserController extends Controller
 {
-    public function index(Request $request, string | int $id)
+    public function index(Request $request, string | int $id): View
     {
-        $response = Http::withToken(session('jwt_token'))->get(env('API_ROUTE') . '/realestatesector/' . $id);
+        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/realestatesector/' . $id);
         $data     = $response->json();
 
         return view('realEstateSector.index_real_estate_sector', [
@@ -21,7 +23,7 @@ class RealEstateSectorUserController extends Controller
         ]);
     }
 
-    public function update(string | int $id, Request $request)
+    public function update(string | int $id, Request $request): RedirectResponse
     {
         $token = session('jwt_token');
 
@@ -56,7 +58,7 @@ class RealEstateSectorUserController extends Controller
 
         $realEstateSectorData = $validator->validated();
 
-        $response       = Http::withToken($token)->put(env('API_ROUTE') . '/realestatesector/' . $id, $realEstateSectorData);
+        $response       = Http::withToken($token)->put(config('api.route') . '/realestatesector/' . $id, $realEstateSectorData);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

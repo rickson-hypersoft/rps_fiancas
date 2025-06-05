@@ -4,18 +4,20 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class CompanyController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         return view('company.index', ['company' => session('realEstateSectorOrCompany')]);
     }
 
-    public function update(string | int $id, Request $request)
+    public function update(string | int $id, Request $request): RedirectResponse
     {
         $token           = session('jwt_token');
         $requestSanitize = $this->sanitizeData($request->all(), ['cnpj', 'cep', 'telefone']);
@@ -44,7 +46,7 @@ class CompanyController extends Controller
 
         $companyData = $validator->validated();
 
-        $response       = Http::withToken($token)->put(env('API_ROUTE') . '/companies/' . $id, $companyData);
+        $response       = Http::withToken($token)->put(config('api.route') . '/companies/' . $id, $companyData);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

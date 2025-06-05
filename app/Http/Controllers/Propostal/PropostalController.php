@@ -5,12 +5,14 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Propostal;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Client\Response as ClientResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
 class PropostalController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $token         = session('jwt_token');
         $idImobiliaria = session('user')['id_imobiliaria'];
@@ -21,30 +23,30 @@ class PropostalController extends Controller
             'created_at' => $request->input('created_at'),
         ];
 
-        $response = Http::withToken($token)->get(env('API_ROUTE') . '/propostal/' . $idImobiliaria, $queryParams);
+        $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $idImobiliaria, $queryParams);
         $data     = $response->json();
 
         return view('propostal.index', ['propostals' => $data['data']]);
     }
 
-    public function create()
+    public function create(): View
     {
         $token    = session('jwt_token');
-        $response = Http::withToken($token)->get(env('API_ROUTE') . '/realestatesectorsetup/' . session('user')['id_imobiliaria']);
+        $response = Http::withToken($token)->get(config('api.route') . '/realestatesectorsetup/' . session('user')['id_imobiliaria']);
         $setups   = $response->json()['data'];
 
         return view('propostal.form', ['setups' => $setups]);
     }
 
-    public function find(string | int $id)
+    public function find(string | int $id): ClientResponse
     {
         $token    = session('jwt_token');
-        $response = Http::withToken($token)->get(env('API_ROUTE') . '/propostal/propostal/' . $id);
+        $response = Http::withToken($token)->get(config('api.route') . '/propostal/propostal/' . $id);
 
         return $response;
     }
 
-    public function store(Request $request)
+    public function store(Request $request): ClientResponse
     {
         $requestSanitize                      = $this->sanitizeData($request->all(), ['proposta_total_valor', 'proposta_setup_valor', 'imovel_cep', 'pessoa_doc']);
         $requestSanitize['imovel_aluguel']    = floatval(str_replace(',', '.', str_replace('.', '', (string) ($requestSanitize['imovel_aluguel'] ?? '0'))));
@@ -58,7 +60,7 @@ class PropostalController extends Controller
 
         $token = session('jwt_token');
 
-        $response = Http::withToken($token)->post(env('API_ROUTE') . '/propostal/propostal/create', $requestSanitize);
+        $response = Http::withToken($token)->post(config('api.route') . '/propostal/propostal/create', $requestSanitize);
 
         $data          = $response->json();
         $propostaId    = $data['data']['id'] ?? null;
@@ -71,7 +73,7 @@ class PropostalController extends Controller
                     $nomeOriginal = $file->getClientOriginalName();
 
                     // Verifica se o anexo já existe para essa proposta
-                    $verificaAnexo = Http::withToken($token)->get(env('API_ROUTE') . '/financial/attachment/exists', [
+                    $verificaAnexo = Http::withToken($token)->get(config('api.route') . '/financial/attachment/exists', [
                         'id_imobiliaria' => $idImobiliaria,
                         'id_movi'        => $propostaId,
                         'nome_arquivo'   => $nomeOriginal,
@@ -87,7 +89,7 @@ class PropostalController extends Controller
                     $file->storeAs("anexos/{$idImobiliaria}/propostas", $nomeUnico, 'public');
 
                     // Chamada para a API registrar o anexo no banco
-                    Http::withToken($token)->post(env('API_ROUTE') . '/financial/attachment', [
+                    Http::withToken($token)->post(config('api.route') . '/financial/attachment', [
                         'id_imobiliaria'        => $idImobiliaria,
                         'id_movi'               => $propostaId,
                         'movi'                  => 'propostas',
@@ -104,12 +106,12 @@ class PropostalController extends Controller
         return $response;
     }
 
-    public function resume(string | int $id)
+    public function resume(string | int $id): View
     {
         return view('propostal.resume');
     }
 
-    public function delete(Request $request, string | int $id)
+    public function delete(Request $request, string | int $id): ClientResponse
     {
         $token = session('jwt_token');
 
@@ -118,7 +120,7 @@ class PropostalController extends Controller
         $requestSanitize['proposta_credito_status'] = 'Cancelado';
         $requestSanitize['observacao']              = $request->input('motivo');
 
-        $response = Http::withToken($token)->post(env('API_ROUTE') . '/propostal/propostal/canceled/' . $id, $requestSanitize);
+        $response = Http::withToken($token)->post(config('api.route') . '/propostal/propostal/canceled/' . $id, $requestSanitize);
 
         return $response;
     }

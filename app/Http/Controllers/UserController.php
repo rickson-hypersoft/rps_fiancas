@@ -4,19 +4,21 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $page        = $request->get('page', 1);
         $queryParams = ['search' => $request->input('search'), 'page' => $page];
         $token       = session('jwt_token');
-        $response    = Http::withToken($token)->get(env('API_ROUTE') . '/users', $queryParams);
+        $response    = Http::withToken($token)->get(config('api.route') . '/users', $queryParams);
         $data        = $response->json();
 
         return view('user.index', [
@@ -26,12 +28,12 @@ class UserController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(): View
     {
         return view('user.formStore');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $token = session('jwt_token');
 
@@ -64,7 +66,7 @@ class UserController extends Controller
         $userData['permissoes'] = $permissoesString;
         $userData['senha']      = Hash::make($request->get('senha'));
 
-        $response       = Http::withToken($token)->post(env('API_ROUTE') . '/users/', $userData);
+        $response       = Http::withToken($token)->post(config('api.route') . '/users/', $userData);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {
@@ -74,9 +76,9 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('success', $returnResponse['message']);
     }
 
-    public function edit(string | int $id)
+    public function edit(string | int $id): View
     {
-        $response = Http::withToken(session('jwt_token'))->get(env('API_ROUTE') . '/users/' . $id);
+        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/users/' . $id);
         $data     = $response->json();
 
         return view('user.formEdit', [
@@ -85,7 +87,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(string | int $id, Request $request)
+    public function update(string | int $id, Request $request): RedirectResponse
     {
         $token = session('jwt_token');
 
@@ -120,7 +122,7 @@ class UserController extends Controller
             $userData['ativo'] = 1;
         }
 
-        $response       = Http::withToken($token)->put(env('API_ROUTE') . '/users/' . $id, $userData);
+        $response       = Http::withToken($token)->put(config('api.route') . '/users/' . $id, $userData);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {
@@ -130,9 +132,9 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('success', $returnResponse['message']);
     }
 
-    public function delete(string | int $id)
+    public function delete(string | int $id): RedirectResponse
     {
-        $response       = Http::withToken(session('jwt_token'))->delete(env('API_ROUTE') . '/users/' . $id);
+        $response       = Http::withToken(session('jwt_token'))->delete(config('api.route') . '/users/' . $id);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

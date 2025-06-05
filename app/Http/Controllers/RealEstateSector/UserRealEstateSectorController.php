@@ -5,20 +5,22 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\RealEstateSector;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class UserRealEstateSectorController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $page        = $request->get('page', 1);
         $token       = session('jwt_token');
         $queryParams = ['search' => $request->input('search'), 'page' => $page];
 
-        $response = Http::withToken($token)->get(env('API_ROUTE') . '/users/realEstateSector/' . session('user')['id_imobiliaria'], $queryParams);
+        $response = Http::withToken($token)->get(config('api.route') . '/users/realEstateSector/' . session('user')['id_imobiliaria'], $queryParams);
 
         $data = $response->json();
 
@@ -29,12 +31,12 @@ class UserRealEstateSectorController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(): View
     {
         return view('user.realEstateSector.formStore');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $token = session('jwt_token');
 
@@ -69,7 +71,7 @@ class UserRealEstateSectorController extends Controller
         $userData['permissoes']     = $permissoesString;
         $userData['senha']          = Hash::make($request->get('senha'));
 
-        $response       = Http::withToken($token)->post(env('API_ROUTE') . '/users/', $userData);
+        $response       = Http::withToken($token)->post(config('api.route') . '/users/', $userData);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {
@@ -79,9 +81,9 @@ class UserRealEstateSectorController extends Controller
         return redirect()->route('realestatesector.users.index')->with('success', $returnResponse['message']);
     }
 
-    public function edit(string | int $id)
+    public function edit(string | int $id): View
     {
-        $response = Http::withToken(session('jwt_token'))->get(env('API_ROUTE') . '/users/' . $id);
+        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/users/' . $id);
         $data     = $response->json();
 
         return view('user.realEstateSector.formEdit', [
@@ -90,7 +92,7 @@ class UserRealEstateSectorController extends Controller
         ]);
     }
 
-    public function update(string | int $id, Request $request)
+    public function update(string | int $id, Request $request): RedirectResponse
     {
         $token = session('jwt_token');
 
@@ -118,7 +120,7 @@ class UserRealEstateSectorController extends Controller
         $userData['categoria']      = session('user')['categoria'];
         $userData['permissoes']     = $permissoesString;
 
-        $response       = Http::withToken($token)->put(env('API_ROUTE') . '/users/' . $id, $userData);
+        $response       = Http::withToken($token)->put(config('api.route') . '/users/' . $id, $userData);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

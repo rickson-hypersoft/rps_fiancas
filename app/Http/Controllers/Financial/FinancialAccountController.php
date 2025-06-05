@@ -5,13 +5,15 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Financial;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class FinancialAccountController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $queryParams = [
             'page'   => $request->get('page', 1),
@@ -19,7 +21,7 @@ class FinancialAccountController extends Controller
         ];
 
         $user     = session('user');
-        $response = Http::withToken(session('jwt_token'))->get(env('API_ROUTE') . '/financial/financial_account/' . $user['id_imobiliaria'], $queryParams);
+        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_account/' . $user['id_imobiliaria'], $queryParams);
         $data     = $response->json();
 
         return view('financial.financial_account.index', [
@@ -29,7 +31,7 @@ class FinancialAccountController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(): View
     {
         return view('financial.financial_account.form', [
             'financialAccount' => null,
@@ -38,9 +40,9 @@ class FinancialAccountController extends Controller
         ]);
     }
 
-    public function edit(string | int $id)
+    public function edit(string | int $id): View
     {
-        $response = Http::withToken(session('jwt_token'))->get(env('API_ROUTE') . "/financial/{$id}/financial_account/");
+        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . "/financial/{$id}/financial_account/");
         $data     = $response->json();
 
         return view('financial.financial_account.form', [
@@ -50,7 +52,7 @@ class FinancialAccountController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $token           = session('jwt_token');
         $user            = session('user');
@@ -75,7 +77,7 @@ class FinancialAccountController extends Controller
         $financialAccount                   = $validator->validated();
         $financialAccount['id_imobiliaria'] = $user['id_imobiliaria'];
 
-        $response       = Http::withToken($token)->post(env('API_ROUTE') . '/financial/financial_account/', $financialAccount);
+        $response       = Http::withToken($token)->post(config('api.route') . '/financial/financial_account/', $financialAccount);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {
@@ -85,7 +87,7 @@ class FinancialAccountController extends Controller
         return redirect()->route('financial.financial_account.index')->with('success', $returnResponse['message']);
     }
 
-    public function update(Request $request, string | int $id)
+    public function update(Request $request, string | int $id): RedirectResponse
     {
         $requestSanitize = $this->sanitizeData($request->all(), ['banco_cnpj']);
 
@@ -117,7 +119,7 @@ class FinancialAccountController extends Controller
 
         $financialAccount['id_imobiliaria'] = session('user')['id_imobiliaria'];
 
-        $response       = Http::withToken(session('jwt_token'))->put(env('API_ROUTE') . '/financial/financial_account/' . $id, $financialAccount);
+        $response       = Http::withToken(session('jwt_token'))->put(config('api.route') . '/financial/financial_account/' . $id, $financialAccount);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {
@@ -127,9 +129,9 @@ class FinancialAccountController extends Controller
         return redirect()->route('financial.financial_account.index')->with('success', $returnResponse['message']);
     }
 
-    public function delete(string | int $id)
+    public function delete(string | int $id): RedirectResponse
     {
-        $response       = Http::withToken(session('jwt_token'))->delete(env('API_ROUTE') . '/financial/financial_account/' . $id);
+        $response       = Http::withToken(session('jwt_token'))->delete(config('api.route') . '/financial/financial_account/' . $id);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {
