@@ -88,41 +88,61 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
 
     Route::get('/imobiliaria/financeiro/conta', [FinancialAccountController::class, 'index'])
         ->name('financial.financial_account.index');
+
     Route::get('/imobiliaria/financeiro/conta/cadastrar', [FinancialAccountController::class, 'create'])
-        ->middleware('check.permission:4')
-        ->name('financial.financial_account.create');
-    Route::get('/imobiliaria/financeiro/conta/editar/{financeiro_conta}', [FinancialAccountController::class, 'edit'])
-        ->name('financial.financial_account.edit')->middleware('check.permission:5');
+        ->name('financial.financial_account.create')
+        ->middleware('check.permission:4');
+
     Route::post('/imobiliaria/financeiro/conta/cadastrar', [FinancialAccountController::class, 'store'])
-        ->name('financial.financial_account.store')->middleware('check.permission:4');
+        ->name('financial.financial_account.store')
+        ->middleware('check.permission:4');
+
+    Route::get('/imobiliaria/financeiro/conta/editar/{financeiro_conta}', [FinancialAccountController::class, 'edit'])
+        ->name('financial.financial_account.edit')
+        ->middleware('check.permission:5');
+
     Route::put('/imobiliaria/financeiro/conta/editar/{financeiro_conta}', [FinancialAccountController::class, 'update'])
-        ->name('financial.financial_account.update')->middleware('check.permission:5');
+        ->name('financial.financial_account.update')
+        ->middleware('check.permission:5');
+
     Route::delete('/imobiliaria/financeiro/conta/excluir/{financeiro_conta}', [FinancialAccountController::class, 'delete'])
-        ->name('financial.financial_account.delete')->middleware('check.permission:5');
+        ->name('financial.financial_account.delete')
+        ->middleware('check.permission:6');
 
     Route::get('/imobiliaria/financeiro/categoria', [FinancialCategoryController::class, 'index'])
         ->name('financial.financial_category.index');
+
     Route::get('/imobiliaria/financeiro/categoria/cadastrar', [FinancialCategoryController::class, 'create'])
-        ->name('financial.financial_category.create')->middleware('check.permission:4');
-    Route::get('/imobiliaria/financeiro/categoria/editar/{financeiro_categoria}', [FinancialCategoryController::class, 'edit'])
-        ->name('financial.financial_category.edit')->middleware('check.permission:5');
+        ->name('financial.financial_category.create')
+        ->middleware('check.permission:4');
+
     Route::post('/imobiliaria/financeiro/categoria/cadastrar', [FinancialCategoryController::class, 'store'])
-        ->name('financial.financial_category.store')->middleware('check.permission:4');
+        ->name('financial.financial_category.store')
+        ->middleware('check.permission:4');
+
+    Route::get('/imobiliaria/financeiro/categoria/editar/{financeiro_categoria}', [FinancialCategoryController::class, 'edit'])
+        ->name('financial.financial_category.edit')
+        ->middleware('check.permission:5');
+
     Route::put('/imobiliaria/financeiro/categoria/editar/{financeiro_categoria}', [FinancialCategoryController::class, 'update'])
-        ->name('financial.financial_category.update')->middleware('check.permission:5');
+        ->name('financial.financial_category.update')
+        ->middleware('check.permission:5');
 
     Route::delete('/imobiliaria/financeiro/categoria/excluir/{financeiro_categoria}', [FinancialCategoryController::class, 'delete'])
-        ->name('financial.financial_category.delete')->middleware('check.permission:5');
+        ->name('financial.financial_category.delete')
+        ->middleware('check.permission:6');
 
     Route::get('/propostas', [PropostalController::class, 'index'])
         ->name('propostal.index');
 
     Route::post('/propostas/cancelar/{id}', [PropostalController::class, 'delete'])
-        ->name('propostal.delete');
+        ->name('propostal.delete')
+        ->middleware('check.permission:11');
 
     Route::get('/propostas/criar-proposta', [PropostalController::class, 'create'])
         ->name('propostal.create')
         ->middleware('check.permission:11');
+
     Route::post('/propostas/criar-proposta', [PropostalController::class, 'store'])
         ->name('propostal.store')
         ->middleware('check.permission:11');

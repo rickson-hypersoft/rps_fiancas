@@ -100,7 +100,6 @@ class UserController extends Controller
             'nivel'          => 'nullable|string|max:50',
             'categoria'      => 'nullable|string|max:50',
             'id_imobiliaria' => 'nullable|numeric',
-            'ativo'          => 'nullable|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -114,6 +113,12 @@ class UserController extends Controller
         $userData['permissoes'] = $permissoesString;
 
         $userData['id_imobiliaria'] = $request->get('imobiliaria_id') ?? null;
+
+        $userData['ativo'] = 0;
+
+        if ($request->get('ativo')) {
+            $userData['ativo'] = 1;
+        }
 
         $response       = Http::withToken($token)->put(env('API_ROUTE') . '/users/' . $id, $userData);
         $returnResponse = $response->json();

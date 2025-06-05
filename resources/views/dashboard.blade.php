@@ -119,6 +119,7 @@
                                 @endif
 
                                 <!-- Propostas -->
+                                @if(session('user')['categoria'] == 'Imobiliária')
                                 <li class="menu-item {{ request()->is('propostas*') ? 'active' : '' }}">
                                     <a href="javascript:void(0)" class="menu-link menu-toggle">
                                         <i class="menu-icon icon-base ti tabler-file-like"></i>
@@ -164,7 +165,6 @@
                                     </ul>
                                 </li>
 
-                                @if(session('user')['categoria'] == 'Imobiliária')
                                 <!-- Financeiro -->
                                 <li class="menu-item {{ request()->is('imobiliaria/financeiro*', 'imobiliaria/categoria') ? 'active' : '' }}">
                                     <a href="javascript:void(0)" class="menu-link menu-toggle">
