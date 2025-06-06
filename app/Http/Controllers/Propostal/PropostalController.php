@@ -1,18 +1,22 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Propostal;
 
-use App\Http\Controllers\Controller;
 use DateTime;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Services\EmailService;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Http;
 
 class PropostalController extends Controller
 {
+    public function __construct(protected EmailService $emailService) {}
+
     public function index(Request $request): View
     {
         $token         = session('jwt_token');
@@ -108,6 +112,8 @@ class PropostalController extends Controller
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
+        $this->insertHashLink($id);
+
         return view('propostal.wizard', [
             'step'      => 'step4',
             'proposta'  => $data,
@@ -121,6 +127,10 @@ class PropostalController extends Controller
 
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
         $data     = $response->json();
+
+        if ($data['proposta_credito_status'] == 'Aprovado') {
+            dd("trabalhar aqui");
+        }
 
         $styles = $this->stylesStep5($data);
 
@@ -328,7 +338,7 @@ class PropostalController extends Controller
         $proposta['data_ultima_autalizacao'] = $currentDate->format('Y-m-d');
         $proposta['hora_ultima_atualizacao'] = $currentDate->format('H:i:s');
 
-        $this->saveHistory($proposta, "Proposta");
+        $this->saveHistory($proposta, "Aprovado");
 
         $proposta['imovel_aluguel']       = $this->parseValor($proposta['imovel_aluguel'] ?? '0');
         $proposta['imovel_condominio']    = $this->parseValor($proposta['imovel_condominio'] ?? '0');
@@ -406,6 +416,38 @@ class PropostalController extends Controller
                 'id' => $propostaId['id'],
             ],
         ]);
+    }
+
+    public function delete(Request $request, string | int $id): Response
+    {
+        $token = session('jwt_token');
+
+        $motivo = $request->input('motivo');
+        $motivoOpicional = $request->input('motivo_opicional');
+
+        $requestSanitize['id_imobiliaria']          = session('user')['id_imobiliaria'];
+        $requestSanitize['proposta_status']         = 'Cancelado';
+        $requestSanitize['proposta_credito_status'] = 'Cancelado';
+
+        $historico = "Solicitação cancelada #{$id} por motivo de {$motivo}";
+        if ($motivoOpicional) {
+            $historico = "Solicitação cancelada #{$id} por motivo de {$motivo}, explicação: {$motivoOpicional}";
+        }
+
+        $proposta = [
+            "id_imobiliaria" => session('user')['id_imobiliaria'],
+            "id_movi"        => $id,
+            "id_usuario"      => session('user')['id'],
+            "data"           => date('Y-m-d H:i:s'),
+            'historico'      => $historico,
+            "movi"           => "Proposta"
+        ];
+
+        $this->saveHistory($proposta, "Cancelado");
+
+        $response = Http::withToken($token)->post(config('api.route') . '/propostal/canceled/' . $id, $requestSanitize);
+
+        return $response;
     }
 
     private function styleStep2($data): array
@@ -499,23 +541,54 @@ class PropostalController extends Controller
         return floatval($limpo);
     }
 
-    private function saveHistory($data, $movi = null)
+    private function saveHistory($data, $status = "")
     {
-        $dataCriacao = str_replace('/', '-', $data['data']);
-        $dataCriacao .= " {$data['hora']}";
-
-        $convertDateTime = new DateTime($dataCriacao);
-
         $token   = session('jwt_token');
-        $history = [
-            'id_imobiliaria' => $data['id_imobiliaria'],
-            'id_movi'        => $data['id'],
-            'movi'           => 'Proposta',
-            'data'           => $convertDateTime->format('Y-m-d H:i'),
-            'id_usuario'     => session('user')['id'],
-            'historico'      => "Criada Solicitação #{$data['id']} do tipo {$data['imovel_tipo']}, com setup de {$data['proposta_setup_valor']} e valor do aluguel {$data['imovel_aluguel']}, valor do condomínio {$data['imovel_condominio']}, valor das taxas {$data['imovel_taxas']}, totalizando {$data['proposta_total_valor']}. O imóvel está situado no endereço {$data['endereco_completo']}, cujo CEP é {$data['imovel_cep']}",
-        ];
+        if ($status == "Aprovado") {
+            $dataCriacao = str_replace('/', '-', $data['data']);
+            $dataCriacao .= " {$data['hora']}";
 
-        Http::withToken($token)->post(config('api.route') . '/history/create', $history);
+            $convertDateTime = new DateTime($dataCriacao);
+
+            $history = [
+                'id_imobiliaria' => $data['id_imobiliaria'],
+                'id_movi'        => $data['id'],
+                'movi'           => 'Proposta',
+                'data'           => $convertDateTime->format('Y-m-d H:i'),
+                'id_usuario'     => session('user')['id'],
+                'historico'      => "Criada Solicitação #{$data['id']} do tipo {$data['imovel_tipo']}, com setup de {$data['proposta_setup_valor']} e valor do aluguel {$data['imovel_aluguel']}, valor do condomínio {$data['imovel_condominio']}, valor das taxas {$data['imovel_taxas']}, totalizando {$data['proposta_total_valor']}. O imóvel está situado no endereço {$data['endereco_completo']}, cujo CEP é {$data['imovel_cep']}",
+            ];
+
+            Http::withToken($token)->post(config('api.route') . '/history/create', $history);
+        }
+
+        if ($status = 'Cancelado') {
+            Http::withToken($token)->post(config('api.route') . '/history/create', $data);
+        }
+    }
+
+    private function insertHashLink(string|int $id)
+    {
+        $token    = session('jwt_token');
+        $response = Http::withToken($token)->post(config('api.route') . '/propostal/hash/' . $id);
+
+        if (!$response->successful()) {
+            return response()->json("Hash não criado com sucesso");
+        }
+
+        return response()->json("Hash criado com sucesso");
+    }
+
+    public function sendNotification(Request $request)
+    {
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $link = $request->input('link');
+
+        if ($this->emailService->send($email, $name, $link)) {
+            return response()->json(['mensagem' => 'E-mail enviado com sucesso!']);
+        }
+
+        return response()->json(['erro' => 'Falha ao enviar o e-mail.'], 500);
     }
 }

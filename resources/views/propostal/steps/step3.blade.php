@@ -154,11 +154,13 @@
     $dataNascimento = null;
     if (!empty($proposta['data_nascimento'])) {
         $dataObj = DateTime::createFromFormat('d/m/Y', $proposta['data_nascimento']);
-        $dataNascimento = $dataObj ? $dataObj->format('Y-m-d') : '';
+        $dataNascimento = $dataObj->format('Y-m-d');
     }
+
 @endphp
-                                    <input type="date" name="data_nascimento" id="data_nascimento"
-                                        class="form-control form-control-lg" value="{{ $dataNascimento }}"/>
+                                <input type="date" name="data_nascimento" id="data_nascimento"
+    class="form-control form-control-lg"
+    value="{{ $dataNascimento ?? '' }}" autocomplete="off" />
                                     <div
                                         class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                                     </div>

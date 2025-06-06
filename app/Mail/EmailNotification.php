@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Mail;
 
@@ -15,14 +15,13 @@ class EmailNotification extends Mailable
     use Queueable;
     use SerializesModels;
 
-    public $data;
+    protected string $nome;
+    protected string $link;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct($data)
+    public function __construct(string $nome, string $link)
     {
-        $this->data = $data;
+        $this->nome = $nome;
+        $this->link = $link;
     }
 
     /**
@@ -31,7 +30,7 @@ class EmailNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Email Notification',
+            subject: "Invicta - Inquilino {$this->nome}, falta pouco para finalizar!"
         );
     }
 
@@ -42,7 +41,10 @@ class EmailNotification extends Mailable
     {
         return new Content(
             view: 'emails.notify',
-            with: ['data' => $this->data],
+            with: [
+                'nome' => $this->nome,
+                'link' => $this->link,
+            ]
         );
     }
 

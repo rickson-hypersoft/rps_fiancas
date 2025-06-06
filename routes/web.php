@@ -1,7 +1,8 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
+use App\Http\Controllers\Assets\AssetsController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Financial\FinancialAccountController;
@@ -172,8 +173,18 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         Route::get('/step5/{id}', [PropostalController::class, 'step5'])->name('propostal.step5');
         Route::post('/salvar-step5/{id}', [PropostalController::class, 'saveStep5'])->name('propostal.save.step5');
 
+        Route::post('/cancelar/{id}', [PropostalController::class, 'delete'])
+            ->name('propostal.delete');
+
         Route::get('/resumo/{id}', [PropostalController::class, 'resumo'])->name('propostal.resume');
+        Route::post('/email', [PropostalController::class, 'sendNotification'])->name('propostal.send');
     });
 
-    Route::get('/email', [PropostalController::class, 'sendNotification'])->name('propostal.send');
+    // Contratos
+    Route::get('/contratos/ativacao/{link}', [AssetsController::class, 'index'])
+        ->name("assets.active")
+        ->middleware('verify.contract.link');
+
+    Route::get('/contratos/login/{link}', [AssetsController::class, 'login'])->name('assets.login');
+    Route::post('/contratos/login', [AssetsController::class, 'verifyLogin'])->name('assets.verify.login');
 });
