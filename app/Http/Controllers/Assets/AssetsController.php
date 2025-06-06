@@ -36,6 +36,35 @@ class AssetsController extends Controller
         return view('assets.term', ['link' => $link]);
     }
 
+    public function formCheckout(string $link)
+    {
+        return view('assets.formCheckout', ['link' => $link]);
+    }
+
+    public function checkout(Request $request, string $link)
+    {
+        $paymentMethod = '';
+        if ($request->all()['payment'] == 'pix') {
+            $paymentMethod = 'PIX';
+        }
+        if ($request->all()['payment'] == 'boleto') {
+            $paymentMethod = 'BOLETO';
+        }
+        if ($request->all()['payment'] == 'credit-card') {
+            $paymentMethod = 'CARTÃO';
+        }
+        return view('assets.checkout', ['link' => $link, 'payment' => $paymentMethod]);
+    }
+
+    public function saveCheckout(Request $request, string $link)
+    {
+        $token = session('jwt_token');
+        $paymentMethod = $request->input('payment');
+
+        $response = Http::withToken($token)->post(config('api.route') . '/assets/checkout/' . $link, ['payment' => $paymentMethod]);
+        dd($response->json());
+    }
+
     public function login(string $link): View
     {
         return view('assets.login', ['link' => $link]);

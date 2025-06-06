@@ -193,6 +193,16 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         ->name("assets.term")
         ->middleware('verify.contract.link');
 
+    Route::get('/contratos/formCheckout/{link}', [AssetsController::class, 'formCheckout'])
+        ->name("assets.formCheckout")
+        ->middleware('verify.contract.link');
+    Route::get('/contratos/checkout/{link}', [AssetsController::class, 'checkout'])
+        ->name("assets.checkout")
+        ->middleware('verify.contract.link');
+    Route::post('/contratos/checkout/{link}', [AssetsController::class, 'saveCheckout'])
+        ->name("assets.save.checkout")
+        ->middleware('verify.contract.link');
+
     Route::get('/contratos/login/{link}', [AssetsController::class, 'login'])->name('assets.login');
     Route::post('/contratos/login', [AssetsController::class, 'verifyLogin'])->name('assets.verify.login');
 });
