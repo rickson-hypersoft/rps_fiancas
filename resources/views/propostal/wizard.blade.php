@@ -84,9 +84,9 @@
 </div>
 
         <div class="bs-stepper-content">
-@includeWhen(view()->exists("propostas.steps.$step"), "propostas.steps.$step", ['proposta' => $proposta])
+@includeWhen(view()->exists("propostal.steps.$step"), "propostal.steps.$step", ['proposta' => $proposta])
 
-@unless(view()->exists("propostas.steps.$step"))
+@unless(view()->exists("propostal.steps.$step"))
     <p class="text-danger">Step "{{ $step }}" não encontrado.</p>
 @endunless
         </div>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Services;
 
 use App\Mail\EmailNotification;
@@ -12,9 +14,11 @@ class EmailService
     {
         try {
             Mail::to($destination)->send(new EmailNotification($data));
+
             return true;
         } catch (\Exception $e) {
             Log::error("Erro ao enviar e-mail" . $e->getMessage());
+
             return false;
         }
     }
