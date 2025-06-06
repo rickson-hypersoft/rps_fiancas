@@ -15,9 +15,25 @@ use Illuminate\Support\Facades\Http;
 
 class AssetsController extends Controller
 {
-    public function index()
+    public function index(string $link)
     {
-        return view('assets.index');
+        return view('assets.index', ['link' => $link]);
+    }
+
+    public function faceId(string $link)
+    {
+        // Por enquanto vai marcar face_id = 1;
+        $token = session('jwt_token');
+
+        $response = Http::withToken($token)->get(config('api.route') . '/assets/faceId/' . $link);
+        $data     = $response->json();
+
+        return view('assets.confirm', ['link' => $link]);
+    }
+
+    public function term(string $link)
+    {
+        return view('assets.term', ['link' => $link]);
     }
 
     public function login(string $link): View

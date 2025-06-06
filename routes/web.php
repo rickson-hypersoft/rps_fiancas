@@ -182,7 +182,15 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
 
     // Contratos
     Route::get('/contratos/ativacao/{link}', [AssetsController::class, 'index'])
+        ->name("assets.activation")
+        ->middleware('verify.contract.link');
+
+    Route::get('/contratos/ativado/{link}', [AssetsController::class, 'faceId'])
         ->name("assets.active")
+        ->middleware('verify.contract.link');
+
+    Route::get('/contratos/termo/{link}', [AssetsController::class, 'term'])
+        ->name("assets.term")
         ->middleware('verify.contract.link');
 
     Route::get('/contratos/login/{link}', [AssetsController::class, 'login'])->name('assets.login');
