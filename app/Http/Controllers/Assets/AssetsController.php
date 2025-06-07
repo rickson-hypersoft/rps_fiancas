@@ -93,6 +93,6 @@ class AssetsController extends Controller
         // Salva na sessão que este link foi autenticado
         session(["auth_link_{$request->input('link')}" => true]);
 
-        return redirect()->route('assets.active', ['link' => $request->input('link')]);
+        return redirect()->route('assets.activation', ['link' => $request->input('link')]);
     }
 }

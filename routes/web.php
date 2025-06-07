@@ -176,7 +176,7 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         Route::post('/cancelar/{id}', [PropostalController::class, 'delete'])
             ->name('propostal.delete');
 
-        Route::get('/resumo/{id}', [PropostalController::class, 'resumo'])->name('propostal.resume');
+        Route::get('/resumo/{id}', [PropostalController::class, 'resume'])->name('propostal.resume');
         Route::post('/email', [PropostalController::class, 'sendNotification'])->name('propostal.send');
     });
 

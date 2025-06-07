@@ -559,7 +559,7 @@ class PropostalController extends Controller
                 'historico'      => "Criada Solicitação #{$data['id']} do tipo {$data['imovel_tipo']}, com setup de {$data['proposta_setup_valor']} e valor do aluguel {$data['imovel_aluguel']}, valor do condomínio {$data['imovel_condominio']}, valor das taxas {$data['imovel_taxas']}, totalizando {$data['proposta_total_valor']}. O imóvel está situado no endereço {$data['endereco_completo']}, cujo CEP é {$data['imovel_cep']}",
             ];
 
-            Http::withToken($token)->post(config('api.route') . '/history/create', $history);
+            $response = Http::withToken($token)->post(config('api.route') . '/history/create', $history);
         }
 
         if ($status = 'Cancelado') {
@@ -590,5 +590,16 @@ class PropostalController extends Controller
         }
 
         return response()->json(['erro' => 'Falha ao enviar o e-mail.'], 500);
+    }
+
+    public function resume(string|int $id) {
+        $token    = session('jwt_token');
+        $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
+        $proposta = $response->json();
+
+        $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
+        $dataHistory = $response->json();
+
+        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'],]);
     }
 }

@@ -1,12 +1,18 @@
 <!doctype html>
 
-<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-skin="default"
-    data-assets-path="../../assets/" data-template="horizontal-menu-template" data-bs-theme="light">
-
-<head>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-assets-path="../../assets/"
+  data-template="horizontal-menu-template"
+  data-bs-theme="light">
+  <head>
     <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Demo: Vertical Layouts - Forms | Vuexy - Bootstrap Dashboard PRO</title>
 
@@ -19,8 +25,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
-        rel="stylesheet" />
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
+      rel="stylesheet" />
 
     <link rel="stylesheet" href="../../assets/vendor/fonts/iconify-icons.css" />
 
@@ -55,36 +61,33 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 
     <script src="../../assets/js/config.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
-        <div class="layout-container">
+      <div class="layout-container">
 
-            <!-- Layout container -->
-            <div class="layout-page">
-                <!-- Content wrapper -->
-                <div class="content-wrapper">
-                    <!-- Content -->
-                    <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-                        <div class="card d-flex justify-content-center align-items-center p-12">
-                            <h2 class="mt-8 text-center">Autenticação verificada com sucesso</h2>
-                            <p class="text-center" style="opacity: 80%;">Você está seguro. Agora é só assinar os termos
-                                e confirmar o pagamento.</p>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Google_Verified_Badge.svg"
-                                height="152" width="152" class="m-8">
-                            <a href="{{ route('assets.term', ['link' => $link]) }}" type="submit"
-                                class="btn btn-primary waves-effect waves-light m-3">Continuar</a>
-                        </div>
-                    </div>
-                    <!--/ Content -->
-                    <div class="content-backdrop fade"></div>
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+              <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+                <div class="card d-flex justify-content-center align-items-center p-12">
+                  <h2 class="mt-8 text-center">Autenticação verificada com sucesso</h2>
+                  <p class="text-center" style="opacity: 80%;">Você está seguro. Agora é só assinar os termos e confirmar o pagamento.</p>
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Google_Verified_Badge.svg" height="152" width="152" class="m-8">
+                  <button type="submit" class="btn btn-primary waves-effect waves-light m-3">Continuar →</button>
                 </div>
-                <!--/ Content wrapper -->
-            </div>
-            <!--/ Layout container -->
+              </div>
+            <!--/ Content -->
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!--/ Content wrapper -->
         </div>
+        <!--/ Layout container -->
+      </div>
     </div>
 
     <!-- Overlay -->
@@ -130,6 +133,5 @@
 
     <!-- Page JS -->
     <script src="../../assets/js/form-layouts.js"></script>
-</body>
-
+  </body>
 </html>
