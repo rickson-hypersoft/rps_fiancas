@@ -130,7 +130,156 @@
                         @endif
 
                         @if ($payment == 'CARTÃO')
-                        <h1>Teste CARTÃO</h1>
+                        <div class="container">
+                            <div class="card px-3">
+                                <div class="row">
+                                    <div class="col-lg-7 card-body border-end p-md-8">
+                                        <h4 class="mb-2">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Cartão de Crédito</font>
+                                            </font>
+                                        </h4>
+                                        <div class="row g-5 py-3">
+                                            <div class="col-md col-lg-12 col-xl-12">
+                                                <div class="card" style="background: #f7f7f7; box-shadow: none;">
+                                                    <div class="card-body">
+                                                        <form action="">
+                                                            <div class="row">
+                                                                <div class="col-8">
+                                                                    <label class="form-label w-100" for="paymentCard">Número do cartão</label>
+                                                                    <div class="input-group input-group-merge bg-white">
+                                                                        <input id="paymentCard" required name="paymentCard" class="form-control credit-card-mask" type="text" aria-describedby="paymentCard2">
+                                                                        <span class="input-group-text cursor-pointer p-1" id="paymentCard2"><span class="card-type"></span></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-2">
+                                                                    <label class="form-label w-100" for="paymentCard">CVV</label>
+                                                                    <div class="input-group input-group-merge bg-white">
+                                                                        <input id="paymentCard" required name="paymentCard" class="form-control credit-card-mask" type="text" placeholder="" aria-describedby="paymentCard2">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-2">
+                                                                    <label class="form-label w-100" for="paymentCard">Vencimento</label>
+                                                                    <div class="input-group input-group-merge bg-white">
+                                                                        <input id="paymentCard" required name="paymentCard" class="form-control credit-card-mask" type="text" aria-describedby="paymentCard2">
+                                                                        <span class="input-group-text cursor-pointer p-1" id="paymentCard2"><span class="card-type"></span></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-9">
+                                                                    <label class="form-label w-100" for="paymentCard">Nome (como está no cartão)</label>
+                                                                    <div class="input-group input-group-merge bg-white">
+                                                                        <input id="paymentCard" required name="paymentCard" class="form-control credit-card-mask" type="text" aria-describedby="paymentCard2">
+                                                                        <span class="input-group-text cursor-pointer p-1" id="paymentCard2"><span class="card-type"></span></span>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+                                                                <div class="col-9">
+                                                                    <label class="form-label w-100" for="paymentCard">Nome completo</label>
+                                                                    <div class="input-group input-group-merge bg-white">
+                                                                        <input id="paymentCard" required name="paymentCard" class="form-control credit-card-mask" type="text" aria-describedby="paymentCard2">
+                                                                        <span class="input-group-text cursor-pointer p-1" id="paymentCard2"><span class="card-type"></span></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-3">
+                                                                    <label class="form-label w-100" for="paymentCard">CPF</label>
+                                                                    <div class="input-group input-group-merge bg-white">
+                                                                        <input id="paymentCard" required name="paymentCard" class="form-control credit-card-mask" type="text" aria-describedby="paymentCard2">
+                                                                        <span class="input-group-text cursor-pointer p-1" id="paymentCard2"><span class="card-type"></span></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <label class="form-label w-100" for="paymentCard">Número</label>
+                                                                    <div class="input-group input-group-merge bg-white">
+                                                                        <input id="paymentCard" required name="paymentCard" class="form-control credit-card-mask" type="text" aria-describedby="paymentCard2">
+                                                                        <span class="input-group-text cursor-pointer p-1" id="paymentCard2"><span class="card-type"></span></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <label class="form-label w-100" for="paymentCard">Complemento</label>
+                                                                    <div class="input-group input-group-merge bg-white">
+                                                                        <input id="paymentCard" required name="paymentCard" class="form-control credit-card-mask" type="text" aria-describedby="paymentCard2">
+                                                                        <span class="input-group-text cursor-pointer p-1" id="paymentCard2"><span class="card-type"></span></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <label class="form-label w-100" for="paymentCard">CEP</label>
+                                                                    <div class="input-group input-group-merge bg-white">
+                                                                        <input id="paymentCard" required name="paymentCard" class="form-control credit-card-mask" type="text" aria-describedby="paymentCard2">
+                                                                        <span class="input-group-text cursor-pointer p-1" id="paymentCard2"><span class="card-type"></span></span>
+                                                                    </div>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary">Continuar</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-5 card-body p-md-12 d-flex flex-column justify-content-between">
+                                        <div>
+                                            <h4 class="mb-2">
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">Resumo do pedido</font>
+                                                </font>
+                                            </h4>
+                                            <p class="mb-8">
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">
+                                                        Ele pode ajudar você a gerenciar e atender pedidos antes, </font>
+                                                </font><br>
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">
+                                                        durante e depois do atendimento.
+                                                    </font>
+                                                </font>
+                                            </p>
+                                        </div>
+                                        <div class="mt-5">
+                                            <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
+                                                <p class="mb-0">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">Valor Aluguel</font>
+                                                    </font>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">R$ 69,69</font>
+                                                    </font>
+                                                </p>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
+                                                <p class="mb-0">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">Valor Setup</font>
+                                                    </font>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">R$ 69,69</font>
+                                                    </font>
+                                                </p>
+                                            </div>
+                                            <hr>
+                                            <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
+                                                <h5 class="mb-0">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">Total</font>
+                                                    </font>
+                                                </h5>
+                                                <h4 class="mb-0">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">R$ 69,69</font>
+                                                    </font>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                         @endif
                     </section>
 

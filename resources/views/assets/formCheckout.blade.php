@@ -46,7 +46,7 @@
                                                 <font style="vertical-align: inherit;">Escolha sua forma de pagamento</font>
                                             </font>
                                         </h4>
-                                        <form action="{{route('assets.save.checkout', ['link' => $link])}}" method="POST">
+                                        <form action="{{route('assets.checkout', ['link' => $link])}}" method="POST">
                                             @csrf
                                             <div class="row g-5 py-3">
                                                 <div class="col-md col-lg-12 col-xl-12">

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Assets;
 
@@ -45,15 +45,15 @@ class AssetsController extends Controller
     {
         $paymentMethod = '';
 
-        if ($request->all()['payment'] == 'pix') {
+        if ($request->all()['payment'] == 'PIX') {
             $paymentMethod = 'PIX';
         }
 
-        if ($request->all()['payment'] == 'boleto') {
+        if ($request->all()['payment'] == 'BOLETO') {
             $paymentMethod = 'BOLETO';
         }
 
-        if ($request->all()['payment'] == 'credit-card') {
+        if ($request->all()['payment'] == 'CREDIT_CARD') {
             $paymentMethod = 'CARTÃO';
         }
 
@@ -66,7 +66,6 @@ class AssetsController extends Controller
         $paymentMethod = $request->input('payment');
 
         $response = Http::withToken($token)->post(config('api.route') . '/assets/checkout/' . $link, ['payment' => $paymentMethod]);
-        dd($response->json());
     }
 
     public function login(string $link): View
