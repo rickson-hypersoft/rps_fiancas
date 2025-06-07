@@ -1,17 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Controllers\Assets;
 
-use DateTime;
-use Illuminate\View\View;
-use Illuminate\Http\Request;
-use App\Services\EmailService;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Client\Response;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
 class AssetsController extends Controller
 {
@@ -38,27 +34,35 @@ class AssetsController extends Controller
 
     public function formCheckout(string $link)
     {
-        return view('assets.formCheckout', ['link' => $link]);
+        $token    = session('jwt_token');
+        $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $link);
+        $data     = $response->json();
+
+        return view('assets.formCheckout', ['link' => $link, 'data' => $data]);
     }
 
     public function checkout(Request $request, string $link)
     {
         $paymentMethod = '';
+
         if ($request->all()['payment'] == 'pix') {
             $paymentMethod = 'PIX';
         }
+
         if ($request->all()['payment'] == 'boleto') {
             $paymentMethod = 'BOLETO';
         }
+
         if ($request->all()['payment'] == 'credit-card') {
             $paymentMethod = 'CARTÃO';
         }
+
         return view('assets.checkout', ['link' => $link, 'payment' => $paymentMethod]);
     }
 
     public function saveCheckout(Request $request, string $link)
     {
-        $token = session('jwt_token');
+        $token         = session('jwt_token');
         $paymentMethod = $request->input('payment');
 
         $response = Http::withToken($token)->post(config('api.route') . '/assets/checkout/' . $link, ['payment' => $paymentMethod]);
@@ -73,7 +77,7 @@ class AssetsController extends Controller
     public function verifyLogin(Request $request)
     {
         $request->validate([
-            'cpf' => 'required|string',
+            'cpf'  => 'required|string',
             'link' => 'required|string',
         ]);
 
@@ -82,7 +86,7 @@ class AssetsController extends Controller
         $response = Http::withToken($token)->get(config('api.route') . '/assets/active/' . $request->input('link'));
         $data     = $response->json();
 
-        if (!$data) {
+        if (! $data) {
             return redirect()->back()->withErrors(['message' => 'Link inválido.']);
         }
 

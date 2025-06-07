@@ -315,7 +315,7 @@
             })
             .then(data => {
                 // Após sucesso, redireciona
-                // window.location.href = redirectUrl;
+                window.location.href = redirectUrl;
             })
             .catch(error => {
                 console.error(error);

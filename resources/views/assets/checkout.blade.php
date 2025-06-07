@@ -5,40 +5,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-    <title>Demo: Fluid - Layouts | Vuexy - Bootstrap Dashboard PRO</title>
-
+    <title>Invicta - Inquilinos</title>
     <meta name="description" content="" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../../assets/img/favicon/favicon.ico" />
-
-    <!-- Fonts -->
+    <link rel="icon" type="image/x-icon" href="{{asset('assets/img/favicon/favicon.ico')}}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap" rel="stylesheet" />
-
-    <link rel="stylesheet" href="../../assets/vendor/fonts/iconify-icons.css" />
-
-    <!-- Core CSS -->
-    <!-- build:css assets/vendor/css/theme.css  -->
-
-    <link rel="stylesheet" href="../../assets/vendor/libs/node-waves/node-waves.css" />
-
-    <link rel="stylesheet" href="../../assets/vendor/libs/pickr/pickr-themes.css" />
-
-    <link rel="stylesheet" href="../../assets/vendor/css/core.css" />
-    <link rel="stylesheet" href="../../assets/css/demo.css" />
-
-    <!-- Vendors CSS -->
-
-    <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-
-    <!-- endbuild -->
-
-    <!-- Page CSS -->
-
-    <link rel="stylesheet" href="../../assets/vendor/css/pages/front-page-payment.css" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/iconify-icons.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/node-waves/node-waves.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/pickr/pickr-themes.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/css/core.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/css/pages/front-page-payment.css')}}" />
 
     <style>
         @media (min-width: 769px) {
@@ -48,32 +27,17 @@
         }
     </style>
 
-    <!-- Helpers -->
-    <script src="../../assets/vendor/js/helpers.js"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-
-
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-
-    <script src="../../assets/js/config.js"></script>
+    <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
+    <script src="{{asset('assets/js/config.js')}}"></script>
 </head>
 
 <body>
-    <script src="../../assets/vendor/js/dropdown-hover.js"></script>
-    <script src="../../assets/vendor/js/mega-dropdown.js"></script>
-    <!-- Layout wrapper -->
+    <script src="{{asset('assets/vendor/js/dropdown-hover.js')}}"></script>
+    <script src="{{asset('assets/vendor/js/mega-dropdown.js')}}"></script>
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
         <div class="layout-container">
-
-            <!-- Layout container -->
             <div class="layout-page">
-                <!-- Content wrapper -->
                 <div class="content-wrapper">
-                    <!-- Menu -->
-
-                    <!-- / Menu -->
-
-                    <!-- Content -->
                     <section class="section-py bg-body first-section-pt p-5">
                         @if ($payment == 'PIX')
                         <div class="container">
@@ -169,48 +133,23 @@
                         <h1>Teste CARTÃO</h1>
                         @endif
                     </section>
-                    <!--/ Content -->
-
-                    <!-- Footer -->
-                    <!-- / Footer -->
 
                     <div class="content-backdrop fade"></div>
                 </div>
-                <!--/ Content wrapper -->
             </div>
-
-            <!--/ Layout container -->
         </div>
     </div>
 
-    <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
-
-
-    <!--/ Layout wrapper -->
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/theme.js -->
-
-    <script src="../../assets/vendor/libs/popper/popper.js"></script>
-    <script src="../../assets/vendor/js/bootstrap.js"></script>
-    <script src="../../assets/vendor/libs/node-waves/node-waves.js"></script>
-
-    <script src="../../assets/vendor/libs/@algolia/autocomplete-js.js"></script>
-
-    <script src="../../assets/vendor/libs/pickr/pickr.js"></script>
-
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-    <script src="../../assets/vendor/libs/cleave-zen/cleave-zen.js"></script>
-
-    <!-- Main JS -->
-
-    <script src="../../assets/js/front-main.js"></script>
-
-    <!-- Page JS -->
-    <script src="../../assets/js/pages-pricing.js"></script>
-    <script src="../../assets/js/front-page-payment.js"></script>
+    <script src="{{asset('assets/vendor/libs/popper/popper.js')}}"></script>
+    <script src="{{asset('assets/vendor/js/bootstrap.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/node-waves/node-waves.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/@algolia/autocomplete-js.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/pickr/pickr.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/cleave-zen/cleave-zen.js')}}"></script>
+    <script src="{{asset('assets/js/front-main.js')}}"></script>
+    <script src="{{asset('assets/js/pages-pricing.js')}}"></script>
+    <script src="{{asset('assets/js/front-page-payment.js')}}"></script>
 </body>
 
 </html>

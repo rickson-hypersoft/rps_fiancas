@@ -1,21 +1,23 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Controllers\Propostal;
 
-use DateTime;
-use Illuminate\View\View;
-use Illuminate\Http\Request;
-use App\Services\EmailService;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Services\EmailService;
+use DateTime;
 use Illuminate\Http\Client\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
 class PropostalController extends Controller
 {
-    public function __construct(protected EmailService $emailService) {}
+    public function __construct(protected EmailService $emailService)
+    {
+    }
 
     public function index(Request $request): View
     {
@@ -129,14 +131,17 @@ class PropostalController extends Controller
         $data     = $response->json();
 
         if ($data['proposta_credito_status'] == 'Aprovado') {
-            dd("trabalhar aqui");
+            $data['proposta_status']     = 'Aprovado';
+            $proposta                    = $this->parserValuesForInsert($data);
+            $proposta['contrato_status'] = 'Pendente';
+            $dataResponse                = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
         }
 
-        $styles = $this->stylesStep5($data);
+        $styles = $this->stylesStep5($dataResponse->json()['data']);
 
         return view('propostal.wizard', [
             'step'     => 'step5',
-            'proposta' => $data,
+            'proposta' => $dataResponse->json()['data'],
             'styles'   => $styles,
         ]);
     }
@@ -340,27 +345,7 @@ class PropostalController extends Controller
 
         $this->saveHistory($proposta, "Aprovado");
 
-        $proposta['imovel_aluguel']       = $this->parseValor($proposta['imovel_aluguel'] ?? '0');
-        $proposta['imovel_condominio']    = $this->parseValor($proposta['imovel_condominio'] ?? '0');
-        $proposta['imovel_taxas']         = $this->parseValor($proposta['imovel_taxas'] ?? '0');
-        $proposta['proposta_total_valor'] = $this->parseValor($proposta['proposta_total_valor'] ?? '0');
-        $proposta['proposta_setup_valor'] = $this->parseValor($proposta['proposta_setup_valor'] ?? '0');
-
-        if ($proposta["pessoa_tipo"] == "Pessoa Física") {
-            $proposta["pessoa_tipo"] = "pf";
-        }
-
-        if ($proposta["pessoa_tipo"] == "Pessoa Jurídica") {
-            $proposta["pessoa_tipo"] = "pj";
-        }
-
-        if ($proposta["imovel_tipo"] == "Residencial") {
-            $proposta["imovel_tipo"] = "R";
-        }
-
-        if ($proposta["imovel_tipo"] == "Comercial") {
-            $proposta["imovel_tipo"] = "C";
-        }
+        $proposta = $this->parserValuesForInsert($proposta);
 
         $response = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
 
@@ -394,6 +379,17 @@ class PropostalController extends Controller
                     // Salva o arquivo localmente
                     $file->storeAs("anexos/{$idImobiliaria}/propostas", $nomeUnico, 'public');
 
+                    dd([
+                        'id_imobiliaria'        => $idImobiliaria,
+                        'id_movi'               => $id,
+                        'movi'                  => 'propostas',
+                        'movi_sub'              => null,
+                        'data'                  => now()->format('Y-m-d H:i:s'),
+                        'nome_arquivo'          => $nomeUnico,
+                        'nome_arquivo_original' => $nomeOriginal,
+                        'descricao'             => 'Arquivo anexado à proposta',
+                    ]);
+
                     // Chamada para a API registrar o anexo no banco
                     Http::withToken($token)->post(config('api.route') . '/financial/attachment', [
                         'id_imobiliaria'        => $idImobiliaria,
@@ -422,7 +418,7 @@ class PropostalController extends Controller
     {
         $token = session('jwt_token');
 
-        $motivo = $request->input('motivo');
+        $motivo          = $request->input('motivo');
         $motivoOpicional = $request->input('motivo_opicional');
 
         $requestSanitize['id_imobiliaria']          = session('user')['id_imobiliaria'];
@@ -430,6 +426,7 @@ class PropostalController extends Controller
         $requestSanitize['proposta_credito_status'] = 'Cancelado';
 
         $historico = "Solicitação cancelada #{$id} por motivo de {$motivo}";
+
         if ($motivoOpicional) {
             $historico = "Solicitação cancelada #{$id} por motivo de {$motivo}, explicação: {$motivoOpicional}";
         }
@@ -437,10 +434,10 @@ class PropostalController extends Controller
         $proposta = [
             "id_imobiliaria" => session('user')['id_imobiliaria'],
             "id_movi"        => $id,
-            "id_usuario"      => session('user')['id'],
+            "id_usuario"     => session('user')['id'],
             "data"           => date('Y-m-d H:i:s'),
             'historico'      => $historico,
-            "movi"           => "Proposta"
+            "movi"           => "Proposta",
         ];
 
         $this->saveHistory($proposta, "Cancelado");
@@ -543,7 +540,8 @@ class PropostalController extends Controller
 
     private function saveHistory($data, $status = "")
     {
-        $token   = session('jwt_token');
+        $token = session('jwt_token');
+
         if ($status == "Aprovado") {
             $dataCriacao = str_replace('/', '-', $data['data']);
             $dataCriacao .= " {$data['hora']}";
@@ -567,12 +565,12 @@ class PropostalController extends Controller
         }
     }
 
-    private function insertHashLink(string|int $id)
+    private function insertHashLink(string | int $id)
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->post(config('api.route') . '/propostal/hash/' . $id);
 
-        if (!$response->successful()) {
+        if (! $response->successful()) {
             return response()->json("Hash não criado com sucesso");
         }
 
@@ -581,9 +579,9 @@ class PropostalController extends Controller
 
     public function sendNotification(Request $request)
     {
-        $name = $request->input('name');
+        $name  = $request->input('name');
         $email = $request->input('email');
-        $link = $request->input('link');
+        $link  = $request->input('link');
 
         if ($this->emailService->send($email, $name, $link)) {
             return response()->json(['mensagem' => 'E-mail enviado com sucesso!']);
@@ -592,7 +590,8 @@ class PropostalController extends Controller
         return response()->json(['erro' => 'Falha ao enviar o e-mail.'], 500);
     }
 
-    public function resume(string|int $id) {
+    public function resume(string | int $id)
+    {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
         $proposta = $response->json();
@@ -600,6 +599,29 @@ class PropostalController extends Controller
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
-        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'],]);
+        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'], ]);
+    }
+
+    private function parserValuesForInsert(array $data): array
+    {
+        $data['imovel_aluguel']       = $this->parseValor($data['imovel_aluguel'] ?? '0');
+        $data['imovel_condominio']    = $this->parseValor($data['imovel_condominio'] ?? '0');
+        $data['imovel_taxas']         = $this->parseValor($data['imovel_taxas'] ?? '0');
+        $data['proposta_total_valor'] = $this->parseValor($data['proposta_total_valor'] ?? '0');
+        $data['proposta_setup_valor'] = $this->parseValor($data['proposta_setup_valor'] ?? '0');
+
+        $data["pessoa_tipo"] = match ($data["pessoa_tipo"] ?? null) {
+            "Pessoa Física"   => "pf",
+            "Pessoa Jurídica" => "pj",
+            default           => $data["pessoa_tipo"] ?? null,
+        };
+
+        $data["imovel_tipo"] = match ($data["imovel_tipo"] ?? null) {
+            "Residencial" => "R",
+            "Comercial"   => "C",
+            default       => $data["imovel_tipo"] ?? null,
+        };
+
+        return $data;
     }
 }

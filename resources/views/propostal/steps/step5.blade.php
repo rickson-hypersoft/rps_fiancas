@@ -17,7 +17,7 @@
                     <hr>
                     <small>REGISTRO</small>
                     <p>Proposta #<span id="id_proposta">{{ $proposta['id'] }}</span></p>
-                    <a id="link" href="{{ route('proposta.resume', ['id' => $proposta['id']]) }}"
+                    <a id="link" href="{{ route('propostal.resume', ['id' => $proposta['id']]) }}"
                         class="btn btn-success waves-effect">Ver detalhes da proposta</a>
                 </div>
             </div>

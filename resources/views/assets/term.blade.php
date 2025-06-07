@@ -1,40 +1,24 @@
 <!doctype html>
-<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-skin="default"
-    data-assets-path="../../assets/" data-template="horizontal-menu-template" data-bs-theme="light">
+<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-skin="default" data-assets-path="../../assets/" data-template="horizontal-menu-template" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>Demo: Vertical Layouts - Forms | Vuexy - Bootstrap Dashboard PRO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Invicta - Inquilinos</title>
     <meta name="description" content="" />
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/iconify-icons.css') }}" />
-    <!-- Core CSS -->
-    <!-- build:css assets/vendor/css/theme.css  -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/node-waves/node-waves.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/pickr/pickr-themes.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
-    <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
-    <!-- endbuild -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/flatpickr/flatpickr.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
-    <!-- Page CSS -->
-    <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
-    <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
 </head>
 
@@ -49,12 +33,11 @@
                     <!-- Content -->
                     <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
                         <div class="container py-4">
-                            <div>
-                                <div>
+                            <div class="card">
+                                <div class="card-body">
                                     <tbody>
                                         <tr>
-                                            <td colspan="2"
-                                                style="border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single">
+                                            <td colspan="2" style="border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single">
                                                 <p style="line-height:108%; font-size:11pt">
                                                     <span style="font-weight:bold">QUADRO RESUMO - CONTRATO Nº
                                                         2672502</span>
@@ -62,10 +45,8 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"
-                                                style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
-                                                <p style="line-height:108%; font-size:11pt"><span
-                                                        style="font-weight:bold">DADOS DO INQUILINO</span></p>
+                                            <td colspan="2" style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
+                                                <p style="line-height:108%; font-size:11pt"><span style="font-weight:bold">DADOS DO INQUILINO</span></p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -89,8 +70,7 @@
                                                     rich.igor@gmail.com</span></p>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"
-                                                style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
+                                            <td colspan="2" style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
                                                 <p style="line-height:108%; font-size:11pt"><span>DADOS DO
                                                         ADMINISTRADOR</span></p>
                                             </td>
@@ -127,10 +107,8 @@
                                             </p>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"
-                                                style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
-                                                <p style="line-height:108%; font-size:11pt"><span
-                                                        style="font-weight:bold">DADOS DO IMÓVEL DA LOCAÇÃO</span></p>
+                                            <td colspan="2" style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
+                                                <p style="line-height:108%; font-size:11pt"><span style="font-weight:bold">DADOS DO IMÓVEL DA LOCAÇÃO</span></p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -161,10 +139,8 @@
                                                     Residencial</span></p>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"
-                                                style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
-                                                <p style="line-height:108%; font-size:11pt"><span
-                                                        style="font-weight:bold">DADOS DA CONTRATAÇÃO</span></p>
+                                            <td colspan="2" style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
+                                                <p style="line-height:108%; font-size:11pt"><span style="font-weight:bold">DADOS DA CONTRATAÇÃO</span></p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -202,16 +178,13 @@
                                         Invicta</span></p>
                                 <p><span>&nbsp;</span></p>
                                 <div align="center">
-                                    <hr size="0" align="center" noshade=""
-                                        style="width:100%; color:#1a202c; background-color:#1a202c">
+                                    <hr size="0" align="center" noshade="" style="width:100%; color:#1a202c; background-color:#1a202c">
                                 </div>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>Pelo presente instrumento eletrônico, a</span><span>&nbsp;</span><span
-                                        style="font-weight:bold">Invicta SOLUÇÕES FINANCEIRAS S/A</span><span>, pessoa
+                                <p><span>Pelo presente instrumento eletrônico, a</span><span>&nbsp;</span><span style="font-weight:bold">Invicta SOLUÇÕES FINANCEIRAS S/A</span><span>, pessoa
                                         jurídica de direito privado, inscrita no CNPJ/MF sob o nº 25.027.928/0001-90,
                                         com sede na cidade de Curitiba, Estado do Paraná, na Rua Emiliano Perneta, 480,
-                                        conj. 31 e 32, Centro, CEP: 80.420-210 (doravante “</span><span
-                                        style="font-weight:bold; text-decoration:underline">Invicta</span><span>”)
+                                        conj. 31 e 32, Centro, CEP: 80.420-210 (doravante “</span><span style="font-weight:bold; text-decoration:underline">Invicta</span><span>”)
                                         apresenta os Termos e Condições Gerais dos Serviços Invicta (doravante
                                         “Instrumento”).</span></p>
                                 <p><span>&nbsp;</span></p>
@@ -366,13 +339,11 @@
                                 <p><span>&nbsp;</span></p>
                                 <p><span style="font-weight:bold">1. DO OBJETO</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>1.1</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Objeto</span><span>: O presente Instrumento
+                                <p><span>1.1</span><span>&nbsp;</span><span style="text-decoration:underline">Objeto</span><span>: O presente Instrumento
                                         estabelece os termos e condições gerais dos Serviços Invicta, contratados
                                         pelo(s) Inquilino(s).</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>1.2</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Escopo</span><span>: Os Serviços Invicta se
+                                <p><span>1.2</span><span>&nbsp;</span><span style="text-decoration:underline">Escopo</span><span>: Os Serviços Invicta se
                                         darão apenas com relação a:</span></p>
                                 <p><span>&nbsp;</span></p>
                                 <p><span>(i) Contratos de Locação de imóveis residenciais urbanos;</span></p>
@@ -406,33 +377,30 @@
                                 <p><span>(i) o cadastro do(s) Inquilino(s) na Plataforma, a ser realizado pela
                                         Imobiliária, mediante a inserção de:</span></p>
                                 <ul type="disc" style="margin:0pt; padding-left:0pt">
-                                    <li
-                                        style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
-                                        <span
-                                            style="line-height:108%; font-family:Calibri; font-size:11pt">&nbsp;</span><span
-                                            style="line-height:108%; font-family:Calibri; font-size:11pt">Nome;</span>
+                                    <li style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
+                                        <span style="line-height:108%; font-family:Calibri; font-size:11pt">&nbsp;</span><span style="line-height:108%; font-family:Calibri; font-size:11pt">Nome;</span>
                                     </li>
-                                    <li
-                                        style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
+                                    <li style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
                                         <span style="line-height:108%; font-family:Calibri; font-size:11pt">Número da
-                                            Inscrição no CPF/MF;</span></li>
-                                    <li
-                                        style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
+                                            Inscrição no CPF/MF;</span>
+                                    </li>
+                                    <li style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
                                         <span style="line-height:108%; font-family:Calibri; font-size:11pt">Endereço,
-                                            quando se tratar de locações de natureza não residencial;</span></li>
-                                    <li
-                                        style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
+                                            quando se tratar de locações de natureza não residencial;</span>
+                                    </li>
+                                    <li style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
                                         <span style="line-height:108%; font-family:Calibri; font-size:11pt">Telefone
-                                            para contato;</span></li>
-                                    <li
-                                        style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
+                                            para contato;</span>
+                                    </li>
+                                    <li style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
                                         <span style="line-height:108%; font-family:Calibri; font-size:11pt">Endereço
-                                            eletrônico para contato; e</span></li>
-                                    <li
-                                        style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
+                                            eletrônico para contato; e</span>
+                                    </li>
+                                    <li style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
                                         <span style="line-height:108%; font-family:Calibri; font-size:11pt">Cópia
                                             digitalizada da última fatura do cartão de crédito a ser utilizado na
-                                            operação.</span></li>
+                                            operação.</span>
+                                    </li>
                                 </ul>
                                 <p><span>&nbsp;</span></p>
                                 <p><span>(ii) a vinculação de cartão de crédito de titularidade do(s) Inquilino(s),
@@ -444,33 +412,29 @@
                                 <p><span>&nbsp;</span></p>
                                 <p><span>(i) a inserção das seguintes informações e documentos:</span></p>
                                 <ul type="disc" style="margin:0pt; padding-left:0pt">
-                                    <li
-                                        style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
-                                        <span
-                                            style="line-height:108%; font-family:Calibri; font-size:11pt">Nome;</span>
+                                    <li style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
+                                        <span style="line-height:108%; font-family:Calibri; font-size:11pt">Nome;</span>
                                     </li>
-                                    <li
-                                        style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
+                                    <li style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
                                         <span style="line-height:108%; font-family:Calibri; font-size:11pt">Número da
-                                            Inscrição no CPF/MF;</span></li>
-                                    <li
-                                        style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
-                                        <span
-                                            style="line-height:108%; font-family:Calibri; font-size:11pt">Endereço;</span>
+                                            Inscrição no CPF/MF;</span>
                                     </li>
-                                    <li
-                                        style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
+                                    <li style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
+                                        <span style="line-height:108%; font-family:Calibri; font-size:11pt">Endereço;</span>
+                                    </li>
+                                    <li style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
                                         <span style="line-height:108%; font-family:Calibri; font-size:11pt">Telefone
-                                            para contato;</span></li>
-                                    <li
-                                        style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
+                                            para contato;</span>
+                                    </li>
+                                    <li style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
                                         <span style="line-height:108%; font-family:Calibri; font-size:11pt">Endereço
-                                            eletrônico para contato; e</span></li>
-                                    <li
-                                        style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
+                                            eletrônico para contato; e</span>
+                                    </li>
+                                    <li style="margin-left:27.6pt; line-height:108%; padding-left:8.4pt; font-family:serif; font-size:10pt; -aw-font-family:'Symbol'; -aw-font-weight:normal; -aw-number-format:''">
                                         <span style="line-height:108%; font-family:Calibri; font-size:11pt">Cópia
                                             digitalizada da última fatura do cartão de crédito a ser utilizado na
-                                            operação.</span></li>
+                                            operação.</span>
+                                    </li>
                                 </ul>
                                 <p><span>&nbsp;</span></p>
                                 <p><span>(ii) a vinculação de cartão de crédito de titularidade do(s)
@@ -503,8 +467,7 @@
                                 <p><span>&nbsp;</span></p>
                                 <p><span>3.2</span><span>&nbsp;</span><span style="text-decoration:underline">Análise
                                         Cadastral pela Invicta</span><span>: Caberá exclusivamente à Invicta,
-                                        em</span><span>&nbsp;</span><span
-                                        style="font-weight:bold; text-decoration:underline">colaboração</span><span>&nbsp;</span><span>com
+                                        em</span><span>&nbsp;</span><span style="font-weight:bold; text-decoration:underline">colaboração</span><span>&nbsp;</span><span>com
                                         a análise cadastral realizada pela Imobiliária, efetuar a análise dos dados
                                         do(s) Inquilino(s) e Corresponsáve(is) informados pela Imobiliária, incluindo:
                                         (i) a validação de sua identidade através de ferramenta de Biometria Facial; e
@@ -538,8 +501,7 @@
                                         exclusivamente à Invicta, segundo seus próprios critérios e políticas
                                         internas.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>3.3</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Solicitação de Corresponsável</span><span>:
+                                <p><span>3.3</span><span>&nbsp;</span><span style="text-decoration:underline">Solicitação de Corresponsável</span><span>:
                                         Realizada a Análise Cadastral do(s) Inquilino(s), a Invicta, a seu exclusivo
                                         critério, poderá exigir a apresentação de um ou mais Corresponsável(eis).</span>
                                 </p>
@@ -597,8 +559,7 @@
                                         Invicta responsabilidade pelo não recebimento da comunicação de atualizações em
                                         decorrência de desatualização de cadastro.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>3.5</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Assinatura do Contrato de
+                                <p><span>3.5</span><span>&nbsp;</span><span style="text-decoration:underline">Assinatura do Contrato de
                                         Locação</span><span>: Após a finalização dos procedimentos descritos no Item
                                         3.4, caberá à Imobiliária providenciar a elaboração e assinatura de Contrato de
                                         Locação entre o(s) Inquilino(s) e o(s) Proprietário(s), incluindo,
@@ -649,8 +610,7 @@
                                 <p><span>3.5.3 Na hipótese da contratação dos Serviços Invicta pelo(s) Inquilino(s)
                                         ocorrer no curso da vigência do Contrato de Locação, caberá à Imobiliária
                                         providenciar a elaboração, assinatura e disponibilização à Invicta
-                                        de</span><span>&nbsp;</span><span
-                                        style="font-weight:bold; text-decoration:underline">Termo Aditivo ao Contrato
+                                        de</span><span>&nbsp;</span><span style="font-weight:bold; text-decoration:underline">Termo Aditivo ao Contrato
                                         de Locação</span><span>&nbsp;</span><span>que, obrigatoriamente, deverá conter
                                         (i) a cláusula mencionado no Item 3.5, (ii) a outorga de quitação ao(s)
                                         Inquilino(s) quanto aos débitos decorrentes do Contrato de Locação vencidos até
@@ -658,8 +618,7 @@
                                         Descritivo firmado originariamente entre Proprietário(s) e Inquilino(s), que
                                         deverá estar acompanhado das fotos do imóvel.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>3.6</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Contratação do Seguro
+                                <p><span>3.6</span><span>&nbsp;</span><span style="text-decoration:underline">Contratação do Seguro
                                         Obrigatório</span><span>: Com a assinatura do Contrato de Locação, caberá ao
                                         Inquilino, à Imobiliária ou ao Condomínio, conforme acordado em contrato de
                                         locação ou previsto em lei, providenciar a contratação do Seguro Obrigatório,
@@ -667,8 +626,7 @@
                                         prazo máximo de 30 (trinta) dias corridos, contados da assinatura do Contrato de
                                         Locação.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>3.7</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Contratação dos Serviços
+                                <p><span>3.7</span><span>&nbsp;</span><span style="text-decoration:underline">Contratação dos Serviços
                                         Invicta</span><span>: Os Serviços Invicta serão considerados efetivamente
                                         contratados para todos os fins somente após:</span></p>
                                 <p><span>&nbsp;</span></p>
@@ -719,8 +677,7 @@
                                         ações judiciais de despejo vinculadas à exoneração da Invicta e ausência de
                                         garantia ao contrato de locação, desde que devidamente comprovadas.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>4.1.1</span><span>&nbsp;</span><span
-                                        style="font-weight:bold; text-decoration:underline">O pagamento de Valores
+                                <p><span>4.1.1</span><span>&nbsp;</span><span style="font-weight:bold; text-decoration:underline">O pagamento de Valores
                                         Contratados, por força da Fiança Invicta, serão realizados de acordo com os
                                         valores indicados pela Imobiliária na Plataforma especificamente referente ao
                                         aluguel, condomínio e outras taxas, e estará limitado ao Valor Total Contratado,
@@ -828,8 +785,7 @@
                                         cadastro, aprovação e contratação previstos no Item 3 deste Instrumento.</span>
                                 </p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>4.3</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Manutenção da validade e vigência dos cartões
+                                <p><span>4.3</span><span>&nbsp;</span><span style="text-decoration:underline">Manutenção da validade e vigência dos cartões
                                         de crédito</span><span>: Havendo cancelamento, verificação de falta de
                                         validade/vigência, roubo ou clonagem de qualquer um dos cartões de crédito
                                         vinculados à contratação com a Invicta, o(s) Inquilino(s) e/ou eventual(ais)
@@ -854,8 +810,7 @@
                                 <p><span style="font-weight:bold">5. AUTORIZAÇÃO PARA LANÇAMENTOS NO CARTÃO DE
                                         CRÉDITO</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>5.1</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Autorização para Lançamentos no Cartão de
+                                <p><span>5.1</span><span>&nbsp;</span><span style="text-decoration:underline">Autorização para Lançamentos no Cartão de
                                         Crédito</span><span>: Com a contratação dos Serviços Invicta, mediante aceite
                                         das condições comerciais, dos Termos e Condições dos Serviços Invicta e o
                                         cadastro do código de segurança dos cartões de créditos, o(s) Inquilino(s) e/ou
@@ -909,8 +864,7 @@
                                         rescisão da contratação dos Serviços Invicta, nos termos do Item 9.5 deste
                                         Instrumento</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>5.2</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Concordância do(s) Inquilino(s) e
+                                <p><span>5.2</span><span>&nbsp;</span><span style="text-decoration:underline">Concordância do(s) Inquilino(s) e
                                         eventual(ais) Corresponsável(eis)</span><span>: Em vista do disposto no Item
                                         5.1, o(s) Inquilino(s) e eventual(ais) Corresponsável(eis) ficam cientes que os
                                         cartões de crédito cadastrados poderão ser utilizados para a cobrança de valores
@@ -921,8 +875,7 @@
                                 <p><span style="font-weight:bold">6. DO INADIMPLEMENTO DE VALORES CONTRATADOS</span>
                                 </p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>6.1</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Inadimplemento de valores pelo(s)
+                                <p><span>6.1</span><span>&nbsp;</span><span style="text-decoration:underline">Inadimplemento de valores pelo(s)
                                         Inquilino(s):</span><span>&nbsp;</span><span>A cobrança dos aluguéis e demais
                                         encargos da locação será feita mensalmente pela Imobiliária. A partir do
                                         transcurso do prazo de 15 (quinze) dias, contado do vencimento do Valor
@@ -990,10 +943,8 @@
                                         Inquilino(s) e/ou eventual(ais) Corresponsável(eis) a quitação dos valores
                                         inadimplidos.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>6.2</span><span>&nbsp;</span><span
-                                        style="font-weight:bold; text-decoration:underline">Limite para o
-                                        inadimplemento de valores pelo(s) Inquilino(s)</span><span
-                                        style="font-weight:bold">: Caso a Invicta não logre êxito na cobrança dos
+                                <p><span>6.2</span><span>&nbsp;</span><span style="font-weight:bold; text-decoration:underline">Limite para o
+                                        inadimplemento de valores pelo(s) Inquilino(s)</span><span style="font-weight:bold">: Caso a Invicta não logre êxito na cobrança dos
                                         valores inadimplidos pelo(s) Inquilino(s) e seja obrigada a arcar com o
                                         pagamento até 04 (quatro) vezes o Valor Locatício, de forma consecutiva ou não,
                                         sem o devido ressarcimento pelo(s) Inquilino(s) e/ou eventual(ais)
@@ -1004,8 +955,7 @@
                                 <p><span style="font-weight:bold">7. DO SIGILO, CONFIDENCIALIDADE E PROTEÇÃO DE
                                         DADOS</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>7.1</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Sigilo</span><span>: A Invicta se
+                                <p><span>7.1</span><span>&nbsp;</span><span style="text-decoration:underline">Sigilo</span><span>: A Invicta se
                                         responsabiliza pela guarda e segurança das informações confidenciais que
                                         solicitar e receber no decorrer da prestação dos Serviços Invicta.</span></p>
                                 <p><span>&nbsp;</span></p>
@@ -1017,15 +967,13 @@
                                 <p><span>&nbsp;</span></p>
                                 <p><span style="font-weight:bold">8. ALTERAÇÕES DESTE INSTRUMENTO</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>8.1</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Alterações</span><span>: A Invicta se
+                                <p><span>8.1</span><span>&nbsp;</span><span style="text-decoration:underline">Alterações</span><span>: A Invicta se
                                         reserva, desde já, o direito de atualizar e alterar o conteúdo do presente
                                         Instrumento, a qualquer tempo e a seu exclusivo critério, sendo que estas serão
                                         comunicadas à Imobiliária, Inquilino(s) e/ou eventual(ais) Corresponsável(eis),
                                         na forma disposta na Cláusula 3.4.4.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>8.2</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Inexistência de Concordância</span><span>: No
+                                <p><span>8.2</span><span>&nbsp;</span><span style="text-decoration:underline">Inexistência de Concordância</span><span>: No
                                         caso da Imobiliária, Inquilino(s) e/ou eventual(ais) Corresponsável(eis) não
                                         concordar(em) com as atualizações e alterações comunicadas pela Invicta, esta
                                         poderá optar pela rescisão da contratação dos Serviços Invicta, nos termos aqui
@@ -1034,8 +982,7 @@
                                 <p><span>&nbsp;</span></p>
                                 <p><span style="font-weight:bold">9. VIGÊNCIA E RESCISÃO</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>9.1</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Vigência</span><span>: A contratação dos
+                                <p><span>9.1</span><span>&nbsp;</span><span style="text-decoration:underline">Vigência</span><span>: A contratação dos
                                         Serviços Invicta pelo(s) Inquilino(s) é celebrada por prazo indeterminado, a
                                         contar de seu aceite, mantendo-se válida pelo prazo de vigência da relação
                                         locatícia, observadas as hipóteses de rescisão previstas dos itens 9.4 e 9.5, a
@@ -1109,9 +1056,7 @@
                                         Taxa Invicta, calculado de forma proporcional aos meses em que os Serviços
                                         Invicta foram efetivamente prestados.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span style="font-weight:bold">9.5</span><span
-                                        style="font-weight:bold">&nbsp;</span><span
-                                        style="font-weight:bold; text-decoration:underline">Rescisão pela
+                                <p><span style="font-weight:bold">9.5</span><span style="font-weight:bold">&nbsp;</span><span style="font-weight:bold; text-decoration:underline">Rescisão pela
                                         Invicta</span><span style="font-weight:bold">: A contratação dos Serviços
                                         Invicta em relação ao(s) Inquilino(s) poderá ser rescindida pela Invicta nas
                                         seguintes hipóteses, operando-se, por conseguinte, o cancelamento do contrato,
@@ -1204,8 +1149,7 @@
                                         mensal das parcelas lançadas em seu cartão de crédito, ou (ii) pela
                                         Imobiliária.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>9.7</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Exoneração da Fiança</span><span>: Havendo
+                                <p><span>9.7</span><span>&nbsp;</span><span style="text-decoration:underline">Exoneração da Fiança</span><span>: Havendo
                                         exoneração da Invicta da condição de Fiadora, em decorrência da rescisão da
                                         contratação dos Serviços Invicta em relação ao(s) Inquilino(s), caberá ao(s)
                                         Inquilino(s) promover a substituição da garantia locatícia prestada no Contrato
@@ -1253,8 +1197,7 @@
                                         deste Instrumento, e (i) formalização de aditivo ao Contrato de Locação para tal
                                         fim.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>10.3</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Comunicações</span><span>: As comunicações
+                                <p><span>10.3</span><span>&nbsp;</span><span style="text-decoration:underline">Comunicações</span><span>: As comunicações
                                         decorrentes da contratação dos Serviços Invicta se darão preferencialmente por
                                         meio eletrônico, devendo-se considerar, para envio à Invicta o endereço
                                         eletrônico atendimento.fianca@Invicta.com.br, assim como, para os demais
@@ -1284,22 +1227,18 @@
                                         arcar(em) o(s) Inquilino(s) com todos os custos e prejuízos decorrentes do
                                         atraso na falta desta comunicação.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>10.4</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Tolerância</span><span>: Qualquer tolerância
+                                <p><span>10.4</span><span>&nbsp;</span><span style="text-decoration:underline">Tolerância</span><span>: Qualquer tolerância
                                         das partes em relação às obrigações relacionadas à contratação dos Serviços
                                         Invicta, ou mesmo o retardamento da exigibilidade de direitos, não importará em
                                         precedente, novação ou alteração, cujos termos continuarão exigíveis a qualquer
                                         tempo.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>10.5</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Nulidades</span><span>: A nulidade total ou
+                                <p><span>10.5</span><span>&nbsp;</span><span style="text-decoration:underline">Nulidades</span><span>: A nulidade total ou
                                         parcial de qualquer item ou condição prevista neste Instrumento não afetará nem
                                         desobrigará o cumprimento das demais, que continuarão vigentes em todos os seus
                                         efeitos.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span style="font-weight:bold">10.6</span><span
-                                        style="font-weight:bold">&nbsp;</span><span
-                                        style="font-weight:bold; text-decoration:underline">A Invicta não se
+                                <p><span style="font-weight:bold">10.6</span><span style="font-weight:bold">&nbsp;</span><span style="font-weight:bold; text-decoration:underline">A Invicta não se
                                         responsabiliza por qualquer informação equivocada sobre os Serviços Invicta
                                         divulgada pelas Imobiliárias ou corretores ao(s) Proprietário(s) e/ou
                                         Inquilino(s), de forma que eventuais dúvidas acerca dos Serviços Invicta por
@@ -1317,16 +1256,13 @@
                                 <p><span>&nbsp;</span></p>
                                 <p><span style="font-weight:bold">11. RESOLUÇÃO DE CONFLITOS</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>11.1</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Resolução de Conflitos</span><span>: Na
+                                <p><span>11.1</span><span>&nbsp;</span><span style="text-decoration:underline">Resolução de Conflitos</span><span>: Na
                                         hipótese de conflito entre Usuários e/ou entre Usuário e a Invicta em relação a
                                         este Instrumento ou aos Serviços Invicta, o Usuário deverá encaminhar à Invicta
                                         breve resumo do ocorrido, por meio do canal de atendimento:
                                         atendimento.fianca@Invicta.com.br.</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>11.2</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Compromisso da Invicta</span><span
-                                        style="text-decoration:underline">&nbsp;</span><span>: A Invicta compromete-se,
+                                <p><span>11.2</span><span>&nbsp;</span><span style="text-decoration:underline">Compromisso da Invicta</span><span style="text-decoration:underline">&nbsp;</span><span>: A Invicta compromete-se,
                                         desde já, a tomar todas as providências que estejam a seu alcance para auxiliar
                                         na resolução do conflito por meio de seu canal de atendimento online, ensejando
                                         seus melhores esforços neste sentido.</span></p>
@@ -1334,8 +1270,7 @@
                                 <p><span>&nbsp;</span></p>
                                 <p><span style="font-weight:bold">12. FORO</span></p>
                                 <p><span>&nbsp;</span></p>
-                                <p><span>12.1</span><span>&nbsp;</span><span
-                                        style="text-decoration:underline">Foro</span><span>: O foro eleito para dirimir
+                                <p><span>12.1</span><span>&nbsp;</span><span style="text-decoration:underline">Foro</span><span>: O foro eleito para dirimir
                                         qualquer dúvida ou desavença advinda deste Instrumento é o da comarca da sede da
                                         Imobiliária.</span></p>
                                 <p><span>&nbsp;</span></p>
@@ -1357,16 +1292,13 @@
     </div>
 
     <div class="position-fixed bottom-0 start-0 end-0 bg-white p-3 shadow d-flex justify-content-end">
-        <a href="{{ route('assets.formCheckout', ['link' => $link]) }}"
-            class="btn btn-primary waves-effect waves-light m-3">
-            Li, e aceito os termos de uso →
+        <a href="{{ route('assets.formCheckout', ['link' => $link]) }}" class="btn btn-primary waves-effect waves-light m-3">
+            <span class="align-middle d-sm-inline-block d-none me-sm-2">Li, e aceito os termos de uso</span>
+            <i class="icon-base ti tabler-arrow-right icon-xs"></i>
+
         </a>
     </div>
-    <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
-    <!--/ Layout wrapper -->
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/theme.js -->
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
@@ -1377,15 +1309,11 @@
     <script src="{{ asset('assets/vendor/libs/hammer/hammer.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/i18n/i18n.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
-    <!-- endbuild -->
-    <!-- Vendors JS -->
     <script src="{{ asset('assets/vendor/libs/cleave-zen/cleave-zen.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/moment/moment.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/flatpickr/flatpickr.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-    <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
-    <!-- Page JS -->
     <script src="{{ asset('assets/js/form-layouts.js') }}"></script>
 </body>
 

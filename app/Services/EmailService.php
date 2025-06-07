@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Services;
 
@@ -14,9 +14,11 @@ class EmailService
     {
         try {
             Mail::to($email)->send(new EmailNotification($nome, $link));
+
             return true;
         } catch (\Exception $e) {
             Log::error("Erro ao enviar e-mail" . $e->getMessage());
+
             return false;
         }
     }

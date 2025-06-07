@@ -22,8 +22,25 @@
                 <div class="card">
                     <div class="card-body d-flex justify-content-between">
                         <div>
+                            @php
+                                $status = $proposta['proposta_status'];
+                                $badgeColor = '';
+
+                                if($status == 'Aprovado') {
+                                    $badgeColor = 'success';
+                                }
+                                  if($status == 'Pendente') {
+                                    $badgeColor = 'warning';
+                                }
+                                  if($status == 'Negado') {
+                                    $badgeColor = 'black';
+                                }
+                                  if($status == 'Cancelado') {
+                                    $badgeColor = 'danger';
+                                }
+                            @endphp
                             <p class="mb-2 p-0 fw-bold">Status da proposta</p>
-                            <span class="badge text-bg-secondary"><span
+                            <span class="badge text-bg-{{$badgeColor}}"><span
                                     id="contrato_status_resumo">{{ $proposta['proposta_status'] }}</span></span>
                         </div>
                     </div>
@@ -193,11 +210,6 @@
                 <a href="{{ route('propostal.index') }}" class="btn btn-label-secondary btn-prev waves-effect">
                     <i class="icon-base ti tabler-arrow-left icon-xs me-sm-2 me-0"></i>
                     <span class="align-middle d-sm-inline-block d-none">Voltar</span>
-                </a>
-                <a href="{{ route('propostal.step5', ['id' => $proposta['id']]) }}" id="btn-enviar-proposta"
-                    data-proposta-id="{{ $proposta['id'] }}" class="btn btn-primary btn-next waves-effect waves-light">
-                    <span class="align-middle d-sm-inline-block d-none me-sm-2">Enviar proposta</span>
-                    <i class="icon-base ti tabler-arrow-right icon-xs"></i>
                 </a>
             </div>
         </div>

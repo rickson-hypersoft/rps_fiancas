@@ -44,11 +44,18 @@
                                 <label for="largeSelect" class="form-label">Status</label>
                                 <select name="status" id="largeSelect" class="form-select form-select-lg">
                                     <option value="">Todos</option>
-                                    <option value="Pendente" {{ request('status')=='Pendente' ? 'selected' : '' }}>Pendente</option>
-                                    <option value="Aprovado" {{ request('status')=='Aprovado' ? 'selected' : '' }}>Aprovado</option>
-                                    <option value="Cancelado" {{ request('status')=='Cancelado' ? 'selected' : '' }}>Cancelado</option>
-                                    <option value="Negado" {{ request('status')=='Negado' ? 'selected' : '' }}>Negado</option>
-                                    <option value="Rascunho" {{ request('status')=='Rascunho' ? 'selected' : '' }}>Rascunho</option>
+                                    <option value="Pendente" {{ request('status')=='Pendente' ? 'selected' : '' }}>Aguardando Cancelamento</option>
+                                    <option value="Aprovado" {{ request('status')=='Aprovado' ? 'selected' : '' }}>Alteração Imobiliária</option>
+                                    <option value="Cancelado" {{ request('status')=='Cancelado' ? 'selected' : '' }}>Alteração Imobiliária solicitada</option>
+                                    <option value="Negado" {{ request('status')=='Negado' ? 'selected' : '' }}>Analise</option>
+                                    <option value="Rascunho" {{ request('status')=='Rascunho' ? 'selected' : '' }}>Aprovado</option>
+                                    <option value="Rascunho" {{ request('status')=='Rascunho' ? 'selected' : '' }}>Em análise Biométrica</option>
+                                    <option value="Rascunho" {{ request('status')=='Rascunho' ? 'selected' : '' }}>Em análise Biométrica - Ag Retorno Imobiliária</option>
+                                    <option value="Rascunho" {{ request('status')=='Rascunho' ? 'selected' : '' }}>Em análise de estorno</option>
+                                    <option value="Rascunho" {{ request('status')=='Rascunho' ? 'selected' : '' }}>Em cancelamento</option>
+                                    <option value="Rascunho" {{ request('status')=='Rascunho' ? 'selected' : '' }}>Pendente</option>
+                                    <option value="Rascunho" {{ request('status')=='Rascunho' ? 'selected' : '' }}>Pendente Análise</option>
+                                    <option value="Rascunho" {{ request('status')=='Rascunho' ? 'selected' : '' }}>Suspenso</option>
                                 </select>
                             </div>
                         </div>
@@ -85,7 +92,25 @@
                         </thead>
                         <tbody class="table-border-bottom-0">
                             @foreach ($propostals as $propostal)
-                            @if ($propostal['proposta_status'] == 'Pendente')
+                             @php
+                                $badgeColor = '';
+                                $status = $propostal['proposta_status'];
+                                                $badgeColor = '';
+
+                                                if($status == 'Aprovado') {
+                                                    $badgeColor = 'success';
+                                                }
+                                                if($status == 'Pendente') {
+                                                    $badgeColor = 'warning';
+                                                }
+                                                if($status == 'Negado') {
+                                                    $badgeColor = 'black';
+                                                }
+                                                if($status == 'Cancelado') {
+                                                    $badgeColor = 'danger';
+                                                }
+                            @endphp
+                            @if ($propostal['contrato_status'] == 'Pendente')
                             <tr>
                                 <td>
                                     <a href="{{route('propostal.resume', $propostal['id'])}}" class="text-success">{{$propostal['id']}}</a>
@@ -96,7 +121,7 @@
                                 </td>
                                 <td>{{$propostal['imovel_aluguel']}}</td>
                                 <td>{{$propostal['imovel_tag']}}</td>
-                                <td><span class="badge bg-label-warning me-1">{{$propostal['proposta_status']}}</span></td>
+                                <td><span class="badge bg-label-{{$badgeColor}} me-1">{{$propostal['proposta_status']}}</span></td>
                                 <td>{{$propostal['data']}}</td>
                                 <td>{{$propostal['data']}}</td>
                                 <td style="text-align: center">

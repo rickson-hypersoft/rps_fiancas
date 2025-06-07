@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Mail;
 
@@ -16,6 +16,7 @@ class EmailNotification extends Mailable
     use SerializesModels;
 
     protected string $nome;
+
     protected string $link;
 
     public function __construct(string $nome, string $link)
