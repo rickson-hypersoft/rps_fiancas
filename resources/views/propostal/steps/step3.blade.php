@@ -153,7 +153,7 @@
                                     @php
     $dataNascimento = null;
     if (!empty($proposta['data_nascimento'])) {
-        $dataObj = DateTime::createFromFormat('d/m/Y', $proposta['data_nascimento']);
+        $dataObj = DateTime::createFromFormat('Y-m-d', $proposta['data_nascimento']);
         $dataNascimento = $dataObj->format('Y-m-d');
     }
 
@@ -289,16 +289,21 @@
                     return data;
                 })
                 .then(data => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Dados complementares enviados!',
-                        text: 'Atualizando dados complementares!',
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.href = `/propostas/step4/${data.data.id}`;
-                    });
-                })
+                Swal.fire({
+                   title: 'Aguarde...',
+            text: 'Atualizando dados complementares',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Simula tempo da análise (exemplo: 2 segundos), depois redireciona
+                setTimeout(() => {
+                    window.location.href = `/propostas/step4/${data.data.id}`;
+                }, 2000);
+            })
                 .catch(error => {
                     console.error(error);
                     Swal.fire({

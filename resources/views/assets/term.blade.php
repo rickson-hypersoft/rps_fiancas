@@ -1292,7 +1292,7 @@
     </div>
 
     <div class="position-fixed bottom-0 start-0 end-0 bg-white p-3 shadow d-flex justify-content-end">
-        <a href="{{ route('assets.formCheckout', ['link' => $link]) }}" class="btn btn-primary waves-effect waves-light m-3">
+        <a href="{{ route('payment.formCheckout', ['link' => $link]) }}" class="btn btn-primary waves-effect waves-light m-3">
             <span class="align-middle d-sm-inline-block d-none me-sm-2">Li, e aceito os termos de uso</span>
             <i class="icon-base ti tabler-arrow-right icon-xs"></i>
 

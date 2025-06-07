@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Propostal;
 
@@ -15,9 +15,7 @@ use Illuminate\View\View;
 
 class PropostalController extends Controller
 {
-    public function __construct(protected EmailService $emailService)
-    {
-    }
+    public function __construct(protected EmailService $emailService) {}
 
     public function index(Request $request): View
     {
@@ -171,9 +169,8 @@ class PropostalController extends Controller
             $requestSanitize['proposta_credito_status'] = 'Negado';
         }
 
-        $currentDate             = new DateTime();
-        $requestSanitize['data'] = $currentDate->format('Y-m-d');
-        $requestSanitize['hora'] = $currentDate->format('H:i:s');
+        $requestSanitize['data'] = date('Y-m-d');
+        $requestSanitize['hora'] = date('H:i:s');
 
         // Validação
         if (empty($requestSanitize['pessoa_doc'])) {
@@ -247,7 +244,7 @@ class PropostalController extends Controller
             $proposta['imovel_taxas'];
 
         $currentDate                         = new DateTime();
-        $proposta['data_ultima_autalizacao'] = $currentDate->format('Y-m-d');
+        $proposta['data_ultima_atualizacao'] = $currentDate->format('Y-m-d');
         $proposta['hora_ultima_atualizacao'] = $currentDate->format('H:i:s');
         $proposta['proposta_setup_valor']    = $this->parseValor($requestSanitize['setup'] ?? '0');
 
@@ -340,14 +337,14 @@ class PropostalController extends Controller
         $proposta['pessoa_telefone']         = $requestSanitize['pessoa_telefone'];
         $proposta['imovel_ramo_atv']         = $requestSanitize['imovel_ramo_atv'];
         $currentDate                         = new DateTime();
-        $proposta['data_ultima_autalizacao'] = $currentDate->format('Y-m-d');
+        $proposta['data_ultima_atalizacao'] = $currentDate->format('Y-m-d');
         $proposta['hora_ultima_atualizacao'] = $currentDate->format('H:i:s');
-
-        $this->saveHistory($proposta, "Aprovado");
 
         $proposta = $this->parserValuesForInsert($proposta);
 
         $response = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
+
+        $this->saveHistory($response->json()['data'], "Aprovado");
 
         if (! $response->successful()) {
             return response()->json(['message' => 'Erro ao criar proposta na API'], 400);
@@ -378,17 +375,6 @@ class PropostalController extends Controller
                     $nomeUnico = uniqid($id . '_') . '.' . $ext;
                     // Salva o arquivo localmente
                     $file->storeAs("anexos/{$idImobiliaria}/propostas", $nomeUnico, 'public');
-
-                    dd([
-                        'id_imobiliaria'        => $idImobiliaria,
-                        'id_movi'               => $id,
-                        'movi'                  => 'propostas',
-                        'movi_sub'              => null,
-                        'data'                  => now()->format('Y-m-d H:i:s'),
-                        'nome_arquivo'          => $nomeUnico,
-                        'nome_arquivo_original' => $nomeOriginal,
-                        'descricao'             => 'Arquivo anexado à proposta',
-                    ]);
 
                     // Chamada para a API registrar o anexo no banco
                     Http::withToken($token)->post(config('api.route') . '/financial/attachment', [
@@ -542,25 +528,26 @@ class PropostalController extends Controller
     {
         $token = session('jwt_token');
 
+        list($dia, $mes, $ano) = explode('/', $data['data']);
+
+        $dataCriacaoStr = sprintf('%04d-%02d-%02d', $ano, $mes, $dia);
+        $dataCriacao = new DateTime($dataCriacaoStr);
+
         if ($status == "Aprovado") {
-            $dataCriacao = str_replace('/', '-', $data['data']);
-            $dataCriacao .= " {$data['hora']}";
-
-            $convertDateTime = new DateTime($dataCriacao);
-
             $history = [
                 'id_imobiliaria' => $data['id_imobiliaria'],
                 'id_movi'        => $data['id'],
                 'movi'           => 'Proposta',
-                'data'           => $convertDateTime->format('Y-m-d H:i'),
+                'data' => $dataCriacao->format('Y-m-d H:i:s'),
+                'hora' => $data['hora'],
                 'id_usuario'     => session('user')['id'],
                 'historico'      => "Criada Solicitação #{$data['id']} do tipo {$data['imovel_tipo']}, com setup de {$data['proposta_setup_valor']} e valor do aluguel {$data['imovel_aluguel']}, valor do condomínio {$data['imovel_condominio']}, valor das taxas {$data['imovel_taxas']}, totalizando {$data['proposta_total_valor']}. O imóvel está situado no endereço {$data['endereco_completo']}, cujo CEP é {$data['imovel_cep']}",
             ];
 
-            $response = Http::withToken($token)->post(config('api.route') . '/history/create', $history);
+            Http::withToken($token)->post(config('api.route') . '/history/create', $history);
         }
 
-        if ($status = 'Cancelado') {
+        if ($status == 'Cancelado') {
             Http::withToken($token)->post(config('api.route') . '/history/create', $data);
         }
     }
@@ -599,7 +586,7 @@ class PropostalController extends Controller
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
-        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'], ]);
+        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'],]);
     }
 
     private function parserValuesForInsert(array $data): array

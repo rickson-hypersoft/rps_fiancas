@@ -154,7 +154,7 @@
                             </div>
                             <div>
                                 <p class="fw-bold">Data Nascimento</p>
-                                <p id="data_nascimento_resumo">{{ $proposta['data_nascimento'] }}</p>
+                                <p id="data_nascimento_resumo">{{ \Carbon\Carbon::parse($proposta['data_nascimento'])->format('d/m/Y') }}</p>
                             </div>
                         </div>
 
@@ -177,7 +177,7 @@
                     <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
                         @foreach ($histories as $history)
                         <div class="accordion-body">
-                            {{$history['data']}} - {{$history['historico']}}
+                            {{ \Carbon\Carbon::parse($history['data'])->format('d/m/Y') }} {{$history['hora']}} - {{$history['historico']}}
                         </div>
                         @endforeach
 

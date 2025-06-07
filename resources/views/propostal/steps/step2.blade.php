@@ -136,17 +136,22 @@
                     }
                     return data;
                 })
-                .then(data => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Setup adicionado!',
-                        text: 'Transformando sua simulação em um rascunho de proposta!',
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.href = `/propostas/step3/${data.data.id}`;
-                    });
-                })
+               .then(data => {
+                Swal.fire({
+                   title: 'Aguarde...',
+                    text: 'Transformando sua simulação em um rascunho de proposta!',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Simula tempo da análise (exemplo: 2 segundos), depois redireciona
+                setTimeout(() => {
+                    window.location.href = `/propostas/step3/${data.data.id}`;
+                }, 2000);
+            })
                 .catch(error => {
                     console.error(error);
                     Swal.fire({

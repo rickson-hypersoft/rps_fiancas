@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use App\Http\Controllers\Assets\AssetsController;
 use App\Http\Controllers\CompanyController;
@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Financial\FinancialAccountController;
 use App\Http\Controllers\Financial\FinancialCategoryController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Payments\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Propostal\PropostalController;
 use App\Http\Controllers\RealEstateSector\RealEstateSectorUserController;
@@ -193,14 +194,17 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         ->name("assets.term")
         ->middleware('verify.contract.link');
 
-    Route::get('/contratos/formCheckout/{link}', [AssetsController::class, 'formCheckout'])
-        ->name("assets.formCheckout")
+
+
+    // Pagamentos
+    Route::get('/pagamentos/formCheckout/{link}', [PaymentController::class, 'formCheckout'])
+        ->name("payment.formCheckout")
         ->middleware('verify.contract.link');
-    Route::get('/contratos/checkout/{link}', [AssetsController::class, 'checkout'])
-        ->name("assets.checkout")
+    Route::get('/pagamentos/checkout/{link}', [PaymentController::class, 'checkout'])
+        ->name("payment.checkout")
         ->middleware('verify.contract.link');
-    Route::post('/contratos/checkout/{link}', [AssetsController::class, 'saveCheckout'])
-        ->name("assets.save.checkout")
+    Route::post('/pagamentos/checkout/{link}', [PaymentController::class, 'saveCheckout'])
+        ->name("payment.save.checkout")
         ->middleware('verify.contract.link');
 
     Route::get('/contratos/login/{link}', [AssetsController::class, 'login'])->name('assets.login');
