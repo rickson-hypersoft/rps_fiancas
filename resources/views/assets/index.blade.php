@@ -1,99 +1,231 @@
-<!doctype html>
-
-<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-skin="default" data-assets-path="../../assets/" data-template="horizontal-menu-template" data-bs-theme="light">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>Invicta - Inquilinos</title>
-    <meta name="description" content="" />
-    <link rel="icon" type="image/x-icon" href="{{asset('assets/img/favicon/favicon.ico')}}" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/iconify-icons.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/node-waves/node-waves.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/pickr/pickr-themes.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/css/core.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/flatpickr/flatpickr.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
-    <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
-    <script src="{{asset('assets/js/config.js')}}"></script>
-</head>
-
-<body>
-    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
-        <div class="layout-container">
-            <div class="layout-page">
-                <div class="content-wrapper">
-                    <div class="d-flex flex-column justify-content-center align-items-center min-vh-100 bg-light">
-                        <div class="card d-flex justify-content-center align-items-center">
-                            <div class="card-header d-flex flex-column align-items-center">
-                                <h3 class="my-3 text-center" style="max-width: 30ch">Mais segurança na ativação do seu contrato</h3>
-                                <p class="text-body-secondary text-center" style="max-width: 50ch">Precisamos de um documento para validarmos
-                                    alguns dados não vai demorar muito</p>
-                            </div>
-                            <div class="card-body d-flex flex-column align-items-center">
-                                <div class="d-flex m-3 align-items-center">
-                                    <img src="https://cdn-icons-png.flaticon.com/512/12689/12689789.png" alt="face-scan-icon" width="180" height="180">
-                                </div>
-                                <div class="my-6">
-                                    <div class="d-flex align-items-middle">
-                                        <i class="menu-icon icon-base ti tabler-check text-success"></i>
-                                        <h6 style="opacity: 75%;">É necessario o cadastro ser feito pelo
-                                            portador do cpf cadastrado</h6>
-                                    </div>
-                                    <div class="d-flex align-items-middle">
-                                        <i class="menu-icon icon-base ti tabler-check text-success"></i>
-                                        <h6 style="opacity: 75%;">Encontre um lugar com uma boa
-                                            iluminação</h6>
-                                    </div>
-                                    <div class="d-flex align-items-middle">
-                                        <i class="menu-icon icon-base ti tabler-check text-success"></i>
-                                        <h6 style="opacity: 75%;">Mantenha uma expressão neutra</h6>
-                                    </div>
-                                    <div class="d-flex align-items-middle">
-                                        <i class="menu-icon icon-base ti tabler-check text-success"></i>
-                                        <h6 style="opacity: 75%;">Evite o uso de acessorios faciais</h6>
-                                    </div>
-                                </div>
-                                <a href="{{ route('assets.active', ['link' => $link]) }}" class="btn btn-primary waves-effect waves-light">
-                                    <span class="align-middle d-sm-inline-block d-none me-sm-2">Continuar</span>
-                                    <i class="icon-base ti tabler-arrow-right icon-xs"></i>
-                                </a>
-                                <!--
-                                    <p class="mt-8"> Os dados serão coletados segundo os termos da <a
-                                        href="#">Política de Privacidade</a></p>
-                                    -->
-                            </div>
+@extends('dashboard')
+@section('content')
+<div class="col-12 mb-6">
+    <h3>Relatórios de Contratos</h3>
+    <div class="row">
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-border-shadow-primary h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="avatar me-4">
+                            <span class="avatar-initial rounded bg-label-primary"><i class="icon-base ti tabler-truck icon-28px"></i></span>
                         </div>
+                        <h4 class="mb-0">42</h4>
                     </div>
+                    <p class="mb-1">On route vehicles</p>
+                    <p class="mb-0">
+                        <span class="text-heading fw-medium me-2">+18.2%</span>
+                        <small class="text-body-secondary">than last week</small>
+                    </p>
+                </div>
+            </div>
+        </div>
 
-                    <div class="content-backdrop fade"></div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-border-shadow-warning h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="avatar me-4">
+                            <span class="avatar-initial rounded bg-label-warning"><i class="icon-base ti tabler-alert-triangle icon-28px"></i></span>
+                        </div>
+                        <h4 class="mb-0">8</h4>
+                    </div>
+                    <p class="mb-1">Vehicles with errors</p>
+                    <p class="mb-0">
+                        <span class="text-heading fw-medium me-2">-8.7%</span>
+                        <small class="text-body-secondary">than last week</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-border-shadow-danger h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="avatar me-4">
+                            <span class="avatar-initial rounded bg-label-danger"><i class="icon-base ti tabler-git-fork icon-28px"></i></span>
+                        </div>
+                        <h4 class="mb-0">27</h4>
+                    </div>
+                    <p class="mb-1">Deviated from route</p>
+                    <p class="mb-0">
+                        <span class="text-heading fw-medium me-2">+4.3%</span>
+                        <small class="text-body-secondary">than last week</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-border-shadow-info h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="avatar me-4">
+                            <span class="avatar-initial rounded bg-label-info"><i class="icon-base ti tabler-clock icon-28px"></i></span>
+                        </div>
+                        <h4 class="mb-0">13</h4>
+                    </div>
+                    <p class="mb-1">Late vehicles</p>
+                    <p class="mb-0">
+                        <span class="text-heading fw-medium me-2">-2.5%</span>
+                        <small class="text-body-secondary">than last week</small>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="layout-overlay layout-menu-toggle"></div>
-    <script src="{{asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/popper/popper.js')}}"></script>
-    <script src="{{asset('assets/vendor/js/bootstrap.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/node-waves/node-waves.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/@algolia/autocomplete-js.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/pickr/pickr.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/hammer/hammer.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/i18n/i18n.js')}}"></script>
-    <script src="{{asset('assets/vendor/js/menu.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/cleave-zen/cleave-zen.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/moment/moment.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-    <script src="{{asset('assets/js/main.js')}}"></script>
-    <script src="{{asset('assets/js/form-layouts.js')}}"></script>
-</body>
+    <div class="col-md-12 mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-0">
+                    <div class="card-header">
+                        <div class="row align-items-center pt-5">
+                            <div class="col-sm-12 col-12 mb-1">
+                                <form action="" method="GET">
+                                    <label for="pesquisar" class="form-label">Pesquisar</label>
+                                    <div class="input-group">
+                                        <input type="text" id="pesquisar" class="form-control form-control-lg" placeholder="Número do Contrato, Nome, CPF do Inquilino, Razão Social ou CNPJ" name="search" value="" aria-label="Número do Contrato, Nome, CPF do Inquilino, Razão Social ou CNPJ" aria-describedby="button-addon2">
+                                        <button class="btn btn-outline-primary waves-effect" type="submit" id="button-addon2">
+                                            <i class="icon-base ti tabler-search"></i>
+                                        </button>
 
-</html>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="col-sm-12 col-12 mb-1">
+                                <form action="" method="GET">
+                                    <div class="row align-items-end">
+                                        <div class="col-md-2 col-12 mb-4">
+                                            <label for="exampleFormControlSelect1" class="form-label">Status</label>
+                                            <select class="form-select form-select-lg " id="exampleFormControlSelect1" aria-label="Default select example">
+                                                <option value="1">Todos</option>
+                                                <option value="2">Ativos</option>
+                                                <option value="3">Exonerados - Aluguel</option>
+                                                <option value="3">Exonerados - Taxa</option>
+                                                <option value="3">Aguardando Cancelamento</option>
+                                                <option value="3">Em Cancelamento</option>
+                                                <option value="3">Cancelados</option>
+                                                <option value="3">Suspensos</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 col-12 mb-4">
+                                            <label for="exampleFormControlSelect1" class="form-label">Data de criação</label>
+                                            <select class="form-select form-select-lg " id="exampleFormControlSelect1" aria-label="Default select example">
+                                                <option selected="">Open this select menu</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 col-12 mb-4">
+                                            <label for="exampleFormControlSelect1" class="form-label">Corretor</label>
+                                            <select class="form-select form-select-lg " id="exampleFormControlSelect1" aria-label="Default select example">
+                                                <option selected="">Open this select menu</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 col-12 mb-4">
+                                            <label for="exampleFormControlSelect1" class="form-label">Pendências</label>
+                                            <select class="form-select form-select-lg " id="exampleFormControlSelect1" aria-label="Default select example">
+                                                <option selected="">Open this select menu</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 col-12 mb-4">
+                                            <button type="submit" class="btn btn-primary btn-lg">Pesquisar</button>
+                                        </div>
+                                        <div class="col-md-2 col-12 mb-4 text-end">
+                                            <button class="btn btn-success btn-lg">Exportar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table table-responsive" style="height: 250px;">
+                            <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 18px;">
+                                <thead>
+                                    <tr>
+                                        <th>Contrato</th>
+                                        <th>Inquilino</th>
+                                        <th>Documento</th>
+                                        <th>Valor locatício</th>
+                                        <th>Status</th>
+                                        <th>Corretor</th>
+                                        <th>Data de criação</th>
+                                        <th>Última atualização</th>
+                                        <th class="text-center" style="width: 100px">Pendências</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ViewNiveisLTableItens">
+                                    <tr>
+                                        <td>90</td>
+                                        <td>RICKSON LUCAS</td>
+                                        <td>160.549.566-20</td>
+                                        <td>R$ 200,00</td>
+                                        <td>
+                                            <span class="badge">Ativo</span>
+                                        </td>
+                                        <td>Corretor</td>
+                                        <td>08/06/2025</td>
+                                        <td>08/06/2025</td>
+                                        <td>
+                                            <i class="menu-icon icon-base ti tabler-alert-hexagon text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Necessário anexar o contrato de aluguel
+                                            Necessário anexar a vistoria"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div class="mt-25 float-end">
+                            <div class="d-flex justify-content-between align-items-center mt-3 py-2 px-4" style="background: #eee; border-radius: 5rem;">
+                                <div class="mx-2">
+                                    <span>1 a 5 de 7</span>
+                                </div>
+
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination pagination-sm mb-0">
+                                        <li class="page-item first disabled">
+                                            <a class="page-link waves-effect" href="http://localhost:8001/imobiliaria/financeiro/conta?page=1" aria-label="Primeira página">
+                                                <i class="icon-base ti tabler-chevrons-left icon-sm"></i>
+                                            </a>
+                                        </li>
+
+                                        <li class="page-item prev disabled">
+                                            <a class="page-link waves-effect" href="http://localhost:8001/imobiliaria/financeiro/conta?page=1" aria-label="Página anterior">
+                                                <i class="icon-base ti tabler-chevron-left icon-sm"></i>
+                                            </a>
+                                        </li>
+
+                                        <li class="page-item next ">
+                                            <a class="page-link waves-effect" href="http://localhost:8001/imobiliaria/financeiro/conta?page=2" aria-label="Próxima página">
+                                                <i class="icon-base ti tabler-chevron-right icon-sm"></i>
+                                            </a>
+                                        </li>
+
+                                        <li class="page-item last ">
+                                            <a class="page-link waves-effect" href="http://localhost:8001/imobiliaria/financeiro/conta?page=2" aria-label="Última página">
+                                                <i class="icon-base ti tabler-chevrons-right icon-sm"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

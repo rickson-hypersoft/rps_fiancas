@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use App\Http\Controllers\Assets\AssetsController;
 use App\Http\Controllers\CompanyController;
@@ -182,31 +182,34 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
     });
 
     // Contratos
-    Route::get('/contratos/ativacao/{link}', [AssetsController::class, 'index'])
-        ->name("assets.activation")
-        ->middleware('verify.contract.link');
-
-    Route::get('/contratos/ativado/{link}', [AssetsController::class, 'faceId'])
-        ->name("assets.active")
-        ->middleware('verify.contract.link');
-
-    Route::get('/contratos/termo/{link}', [AssetsController::class, 'term'])
-        ->name("assets.term")
-        ->middleware('verify.contract.link');
-
-
+    Route::get('/contratos', [AssetsController::class, 'index'])
+        ->name("assets.index");
 
     // Pagamentos
+    Route::get('/pagamentos/ativacao/{link}', [PaymentController::class, 'index'])
+        ->name("payment.activation")
+        ->middleware('verify.contract.link');
+
+    Route::get('/pagamentos/ativado/{link}', [PaymentController::class, 'faceId'])
+        ->name("payment.active")
+        ->middleware('verify.contract.link');
+
+    Route::get('/pagamentos/termo/{link}', [PaymentController::class, 'term'])
+        ->name("payment.term")
+        ->middleware('verify.contract.link');
+
     Route::get('/pagamentos/formCheckout/{link}', [PaymentController::class, 'formCheckout'])
         ->name("payment.formCheckout")
         ->middleware('verify.contract.link');
-    Route::get('/pagamentos/checkout/{link}', [PaymentController::class, 'checkout'])
+
+    Route::get('/pagamentos/checkout/{link}/{method}', [PaymentController::class, 'checkout'])
         ->name("payment.checkout")
         ->middleware('verify.contract.link');
+
     Route::post('/pagamentos/checkout/{link}', [PaymentController::class, 'saveCheckout'])
         ->name("payment.save.checkout")
         ->middleware('verify.contract.link');
 
-    Route::get('/contratos/login/{link}', [AssetsController::class, 'login'])->name('assets.login');
-    Route::post('/contratos/login', [AssetsController::class, 'verifyLogin'])->name('assets.verify.login');
+    Route::get('/pagamentos/login/{link}', [PaymentController::class, 'login'])->name('payment.login');
+    Route::post('/pagamentos/login', [PaymentController::class, 'verifyLogin'])->name('payment.verify.login');
 });

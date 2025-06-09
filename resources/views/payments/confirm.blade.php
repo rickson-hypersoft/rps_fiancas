@@ -35,7 +35,7 @@
                             <p class="text-center" style="opacity: 80%; max-width: 35ch;">Você está seguro. Agora é só assinar os termos
                                 e confirmar o pagamento.</p>
                             <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Google_Verified_Badge.svg" height="132" width="132" class="m-8">
-                            <a href="{{ route('assets.term', ['link' => $link]) }}" type="submit" class="btn btn-primary waves-effect waves-light m-3">
+                            <a href="{{ route('payment.term', ['link' => $link]) }}" type="submit" class="btn btn-primary waves-effect waves-light m-3">
                                 <span class="align-middle d-sm-inline-block d-none me-sm-2">Continuar</span>
                                 <i class="icon-base ti tabler-arrow-right icon-xs"></i>
                             </a>

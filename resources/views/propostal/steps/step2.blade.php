@@ -12,15 +12,13 @@
                     </div>
                 </div>
                 <div class="card-body mb-0">
-                    <h4 class="{{ $styles['colorText'] }}" id="color_text_imovel_aluguel"><i id="icon_status_propostal"
-                            class="{{ $styles['icon'] }}"></i>
+                    <h4 class="{{ $styles['colorText'] }}" id="color_text_imovel_aluguel"><i id="icon_status_propostal" class="{{ $styles['icon'] }}"></i>
                         <span id="imovel_aluguel_text">{{ $proposta['imovel_aluguel'] }}</span>
                     </h4>
                     <div class="d-flex gap-5 p-4 bg-label-secondary" style="border-radius: 10px;">
                         <div class="p-2">
                             <span class="fw-bold">Valor de condomínio</span>
-                            <p class="m-0"><span
-                                    id="imovel_condominio_text">{{ $proposta['imovel_condominio'] }}</span></p>
+                            <p class="m-0"><span id="imovel_condominio_text">{{ $proposta['imovel_condominio'] }}</span></p>
                         </div>
                         <div class="p-2">
                             <span class="fw-bold">Taxas inclusas</span>
@@ -38,12 +36,8 @@
                     </div>
 
                     <div class="d-flex mt-5 gap-2">
-                        <a href="{{ route('propostal.create.step1', ['id' => $proposta['id']]) }}"
-                            class="btn-prev btn btn-text-success waves-effect"><i
-                                class="menu-icon icon-base ti tabler-pencil"></i> Editar dados</a>
-                        <a href="{{ route('propostal.create') }}" id="btn-nova-simulacao"
-                            class="btn btn-text-success waves-effect"><i
-                                class="menu-icon icon-base ti tabler-refresh"></i> Fazer nova simulação</a>
+                        <a href="{{ route('propostal.create.step1', ['id' => $proposta['id']]) }}" class="btn-prev btn btn-text-success waves-effect"><i class="menu-icon icon-base ti tabler-pencil"></i> Editar dados</a>
+                        <a href="{{ route('propostal.create') }}" id="btn-nova-simulacao" class="btn btn-text-success waves-effect"><i class="menu-icon icon-base ti tabler-refresh"></i> Fazer nova simulação</a>
                     </div>
                 </div>
             </div>
@@ -60,8 +54,7 @@
                     <hr>
                     <small class="text-success fw-bold" style="font-size: 20px;">12x de
                         {{ $proposta['valor_parcelado'] }}<span id="valor_parcelado"></span></small>
-                    <small style="font-size: 16px;">ou <span
-                            id="valor_total_vista">{{ $proposta['valor_total'] }}</span> à vista</small>
+                    <small style="font-size: 16px;">ou <span id="valor_total_vista">{{ $proposta['valor_total'] }}</span> à vista</small>
                     <hr>
                 </div>
                 <div class="card-body mb-0">
@@ -69,15 +62,13 @@
                     <form id="form-proposta" method="POST">
                         <div class="col-12">
                             <label for="setup" class="form-label">Setup</label>
-                            <select class="form-select form-select-lg" name="setup" id="setup"
-                                aria-label="Default select example">
+                            <select class="form-select form-select-lg" name="setup" id="setup" aria-label="Default select example">
                                 <option value="">Selecionar setup</option>
-                               @foreach ($setups as $setup)
-                                <option value="{{ $setup['taxa'] }}"
-                                    @if (isset($proposta['proposta_setup_valor']) && $proposta['proposta_setup_valor'] == $setup['taxa']) selected @endif>
+                                @foreach ($setups as $setup)
+                                <option value="{{ $setup['taxa'] }}" @if (isset($proposta['proposta_setup_valor']) && $proposta['proposta_setup_valor']==$setup['taxa']) selected @endif>
                                     {{ $setup['taxa_formatada'] }}
                                 </option>
-                            @endforeach
+                                @endforeach
                             </select>
                             <p class="mt-2 mb-4">Se trata do valor para realizar a ativação deste produto</p>
 
@@ -95,8 +86,7 @@
             <input type="hidden" id="id" value="{{ $proposta['id'] }}">
 
             <div class="col-12 d-flex justify-content-between mb-5 mt-5" id="next-setup-config">
-                <a href="{{ route('propostal.create.step1', ['id' => $proposta['id']]) }}"
-                    class="btn btn-label-secondary btn-prev waves-effect">
+                <a href="{{ route('propostal.create.step1', ['id' => $proposta['id']]) }}" class="btn btn-label-secondary btn-prev waves-effect">
                     <i class="icon-base ti tabler-arrow-left icon-xs me-sm-2 me-0"></i>
                     <span class="align-middle d-sm-inline-block d-none">Voltar</span>
                 </a>
@@ -110,35 +100,35 @@
     </div>
 </div>
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.getElementById('form-proposta').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const id = document.getElementById('id'); // ❌ aqui é o elemento
-            const valor = id.value; // ✅ valor do input
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById('form-proposta').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const id = document.getElementById('id'); // ❌ aqui é o elemento
+        const valor = id.value; // ✅ valor do input
 
-            const form = e.target;
-            const formData = new FormData(form);
-            const url = `/propostas/salvar-step2/${valor}`;
+        const form = e.target;
+        const formData = new FormData(form);
+        const url = `/propostas/salvar-step2/${valor}`;
 
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // proteção contra CSRF
-                    },
-                    body: formData
-                })
-                .then(async response => {
-                    const data = await response.json();
-                    if (!response.ok) {
-                        // Aqui trata erros retornados do Laravel
-                        throw data;
-                    }
-                    return data;
-                })
-               .then(data => {
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // proteção contra CSRF
+            },
+            body: formData
+        })
+            .then(async response => {
+                const data = await response.json();
+                if (!response.ok) {
+                    // Aqui trata erros retornados do Laravel
+                    throw data;
+                }
+                return data;
+            })
+            .then(data => {
                 Swal.fire({
-                   title: 'Aguarde...',
+                    title: 'Aguarde...',
                     text: 'Transformando sua simulação em um rascunho de proposta!',
                     allowOutsideClick: false,
                     allowEscapeKey: false,
@@ -152,14 +142,14 @@
                     window.location.href = `/propostas/step3/${data.data.id}`;
                 }, 2000);
             })
-                .catch(error => {
-                    console.error(error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Erro!',
-                        text: error.message || 'Houve um problema ao criar a proposta.'
-                    });
+            .catch(error => {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: error.message || 'Houve um problema ao criar a proposta.'
                 });
-        });
-    </script>
+            });
+    });
+</script>
 @endsection

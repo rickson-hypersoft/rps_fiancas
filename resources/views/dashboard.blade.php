@@ -40,6 +40,8 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/dropzone/dropzone.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/swiper/swiper.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendor/css/pages/cards-advance.css')}}" />
+
+    <link rel="stylesheet" href="../../assets/vendor/css/pages/app-logistics-dashboard.css">
     <!-- endbuild -->
 
     <!-- Page CSS -->
@@ -140,15 +142,14 @@
                                 </li>
 
                                 <!-- Contratos -->
-                                <li class="menu-item {{ request()->is('Contratos*') ? 'active' : '' }}">
+                                <li class="menu-item {{ request()->is('contratos*') ? 'active' : '' }}">
                                     <a href="javascript:void(0)" class="menu-link menu-toggle">
-
                                         <i class="menu-icon icon-base ti tabler-file-check"></i>
                                         <div data-i18n="Contratos">Contratos</div>
                                     </a>
                                     <ul class="menu-sub">
-                                        <li class="menu-item">
-                                            <a href="" class="menu-link">
+                                        <li class="menu-item {{ request()->routeIs('assets.index') ? 'active' : '' }}">
+                                            <a href="{{route('assets.index')}}" class="menu-link">
                                                 <div data-i18n="Acompanhar">Acompanhar</div>
                                             </a>
                                         </li>
@@ -284,6 +285,7 @@
     <script src="{{asset('assets/vendor/libs/apex-charts/apexcharts.js')}}"></script>
 
     <!-- Page JS -->
+    <script src="../../assets/js/app-logistics-dashboard.js"></script>
     <script src="{{asset('assets/vendor/libs/swiper/swiper.js')}}"></script>
     <script src="{{asset('assets/js/cards-advance.js')}}"></script>
     <script src="{{asset('assets/js/app-ecommerce-dashboard.js')}}"></script>

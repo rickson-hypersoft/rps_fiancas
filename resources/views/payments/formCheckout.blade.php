@@ -46,55 +46,53 @@
                                                 <font style="vertical-align: inherit;">Escolha sua forma de pagamento</font>
                                             </font>
                                         </h4>
-                                        <form action="{{route('assets.checkout', ['link' => $link])}}" method="POST">
-                                            @csrf
-                                            <div class="row g-5 py-3">
-                                                <div class="col-md col-lg-12 col-xl-12">
-                                                    <div class="form-check custom-option custom-option-basic checked">
-                                                        <label class="form-check-label custom-option-content form-check-input-payment" for="customRadioCreditCard">
-                                                            <input name="payment" class="form-check-input mt-2" type="radio" value="CREDIT_CARD" id="customRadioCreditCard">
-                                                            <span class="custom-option-body">
-                                                                <img src="https://cdn-icons-png.flaticon.com/512/2695/2695969.png" alt="boleto" width="40" data-app-light-img="icons/payments/paypal-light.png" data-app-dark-img="icons/payments/paypal-dark.png" style="visibility: visible;">
-                                                                <span class="ms-4 fw-medium text-heading">
-                                                                    <font style="vertical-align: inherit;">
-                                                                        <font style="vertical-align: inherit;">Cartão de crédito</font>
-                                                                    </font>
-                                                                </span>
+                                        <div class="row g-5 py-3">
+                                            <div class="col-md col-lg-12 col-xl-12">
+                                                <div class="form-check custom-option custom-option-basic checked">
+                                                    <label class="form-check-label custom-option-content form-check-input-payment" for="customRadioCreditCard">
+                                                        <input name="payment" class="form-check-input mt-2" type="radio" value="CREDIT_CARD" id="customRadioCreditCard">
+                                                        <span class="custom-option-body">
+                                                            <img src="https://cdn-icons-png.flaticon.com/512/2695/2695969.png" alt="boleto" width="40">
+                                                            <span class="ms-4 fw-medium text-heading">
+                                                                Cartão de crédito
                                                             </span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md col-lg-12 col-xl-12">
-                                                    <div class="form-check custom-option custom-option-basic">
-                                                        <label class="form-check-label custom-option-content form-check-input-payment" for="customRadioBoleto">
-                                                            <input name="payment" class="form-check-input mt-2" type="radio" value="BOLETO" id="customRadioBoleto">
-                                                            <span class="custom-option-body">
-                                                                <img src="https://raw.githubusercontent.com/bubbstore/ecommerce-icons/7be9e66d6ecd87fa618275245ba707cb96285e6a/gateways-e-adquirentes/boleto.svg" alt="boleto" width="58" data-app-light-img="icons/payments/paypal-light.png" data-app-dark-img="icons/payments/paypal-dark.png" style="visibility: visible;">
-                                                                <span class="ms-4 fw-medium text-heading">
-                                                                    <font style="vertical-align: inherit;">
-                                                                        <font style="vertical-align: inherit;">Boleto</font>
-                                                                    </font>
-                                                                </span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md col-lg-12 col-xl-12">
-                                                    <div class="form-check custom-option custom-option-basic">
-                                                        <label class="form-check-label custom-option-content form-check-input-payment" for="customRadioPix">
-                                                            <input name="payment" class="form-check-input mt-2" type="radio" value="PIX" id="customRadioPix">
-                                                            <span class="custom-option-body">
-                                                                <img src="https://img.icons8.com/?size=100&id=Dk4sj0EM4b20&format=png&color=000000" alt="pix" width="35" height="35" data-app-light-img="icons/payments/paypal-light.png" data-app-dark-img="icons/payments/paypal-dark.png" style="visibility: visible;">
-                                                                <span class="ms-4 fw-medium text-heading">
-                                                                    <font style="vertical-align: inherit;">
-                                                                        <font style="vertical-align: inherit;">Pix</font>
-                                                                    </font>
-                                                                </span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
+                                                        </span>
+                                                    </label>
+                                                    <a href="{{ route('payment.checkout', ['link' => $data['link_hash'], 'method' => 'CREDIT_CARD']) }}" class="stretched-link"></a>
                                                 </div>
                                             </div>
+
+                                            <div class="col-md col-lg-12 col-xl-12">
+                                                <div class="form-check custom-option custom-option-basic">
+                                                    <label class="form-check-label custom-option-content form-check-input-payment" for="customRadioBoleto">
+                                                        <input name="payment" class="form-check-input mt-2" type="radio" value="BOLETO" id="customRadioBoleto">
+                                                        <span class="custom-option-body">
+                                                            <img src="https://raw.githubusercontent.com/bubbstore/ecommerce-icons/7be9e66d6ecd87fa618275245ba707cb96285e6a/gateways-e-adquirentes/boleto.svg" alt="boleto" width="58" data-app-light-img="icons/payments/paypal-light.png" data-app-dark-img="icons/payments/paypal-dark.png" style="visibility: visible;">
+                                                            <span class="ms-4 fw-medium text-heading">
+                                                                <font style="vertical-align: inherit;">
+                                                                    <font style="vertical-align: inherit;">Boleto</font>
+                                                                </font>
+                                                            </span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md col-lg-12 col-xl-12">
+                                                <div class="form-check custom-option custom-option-basic">
+                                                    <label class="form-check-label custom-option-content form-check-input-payment" for="customRadioPix">
+                                                        <input name="payment" class="form-check-input mt-2" type="radio" value="PIX" id="customRadioPix">
+                                                        <span class="custom-option-body">
+                                                            <img src="https://img.icons8.com/?size=100&id=Dk4sj0EM4b20&format=png&color=000000" alt="pix" width="35" height="35" data-app-light-img="icons/payments/paypal-light.png" data-app-dark-img="icons/payments/paypal-dark.png" style="visibility: visible;">
+                                                            <span class="ms-4 fw-medium text-heading">
+                                                                <font style="vertical-align: inherit;">
+                                                                    <font style="vertical-align: inherit;">Pix</font>
+                                                                </font>
+                                                            </span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-lg-5 card-body p-md-12 d-flex flex-column justify-content-between">
                                         <div>
@@ -153,19 +151,9 @@
                                                     </font>
                                                 </h4>
                                             </div>
-                                            <div class="d-grid mt-5">
-                                                <button class="btn btn-success waves-effect waves-light">
-                                                    <span class="me-2">
-                                                        <font style="vertical-align: inherit;">
-                                                            <font style="vertical-align: inherit;">Prosseguir com o pagamento</font>
-                                                        </font>
-                                                    </span>
-                                                    <i class="icon-base ti tabler-arrow-right scaleX-n1-rtl"></i>
-                                                </button>
-                                            </div>
+
                                         </div>
                                     </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>

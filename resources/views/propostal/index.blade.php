@@ -92,23 +92,23 @@
                         </thead>
                         <tbody class="table-border-bottom-0">
                             @foreach ($propostals as $propostal)
-                             @php
-                                $badgeColor = '';
-                                $status = $propostal['proposta_status'];
-                                                $badgeColor = '';
+                            @php
+                            $badgeColor = '';
+                            $status = $propostal['proposta_status'];
+                            $badgeColor = '';
 
-                                                if($status == 'Aprovado') {
-                                                    $badgeColor = 'success';
-                                                }
-                                                if($status == 'Pendente') {
-                                                    $badgeColor = 'warning';
-                                                }
-                                                if($status == 'Negado') {
-                                                    $badgeColor = 'black';
-                                                }
-                                                if($status == 'Cancelado') {
-                                                    $badgeColor = 'danger';
-                                                }
+                            if($status == 'Aprovado') {
+                            $badgeColor = 'success';
+                            }
+                            if($status == 'Pendente') {
+                            $badgeColor = 'warning';
+                            }
+                            if($status == 'Negado') {
+                            $badgeColor = 'black';
+                            }
+                            if($status == 'Cancelado') {
+                            $badgeColor = 'danger';
+                            }
                             @endphp
                             @if ($propostal['contrato_status'] == 'Pendente')
                             <tr>
@@ -122,8 +122,8 @@
                                 <td>{{$propostal['imovel_aluguel']}}</td>
                                 <td>{{$propostal['imovel_tag']}}</td>
                                 <td><span class="badge bg-label-{{$badgeColor}} me-1">{{$propostal['proposta_status']}}</span></td>
-                              <td>{{ \Carbon\Carbon::parse($propostal['data'])->format('d/m/Y') }}</td>
-<td>{{ \Carbon\Carbon::parse($propostal['data_ultima_atualizacao'])->format('d/m/Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($propostal['data'])->format('d/m/Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($propostal['data_ultima_atualizacao'])->format('d/m/Y') }}</td>
                                 <td style="text-align: center">
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -170,7 +170,7 @@
                             @if ($propostal['proposta_status'] == 'Rascunho')
                             <tr>
                                 <td>
-                                     <a href="{{route('propostal.resume', $propostal['id'])}}" class="text-success">{{$propostal['id']}}</a>
+                                    <a href="{{route('propostal.resume', $propostal['id'])}}" class="text-success">{{$propostal['id']}}</a>
                                 </td>
                                 <td>{{$propostal['pessoa_nome']}}</td>
                                 <td>
@@ -179,8 +179,8 @@
                                 <td>{{$propostal['imovel_aluguel']}}</td>
                                 <td>{{$propostal['imovel_tag']}}</td>
                                 <td><span class="badge bg-label-secondary me-1">{{$propostal['proposta_status']}}</span></td>
-                               <td>{{ \Carbon\Carbon::parse($propostal['data'])->format('d/m/Y') }}</td>
-<td>{{ \Carbon\Carbon::parse($propostal['data_ultima_atualizacao'])->format('d/m/Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($propostal['data'])->format('d/m/Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($propostal['data_ultima_atualizacao'])->format('d/m/Y') }}</td>
                                 <td style="text-align: center">
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -219,7 +219,7 @@
                             @if ($propostal['proposta_status'] == 'Cancelado')
                             <tr>
                                 <td>
-                                     <a href="{{route('propostal.resume', $propostal['id'])}}" class="text-success">{{$propostal['id']}}</a>
+                                    <a href="{{route('propostal.resume', $propostal['id'])}}" class="text-success">{{$propostal['id']}}</a>
                                 </td>
                                 <td>{{$propostal['pessoa_nome']}}</td>
                                 <td>
@@ -228,8 +228,8 @@
                                 <td>{{$propostal['imovel_aluguel']}}</td>
                                 <td>{{$propostal['imovel_tag']}}</td>
                                 <td><span class="badge bg-label-danger me-1">{{$propostal['proposta_status']}}</span></td>
-                             <td>{{ \Carbon\Carbon::parse($propostal['data'])->format('d/m/Y') }}</td>
-<td>{{ \Carbon\Carbon::parse($propostal['data_ultima_atualizacao'])->format('d/m/Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($propostal['data'])->format('d/m/Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($propostal['data_ultima_atualizacao'])->format('d/m/Y') }}</td>
                             </tr>
                             @endif
                             @endforeach
@@ -267,8 +267,8 @@
                                 <td>{{$propostal['imovel_aluguel']}}</td>
                                 <td>{{$propostal['imovel_tag']}}</td>
                                 <td><span class="badge bg-label-dark me-1">{{$propostal['proposta_status']}}</span></td>
-                               <td>{{ \Carbon\Carbon::parse($propostal['data'])->format('d/m/Y') }}</td>
-<td>{{ \Carbon\Carbon::parse($propostal['data_ultima_atualizacao'])->format('d/m/Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($propostal['data'])->format('d/m/Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($propostal['data_ultima_atualizacao'])->format('d/m/Y') }}</td>
                             </tr>
                             @endif
                             @endforeach

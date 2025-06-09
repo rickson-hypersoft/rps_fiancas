@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Controllers\Propostal;
 
@@ -15,7 +15,9 @@ use Illuminate\View\View;
 
 class PropostalController extends Controller
 {
-    public function __construct(protected EmailService $emailService) {}
+    public function __construct(protected EmailService $emailService)
+    {
+    }
 
     public function index(Request $request): View
     {
@@ -50,7 +52,7 @@ class PropostalController extends Controller
         ]);
     }
 
-    public function step2($id): View
+    public function step2(string | int $id): View
     {
         $token = session('jwt_token');
 
@@ -89,7 +91,7 @@ class PropostalController extends Controller
         ]);
     }
 
-    public function step3($id): View
+    public function step3(string | int $id): View
     {
         $token = session('jwt_token');
 
@@ -102,7 +104,7 @@ class PropostalController extends Controller
         ]);
     }
 
-    public function step4($id): View
+    public function step4(string | int $id): View
     {
         $token = session('jwt_token');
 
@@ -121,7 +123,7 @@ class PropostalController extends Controller
         ]);
     }
 
-    public function step5($id): View
+    public function step5(string | int $id): View
     {
         $token = session('jwt_token');
 
@@ -129,7 +131,7 @@ class PropostalController extends Controller
         $data     = $response->json();
 
         if ($data['proposta_credito_status'] == 'Aprovado') {
-            $data['proposta_status']     = 'Aprovado';
+            $data['proposta_status']     = 'Em Análise Biométrica';
             $proposta                    = $this->parserValuesForInsert($data);
             $proposta['contrato_status'] = 'Pendente';
             $dataResponse                = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
@@ -337,7 +339,7 @@ class PropostalController extends Controller
         $proposta['pessoa_telefone']         = $requestSanitize['pessoa_telefone'];
         $proposta['imovel_ramo_atv']         = $requestSanitize['imovel_ramo_atv'];
         $currentDate                         = new DateTime();
-        $proposta['data_ultima_atalizacao'] = $currentDate->format('Y-m-d');
+        $proposta['data_ultima_atalizacao']  = $currentDate->format('Y-m-d');
         $proposta['hora_ultima_atualizacao'] = $currentDate->format('H:i:s');
 
         $proposta = $this->parserValuesForInsert($proposta);
@@ -531,15 +533,15 @@ class PropostalController extends Controller
         list($dia, $mes, $ano) = explode('/', $data['data']);
 
         $dataCriacaoStr = sprintf('%04d-%02d-%02d', $ano, $mes, $dia);
-        $dataCriacao = new DateTime($dataCriacaoStr);
+        $dataCriacao    = new DateTime($dataCriacaoStr);
 
         if ($status == "Aprovado") {
             $history = [
                 'id_imobiliaria' => $data['id_imobiliaria'],
                 'id_movi'        => $data['id'],
                 'movi'           => 'Proposta',
-                'data' => $dataCriacao->format('Y-m-d H:i:s'),
-                'hora' => $data['hora'],
+                'data'           => $dataCriacao->format('Y-m-d H:i:s'),
+                'hora'           => $data['hora'],
                 'id_usuario'     => session('user')['id'],
                 'historico'      => "Criada Solicitação #{$data['id']} do tipo {$data['imovel_tipo']}, com setup de {$data['proposta_setup_valor']} e valor do aluguel {$data['imovel_aluguel']}, valor do condomínio {$data['imovel_condominio']}, valor das taxas {$data['imovel_taxas']}, totalizando {$data['proposta_total_valor']}. O imóvel está situado no endereço {$data['endereco_completo']}, cujo CEP é {$data['imovel_cep']}",
             ];
@@ -586,7 +588,7 @@ class PropostalController extends Controller
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
-        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'],]);
+        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'], ]);
     }
 
     private function parserValuesForInsert(array $data): array
