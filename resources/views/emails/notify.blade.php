@@ -111,7 +111,7 @@
                                 <tr>
                                     <td>
                                         <p>acesse o link para encontrar oque você procura</p>
-                                        <a style="color:#fff;background-color:#f56738;padding:10px 20px;font-size:12px;border-radius:5px;text-decoration:none;display:inline-block;" href="{{route('assets.active', ['link' => $link])}}">
+                                        <a style="color:#fff;background-color:#f56738;padding:10px 20px;font-size:12px;border-radius:5px;text-decoration:none;display:inline-block;" href="{{route('payment.active', ['link' => $link])}}">
                                             Fazer leitura dos termos e alugar meu imóvel
                                         </a>
                                     </td>

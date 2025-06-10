@@ -25,6 +25,6 @@ class VerifyContractLink
         }
 
         // Armazena o link e redireciona para login
-        return redirect()->route('assets.login', ['link' => $link]);
+        return redirect()->route('payment.login', ['link' => $link]);
     }
 }

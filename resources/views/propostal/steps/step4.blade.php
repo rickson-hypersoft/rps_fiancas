@@ -310,6 +310,7 @@
             })
         })
             .then(response => {
+                console.log(response)
                 if (!response.ok) throw new Error('Erro ao enviar o e-mail');
                 return response.json();
             })

@@ -13,4 +13,14 @@ class AssetsController extends Controller
     {
         return view('assets.index');
     }
+
+    public function find(): View
+    {
+        return view('assets.asset');
+    }
+
+    public function edit(): View
+    {
+        return view('assets.edit');
+    }
 }

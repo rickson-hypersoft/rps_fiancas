@@ -56,8 +56,8 @@
                                         <div class="row g-5 py-3">
                                             <div class="card" style="background: #f7f7f7; box-shadow: none;">
                                                 <div class="card-body">
-                                                    <form action="{{route('payment.save.checkout', ['link' => $link])}}" method="POST">
-                                                        @csrf
+                                                 <form action="{{ route('payment.save.checkout', ['link' => $link]) }}" method="POST">
+    @csrf
                                                         <div class="row" id="card-data-section">
                                                             <div class="mb-3 col-md-7">
                                                                 <label for="numero_cartao" class="form-label">Número do cartão</label>

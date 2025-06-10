@@ -95,6 +95,8 @@ class PropostalController extends Controller
     {
         $token = session('jwt_token');
 
+        $this->insertHashLink($id);
+
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
         $data     = $response->json();
 
@@ -114,8 +116,6 @@ class PropostalController extends Controller
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
-        $this->insertHashLink($id);
-
         return view('propostal.wizard', [
             'step'      => 'step4',
             'proposta'  => $data,
@@ -129,9 +129,10 @@ class PropostalController extends Controller
 
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
         $data     = $response->json();
+        dd($data['proposta_credito_status']);
 
-        if ($data['proposta_credito_status'] == 'Aprovado') {
-            $data['proposta_status']     = 'Em Análise Biométrica';
+        if ($data['proposta_status'] == 'Aprovado') {
+            $data['contrato_status']     = 'Em Análise Biométrica';
             $proposta                    = $this->parserValuesForInsert($data);
             $proposta['contrato_status'] = 'Pendente';
             $dataResponse                = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
@@ -363,7 +364,7 @@ class PropostalController extends Controller
                     $nomeOriginal = $file->getClientOriginalName();
 
                     // Verifica se o anexo já existe para essa proposta
-                    $verificaAnexo = Http::withToken($token)->get(config('api.route') . '/financial/attachment/exists', [
+                    $verificaAnexo = Http::withToken($token)->get(config('api.route') . '/attachment/exists', [
                         'id_imobiliaria' => $idImobiliaria,
                         'id_movi'        => $propostaId,
                         'nome_arquivo'   => $nomeOriginal,
@@ -379,7 +380,7 @@ class PropostalController extends Controller
                     $file->storeAs("anexos/{$idImobiliaria}/propostas", $nomeUnico, 'public');
 
                     // Chamada para a API registrar o anexo no banco
-                    Http::withToken($token)->post(config('api.route') . '/financial/attachment', [
+                    Http::withToken($token)->post(config('api.route') . '/attachment', [
                         'id_imobiliaria'        => $idImobiliaria,
                         'id_movi'               => $id,
                         'movi'                  => 'propostas',

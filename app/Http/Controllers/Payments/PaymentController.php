@@ -47,7 +47,7 @@ class PaymentController extends Controller
 
         $token = session('jwt_token');
 
-        $response = Http::withToken($token)->get(config('api.route') . '/assets/active/' . $request->input('link'));
+        $response = Http::withToken($token)->get(config('api.route') . '/assets/' . $request->input('link'));
         $data     = $response->json();
 
         if (! $data) {
@@ -61,7 +61,7 @@ class PaymentController extends Controller
         // Salva na sessão que este link foi autenticado
         session(["auth_link_{$request->input('link')}" => true]);
 
-        return redirect()->route('payments.activation', ['link' => $request->input('link')]);
+        return redirect()->route('payment.activation', ['link' => $request->input('link')]);
     }
 
     public function formCheckout(string $link): View
@@ -119,13 +119,15 @@ class PaymentController extends Controller
         $token         = session('jwt_token');
         $paymentMethod = 'CREDIT_CARD';
 
-        $requestData               = $request->all();
-        $requestData['id_usuario'] = session('user')['id'];
-
-        var_dump($requestData);
+        $requestData                     = $request->all();
+        $requestData['id_usuario']       = session('user')['id'];
+        $requestData['metodo_pagamento'] = $paymentMethod;
 
         $response = Http::withToken($token)->post(config('api.route') . '/payment/checkout/' . $link, $requestData);
 
-        dd($response);
+        return view('payments.paymentConfirmation', [
+            'data' => $response->json(),
+            'link' => $link,
+        ]);
     }
 }

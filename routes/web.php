@@ -184,6 +184,10 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
     // Contratos
     Route::get('/contratos', [AssetsController::class, 'index'])
         ->name("assets.index");
+    Route::get('/contratos/find', [AssetsController::class, 'find'])
+        ->name("assets.asset");
+    Route::get('/contratos/edit', [AssetsController::class, 'edit'])
+        ->name("assets.edit");
 
     // Pagamentos
     Route::get('/pagamentos/ativacao/{link}', [PaymentController::class, 'index'])

@@ -1,6 +1,7 @@
 @extends('dashboard')
 @section('content')
 <div class="col-12 mb-6">
+
     <h3>Relatórios de Contratos</h3>
     <div class="row">
         <div class="col-lg-3 col-sm-6">
@@ -81,71 +82,74 @@
             <div class="col-12">
                 <div class="card mb-0">
                     <div class="card-header">
-                        <div class="row align-items-center pt-5">
-                            <div class="col-sm-12 col-12 mb-1">
-                                <form action="" method="GET">
+                        <div class="row align-items-center pt-3">
+                            <!-- Campo de pesquisa -->
+                            <div class="col-12 mb-3">
+                                <form method="GET">
                                     <label for="pesquisar" class="form-label">Pesquisar</label>
                                     <div class="input-group">
-                                        <input type="text" id="pesquisar" class="form-control form-control-lg" placeholder="Número do Contrato, Nome, CPF do Inquilino, Razão Social ou CNPJ" name="search" value="" aria-label="Número do Contrato, Nome, CPF do Inquilino, Razão Social ou CNPJ" aria-describedby="button-addon2">
-                                        <button class="btn btn-outline-primary waves-effect" type="submit" id="button-addon2">
+                                        <input type="text" id="pesquisar" name="search" class="form-control form-control-lg" placeholder="Número do Contrato, Nome, CPF do Inquilino, Razão Social ou CNPJ">
+                                        <button class="btn btn-outline-primary btn-lg" type="submit">
                                             <i class="icon-base ti tabler-search"></i>
                                         </button>
-
                                     </div>
                                 </form>
-                            </div>
 
-                            <div class="col-sm-12 col-12 mb-1">
-                                <form action="" method="GET">
-                                    <div class="row align-items-end">
-                                        <div class="col-md-2 col-12 mb-4">
-                                            <label for="exampleFormControlSelect1" class="form-label">Status</label>
-                                            <select class="form-select form-select-lg " id="exampleFormControlSelect1" aria-label="Default select example">
-                                                <option value="1">Todos</option>
-                                                <option value="2">Ativos</option>
-                                                <option value="3">Exonerados - Aluguel</option>
-                                                <option value="3">Exonerados - Taxa</option>
-                                                <option value="3">Aguardando Cancelamento</option>
-                                                <option value="3">Em Cancelamento</option>
-                                                <option value="3">Cancelados</option>
-                                                <option value="3">Suspensos</option>
-                                            </select>
+                                <!-- Filtros + botões -->
+                                <div class="col-12 mb-1">
+                                    <form method="GET">
+                                        <div class="row align-items-end g-3">
+                                            <div class="col-md-2 col-6">
+                                                <label for="status" class="form-label">Status</label>
+                                                <select class="form-select form-select-lg" id="status">
+                                                    <option value="Todos">Todos</option>
+                                                    <option value="Ativos">Ativos</option>
+                                                    <option value="Exonerados - Aluguel">Exonerados - Aluguel</option>
+                                                    <option value="Exonerados - Taxa">Exonerados - Taxa</option>
+                                                    <option value="Aguardando Cancelamento">Aguardando Cancelamento</option>
+                                                    <option value="Em Cancelamento">Em Cancelamento</option>
+                                                    <option value="Cancelados">Cancelados</option>
+                                                    <option value="Suspensos">Suspensos</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-2 col-6">
+                                                <label for="data" class="form-label">Data de criação</label>
+                                                <select class="form-select form-select-lg" id="data">
+                                                    <option>Hoje</option>
+                                                    <option>Últimos 7 dias</option>
+                                                    <option>Últimos 30 dias</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-2 col-6">
+                                                <label for="corretor" class="form-label">Corretor</label>
+                                                <select class="form-select form-select-lg" id="corretor">
+                                                    <option>Todos</option>
+                                                    <!-- ... -->
+                                                </select>
+                                            </div>
+
+
+                                            <div class="col-md-3 col-6">
+                                                <label for="pendencias" class="form-label">Pendências</label>
+                                                <select class="form-select form-select-lg" id="pendencias">
+                                                    <option value="todos">Todos</option>
+                                                    <option value="Necessário anexar o contrato de aluguel">Necessário anexar o contrato de aluguel</option>
+                                                    <option value="Necessário anexar a vistoria">Necessário anexar a vistoria</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-1 col-6">
+                                                <button type="submit" class="btn btn-primary btn-lg w-100">Pesquisar</button>
+                                            </div>
+
+                                            <div class="col-md-2 col-6">
+                                                <button type="button" class="btn btn-success btn-lg w-100">Exportar detalhado</button>
+                                            </div>
                                         </div>
-                                        <div class="col-md-2 col-12 mb-4">
-                                            <label for="exampleFormControlSelect1" class="form-label">Data de criação</label>
-                                            <select class="form-select form-select-lg " id="exampleFormControlSelect1" aria-label="Default select example">
-                                                <option selected="">Open this select menu</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2 col-12 mb-4">
-                                            <label for="exampleFormControlSelect1" class="form-label">Corretor</label>
-                                            <select class="form-select form-select-lg " id="exampleFormControlSelect1" aria-label="Default select example">
-                                                <option selected="">Open this select menu</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2 col-12 mb-4">
-                                            <label for="exampleFormControlSelect1" class="form-label">Pendências</label>
-                                            <select class="form-select form-select-lg " id="exampleFormControlSelect1" aria-label="Default select example">
-                                                <option selected="">Open this select menu</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2 col-12 mb-4">
-                                            <button type="submit" class="btn btn-primary btn-lg">Pesquisar</button>
-                                        </div>
-                                        <div class="col-md-2 col-12 mb-4 text-end">
-                                            <button class="btn btn-success btn-lg">Exportar</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -167,12 +171,12 @@
                                 </thead>
                                 <tbody id="ViewNiveisLTableItens">
                                     <tr>
-                                        <td>90</td>
+                                        <td><a href="{{route('assets.asset')}}" class="text-success">90</a></td>
                                         <td>RICKSON LUCAS</td>
                                         <td>160.549.566-20</td>
                                         <td>R$ 200,00</td>
                                         <td>
-                                            <span class="badge">Ativo</span>
+                                            <span class="badge text-bg-success">Ativo</span>
                                         </td>
                                         <td>Corretor</td>
                                         <td>08/06/2025</td>
@@ -186,42 +190,6 @@
                             </table>
                         </div>
 
-
-                        <div class="mt-25 float-end">
-                            <div class="d-flex justify-content-between align-items-center mt-3 py-2 px-4" style="background: #eee; border-radius: 5rem;">
-                                <div class="mx-2">
-                                    <span>1 a 5 de 7</span>
-                                </div>
-
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination pagination-sm mb-0">
-                                        <li class="page-item first disabled">
-                                            <a class="page-link waves-effect" href="http://localhost:8001/imobiliaria/financeiro/conta?page=1" aria-label="Primeira página">
-                                                <i class="icon-base ti tabler-chevrons-left icon-sm"></i>
-                                            </a>
-                                        </li>
-
-                                        <li class="page-item prev disabled">
-                                            <a class="page-link waves-effect" href="http://localhost:8001/imobiliaria/financeiro/conta?page=1" aria-label="Página anterior">
-                                                <i class="icon-base ti tabler-chevron-left icon-sm"></i>
-                                            </a>
-                                        </li>
-
-                                        <li class="page-item next ">
-                                            <a class="page-link waves-effect" href="http://localhost:8001/imobiliaria/financeiro/conta?page=2" aria-label="Próxima página">
-                                                <i class="icon-base ti tabler-chevron-right icon-sm"></i>
-                                            </a>
-                                        </li>
-
-                                        <li class="page-item last ">
-                                            <a class="page-link waves-effect" href="http://localhost:8001/imobiliaria/financeiro/conta?page=2" aria-label="Última página">
-                                                <i class="icon-base ti tabler-chevrons-right icon-sm"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
