@@ -100,7 +100,7 @@ class PaymentController extends Controller
         $data['parcelas_setup_disponiveis'] = $parcelasSetupValor;
 
         if ($method == 'PIX') {
-            $paymentMethod = 'PIX';
+            return view('payments.methods.pix', ['link' => $link, 'data' => $data]);
         }
 
         if ($method == 'BOLETO') {
@@ -116,12 +116,14 @@ class PaymentController extends Controller
 
     public function saveCheckout(Request $request, string $link)
     {
-        $token         = session('jwt_token');
-        $paymentMethod = 'CREDIT_CARD';
+        $token = session('jwt_token');
 
-        $requestData                     = $request->all();
-        $requestData['id_usuario']       = session('user')['id'];
-        $requestData['metodo_pagamento'] = $paymentMethod;
+        $requestData               = $request->all();
+        $requestData['id_usuario'] = session('user')['id'];
+
+        if (! $requestData['metodo_pagamento']) {
+            $requestData['metodo_pagamento'] = 'CREDIT_CARD';
+        }
 
         $response = Http::withToken($token)->post(config('api.route') . '/payment/checkout/' . $link, $requestData);
 

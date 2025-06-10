@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendor/css/pages/front-page-payment.css')}}" />
+
     <style>
         @media (min-width: 769px) {
             .static-table {
@@ -25,6 +26,7 @@
             }
         }
     </style>
+
     <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
     <script src="{{asset('assets/js/config.js')}}"></script>
 </head>
@@ -43,58 +45,21 @@
                                     <div class="col-lg-7 card-body border-end p-md-8">
                                         <h4 class="mb-2">
                                             <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">Escolha sua forma de pagamento</font>
+                                                <font style="vertical-align: inherit;">PIX</font>
                                             </font>
                                         </h4>
                                         <div class="row g-5 py-3">
                                             <div class="col-md col-lg-12 col-xl-12">
-                                                <div class="form-check custom-option custom-option-basic checked">
-                                                    <label class="form-check-label custom-option-content form-check-input-payment" for="customRadioCreditCard">
-                                                        <input name="payment" class="form-check-input mt-2" type="radio" value="CREDIT_CARD" id="customRadioCreditCard">
-                                                        <span class="custom-option-body">
-                                                            <img src="https://cdn-icons-png.flaticon.com/512/2695/2695969.png" alt="boleto" width="40">
-                                                            <span class="ms-4 fw-medium text-heading">
-                                                                Cartão de crédito
-                                                            </span>
-                                                        </span>
-                                                    </label>
-                                                    <a href="{{ route('payment.checkout', ['link' => $data['link_hash'], 'method' => 'CREDIT_CARD']) }}" class="stretched-link"></a>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md col-lg-12 col-xl-12">
-                                                <div class="form-check custom-option custom-option-basic">
-                                                    <label class="form-check-label custom-option-content form-check-input-payment" for="customRadioBoleto">
-                                                        <input name="payment" class="form-check-input mt-2" type="radio" value="BOLETO" id="customRadioBoleto">
-                                                        <span class="custom-option-body">
-                                                            <img src="https://raw.githubusercontent.com/bubbstore/ecommerce-icons/7be9e66d6ecd87fa618275245ba707cb96285e6a/gateways-e-adquirentes/boleto.svg" alt="boleto" width="58" data-app-light-img="icons/payments/paypal-light.png" data-app-dark-img="icons/payments/paypal-dark.png" style="visibility: visible;">
-                                                            <span class="ms-4 fw-medium text-heading">
-                                                                <font style="vertical-align: inherit;">
-                                                                    <font style="vertical-align: inherit;">Boleto</font>
-                                                                </font>
-                                                            </span>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md col-lg-12 col-xl-12">
-                                                <div class="form-check custom-option custom-option-basic">
-                                                    <label class="form-check-label custom-option-content form-check-input-payment" for="customRadioPix">
-                                                        <input name="payment" class="form-check-input mt-2" type="radio" value="PIX" id="customRadioPix">
-                                                        <span class="custom-option-body">
-                                                            <img src="https://img.icons8.com/?size=100&id=Dk4sj0EM4b20&format=png&color=000000" alt="pix" width="35" height="35" data-app-light-img="icons/payments/paypal-light.png" data-app-dark-img="icons/payments/paypal-dark.png" style="visibility: visible;">
-                                                            <span class="ms-4 fw-medium text-heading">
-                                                                <font style="vertical-align: inherit;">
-                                                                    <font style="vertical-align: inherit;">Pix</font>
-                                                                </font>
-                                                            </span>
-                                                        </span>
-                                                    </label>
-                                                     <a href="{{ route('payment.checkout', ['link' => $data['link_hash'], 'method' => 'PIX']) }}" class="stretched-link"></a>
+                                                <div class="p-3 bg-light">
+                                                    <p>Valor do PIX {{$data['valor_total_pagamento']}}</p>
+                                                    <p>Após confirmar o pagamento, o código Pix ficará disponível par avocê pagar no banco da sua preferência.</p>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <a href="#" id="gerar-codigo" class="btn btn-primary">Gerar Código pix</a>
                                     </div>
+
                                     <div class="col-lg-5 card-body p-md-12 d-flex flex-column justify-content-between">
                                         <div>
                                             <h4 class="mb-2">
@@ -152,13 +117,14 @@
                                                     </font>
                                                 </h4>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </section>
+
                     <div class="content-backdrop fade"></div>
                 </div>
             </div>
@@ -175,6 +141,48 @@
     <script src="{{asset('assets/js/front-main.js')}}"></script>
     <script src="{{asset('assets/js/pages-pricing.js')}}"></script>
     <script src="{{asset('assets/js/front-page-payment.js')}}"></script>
+    <script>
+        const btnGerarPix = document.getElementById('gerar-codigo');
+
+        btnGerarPix.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const methodPayment = 'PIX';
+            const hashLink = `{{$data['link_hash']}}`;
+
+            const url = `/pagamentos/checkout/${hashLink}`
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    metodo_pagamento: methodPayment
+                })
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error('Erro ao enviar proposta');
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(errorData => {
+                            console.error('Erro na resposta da API:', errorData);
+                            throw new Error(errorData.message || 'Erro desconhecido na API.');
+                        });
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert(error.message || 'Erro ao enviar a proposta.');
+                });
+        })
+    </script>
 </body>
 
 </html>

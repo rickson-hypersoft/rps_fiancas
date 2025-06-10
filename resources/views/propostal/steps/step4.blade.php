@@ -299,61 +299,55 @@
 
         // Envia o e-mail por AJAX
         fetch('/propostas/email', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                name: nomeInquilino,
-                email: emailInquilino,
-                link: linkInquilino,
-            })
-        })
-            .then(response => {
-                console.log(response)
-                if (!response.ok) throw new Error('Erro ao enviar o e-mail');
-                return response.json();
-            })
-            .then(data => {
-                // Após sucesso, redireciona
-                // window.location.href = redirectUrl;
-            })
-            .catch(error => {
-                console.error(error);
-                alert('Erro ao enviar a proposta por e-mail.');
-            });
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+    body: JSON.stringify({
+        name: nomeInquilino,
+        email: emailInquilino,
+        link: linkInquilino,
+    })
+})
+.then(response => {
+    if (!response.ok) throw new Error('Erro ao enviar o e-mail');
+    return response.json();
+})
+.then(data => {
+    console.log('Email enviado com sucesso:', data);
 
-        fetch('/propostas/whatsapp', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                to: numeroWhatsAppDestino,
-                link: linkInquilino,
-                type: 'proposta',
-            })
+    // Somente após o e-mail ser enviado, enviar WhatsApp
+    return fetch('/propostas/whatsapp', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({
+            to: numeroWhatsAppDestino,
+            link: linkInquilino,
+            type: 'proposta',
         })
-             .then(response => {
-        console.log('Resposta completa do servidor:', response);
-        if (!response.ok) {
-            return response.json().then(errorData => {
-                console.error('Erro na resposta da API:', errorData);
-                throw new Error(errorData.message || 'Erro desconhecido na API.');
-            });
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Sucesso:', data)
-        window.location.href = redirectUrl;
-    })
-    .catch(error => {
-        console.error('Erro ao enviar a mensagem de WhatsApp:', error);
-        alert(`Erro ao enviar a proposta por WhatsApp: ${error.message || ''}`);
     });
+})
+.then(response => {
+    if (!response.ok) {
+        return response.json().then(errorData => {
+            console.error('Erro na resposta da API:', errorData);
+            throw new Error(errorData.message || 'Erro desconhecido na API.');
+        });
+    }
+    return response.json();
+})
+.then(data => {
+    console.log('WhatsApp enviado com sucesso:', data);
+    window.location.href = redirectUrl;
+})
+.catch(error => {
+    console.error('Erro:', error);
+    alert(error.message || 'Erro ao enviar a proposta.');
+});
     });
 </script>
 @endsection

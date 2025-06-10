@@ -301,8 +301,6 @@ class PropostalController extends Controller
             []
         );
 
-        $requestSanitize['proposta_status'] = 'Aprovado';
-
         if (empty($requestSanitize['imovel_endereco'])) {
             return response()->json(['message' => 'Campo endereço precisa ser preenchido!'], 400);
         }
@@ -356,6 +354,10 @@ class PropostalController extends Controller
         $proposta['hora_ultima_atualizacao'] = $currentDate->format('H:i:s');
 
         $parserPropostal = $this->parserValuesForInsert($proposta);
+
+        $proposta['endereco_completo'] = "{$proposta['imovel_endereco']}, {$proposta['imovel_numero']}, {$proposta['imovel_bairro']}, {$proposta['imovel_cidade']} - {$proposta['imovel_estado']}";
+
+        $parserPropostal['proposta_status'] = 'Aprovado';
 
         $response = Http::withToken($token)->post(config('api.route') . '/propostal/create', $parserPropostal);
 
@@ -595,9 +597,6 @@ class PropostalController extends Controller
 
         $token    = session('jwt_token');
         $response = Http::withToken($token)->post(config('api.route') . '/enviar-whatsapp/' . $type . '/' . $link, ['to' => $to]);
-
-        var_dump($to, $type, $link);
-        dd($response->json());
 
         if (! $response->successful()) {
             return response()->json("Não foi possível enviar mensagem!");
