@@ -63,12 +63,16 @@
                         <div class="col-12">
                             <label for="setup" class="form-label">Setup</label>
                             <select class="form-select form-select-lg" name="setup" id="setup" aria-label="Default select example">
+                                @if (!isset($setups) || empty($setups))
+                                <option value="1">Nenhum setup disponível</option>
+                                @else
                                 <option value="">Selecionar setup</option>
                                 @foreach ($setups as $setup)
                                 <option value="{{ $setup['taxa'] }}" @if (isset($proposta['proposta_setup_valor']) && $proposta['proposta_setup_valor']==$setup['taxa']) selected @endif>
                                     {{ $setup['taxa_formatada'] }}
                                 </option>
                                 @endforeach
+                                @endif
                             </select>
                             <p class="mt-2 mb-4">Se trata do valor para realizar a ativação deste produto</p>
 

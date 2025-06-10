@@ -295,6 +295,7 @@
         const nomeInquilino = `{{$proposta['pessoa_nome']}}`
         const emailInquilino = `{{$proposta['pessoa_email']}}`
         const linkInquilino = `{{$proposta['link_hash']}}`
+        const numeroWhatsAppDestino = `+55{{$proposta['pessoa_telefone']}}`
 
         // Envia o e-mail por AJAX
         fetch('/propostas/email', {
@@ -316,12 +317,43 @@
             })
             .then(data => {
                 // Após sucesso, redireciona
-                window.location.href = redirectUrl;
+                // window.location.href = redirectUrl;
             })
             .catch(error => {
                 console.error(error);
                 alert('Erro ao enviar a proposta por e-mail.');
             });
+
+        fetch('/propostas/whatsapp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                to: numeroWhatsAppDestino,
+                link: linkInquilino,
+                type: 'proposta',
+            })
+        })
+             .then(response => {
+        console.log('Resposta completa do servidor:', response);
+        if (!response.ok) {
+            return response.json().then(errorData => {
+                console.error('Erro na resposta da API:', errorData);
+                throw new Error(errorData.message || 'Erro desconhecido na API.');
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Sucesso:', data)
+        window.location.href = redirectUrl;
+    })
+    .catch(error => {
+        console.error('Erro ao enviar a mensagem de WhatsApp:', error);
+        alert(`Erro ao enviar a proposta por WhatsApp: ${error.message || ''}`);
+    });
     });
 </script>
 @endsection

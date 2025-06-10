@@ -16,7 +16,7 @@
                             <div class="col-md mb-md-0 mb-3">
                                 <div class="form-check custom-option custom-option-basic">
                                     <label class="form-check-label custom-option-content" for="pessoa_fisica">
-                                        <input name="pessoa_tipo" class="form-check-input" type="radio" value="pf" id="pessoa_fisica" {{ ($proposta['pessoa_tipo'] ?? 'Pessoa Física' )==='Pessoa Física' ? 'checked' : '' }}>
+                                        <input name="pessoa_tipo" class="form-check-input" type="radio" value="PF" id="pessoa_fisica" {{ ($proposta['pessoa_tipo'] ?? 'Pessoa Física' )==='Pessoa Física' ? 'checked' : '' }}>
                                         <span class="custom-option-header p-0">
                                             <span class="h6 mb-0">Pessoa Física</span>
                                         </span>
@@ -26,7 +26,7 @@
                             <div class="col-md mb-md-0 mb-3">
                                 <div class="form-check custom-option custom-option-basic">
                                     <label class="form-check-label custom-option-content" for="pessoa_juridica">
-                                        <input name="pessoa_tipo" class="form-check-input" type="radio" value="pj" id="pessoa_juridica" {{ ($proposta['pessoa_tipo'] ?? '' )==='Pessoa Jurídica' ? 'checked' : '' }}>
+                                        <input name="pessoa_tipo" class="form-check-input" type="radio" value="PJ" id="pessoa_juridica" {{ ($proposta['pessoa_tipo'] ?? '' )==='Pessoa Jurídica' ? 'checked' : '' }}>
                                         <span class="custom-option-header p-0">
                                             <span class="h6 mb-0">Pessoa Jurídica</span>
                                         </span>

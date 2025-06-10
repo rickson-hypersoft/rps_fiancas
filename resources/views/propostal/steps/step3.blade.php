@@ -224,7 +224,6 @@
     }
 
     const idProposta = "{{ $proposta['id'] }}"
-    console.log(idProposta)
 
     document.getElementById('form-proposta').addEventListener('submit', async function (e) {
         e.preventDefault();

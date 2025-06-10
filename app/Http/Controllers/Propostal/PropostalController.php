@@ -129,13 +129,14 @@ class PropostalController extends Controller
 
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
         $data     = $response->json();
-        dd($data['proposta_credito_status']);
 
         if ($data['proposta_status'] == 'Aprovado') {
-            $data['contrato_status']     = 'Em Análise Biométrica';
-            $proposta                    = $this->parserValuesForInsert($data);
+            $data['contrato_status'] = 'Em Análise Biométrica';
+            $proposta                = $this->parserValuesForInsert($data);
+
             $proposta['contrato_status'] = 'Pendente';
-            $dataResponse                = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
+
+            $dataResponse = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
         }
 
         $styles = $this->stylesStep5($dataResponse->json()['data']);
@@ -234,6 +235,10 @@ class PropostalController extends Controller
             return response()->json(['message' => 'Campo setup precisa ser preenchido!'], 400);
         }
 
+        if ($requestSanitize['setup'] == 1) {
+            $requestSanitize['setup'] = 0;
+        }
+
         $token    = session('jwt_token');
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
         $proposta = $response->json();
@@ -249,14 +254,19 @@ class PropostalController extends Controller
         $currentDate                         = new DateTime();
         $proposta['data_ultima_atualizacao'] = $currentDate->format('Y-m-d');
         $proposta['hora_ultima_atualizacao'] = $currentDate->format('H:i:s');
-        $proposta['proposta_setup_valor']    = $this->parseValor($requestSanitize['setup'] ?? '0');
+
+        if ($requestSanitize['setup'] != 0) {
+            $proposta['proposta_setup_valor'] = $this->parseValor($requestSanitize['setup'] ?? '0');
+        } else {
+            $proposta['proposta_setup_valor'] = 0;
+        }
 
         if ($proposta["pessoa_tipo"] == "Pessoa Física") {
-            $proposta["pessoa_tipo"] = "pf";
+            $proposta["pessoa_tipo"] = "PF";
         }
 
         if ($proposta["pessoa_tipo"] == "Pessoa Jurídica") {
-            $proposta["pessoa_tipo"] = "pj";
+            $proposta["pessoa_tipo"] = "PJ";
         }
 
         if ($proposta["imovel_tipo"] == "Residencial") {
@@ -290,6 +300,8 @@ class PropostalController extends Controller
             $request->all(),
             []
         );
+
+        $requestSanitize['proposta_status'] = 'Aprovado';
 
         if (empty($requestSanitize['imovel_endereco'])) {
             return response()->json(['message' => 'Campo endereço precisa ser preenchido!'], 400);
@@ -343,15 +355,15 @@ class PropostalController extends Controller
         $proposta['data_ultima_atalizacao']  = $currentDate->format('Y-m-d');
         $proposta['hora_ultima_atualizacao'] = $currentDate->format('H:i:s');
 
-        $proposta = $this->parserValuesForInsert($proposta);
+        $parserPropostal = $this->parserValuesForInsert($proposta);
 
-        $response = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
-
-        $this->saveHistory($response->json()['data'], "Aprovado");
+        $response = Http::withToken($token)->post(config('api.route') . '/propostal/create', $parserPropostal);
 
         if (! $response->successful()) {
             return response()->json(['message' => 'Erro ao criar proposta na API'], 400);
         }
+
+        $this->saveHistory($proposta, "Aprovado");
 
         $propostaId    = $response->json(['data']);
         $id            = $response->json(['data'])['id'];
@@ -531,17 +543,12 @@ class PropostalController extends Controller
     {
         $token = session('jwt_token');
 
-        list($dia, $mes, $ano) = explode('/', $data['data']);
-
-        $dataCriacaoStr = sprintf('%04d-%02d-%02d', $ano, $mes, $dia);
-        $dataCriacao    = new DateTime($dataCriacaoStr);
-
         if ($status == "Aprovado") {
             $history = [
                 'id_imobiliaria' => $data['id_imobiliaria'],
                 'id_movi'        => $data['id'],
                 'movi'           => 'Proposta',
-                'data'           => $dataCriacao->format('Y-m-d H:i:s'),
+                'data'           => $data['data'],
                 'hora'           => $data['hora'],
                 'id_usuario'     => session('user')['id'],
                 'historico'      => "Criada Solicitação #{$data['id']} do tipo {$data['imovel_tipo']}, com setup de {$data['proposta_setup_valor']} e valor do aluguel {$data['imovel_aluguel']}, valor do condomínio {$data['imovel_condominio']}, valor das taxas {$data['imovel_taxas']}, totalizando {$data['proposta_total_valor']}. O imóvel está situado no endereço {$data['endereco_completo']}, cujo CEP é {$data['imovel_cep']}",
@@ -580,6 +587,25 @@ class PropostalController extends Controller
         return response()->json(['erro' => 'Falha ao enviar o e-mail.'], 500);
     }
 
+    public function sendWhatsApp(Request $request)
+    {
+        $to   = $request->input('to');
+        $type = $request->input('type');
+        $link = $request->input('link');
+
+        $token    = session('jwt_token');
+        $response = Http::withToken($token)->post(config('api.route') . '/enviar-whatsapp/' . $type . '/' . $link, ['to' => $to]);
+
+        var_dump($to, $type, $link);
+        dd($response->json());
+
+        if (! $response->successful()) {
+            return response()->json("Não foi possível enviar mensagem!");
+        }
+
+        return response()->json("Mensagem enviada com sucesso!");
+    }
+
     public function resume(string | int $id)
     {
         $token    = session('jwt_token');
@@ -601,8 +627,8 @@ class PropostalController extends Controller
         $data['proposta_setup_valor'] = $this->parseValor($data['proposta_setup_valor'] ?? '0');
 
         $data["pessoa_tipo"] = match ($data["pessoa_tipo"] ?? null) {
-            "Pessoa Física"   => "pf",
-            "Pessoa Jurídica" => "pj",
+            "Pessoa Física"   => "PF",
+            "Pessoa Jurídica" => "PJ",
             default           => $data["pessoa_tipo"] ?? null,
         };
 

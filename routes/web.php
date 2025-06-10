@@ -179,6 +179,7 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
 
         Route::get('/resumo/{id}', [PropostalController::class, 'resume'])->name('propostal.resume');
         Route::post('/email', [PropostalController::class, 'sendNotification'])->name('propostal.send');
+        Route::post('/whatsapp', [PropostalController::class, 'sendWhatsApp'])->name('propostal.send');
     });
 
     // Contratos
