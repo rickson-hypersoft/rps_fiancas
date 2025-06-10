@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use App\Http\Controllers\Assets\AssetsController;
 use App\Http\Controllers\CompanyController;
@@ -209,6 +209,10 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
 
     Route::get('/pagamentos/checkout/{link}/{method}', [PaymentController::class, 'checkout'])
         ->name("payment.checkout")
+        ->middleware('verify.contract.link');
+
+    Route::get('/pagamentos/aprovado/{link}/{id_pagamento}', [PaymentController::class, 'confirmation'])
+        ->name("payment.confirmation")
         ->middleware('verify.contract.link');
 
     Route::post('/pagamentos/checkout/{link}', [PaymentController::class, 'saveCheckout'])

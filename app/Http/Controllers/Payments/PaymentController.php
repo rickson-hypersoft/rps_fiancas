@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Payments;
 
@@ -104,7 +104,7 @@ class PaymentController extends Controller
         }
 
         if ($method == 'BOLETO') {
-            $paymentMethod = 'BOLETO';
+            return view('payments.methods.boleto', ['link' => $link, 'data' => $data]);
         }
 
         if ($method == 'CREDIT_CARD') {
@@ -118,18 +118,24 @@ class PaymentController extends Controller
     {
         $token = session('jwt_token');
 
-        $requestData               = $request->all();
-        $requestData['id_usuario'] = session('user')['id'];
-
-        if (! $requestData['metodo_pagamento']) {
-            $requestData['metodo_pagamento'] = 'CREDIT_CARD';
-        }
-
-        $response = Http::withToken($token)->post(config('api.route') . '/payment/checkout/' . $link, $requestData);
-
-        return view('payments.paymentConfirmation', [
-            'data' => $response->json(),
-            'link' => $link,
+        $request->merge([
+            'metodo_pagamento' => $request->input('metodo_pagamento', 'CREDIT_CARD'),
+            'id_usuario'       => session('user')['id'],
         ]);
+
+        $response = Http::withToken($token)->post(config('api.route') . '/payment/checkout/' . $link, $request->all());
+
+        if ($response->successful() && isset($response['detalhes_pagamentos'])) {
+            // Redireciona para a rota confirmation com o id_pagamento na URL
+            return redirect()->route('payment.confirmation', ['link' => $link, 'id_pagamento' => $response['detalhes_pagamentos']]);
+        }
+        return redirect()->back()->withErrors([
+            'checkout' => 'Erro ao processar o pagamento. Tente novamente.',
+        ]);
+    }
+
+    public function confirmation(Request $request, string $idPagamento)
+    {
+        return view('payments.paymentConfirmation', ['paymentInfo' => $idPagamento]);
     }
 }
