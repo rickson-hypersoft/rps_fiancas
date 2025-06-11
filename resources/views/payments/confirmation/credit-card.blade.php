@@ -30,22 +30,22 @@
     href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
     rel="stylesheet" />
 
-    <link rel="stylesheet" href="../../assets/vendor/fonts/iconify-icons.css" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/iconify-icons.css')}}" />
 
 
     <!-- Core CSS -->
     <!-- build:css assets/vendor/css/theme.css  -->
 
-    <link rel="stylesheet" href="../../assets/vendor/libs/node-waves/node-waves.css" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/node-waves/node-waves.css')}}" />
 
-    <link rel="stylesheet" href="../../assets/vendor/libs/pickr/pickr-themes.css" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/pickr/pickr-themes.css')}}" />
 
-    <link rel="stylesheet" href="../../assets/vendor/css/core.css" />
-    <link rel="stylesheet" href="../../assets/css/demo.css" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/css/core.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
 
     <!-- Vendors CSS -->
 
-    <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
 
     <style>
       @media (max-width: 612px){
@@ -77,7 +77,6 @@
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
       <div class="layout-container">
-        {{$paymentInfo}}
         <!-- Layout container -->
         <div class="layout-page">
           <!-- Content wrapper -->
@@ -90,21 +89,23 @@
                   </div>
                   <h4 class="mb-4">Pagamento Efetuado</h4>
 
+                  @foreach ($paymentInfo as $info)
                   <p class="text-start fw-bold">PAGAMENTO 1</p>
                   <div class="card mb-3" style="border-radius: 10px; border: 2px solid rgb(180, 55, 180, 0.7)">
                     <div class="card-body p-3">
                       <div class="d-flex align-items-center mb-2">
                         <i class="icon-base ti tabler-circle-check"></i>
                         <strong class="me-auto">Taxa Serviço</strong>
-                        <span class="fw-semibold">R$ 960,00</span>
+                        <span class="fw-semibold">R$ {{$info['value']}}</span>
                       </div>
                       <div class="text-start">
-                        <p class="mb-1"><strong class="text-primary">VISA</strong> Cartão: **** **** **** 1481</p>
+                        <p class="mb-1"><strong class="text-primary">{{$info['creditCard']['creditCardBrand']}}</strong> Cartão: **** **** **** {{$info['creditCard']['creditCardNumber']}}</p>
                         <p class="mb-1">12 parcela(s) de R$ 80,00</p>
-                        <p>Próxima cobrança: 03/07/2025</p>
+                        <p>Próxima cobrança: {{$info['creditDate']}}</p>
                       </div>
                     </div>
                   </div>
+                   @endforeach
 
                   <p class="text-start fw-bold">PAGAMENTO 2</p>
                   <div class="card mb-3" style="border-radius: 10px; border: 2px solid rgb(180, 55, 180, 0.7)">

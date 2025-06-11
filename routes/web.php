@@ -207,17 +207,25 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         ->name("payment.formCheckout")
         ->middleware('verify.contract.link');
 
-    Route::get('/pagamentos/checkout/{link}/{method}', [PaymentController::class, 'checkout'])
+    Route::get('/pagamentos/checkout/{link}/{method}/{id}', [PaymentController::class, 'checkout'])
         ->name("payment.checkout")
         ->middleware('verify.contract.link');
 
-    Route::get('/pagamentos/aprovado/{link}/{id_pagamento}', [PaymentController::class, 'confirmation'])
+    Route::get('/pagamentos/aprovado/{link}/{id_pagamento}/{method}', [PaymentController::class, 'confirmation'])
         ->name("payment.confirmation")
         ->middleware('verify.contract.link');
 
-    Route::post('/pagamentos/checkout/{link}', [PaymentController::class, 'saveCheckout'])
-        ->name("payment.save.checkout")
-        ->middleware('verify.contract.link');
+    // Route::post('/pagamentos/checkout/{link}', [PaymentController::class, 'saveCheckout'])
+    //     ->name("payment.save.checkout")
+    //     ->middleware('verify.contract.link');
+
+    Route::post('/pagamentos/pix/{linkHash}', [PaymentController::class, 'pixCheckout'])->name('payment.save.pix');
+    Route::get('/pagamentos/pix/{linkHash}', [PaymentController::class, 'pix'])->name('payment.pix');
+
+    Route::get('/pagamentos/pix/{linkHash}/{id}', [PaymentController::class, 'pixCheckout'])->name('payment.checkout.pix');
+    Route::get('/pagamentos/boleto/{linkHash}/{id}', [PaymentController::class, 'boletoCheckout'])->name('payment.checkout.boleto');
+
+    Route::post('/pagamentos/update-metodo/{id}', [PaymentController::class, 'editarPagamento'])->name('payment.alter.payment');
 
     Route::get('/pagamentos/login/{link}', [PaymentController::class, 'login'])->name('payment.login');
     Route::post('/pagamentos/login', [PaymentController::class, 'verifyLogin'])->name('payment.verify.login');

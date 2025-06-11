@@ -45,21 +45,26 @@
                                     <div class="col-lg-7 card-body border-end p-md-8">
                                         <h4 class="mb-2">
                                             <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">Boleto</font>
+                                                <font style="vertical-align: inherit;">BOLETO</font>
                                             </font>
                                         </h4>
-                                        <div class="row g-5 py-3">
-                                            <div class="col-md col-lg-12 col-xl-12">
-                                                <div class="p-3 bg-light">
-                                                    <p>Valor do Boleto {{$data['valor_total_pagamento']}}</p>
-                                                   <p>1. O boleto estará disponível assim que você clicar em concluir a escolha do pagamento.</p>
-                                                   <p>2. Imprima o Boleto Bancário ou copie o código para efetuar o pagamento.</p>
-                                                   <p>A confirmação de pagamento via Boleto pode ocorrer em até 6 dias úteism conforme a compensação bancária</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                      <div id="boleto-container" class="gerarboleto">
+  <div class="row g-5 py-3">
+    <div class="col-md col-lg-12 col-xl-12">
+      <div class="p-3" style="background: #f7f7f7; border-radius: 5px">
+        <p>Valor do Boleto: R$ {{$data['valor_total_pagamento']}}</p>
+        <p>Após confirmar a geração, o link do boleto estará disponível para pagamento no banco da sua preferência.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-                                        <a href="#" id="gerar-boleto" class="btn btn-primary">Gerar boleto para pagamento</a>
+<div id="boleto-link-container" style="display: none;">
+    <svg id="barcode"></svg>
+</div>
+
+<a href="#" id="gerar-boleto" class="btn btn-primary">Gerar Boleto</a>
+<a href="#" id="alterar-pagamento" class="btn btn-secondary" style="display: none;">Alterar forma de pagamento</a>
                                     </div>
 
                                     <div class="col-lg-5 card-body p-md-12 d-flex flex-column justify-content-between">
@@ -140,20 +145,21 @@
     <script src="{{asset('assets/vendor/libs/@algolia/autocomplete-js.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/pickr/pickr.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/cleave-zen/cleave-zen.js')}}"></script>
-    <script src="{{asset('assets/js/front-main.js')}}"></script>
-    <script src="{{asset('assets/js/pages-pricing.js')}}"></script>
     <script src="{{asset('assets/js/front-page-payment.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
     <script>
-        const btnGerarPix = document.getElementById('gerar-boleto');
+        const btnGerarBoleto = document.getElementById('gerar-boleto');
+const alterarPagamentoBtn = document.getElementById('alterar-pagamento');
+const boletoLinkContainer = document.getElementById('boleto-link-container');
+const paymentId = `{{$id}}`;
 
-        btnGerarPix.addEventListener('click', function (e) {
+        btnGerarBoleto.addEventListener('click', function (e) {
             e.preventDefault();
 
             const methodPayment = 'BOLETO';
-            const hashLink = `{{$data['link_hash']}}`;
 
-            const url = `/pagamentos/checkout/${hashLink}`
-            fetch(url, {
+            fetch(`/pagamentos/update-metodo/${paymentId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -164,27 +170,93 @@
                 })
             })
                 .then(response => {
-                    if (!response.ok) throw new Error('Erro ao enviar proposta');
+                    if (!response.ok) throw new Error('Erro ao gerar pagamento');
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data);
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(errorData => {
-                            console.error('Erro na resposta da API:', errorData);
-                            throw new Error(errorData.message || 'Erro desconhecido na API.');
-                        });
+                    if (data.success && data.tipo === 'BOLETO') {
+                        const boletoUrl = data.link;
+                        const barCode = data.detalhes_pagamentos.barCode
+
+                        console.log(boletoUrl)
+
+        boletoLinkContainer.style.display = 'block';
+        boletoLinkContainer.innerHTML = `
+            <div class="text-center mt-3">
+                <a href="${boletoUrl}" target="_blank" class="btn btn-success">
+                    <i class="bx bx-printer"></i> Visualizar Boleto
+                </a>
+                <div class="mt-3">
+                    <strong>Código de Barras:</strong>
+                    <div><svg id="barcode"></svg></div>
+                </div>
+            </div>
+        `;
+
+            btnGerarBoleto.style.display = 'none';
+            alterarPagamentoBtn.style.display = 'block';
+
+              JsBarcode("#barcode", barCode, {
+            format: "CODE128",
+            lineColor: "#000",
+            width: 2,
+            height: 60,
+            displayValue: true
+        });
+
+                setTimeout(() => {
+    const copiarBtn = document.getElementById('btn-copiar-pix');
+    copiarBtn.addEventListener('click', function () {
+        const payload = document.getElementById('pix-payload').value;
+        navigator.clipboard.writeText(payload).then(() => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Código Pix copiado!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }).catch(err => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro ao copiar Pix!',
+                text: err.message
+            });
+        });
+    });
+}, 100);
                     }
-                    return response.json();
                 })
                 .catch(error => {
                     console.error('Erro:', error);
                     alert(error.message || 'Erro ao enviar a proposta.');
-                });
-        })
+                              });
+        });
+
+       alterarPagamentoBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+
+     btnGerarBoleto.style.display = 'inline-block';
+    boletoLinkContainer.style.display = 'none';
+    alterarPagamentoBtn.style.display = 'none';
+
+    Swal.fire({
+        title: 'Deseja alterar a forma de pagamento?',
+        text: "Você voltará para a tela anterior!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, alterar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = `/pagamentos/formCheckout/{{$data['link_hash']}}`; // ajuste o path se necessário
+        }
+    });
+});
     </script>
+
+
 </body>
 
 </html>

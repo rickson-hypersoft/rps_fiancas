@@ -58,7 +58,6 @@
                                                             </span>
                                                         </span>
                                                     </label>
-                                                    <a href="{{ route('payment.checkout', ['link' => $data['link_hash'], 'method' => 'CREDIT_CARD']) }}" class="stretched-link"></a>
                                                 </div>
                                             </div>
 
@@ -74,7 +73,7 @@
                                                                 </font>
                                                             </span>
                                                         </span>
-                                                         <a href="{{ route('payment.checkout', ['link' => $data['link_hash'], 'method' => 'BOLETO']) }}" class="stretched-link"></a>
+                                                        <a href="{{ route('payment.checkout.boleto', ['linkHash' => $data['link_hash'], 'id' => $id]) }}" class="stretched-link"></a>
                                                     </label>
                                                 </div>
                                             </div>
@@ -91,7 +90,7 @@
                                                             </span>
                                                         </span>
                                                     </label>
-                                                     <a href="{{ route('payment.checkout', ['link' => $data['link_hash'], 'method' => 'PIX']) }}" class="stretched-link"></a>
+                                                     <a href="{{ route('payment.checkout.pix', ['linkHash' => $data['link_hash'], 'id' => $id]) }}" class="stretched-link"></a>
                                                 </div>
                                             </div>
                                         </div>
