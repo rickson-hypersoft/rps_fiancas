@@ -185,7 +185,7 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
     // Contratos
     Route::get('/contratos', [AssetsController::class, 'index'])
         ->name("assets.index");
-    Route::get('/contratos/find', [AssetsController::class, 'find'])
+    Route::get('/contratos/find/{id}', [AssetsController::class, 'find'])
         ->name("assets.asset");
     Route::get('/contratos/edit', [AssetsController::class, 'edit'])
         ->name("assets.edit");
@@ -211,9 +211,8 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         ->name("payment.checkout")
         ->middleware('verify.contract.link');
 
-    Route::get('/pagamentos/aprovado/{link}/{id_pagamento}/{method}', [PaymentController::class, 'confirmation'])
-        ->name("payment.confirmation")
-        ->middleware('verify.contract.link');
+    Route::get('/pagamentos/{id}', [PaymentController::class, 'confirmation'])
+        ->name("payment.confirmation");
 
     // Route::post('/pagamentos/checkout/{link}', [PaymentController::class, 'saveCheckout'])
     //     ->name("payment.save.checkout")

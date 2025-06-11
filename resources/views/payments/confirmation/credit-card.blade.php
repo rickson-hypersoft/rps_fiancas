@@ -90,21 +90,25 @@
                   <h4 class="mb-4">Pagamento Efetuado</h4>
 
                   @foreach ($paymentInfo as $info)
+                  @foreach ($propostalInfo as $proposta)
+
+
                   <p class="text-start fw-bold">PAGAMENTO 1</p>
                   <div class="card mb-3" style="border-radius: 10px; border: 2px solid rgb(180, 55, 180, 0.7)">
                     <div class="card-body p-3">
                       <div class="d-flex align-items-center mb-2">
                         <i class="icon-base ti tabler-circle-check"></i>
                         <strong class="me-auto">Taxa Serviço</strong>
-                        <span class="fw-semibold">R$ {{$info['value']}}</span>
+                        <span class="fw-semibold">R$ {{$proposta['PROPOSTA_TOTAL_VALOR']}}</span>
                       </div>
                       <div class="text-start">
                         <p class="mb-1"><strong class="text-primary">{{$info['creditCard']['creditCardBrand']}}</strong> Cartão: **** **** **** {{$info['creditCard']['creditCardNumber']}}</p>
-                        <p class="mb-1">12 parcela(s) de R$ 80,00</p>
+                        <p class="mb-1">{{$proposta['PROPOSTA_TOTAL_PARC']}} parcela(s) de R$ {{$info['value']}}</p>
                         <p>Próxima cobrança: {{$info['creditDate']}}</p>
                       </div>
                     </div>
                   </div>
+                  @endforeach
                    @endforeach
 
                   <p class="text-start fw-bold">PAGAMENTO 2</p>
@@ -113,7 +117,7 @@
                       <div class="d-flex align-items-center mb-2">
                         <i class="icon-base ti tabler-circle-check"></i>
                         <strong class="me-auto">Taxa Setup</strong>
-                        <span class="fw-semibold">R$ 30,00</span>
+                        <span class="fw-semibold">R$ {{$proposta['PROPOSTA_SETUP_VALOR']}}</span>
                       </div>
                       <div class="text-start">
                         <p class="mb-1"><strong class="text-primary">VISA</strong> Cartão: **** **** **** 1481</p>
@@ -126,16 +130,16 @@
                   <div class="card bg-light mt-3 p-3 text-start">
                     <p class="mb-1 d-flex justify-content-between">
                       <span>Taxa Serviço</span>
-                      <strong>R$ 960,00</strong>
+                      <strong>R$ {{$proposta['PROPOSTA_TOTAL_VALOR']}}</strong>
                     </p>
                     <p class="mb-1 d-flex justify-content-between">
                       <span>Taxa Setup</span>
-                      <strong>R$ 30,00</strong>
+                      <strong>R$ {{$proposta['PROPOSTA_SETUP_VALOR']}}</strong>
                     </p>
                     <hr />
                     <p class="mb-0 d-flex justify-content-between fw-bold">
                       <span>Total</span>
-                      <span style="color: rgb(180, 55, 180)">R$ 990,00</span>
+                      <span style="color: rgb(180, 55, 180)">R$ {{$proposta['PROPOSTA_TOTAL_VALOR'] + $proposta['PROPOSTA_SETUP_VALOR']}}</span>
                     </p>
                   </div>
                 </div>
@@ -149,9 +153,6 @@
         <!--/ Layout container -->
       </div>
     </div>
-
-    <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
 
     <!-- Drag Target Area To SlideIn Menu On Small Screens -->
     <div class="drag-target"></div>

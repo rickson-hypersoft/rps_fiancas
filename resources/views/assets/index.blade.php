@@ -11,7 +11,7 @@
                         <div class="avatar me-4">
                             <span class="avatar-initial rounded bg-label-primary"><i class="icon-base ti tabler-truck icon-28px"></i></span>
                         </div>
-                        <h4 class="mb-0">42</h4>
+                        <h4 class="mb-0">{{ $statusContagem['Todos'] }}</h4>
                     </div>
                     <p class="mb-1">Todos</p>
 
@@ -26,7 +26,8 @@
                         <div class="avatar me-4">
                             <span class="avatar-initial rounded bg-label-warning"><i class="icon-base ti tabler-alert-triangle icon-28px"></i></span>
                         </div>
-                        <h4 class="mb-0">8</h4>
+                        <h4 class="mb-0">{{ $statusContagem['Ativos'] }}</h4>
+
                     </div>
                     <p class="mb-1">Ativos</p>
                 </div>
@@ -40,7 +41,7 @@
                         <div class="avatar me-4">
                             <span class="avatar-initial rounded bg-label-danger"><i class="icon-base ti tabler-git-fork icon-28px"></i></span>
                         </div>
-                        <h4 class="mb-0">27</h4>
+                       <h4 class="mb-0">{{ $statusContagem['Cancelados'] }}</h4>
                     </div>
                     <p class="mb-1">Cancelados</p>
                 </div>
@@ -54,7 +55,7 @@
                         <div class="avatar me-4">
                             <span class="avatar-initial rounded bg-label-info"><i class="icon-base ti tabler-clock icon-28px"></i></span>
                         </div>
-                        <h4 class="mb-0">13</h4>
+                        <h4 class="mb-0">{{ $statusContagem['Em renovação'] }}</h4>
                     </div>
                     <p class="mb-1">Em renovação</p>
                 </div>
@@ -86,7 +87,7 @@
                                         <div class="row align-items-end g-3">
                                             <div class="col-md-2 col-6">
                                                 <label for="status" class="form-label">Status</label>
-                                                <select class="form-select form-select-lg" id="status">
+                                                <select class="form-select form-select-lg" name="status" id="status">
                                                     <option value="Todos">Todos</option>
                                                     <option value="Ativos">Ativos</option>
                                                     <option value="Exonerados - Aluguel">Exonerados - Aluguel</option>
@@ -100,7 +101,7 @@
 
                                             <div class="col-md-2 col-6">
                                                 <label for="data" class="form-label">Data de criação</label>
-                                                <select class="form-select form-select-lg" id="data">
+                                                <select name="created_at" class="form-select form-select-lg" id="data">
                                                     <option>Hoje</option>
                                                     <option>Últimos 7 dias</option>
                                                     <option>Últimos 30 dias</option>
@@ -118,7 +119,7 @@
 
                                             <div class="col-md-3 col-6">
                                                 <label for="pendencias" class="form-label">Pendências</label>
-                                                <select class="form-select form-select-lg" id="pendencias">
+                                                <select name="pendences" class="form-select form-select-lg" id="pendencias">
                                                     <option value="todos">Todos</option>
                                                     <option value="Necessário anexar o contrato de aluguel">Necessário anexar o contrato de aluguel</option>
                                                     <option value="Necessário anexar a vistoria">Necessário anexar a vistoria</option>
@@ -155,22 +156,53 @@
                                     </tr>
                                 </thead>
                                 <tbody id="ViewNiveisLTableItens">
-                                    <tr>
-                                        <td><a href="{{route('assets.asset')}}" class="text-success">90</a></td>
-                                        <td>RICKSON LUCAS</td>
-                                        <td>160.549.566-20</td>
-                                        <td>R$ 200,00</td>
+                                    @foreach ($contratos as $contrato)
+                                    @if($contrato['contrato_status'] == 'Ativo')
+                                        <tr>
+                                        <td><a href="{{route('assets.asset', ['id' => $contrato['id']])}}" class="text-success">{{$contrato['id']}}</a></td>
+                                        <td>{{$contrato['pessoa_nome']}}</td>
+                                        <td>{{$contrato['pessoa_doc']}}</td>
+                                        <td>{{$contrato['imovel_aluguel']}}</td>
                                         <td>
-                                            <span class="badge text-bg-success">Ativo</span>
+                                            <span class="badge text-bg-success">{{$contrato['contrato_status']}}</span>
                                         </td>
                                         <td>Corretor</td>
-                                        <td>08/06/2025</td>
-                                        <td>08/06/2025</td>
-                                        <td>
-                                            <i class="menu-icon icon-base ti tabler-alert-hexagon text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Necessário anexar o contrato de aluguel
-                                            Necessário anexar a vistoria"></i>
-                                        </td>
+<td>{{ \Carbon\Carbon::parse($contrato['data'])->format('d/m/Y') }}</td>
+<td>{{ \Carbon\Carbon::parse($contrato['data_ultima_atualizacao'])->format('d/m/Y') }}</td>
+                                       <td class="text-center">
+    @php
+        $faltando = [];
+
+        if (empty($proposta->anexo_contrato)) {
+            $faltando[] = 'Necessário anexar o contrato de aluguel';
+        }
+
+        if (empty($proposta->anexo_vistoria)) {
+            $faltando[] = 'Necessário anexar a vistoria';
+        }
+
+        $tooltip = implode('<br>', $faltando);
+    @endphp
+
+    @if (empty($faltando))
+        {{-- Tudo ok, exibe check verde --}}
+        <i class="ti ti-circle-check text-success"></i>
+    @else
+        {{-- Faltando anexos, exibe alerta com tooltip --}}
+        <i class="menu-icon icon-base ti tabler-alert-hexagon text-danger"
+           data-bs-toggle="tooltip"
+           data-bs-html="true"
+           data-bs-placement="bottom"
+           title="{!! $tooltip !!}"></i>
+    @endif
+</td>
                                     </tr>
+                                    @else
+                                    <tr>
+                                        <td colspan="9" class="text-center">Não existe contratos ativos</td>
+                                    </tr>
+                                    @endif
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

@@ -349,28 +349,6 @@
                 } else {
                     alert('Por favor, preencha todos os campos obrigatórios corretamente.');
                 }
-
-                fetch(`/pagamentos/update-metodo/{{ $id }}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        metodo_pagamento: methodPayment
-                    })
-                })
-                    .then(response => {
-                        if (!response.ok) throw new Error('Erro ao gerar pagamento');
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data)
-                    })
-                    .catch(error => {
-                        console.error('Erro:', error);
-                        alert(error.message || 'Erro ao enviar a proposta.');
-                    });
             });
 
             voltarCartao.addEventListener("click", function () {

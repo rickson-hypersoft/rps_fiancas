@@ -30,7 +30,11 @@ class PaymentController extends Controller
 
     public function term(string $link): View
     {
-        return view('payments.term', ['link' => $link]);
+        $token    = session('jwt_token');
+        $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $link);
+        $data     = $response->json();
+
+        return view('payments.term', ['link' => $link, 'data' => $data]);
     }
 
     public function login(string $link): View
@@ -131,14 +135,24 @@ class PaymentController extends Controller
         ]);
 
         $response = Http::withToken($token)->post(config('api.route') . '/payment/credit_card/' . $id . '/' . $link, $request->all());
-
+        var_dump(config('api.route') . '/payment/credit_card/' . $id . '/' . $link, $request->all());
+        var_dump($response->status());
+        var_dump($response->json());
+        dd($response->body());
         if ($response->successful() && isset($response['detalhes_pagamentos'])) {
             // Redireciona para a rota confirmation com o id_pagamento na URL
-            return redirect()->route('payment.confirmation', ['link' => $link, 'id_pagamento' => $response['detalhes_pagamentos']]);
+            return redirect()->route('payment.confirmation', ['id' => $id]);
         }
         return redirect()->back()->withErrors([
             'checkout' => 'Erro ao processar o pagamento. Tente novamente.',
         ]);
+    }
+
+    public function confirmation(string $idPagamento)
+    {
+        $token = session('jwt_token');
+        $response = Http::withToken($token)->get(config('api.route') . '/payment/info/' . $idPagamento);
+        return view('payments.confirmation.credit-card', ['paymentInfo' => $response->json()['detalhes_pagamentos'], 'propostalInfo' => $response->json()['propostas']]);
     }
 
     public function editarPagamento(Request $request, $id)

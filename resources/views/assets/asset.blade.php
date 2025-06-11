@@ -16,8 +16,8 @@
                     </div>
                 </div>
                 <div class="card-body mt-4">
-                    <h5>Número do Contrato: <span class="text-success">#90</span></h5>
-                    <p>Situação atual: <span class="badge rounded-pill bg-success badge-dot border"></span> Ativo</p>
+                    <h5>Número do Contrato: <span class="text-success">#{{$data['id']}}</span></h5>
+                    <p>Situação atual: <span class="badge rounded-pill bg-success badge-dot border"></span> {{$data['status']}}</p>
                     <p>Proxíma Renovação estimada: 03/06/2025</p>
                     <p>Fiança disponível: <span class="badge text-bg-success">R$ 8.000,00</span></p>
                     <span>* Este valor considera apenas inadimplências pagas e provisionadas. Inadimplências em análise não são debatidas deste valor.</span>

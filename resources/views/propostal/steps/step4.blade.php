@@ -21,7 +21,10 @@
                 <div class="card-body d-flex justify-content-between">
                     <div>
                         <p class="mb-2 p-0 fw-bold">Status da proposta</p>
-                        <span class="badge text-bg-secondary"><span id="contrato_status_resumo">{{ $proposta['proposta_status'] }}</span></span>
+                        @php
+                            $badge = $proposta['proposta_status'] == 'Aprovado' ? 'success' : 'secondary';
+                        @endphp
+                        <span class="badge text-bg-{{$badge}}"><span id="contrato_status_resumo">{{ $proposta['proposta_status'] }}</span></span>
                     </div>
 
                     <button data-bs-toggle="modal" data-bs-target="#modalCancelarProposta" id="propostal-canceled" class="btn btn-outline-secondary">Cancelar proposta</button>

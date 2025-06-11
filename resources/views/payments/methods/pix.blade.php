@@ -48,21 +48,21 @@
                                                 <font style="vertical-align: inherit;">PIX</font>
                                             </font>
                                         </h4>
-                                       <div id="pix-container" class="gerarpix">
-  <div class="row g-5 py-3">
-    <div class="col-md col-lg-12 col-xl-12">
-      <div class="p-3" style="background: #f7f7f7; border-radius: 5px">
-        <p>Valor do PIX {{$data['valor_total_pagamento']}}</p>
-        <p>Após confirmar o pagamento, o código Pix ficará disponível para você pagar no banco da sua preferência.</p>
-      </div>
-    </div>
-  </div>
-</div>
+                                        <div id="pix-container" class="gerarpix">
+                                            <div class="row g-5 py-3" id="pix-info">
+                                                <div class="col-md col-lg-12 col-xl-12">
+                                                    <div class="p-3" style="background: #f7f7f7; border-radius: 5px">
+                                                        <p>Valor do PIX {{$data['valor_total_pagamento']}}</p>
+                                                        <p>Após confirmar o pagamento, o código Pix ficará disponível para você pagar no banco da sua preferência.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-<div id="qrcode-container" style="display: none;"></div>
+                                        <div id="qrcode-container" style="display: none;"></div>
 
-<a href="#" id="gerar-codigo" class="btn btn-primary">Gerar Código pix</a>
-<a href="#" id="alterar-pagamento" class="btn btn-secondary" style="display: none;">Alterar forma de pagamento</a>
+                                        <a href="#" id="gerar-codigo" class="btn btn-primary">Gerar Código pix</a>
+                                        <a href="#" id="alterar-pagamento" class="text-center mt-5" style="display: none;">Alterar forma de pagamento</a>
                                     </div>
 
                                     <div class="col-lg-5 card-body p-md-12 d-flex flex-column justify-content-between">
@@ -146,14 +146,25 @@
     <script src="{{asset('assets/js/front-page-payment.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-         const btnGerarPix = document.getElementById('gerar-codigo');
-    const alterarPagamentoBtn = document.getElementById('alterar-pagamento');
-    const qrcodeContainer = document.getElementById('qrcode-container');
+        const btnGerarPix = document.getElementById('gerar-codigo');
+        const alterarPagamentoBtn = document.getElementById('alterar-pagamento');
+        const qrcodeContainer = document.getElementById('qrcode-container');
 
         const paymentId = `{{$id}}`; // <- ID do pagamento que você criou anteriormente
 
         btnGerarPix.addEventListener('click', function (e) {
             e.preventDefault();
+
+            // Mostra SweetAlert de carregamento
+            Swal.fire({
+                title: 'Processando...',
+                text: 'Estamos gerando o código Pix. Aguarde um instante.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
 
             const methodPayment = 'PIX';
 
@@ -173,74 +184,96 @@
                 })
                 .then(data => {
                     if (data.success && data.tipo === 'PIX') {
-                        // Exibir o QR Code
+                        // Exibe o QR Code
                         const qrCode = data.detalhes_pagamentos?.encodedImage;
                         const payload = data.detalhes_pagamentos?.payload;
 
-                        document.getElementById('qrcode-container').style.display = 'block'
+                        document.getElementById('pix-info').style.display = 'none';
+                        document.getElementById('qrcode-container').style.display = 'block';
                         document.getElementById('qrcode-container').innerHTML = `
-                    <div class="text-center">
-                                <img src="data:image/png;base64,${qrCode}" alt="QR Code do Pix" />
-                                <p class="mt-3">Código Copia e Cola:</p>
-                                <button class="btn btn-outline-primary" id="btn-copiar-pix">
-                                    <i class="bx bx-copy-alt"></i> Copiar código Pix
-                                </button>
-                                <input type="hidden" id="pix-payload" value="${payload}" />
-                            </div>
-                `;
-                 btnGerarPix.style.display = 'none';
-    alterarPagamentoBtn.style.display = 'block';
+                <div class="text-center">
+                    <h5>Aguardando o seu pagamento</h5>
+                    <img width="300" height="300" src="data:image/png;base64,${qrCode}" alt="QR Code do Pix" />
+                    <p class="mt-3">Escaneie ou copie o pix</p>
+                    <button class="btn btn-outline-primary" id="btn-copiar-pix">
+                        <i class="bx bx-copy-alt"></i> Copiar código Pix
+                    </button>
+                    <input type="hidden" id="pix-payload" value="${payload}" />
+                </div>
+            `;
 
-                setTimeout(() => {
-    const copiarBtn = document.getElementById('btn-copiar-pix');
-    copiarBtn.addEventListener('click', function () {
-        const payload = document.getElementById('pix-payload').value;
-        navigator.clipboard.writeText(payload).then(() => {
-            Swal.fire({
-                icon: 'success',
-                title: 'Código Pix copiado!',
-                showConfirmButton: false,
-                timer: 1500
-            });
-        }).catch(err => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Erro ao copiar Pix!',
-                text: err.message
-            });
-        });
-    });
-}, 100);
+                        // Esconde o botão de gerar e mostra o de alterar
+                        btnGerarPix.style.display = 'none';
+                        alterarPagamentoBtn.style.display = 'block';
+
+                        // Fecha o SweetAlert de carregamento
+                        Swal.close();
+
+                        // Atribui evento ao botão de copiar código Pix
+                        setTimeout(() => {
+                            const copiarBtn = document.getElementById('btn-copiar-pix');
+                            copiarBtn.addEventListener('click', function () {
+                                const payload = document.getElementById('pix-payload').value;
+                                navigator.clipboard.writeText(payload).then(() => {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Código Pix copiado!',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }).catch(err => {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Erro ao copiar Pix!',
+                                        text: err.message
+                                    });
+                                });
+                            });
+                        }, 100);
+                    } else {
+                        Swal.close();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro!',
+                            text: 'Não foi possível gerar o Pix.'
+                        });
                     }
                 })
                 .catch(error => {
                     console.error('Erro:', error);
-                    alert(error.message || 'Erro ao enviar a proposta.');
-                              });
+                    Swal.close();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: error.message || 'Erro ao enviar a proposta.'
+                    });
+                });
         });
 
-       alterarPagamentoBtn.addEventListener('click', function (e) {
-    e.preventDefault();
+        alterarPagamentoBtn.addEventListener('click', function (e) {
+            e.preventDefault();
 
-    btnGerarPix.style.display = 'inline-block';
-    qrcodeContainer.style.display = 'none';
-    alterarPagamentoBtn.style.display = 'none';
-
-    Swal.fire({
-        title: 'Deseja alterar a forma de pagamento?',
-        text: "Você voltará para a tela anterior!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sim, alterar!',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = `/pagamentos/formCheckout/{{$data['link_hash']}}`; // ajuste o path se necessário
-        }
-    });
-});
+            Swal.fire({
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, desejo alterar!',
+                cancelButtonText: 'Cancelar',
+                html: `
+        <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Você tem certeza que deseja alterar a forma de pagamento?</h3>
+        <p style="text-align: center; white-space: pre-line; font-size: 1rem;">
+            Caso já tenha efetuado o pagamento do boleto não altere para outra forma de pagamento e entre com contato com o nosso time de atendimento para obter ajuda.<br>
+            Canal de atendimento: 00000000000<br>
+            WhatsApp: (34) 0000000000
+        </p>
+    `
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `/pagamentos/formCheckout/{{$data['link_hash']}}`; // ajuste o path se necessário
+                }
+            });
+        });
     </script>
 
 
