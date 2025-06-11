@@ -93,6 +93,54 @@ class PaymentController extends Controller
         return view('payments.methods.boleto', ['link' => $link, 'data' => $data, 'id' => $id]);
     }
 
+    public function creditCardCheckout(string $link, $id)
+    {
+        $token    = session('jwt_token');
+        $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $link);
+        $data     = $response->json();
+
+        $propostaTotalValor              = $data['proposta_total_valor'];
+        $valorNumericoPropostaTotalValor = floatval(str_replace(',', '.', preg_replace('/[^\d,]/', '', $propostaTotalValor)));
+        $parcelasTotalValor              = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            $valorParcela           = $valorNumericoPropostaTotalValor / $i;
+            $parcelasTotalValor[$i] = $i . 'x de R$ ' . number_format($valorParcela, 2, ',', '.');
+        }
+        $data['parcelas_total_valor_disponiveis'] = $parcelasTotalValor;
+
+        $propostaSetupValor              = $data['proposta_setup_valor'];
+        $valorNumericoPropostaSetupValor = floatval(str_replace(',', '.', preg_replace('/[^\d,]/', '', $propostaSetupValor)));
+        $parcelasSetupValor              = [];
+
+        for ($i = 1; $i <= 3; $i++) {
+            $valorParcela           = $valorNumericoPropostaSetupValor / $i;
+            $parcelasSetupValor[$i] = $i . 'x de R$ ' . number_format($valorParcela, 2, ',', '.');
+        }
+        $data['parcelas_setup_disponiveis'] = $parcelasSetupValor;
+
+        return view('payments.methods.credit-card', ['link' => $link, 'data' => $data, 'id' => $id]);
+    }
+
+    public function creditCardSaveCheckout(Request $request, string $link, $id)
+    {
+        $token = session('jwt_token');
+
+        $request->merge([
+            'id_usuario'       => session('user')['id'],
+        ]);
+
+        $response = Http::withToken($token)->post(config('api.route') . '/payment/credit_card/' . $id . '/' . $link, $request->all());
+
+        if ($response->successful() && isset($response['detalhes_pagamentos'])) {
+            // Redireciona para a rota confirmation com o id_pagamento na URL
+            return redirect()->route('payment.confirmation', ['link' => $link, 'id_pagamento' => $response['detalhes_pagamentos']]);
+        }
+        return redirect()->back()->withErrors([
+            'checkout' => 'Erro ao processar o pagamento. Tente novamente.',
+        ]);
+    }
+
     public function editarPagamento(Request $request, $id)
     {
         $token    = session('jwt_token');

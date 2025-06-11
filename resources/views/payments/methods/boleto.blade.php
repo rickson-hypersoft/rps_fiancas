@@ -178,8 +178,6 @@ const paymentId = `{{$id}}`;
                         const boletoUrl = data.link;
                         const barCode = data.detalhes_pagamentos.barCode
 
-                        console.log(boletoUrl)
-
         boletoLinkContainer.style.display = 'block';
         boletoLinkContainer.innerHTML = `
             <div class="text-center mt-3">

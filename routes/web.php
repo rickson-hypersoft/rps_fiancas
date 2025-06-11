@@ -224,6 +224,9 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
 
     Route::get('/pagamentos/pix/{linkHash}/{id}', [PaymentController::class, 'pixCheckout'])->name('payment.checkout.pix');
     Route::get('/pagamentos/boleto/{linkHash}/{id}', [PaymentController::class, 'boletoCheckout'])->name('payment.checkout.boleto');
+    Route::get('/pagamentos/cartao/{linkHash}/{id}', [PaymentController::class, 'creditCardCheckout'])->name('payment.checkout.credit-card');
+
+    Route::post('/pagamentos/cartao/{linkHash}/{id}', [PaymentController::class, 'creditCardSaveCheckout'])->name('payment.checkout.save.credit-card');
 
     Route::post('/pagamentos/update-metodo/{id}', [PaymentController::class, 'editarPagamento'])->name('payment.alter.payment');
 

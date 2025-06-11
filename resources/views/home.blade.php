@@ -31,7 +31,26 @@
                     </div>
                 </div>
                 <!--/ Website Analytics -->
+                @php
+                    $statusContratos = collect([
+                        'Ativo' => ['icon' => 'tabler-file-check', 'color' => 'primary'],
+                        'Pendente' => ['icon' => 'tabler-file-info', 'color' => 'info'],
+                        'Em renovação' => ['icon' => 'tabler-file-dots', 'color' => 'warning'],
+                        'Cancelado' => ['icon' => 'tabler-file-x', 'color' => 'danger'],
+                    ]);
+                   $statusPropostas = collect([
+        'Aprovado'    => ['label' => 'Aprovadas', 'icon' => 'tabler-copy-check', 'color' => 'primary'],
+        'Pendente'    => ['label' => 'Pendentes', 'icon' => 'tabler-copy-plus',  'color' => 'info'],
+        'Cancelado'   => ['label' => 'Canceladas', 'icon' => 'tabler-copy-minus', 'color' => 'warning'],
+        'Reprovado'   => ['label' => 'Reprovadas', 'icon' => 'tabler-copy-x',    'color' => 'danger'],
+    ]);
 
+    // Indexa os resultados por status e preenche os que não vieram com zero
+    $propostasMapeadas = collect($propostas)->mapWithKeys(fn ($item) => [$item['PROPOSTA_STATUS'] => $item['TOTAL']]);
+
+                    // Indexar os resultados por status e garantir todos os status com valor 0 padrão
+                    $contratosMapeados = collect($contratos)->mapWithKeys(fn ($item) => [$item['CONTRATO_STATUS'] => $item['TOTAL']]);
+                @endphp
                 <div class="card h-100">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="card-title mb-0">Contratos</h5>
@@ -39,50 +58,19 @@
                     <div class="card-body d-flex align-items-end">
                         <div class="w-100">
                             <div class="row gy-3">
-                                <div class="col-md-3 col-6">
-                                    <div class="d-flex align-items-center">
-                                        <div class="badge rounded bg-label-primary me-4 p-2">
-                                            <i class="icon-base ti tabler-file-check icon-lg"></i>
-                                        </div>
-                                        <div class="card-info">
-                                            <h5 class="mb-0">107</h5>
-                                            <small>Ativos</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="d-flex align-items-center">
-                                        <div class="badge rounded bg-label-info me-4 p-2">
-                                            <i class="icon-base ti tabler-file-info icon-lg"></i>
-                                        </div>
-                                        <div class="card-info">
-                                            <h5 class="mb-0">9</h5>
-                                            <small>Pendentes</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="d-flex align-items-center">
-                                        <div class="badge rounded bg-label-warning me-4 p-2">
-                                            <i class="icon-base ti tabler-file-dots"></i>
-                                        </div>
-                                        <div class="card-info">
-                                            <h5 class="mb-0">18</h5>
-                                            <small>Em renovação</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="d-flex align-items-center">
-                                        <div class="badge rounded bg-label-danger me-4 p-2">
-                                            <i class="icon-base ti tabler-file-x icon-lg"></i>
-                                        </div>
-                                        <div class="card-info">
-                                            <h5 class="mb-0">136</h5>
-                                            <small>Cancelados</small>
-                                        </div>
-                                    </div>
-                                </div>
+                                @foreach($statusContratos as $status => $config)
+                    <div class="col-md-3 col-6">
+                        <div class="d-flex align-items-center">
+                            <div class="badge rounded bg-label-{{ $config['color'] }} me-4 p-2">
+                                <i class="icon-base ti {{ $config['icon'] }} icon-lg"></i>
+                            </div>
+                            <div class="card-info">
+                                <h5 class="mb-0">{{ $contratosMapeados[$status] ?? 0 }}</h5>
+                                <small>{{ $status }}</small>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
                             </div>
                         </div>
                     </div>
@@ -96,50 +84,19 @@
                     <div class="card-body d-flex align-items-end">
                         <div class="w-100">
                             <div class="row gy-3">
-                                <div class="col-md-3 col-6">
-                                    <div class="d-flex align-items-center">
-                                        <div class="badge rounded bg-label-primary me-4 p-2">
-                                            <i class="icon-base ti tabler-copy-check icon-lg"></i>
-                                        </div>
-                                        <div class="card-info">
-                                            <h5 class="mb-0">10</h5>
-                                            <small>Aprovadas</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="d-flex align-items-center">
-                                        <div class="badge rounded bg-label-info me-4 p-2">
-                                            <i class="icon-base ti tabler-copy-plus icon-lg"></i>
-                                        </div>
-                                        <div class="card-info">
-                                            <h5 class="mb-0">6</h5>
-                                            <small>Pendentes</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="d-flex align-items-center">
-                                        <div class="badge rounded bg-label-warning me-4 p-2">
-                                            <i class="icon-base ti tabler-copy-minus"></i>
-                                        </div>
-                                        <div class="card-info">
-                                            <h5 class="mb-0">3</h5>
-                                            <small>Canceladas</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="d-flex align-items-center">
-                                        <div class="badge rounded bg-label-danger me-4 p-2">
-                                            <i class="icon-base ti tabler-copy-x icon-lg"></i>
-                                        </div>
-                                        <div class="card-info">
-                                            <h5 class="mb-0">2</h5>
-                                            <small>Reprovadas</small>
-                                        </div>
-                                    </div>
-                                </div>
+                                 @foreach($statusPropostas as $status => $config)
+        <div class="col-md-3 col-6">
+            <div class="d-flex align-items-center">
+                <div class="badge rounded bg-label-{{ $config['color'] }} me-4 p-2">
+                    <i class="icon-base ti {{ $config['icon'] }} icon-lg"></i>
+                </div>
+                <div class="card-info">
+                    <h5 class="mb-0">{{ $propostasMapeadas[$status] ?? 0 }}</h5>
+                    <small>{{ $config['label'] }}</small>
+                </div>
+            </div>
+        </div>
+    @endforeach
                             </div>
                         </div>
                     </div>

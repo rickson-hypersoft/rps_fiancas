@@ -57,6 +57,7 @@
                                                                 Cartão de crédito
                                                             </span>
                                                         </span>
+                                                        <a href="{{ route('payment.checkout.credit-card', ['linkHash' => $data['link_hash'], 'id' => $id]) }}" class="stretched-link"></a>
                                                     </label>
                                                 </div>
                                             </div>

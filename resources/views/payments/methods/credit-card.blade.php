@@ -56,8 +56,8 @@
                                         <div class="row g-5 py-3">
                                             <div class="card" style="background: #f7f7f7; box-shadow: none;">
                                                 <div class="card-body">
-                                                 <form action="{{ route('payment.save.checkout', ['link' => $link]) }}" method="POST">
-    @csrf
+                                                    <form action="{{ route('payment.checkout.save.credit-card', ['linkHash' => $link, 'id' => $id]) }}" method="POST">
+                                                        @csrf
                                                         <div class="row" id="card-data-section">
                                                             <div class="mb-3 col-md-7">
                                                                 <label for="numero_cartao" class="form-label">Número do cartão</label>
@@ -239,6 +239,7 @@
 
     <script src="https://unpkg.com/imask"></script>
     <script>
+        // Aplicação de máscaras
         IMask(document.getElementById('numero_cartao'), {
             mask: '0000 0000 0000 0000'
         });
@@ -255,8 +256,8 @@
             mask: '00000-000'
         });
 
-
         document.addEventListener("DOMContentLoaded", function () {
+            // Preenchimento automático de cidade/estado via CEP
             document.getElementById('pessoa_cep').addEventListener('blur', function () {
                 const cep = this.value.replace(/\D/g, '');
 
@@ -297,6 +298,7 @@
                 }
             });
 
+            // Elementos de botão e seções
             const btnContinuar = document.getElementById("btn-continuar");
             const btnFinalizar = document.getElementById("btn-finalizar");
             const voltarCartao = document.getElementById("btn-voltar-cartao");
@@ -304,7 +306,8 @@
             const cardDataSection = document.getElementById("card-data-section");
             const installmentSection = document.getElementById("installment-section");
 
-            const form = document.querySelector("form"); // Certifique-se de só ter um formulário ou selecione pelo ID
+            const form = document.querySelector("form"); // Ou use um ID fixo para o formulário
+            const methodPayment = 'CREDIT_CARD';
 
             btnContinuar.addEventListener("click", function () {
                 const camposObrigatorios = [
@@ -333,7 +336,7 @@
 
                     if (elemento.value.trim() === '') {
                         preenchido = false;
-                        elemento.classList.add('is-invalid'); // Adiciona borda vermelha
+                        elemento.classList.add('is-invalid');
                     } else {
                         elemento.classList.remove('is-invalid');
                     }
@@ -346,22 +349,43 @@
                 } else {
                     alert('Por favor, preencha todos os campos obrigatórios corretamente.');
                 }
+
+                fetch(`/pagamentos/update-metodo/{{ $id }}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        metodo_pagamento: methodPayment
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Erro ao gerar pagamento');
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data)
+                    })
+                    .catch(error => {
+                        console.error('Erro:', error);
+                        alert(error.message || 'Erro ao enviar a proposta.');
+                    });
             });
 
             voltarCartao.addEventListener("click", function () {
                 cardDataSection.classList.remove("d-none");
                 cardDataSection.classList.add("row");
-
                 installmentSection.style.display = "none";
             });
 
             btnFinalizar.addEventListener("click", function () {
-                // Aqui você pode validar o campo de parcelas, se quiser
-
-                form.submit(); // Envia o formulário
+                // Você pode validar o campo de parcelas aqui, se necessário
+                form.submit();
             });
         });
     </script>
+
 
     <div class="layout-overlay layout-menu-toggle"></div>
     <script src="{{asset('assets/vendor/libs/popper/popper.js')}}"></script>
@@ -370,8 +394,6 @@
     <script src="{{asset('assets/vendor/libs/@algolia/autocomplete-js.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/pickr/pickr.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/cleave-zen/cleave-zen.js')}}"></script>
-    <script src="{{asset('assets/js/front-main.js')}}"></script>
-    <script src="{{asset('assets/js/pages-pricing.js')}}"></script>
     <script src="{{asset('assets/js/front-page-payment.js')}}"></script>
 </body>
 

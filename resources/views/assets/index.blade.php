@@ -13,11 +13,8 @@
                         </div>
                         <h4 class="mb-0">42</h4>
                     </div>
-                    <p class="mb-1">On route vehicles</p>
-                    <p class="mb-0">
-                        <span class="text-heading fw-medium me-2">+18.2%</span>
-                        <small class="text-body-secondary">than last week</small>
-                    </p>
+                    <p class="mb-1">Todos</p>
+
                 </div>
             </div>
         </div>
@@ -31,11 +28,7 @@
                         </div>
                         <h4 class="mb-0">8</h4>
                     </div>
-                    <p class="mb-1">Vehicles with errors</p>
-                    <p class="mb-0">
-                        <span class="text-heading fw-medium me-2">-8.7%</span>
-                        <small class="text-body-secondary">than last week</small>
-                    </p>
+                    <p class="mb-1">Ativos</p>
                 </div>
             </div>
         </div>
@@ -49,11 +42,7 @@
                         </div>
                         <h4 class="mb-0">27</h4>
                     </div>
-                    <p class="mb-1">Deviated from route</p>
-                    <p class="mb-0">
-                        <span class="text-heading fw-medium me-2">+4.3%</span>
-                        <small class="text-body-secondary">than last week</small>
-                    </p>
+                    <p class="mb-1">Cancelados</p>
                 </div>
             </div>
         </div>
@@ -67,11 +56,7 @@
                         </div>
                         <h4 class="mb-0">13</h4>
                     </div>
-                    <p class="mb-1">Late vehicles</p>
-                    <p class="mb-0">
-                        <span class="text-heading fw-medium me-2">-2.5%</span>
-                        <small class="text-body-secondary">than last week</small>
-                    </p>
+                    <p class="mb-1">Em renovação</p>
                 </div>
             </div>
         </div>
