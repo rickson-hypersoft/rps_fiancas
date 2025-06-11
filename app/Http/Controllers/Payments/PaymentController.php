@@ -74,7 +74,7 @@ class PaymentController extends Controller
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $link);
         $data     = $response->json();
 
-        $responsePayment = Http::withToken($token)->post(config('api.route') . '/payment/create/' . $link, ['id_usuario' => session('user')['id']]);
+        $responsePayment = Http::withToken($token)->post(config('api.route') . '/payments/create/' . $link, ['id_usuario' => session('user')['id']]);
 
         return view('payments.formCheckout', ['link' => $link, 'data' => $data, 'id' => $responsePayment->json()['id']]);
     }
@@ -134,11 +134,11 @@ class PaymentController extends Controller
             'id_usuario'       => session('user')['id'],
         ]);
 
-        $response = Http::withToken($token)->post(config('api.route') . '/payment/credit_card/' . $id . '/' . $link, $request->all());
         var_dump(config('api.route') . '/payment/credit_card/' . $id . '/' . $link, $request->all());
-        var_dump($response->status());
-        var_dump($response->json());
-        dd($response->body());
+        exit;
+
+        $response = Http::withToken($token)->post(config('api.route') . '/payment/credit_card/' . $id . '/' . $link, $request->all());
+
         if ($response->successful() && isset($response['detalhes_pagamentos'])) {
             // Redireciona para a rota confirmation com o id_pagamento na URL
             return redirect()->route('payment.confirmation', ['id' => $id]);
