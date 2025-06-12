@@ -272,12 +272,12 @@
                 confirmButtonText: 'Sim, desejo alterar!',
                 cancelButtonText: 'Cancelar',
                 html: `
-        <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Você tem certeza que deseja alterar a forma de pagamento?</h3>
-        <p style="text-align: center; white-space: pre-line; font-size: 1rem;">
-            Caso já tenha efetuado o pagamento do boleto não altere para outra forma de pagamento e entre com contato com o nosso time de atendimento para obter ajuda.<br>
-            Canal de atendimento: 00000000000<br>
-            WhatsApp: (34) 0000000000
-        </p> `
+                        <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Você tem certeza que deseja alterar a forma de pagamento?</h3>
+                        <p style="text-align: center; white-space: pre-line; font-size: 1rem;">
+                            Caso já tenha efetuado o pagamento do boleto não altere para outra forma de pagamento e entre com contato com o nosso time de atendimento para obter ajuda.<br>
+                            Canal de atendimento: 00000000000<br>
+                            WhatsApp: (34) 0000000000
+                        </p> `
                     }).then((result) => {
                         if (result.isConfirmed) {
                             fetch(`/pagamentos/checkout/cancelar/${idPagamento}/{{ $linkHash }}`, {

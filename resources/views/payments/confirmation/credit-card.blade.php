@@ -78,10 +78,8 @@
                             </div>
                             <h4 class="mb-4">Pagamento Efetuado</h4>
 
-                            @foreach ($paymentInfo as $info)
                             @foreach ($propostalInfo as $proposta)
-
-
+                            @if($paymentInfo[0])
                             <p class="text-start fw-bold">PAGAMENTO 1</p>
                             <div class="card mb-3" style="border-radius: 10px; border: 2px solid rgb(180, 55, 180, 0.7)">
                                 <div class="card-body p-3">
@@ -91,15 +89,15 @@
                                         <span class="fw-semibold">R$ {{$proposta['PROPOSTA_TOTAL_VALOR']}}</span>
                                     </div>
                                     <div class="text-start">
-                                        <p class="mb-1"><strong class="text-primary">{{$info['creditCard']['creditCardBrand']}}</strong> Cartão: **** **** **** {{$info['creditCard']['creditCardNumber']}}</p>
-                                        <p class="mb-1">{{$proposta['PROPOSTA_TOTAL_PARC']}} parcela(s) de R$ {{$info['value']}}</p>
-                                        <p>Próxima cobrança: {{$info['creditDate']}}</p>
+                                        <p class="mb-1"><strong class="text-primary">{{$paymentInfo[0]['creditCard']['creditCardBrand']}}</strong> Cartão: **** **** **** {{$paymentInfo[0]['creditCard']['creditCardNumber']}}</p>
+                                        <p class="mb-1">{{$proposta['PROPOSTA_TOTAL_PARC']}} parcela(s) de R$ {{$paymentInfo[0]['value']}}</p>
+                                        <p>Próxima cobrança: {{$paymentInfo[0]['creditDate']}}</p>
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
-                            @endforeach
+                            @endif
 
+                            @if($paymentInfo[1])
                             <p class="text-start fw-bold">PAGAMENTO 2</p>
                             <div class="card mb-3" style="border-radius: 10px; border: 2px solid rgb(180, 55, 180, 0.7)">
                                 <div class="card-body p-3">
@@ -109,12 +107,14 @@
                                         <span class="fw-semibold">R$ {{$proposta['PROPOSTA_SETUP_VALOR']}}</span>
                                     </div>
                                     <div class="text-start">
-                                        <p class="mb-1"><strong class="text-primary">VISA</strong> Cartão: **** **** **** 1481</p>
-                                        <p class="mb-1">2 parcela(s) de R$ 15,00</p>
-                                        <p>Próxima cobrança: 03/07/2025</p>
+                                        <p class="mb-1"><strong class="text-primary">{{$paymentInfo[1]['creditCard']['creditCardBrand']}}</strong> Cartão: **** **** **** {{$paymentInfo[1]['creditCard']['creditCardNumber']}}</p>
+                                        <p class="mb-1">{{$proposta['PROPOSTA_SETUP_PARC']}} parcela(s) de R$ {{$paymentInfo[1]['value']}}</p>
+                                        <p>Próxima cobrança: {{$paymentInfo[1]['creditDate']}}</p>
                                     </div>
                                 </div>
                             </div>
+                            @endif
+                            @endforeach
 
                             <div class="card bg-light mt-3 p-3 text-start">
                                 <p class="mb-1 d-flex justify-content-between">

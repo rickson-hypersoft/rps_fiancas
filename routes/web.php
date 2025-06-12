@@ -257,7 +257,11 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         Route::get('/checkout/cartao/{linkHash}', [CheckoutController::class, 'carregarFormCartao'])->name('checkout.cartao')->middleware('verify.contract.link');;
         Route::post('/checkout/cartao/{linkHash}', [CheckoutController::class, 'criarPagamentoCartao'])->name('checkout.save.cartao')->middleware('verify.contract.link');;
 
-        Route::post('/checkout/cancelar/{idPagamento}/{linkHash}', [CheckoutController::class, 'cancelarPagamento'])->name('checkout.canceled')->middleware('verify.contract.link');;
+        Route::post('/checkout/cancelar/{idPagamento}/{linkHash}', [CheckoutController::class, 'cancelarPagamento'])->name('checkout.canceled')->middleware('verify.contract.link');
+
+        Route::get('/confirmacao/cartao/{linkHash}/{idPagamento}', [CheckoutController::class, 'cartaoConfirmacao'])
+            ->name('checkout.confirmation.cart')
+            ->middleware('verify.contract.link');
 
         // Route::get('/pagamentos/pix/{linkHash}', [PaymentController::class, 'pix'])->name('payment.pix');
         // Route::get('/pagamentos/pix/{linkHash}/{id}', [PaymentController::class, 'pixCheckout'])->name('payment.checkout.pix');

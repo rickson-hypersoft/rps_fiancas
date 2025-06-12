@@ -45,12 +45,31 @@
                             <div class="card px-3">
                                 <div class="row" class="static-table">
                                     <div class="col-lg-7 card-body border-end p-md-8">
-                                        <div class="d-flex align-items-center">
-                                            <h4 class="mb-2">
+                                        <div id="cartaoInfo" class="d-flex align-items-center">
+                                            <a href="{{route('checktou.index', ['linkHash' => $linkHash])}}" class="icon-base ti tabler-arrow-left icon-xs mb-4 me-3"></a>
+                                            <h6>
                                                 <font style="vertical-align: inherit;">
                                                     <font style="vertical-align: inherit;">Cartão de crédito</font>
                                                 </font>
-                                            </h4>
+                                            </h6>
+                                        </div>
+
+                                        <div id="pareclas" class="d-none align-items-center">
+                                            <a href="#" id="parcelas_link" class="icon-base ti tabler-arrow-left icon-xs mb-4 me-3"></a>
+                                            <h6>
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">Selecionar a quantidade de parcelas</font>
+                                                </font>
+                                            </h6>
+                                        </div>
+
+                                        <div id="revisar" class="d-none align-items-center">
+                                            <a href="#" id="revisar_link" class="icon-base ti tabler-arrow-left icon-xs mb-4 me-3"></a>
+                                            <h6>
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">Revisar pagamento</font>
+                                                </font>
+                                            </h6>
                                         </div>
                                         <div class="row g-5 py-3">
                                             <div class="card" style="background: #f7f7f7; box-shadow: none;">
@@ -115,17 +134,21 @@
                                                                 <label for="pessoa_bairro" class="form-label">Bairro</label>
                                                                 <input type="text" class="form-control bg-white" name="pessoa_bairro" id="pessoa_bairro" required />
                                                             </div>
-                                                            <div class="col-md-6 aligm-items-end">
-                                                                <button type="button" id="btn-continuar" class="btn btn-primary">Continuar</button>
+                                                            <div>
+                                                                <a href="#" id="btn-continuar" class="btn btn-label-primary btn-prev waves-effect">
+                                                                    <span class="align-middle d-sm-inline-block">Continuar</span>
+                                                                    <i class="icon-base ti tabler-arrow-right icon-xs me-sm-2 me-0"></i>
+                                                                </a>
                                                             </div>
+
                                                         </div>
 
                                                         <div class="row" id="installment-section" style="display: none;">
                                                             <div>
                                                                 <span>Pagamento 1</span>
-                                                                <div class="card mt-5">
-                                                                    <div class="card-body" style="background: #f7f7f7; box-shadow: none;">
-                                                                        <h4>Aluguel Imóvel <span class="h5 fw-normal">{{$data['proposta_total_valor']}}</span></h4>
+                                                                <div class="card mt-5" style="box-shadow: none;">
+                                                                    <div class="card-body" style="background: #fff;">
+                                                                        <h6>Aluguel Imóvel <span class="fw-normal">{{$data['proposta_total_valor']}}</span></h6>
                                                                         <hr>
                                                                         <div class="mb-4">
                                                                             <label for="parcelas_imovel_aluguel" class="form-label">Parcelas</label>
@@ -141,9 +164,9 @@
 
                                                             <div class="mt-5">
                                                                 <span>Pagamento 2</span>
-                                                                <div class="card mt-5">
-                                                                    <div class="card-body" style="background: #f7f7f7; box-shadow: none;">
-                                                                        <h4>Setup <span class="h5 fw-normal">{{$data['proposta_setup_valor']}}</span></h4>
+                                                                <div class="card mt-5" style="box-shadow: none;">
+                                                                    <div class="card-body" style="background: #fff;">
+                                                                        <h6>Setup <span class="fw-normal">{{$data['proposta_setup_valor']}}</span></h6>
                                                                         <hr>
                                                                         <div class="mb-4">
                                                                             <label for="parcelas_imovel_aluguel" class="form-label">Parcelas</label>
@@ -156,9 +179,49 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-6">
-                                                                <a href="#" id="btn-voltar-cartao" class="mt-4 btn btn-secondary">Voltar</a>
-                                                                <button id="btn-finalizar" class="mt-4 btn btn-primary">Continuar</button>
+                                                            <div class="mt-3">
+                                                                <button class="btn btn-label-primary btn-prev waves-effect" id="confirmar-pagamento">
+                                                                    <span class="align-middle d-sm-inline-block">Confirmar pagamento</span>
+                                                                    <i class="icon-base ti tabler-arrow-right icon-xs me-sm-2 me-0"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" id="revisar-section" style="display: none;">
+                                                            <div class="card mt-5" style="box-shadow: none;">
+                                                                <div class="card-body p-3">
+                                                                    <span>Pagamento 1</span>
+                                                                    <div class="d-flex align-items-center mb-2">
+                                                                        <h5 class="me-auto">Taxa Serviço</h5>
+                                                                        <h6 class="fw-semibold">R$ 960,00</h6>
+                                                                    </div>
+                                                                    <div class="text-start d-flex justify-content-between">
+                                                                        <p class="mb-1"><strong class="text-primary">VISA</strong> Cartão: **** **** **** 1481</p>
+                                                                        <p class="mb-1">12 parcela(s) de R$ 80,00 sem juros</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="card mt-5" style="box-shadow: none;">
+                                                                <div class="card-body p-3">
+                                                                    <span>Pagamento 2</span>
+                                                                    <div class="d-flex align-items-center mb-2">
+                                                                        <h5 class="me-auto">Taxa Serviço</h5>
+                                                                        <h6 class="fw-semibold">R$ 960,00</h6>
+                                                                    </div>
+                                                                    <div class="text-start d-flex justify-content-between">
+                                                                        <p class="mb-1"><strong class="text-primary">VISA</strong> Cartão: **** **** **** 1481</p>
+                                                                        <p class="mb-1">2 parcela(s) de R$ 15,00 sem juros</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="d-flex align-items-center mt-5 justify-content-between">
+                                                                <a href="#" id="alterar">Alterar forma de pagamento</a>
+                                                                <button class="btn btn-label-primary btn-prev waves-effect" id="confirmar-pagamento">
+                                                                    <span class="align-middle d-sm-inline-block">Confirmar pagamento</span>
+                                                                    <i class="icon-base ti tabler-arrow-right icon-xs me-sm-2 me-0"></i>
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -236,6 +299,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/imask"></script>
     <script>
         // Aplicação de máscaras
@@ -345,21 +409,97 @@
                     cardDataSection.classList.remove("row");
                     cardDataSection.classList.add("d-none");
                     installmentSection.style.display = "block";
+                    document.getElementById('cartaoInfo').classList.remove('d-flex')
+                    document.getElementById('cartaoInfo').classList.add('d-none')
+                    document.getElementById('pareclas').classList.remove('d-none')
+                    document.getElementById('pareclas').classList.add('d-flex')
                 } else {
                     alert('Por favor, preencha todos os campos obrigatórios corretamente.');
                 }
+
+
             });
 
-            voltarCartao.addEventListener("click", function () {
+            document.getElementById('parcelas_link').addEventListener('click', function () {
                 cardDataSection.classList.remove("d-none");
                 cardDataSection.classList.add("row");
                 installmentSection.style.display = "none";
-            });
+                document.getElementById('cartaoInfo').classList.remove('d-none')
+                document.getElementById('cartaoInfo').classList.add('d-flex')
+                document.getElementById('pareclas').classList.remove('d-flex')
+                document.getElementById('pareclas').classList.add('d-none')
+            })
 
-            btnFinalizar.addEventListener("click", function () {
+            /*
+            document.getElementById('btn-revisar').addEventListener('click', function () {
+                installmentSection.style.display = "none";
+                document.getElementById('revisar-section').style.display = "block";
+                document.getElementById('pareclas').classList.remove('d-flex')
+                document.getElementById('pareclas').classList.add('d-none')
+
+                document.getElementById('revisar').classList.remove('d-none')
+                document.getElementById('revisar').classList.add('d-flex')
+            })*/
+
+            /*
+            document.getElementById('revisar_link').addEventListener('click', function () {
+                installmentSection.style.display = "block";
+                document.getElementById('revisar-section').style.display = "none";
+                document.getElementById('pareclas').classList.remove('d-none')
+                document.getElementById('pareclas').classList.add('d-flex')
+
+                document.getElementById('revisar').classList.remove('d-flex')
+                document.getElementById('revisar').classList.add('d-none')
+            })
+            */
+
+            document.getElementById('confirmar-pagamento').addEventListener("click", function () {
                 // Você pode validar o campo de parcelas aqui, se necessário
                 form.submit();
             });
+
+            /*
+            if (alterarPagamentoBtn) {
+                alterarPagamentoBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sim, desejo alterar!',
+                        cancelButtonText: 'Cancelar',
+                        html: `
+                        <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Você tem certeza que deseja alterar a forma de pagamento?</h3>
+                        <p style="text-align: center; white-space: pre-line; font-size: 1rem;">
+                            Caso já tenha efetuado o pagamento do boleto não altere para outra forma de pagamento e entre com contato com o nosso time de atendimento para obter ajuda.<br>
+                            Canal de atendimento: 00000000000<br>
+                            WhatsApp: (34) 0000000000
+                        </p> `
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/pagamentos/checkout/cancelar/${idPagamento}/{{ $linkHash }}`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Forma de pagamento alterada!',
+                                        text: 'Agora você pode escolher outro método de pagamento.'
+                                    }).then(() => window.location.href = `{{route('checktou.index', ['linkHash' => $linkHash])}}`);
+                                })
+
+                        }
+                    });
+                });
+            }
+            */
         });
     </script>
 

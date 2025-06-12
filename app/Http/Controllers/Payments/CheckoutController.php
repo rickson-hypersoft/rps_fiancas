@@ -101,7 +101,7 @@ class CheckoutController extends Controller
         return view('payments.methods.credit-card', ['linkHash' => $linkHash, 'data' => $data]);
     }
 
-    public function criarPagamentoCartao(Request $request, string $linkHash): JsonResponse
+    public function criarPagamentoCartao(Request $request, string $linkHash)
     {
         $request->merge([
             'id_usuario' => session('user')['id'],
@@ -112,8 +112,36 @@ class CheckoutController extends Controller
             config('api.route') . '/checkout/cartao/' . $linkHash,
             $request->all()
         );
-        $data = $response->json();
 
-        return response()->json($data);
+        if ($response->successful() && isset($response['detalhes_pagamentos'])) {
+            // Redireciona para a rota confirmation com o id_pagamento na URL
+            if (is_array($response['ids_pagamentos']) && count($response['ids_pagamentos']) > 1) {
+                // Se tiver dois pagamentos, junte com vírgula (ou outro separador) e envie como string
+                $ids = implode(',', $response['ids_pagamentos']);
+            } else {
+                // Apenas um pagamento
+                $ids = is_array($response['ids_pagamentos']) ? $response['ids_pagamentos'][0] : $response['ids_pagamentos'];
+            }
+            return redirect()->route('checkout.confirmation.cart', ['linkHash' => $linkHash, 'idPagamento' => $ids]);
+        }
+
+        return redirect()->back()->withErrors([
+            'checkout' => 'Erro ao processar o pagamento. Tente novamente.',
+        ]);
+    }
+
+    public function cartaoConfirmacao(string $linkHash, string $idPagamento)
+    {
+        $token = session('jwt_token');
+
+        // Monte a URL de chamada para API
+        $url = config('api.route') . '/checkout/info/' . $idPagamento;
+
+        $response = Http::withToken($token)->get($url);
+
+        return view('payments.confirmation.credit-card', [
+            'paymentInfo' => $response->json()['detalhes_pagamentos'],
+            'propostalInfo' => $response->json()['propostas']
+        ]);
     }
 }
