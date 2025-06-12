@@ -32,24 +32,24 @@
                 </div>
                 <!--/ Website Analytics -->
                 @php
-                    $statusContratos = collect([
-                        'Ativo' => ['icon' => 'tabler-file-check', 'color' => 'primary'],
-                        'Pendente' => ['icon' => 'tabler-file-info', 'color' => 'info'],
-                        'Em renovação' => ['icon' => 'tabler-file-dots', 'color' => 'warning'],
-                        'Cancelado' => ['icon' => 'tabler-file-x', 'color' => 'danger'],
-                    ]);
-                   $statusPropostas = collect([
-        'Aprovado'    => ['label' => 'Aprovadas', 'icon' => 'tabler-copy-check', 'color' => 'primary'],
-        'Pendente'    => ['label' => 'Pendentes', 'icon' => 'tabler-copy-plus',  'color' => 'info'],
-        'Cancelado'   => ['label' => 'Canceladas', 'icon' => 'tabler-copy-minus', 'color' => 'warning'],
-        'Reprovado'   => ['label' => 'Reprovadas', 'icon' => 'tabler-copy-x',    'color' => 'danger'],
-    ]);
+                $statusContratos = collect([
+                'Ativo' => ['icon' => 'tabler-file-check', 'color' => 'primary'],
+                'Pendente' => ['icon' => 'tabler-file-info', 'color' => 'info'],
+                'Em renovação' => ['icon' => 'tabler-file-dots', 'color' => 'warning'],
+                'Cancelado' => ['icon' => 'tabler-file-x', 'color' => 'danger'],
+                ]);
+                $statusPropostas = collect([
+                'Aprovado' => ['label' => 'Aprovadas', 'icon' => 'tabler-copy-check', 'color' => 'primary'],
+                'Pendente' => ['label' => 'Pendentes', 'icon' => 'tabler-copy-plus', 'color' => 'info'],
+                'Cancelado' => ['label' => 'Canceladas', 'icon' => 'tabler-copy-minus', 'color' => 'warning'],
+                'Reprovado' => ['label' => 'Reprovadas', 'icon' => 'tabler-copy-x', 'color' => 'danger'],
+                ]);
 
-    // Indexa os resultados por status e preenche os que não vieram com zero
-    $propostasMapeadas = collect($propostas)->mapWithKeys(fn ($item) => [$item['PROPOSTA_STATUS'] => $item['TOTAL']]);
+                // Indexa os resultados por status e preenche os que não vieram com zero
+                $propostasMapeadas = collect($propostas)->mapWithKeys(fn ($item) => [$item['PROPOSTA_STATUS'] => $item['TOTAL']]);
 
-                    // Indexar os resultados por status e garantir todos os status com valor 0 padrão
-                    $contratosMapeados = collect($contratos)->mapWithKeys(fn ($item) => [$item['CONTRATO_STATUS'] => $item['TOTAL']]);
+                // Indexar os resultados por status e garantir todos os status com valor 0 padrão
+                $contratosMapeados = collect($contratos)->mapWithKeys(fn ($item) => [$item['CONTRATO_STATUS'] => $item['TOTAL']]);
                 @endphp
                 <div class="card h-100">
                     <div class="card-header d-flex justify-content-between">
@@ -59,18 +59,18 @@
                         <div class="w-100">
                             <div class="row gy-3">
                                 @foreach($statusContratos as $status => $config)
-                    <div class="col-md-3 col-6">
-                        <div class="d-flex align-items-center">
-                            <div class="badge rounded bg-label-{{ $config['color'] }} me-4 p-2">
-                                <i class="icon-base ti {{ $config['icon'] }} icon-lg"></i>
-                            </div>
-                            <div class="card-info">
-                                <h5 class="mb-0">{{ $contratosMapeados[$status] ?? 0 }}</h5>
-                                <small>{{ $status }}</small>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+                                <div class="col-md-3 col-6">
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge rounded bg-label-{{ $config['color'] }} me-4 p-2">
+                                            <i class="icon-base ti {{ $config['icon'] }} icon-lg"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h5 class="mb-0">{{ $contratosMapeados[$status] ?? 0 }}</h5>
+                                            <small>{{ $status }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -84,19 +84,19 @@
                     <div class="card-body d-flex align-items-end">
                         <div class="w-100">
                             <div class="row gy-3">
-                                 @foreach($statusPropostas as $status => $config)
-        <div class="col-md-3 col-6">
-            <div class="d-flex align-items-center">
-                <div class="badge rounded bg-label-{{ $config['color'] }} me-4 p-2">
-                    <i class="icon-base ti {{ $config['icon'] }} icon-lg"></i>
-                </div>
-                <div class="card-info">
-                    <h5 class="mb-0">{{ $propostasMapeadas[$status] ?? 0 }}</h5>
-                    <small>{{ $config['label'] }}</small>
-                </div>
-            </div>
-        </div>
-    @endforeach
+                                @foreach($statusPropostas as $status => $config)
+                                <div class="col-md-3 col-6">
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge rounded bg-label-{{ $config['color'] }} me-4 p-2">
+                                            <i class="icon-base ti {{ $config['icon'] }} icon-lg"></i>
+                                        </div>
+                                        <div class="card-info">
+                                            <h5 class="mb-0">{{ $propostasMapeadas[$status] ?? 0 }}</h5>
+                                            <small>{{ $config['label'] }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

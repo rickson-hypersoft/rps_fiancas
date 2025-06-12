@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Controllers\Payments;
 
@@ -129,6 +129,7 @@ class OldPaymentController extends Controller
             // Redireciona para a rota confirmation com o id_pagamento na URL
             return redirect()->route('payment.confirmation', ['method' => $request->input('metodo_pagamento'), 'link' => $link, 'id_pagamento' => $response['detalhes_pagamentos']]);
         }
+
         return redirect()->back()->withErrors([
             'checkout' => 'Erro ao processar o pagamento. Tente novamente.',
         ]);
@@ -136,7 +137,7 @@ class OldPaymentController extends Controller
 
     public function confirmation(Request $request, string $link, string $idPagamento, string $method)
     {
-        $token = session('jwt_token');
+        $token    = session('jwt_token');
         $response = Http::withToken($token)->get(config('api.route') . '/payment/info/' . $idPagamento . '/' . $method);
 
         return view('payments.paymentConfirmation', ['paymentInfo' => $response->json()['detalhes_pagamentos']]);
@@ -150,11 +151,11 @@ class OldPaymentController extends Controller
 
         $data = $response->json();
 
-        if (!empty($data['success']) && !empty($data['detalhes_pagamentos'])) {
+        if (! empty($data['success']) && ! empty($data['detalhes_pagamentos'])) {
             session([
                 'pix_qrcode_image' => $data['detalhes_pagamentos']['encodedImage'] ?? null,
-                'pix_payload' => $data['detalhes_pagamentos']['payload'] ?? null,
-                'pix_id' => $data['id'] ?? null
+                'pix_payload'      => $data['detalhes_pagamentos']['payload'] ?? null,
+                'pix_id'           => $data['id'] ?? null,
             ]);
 
             return response()->json(['redirect' => route('payment.pix', ['linkHash' => $link])]);
@@ -162,11 +163,13 @@ class OldPaymentController extends Controller
 
         return response()->json(['error' => $data], 500);
     }
+
     public function pix(string $link)
     {
-        $qrcode = session('pix_qrcode_image');
+        $qrcode  = session('pix_qrcode_image');
         $payload = session('pix_payload');
-        $pixId = session('pix_id');
+        $pixId   = session('pix_id');
+
         return view('payments.pix', compact('qrcode', 'payload', 'pixId'));
     }
 }

@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-skin="default" data-assets-path="../../assets/" data-template="horizontal-menu-template" data-bs-theme="light">
+<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-wide" dir="ltr" data-skin="default" data-assets-path="../../assets/" data-template="horizontal-menu-template" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8" />
@@ -17,60 +17,149 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/css/core.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/flatpickr/flatpickr.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/css/pages/front-page-payment.css')}}" />
+    <style>
+        @media (min-width: 769px) {
+            .static-table {
+                height: 600px;
+            }
+        }
+    </style>
     <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
     <script src="{{asset('assets/js/config.js')}}"></script>
 </head>
 
 <body>
+    <script src="{{asset('assets/vendor/js/dropdown-hover.js')}}"></script>
+    <script src="{{asset('assets/vendor/js/mega-dropdown.js')}}"></script>
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
         <div class="layout-container">
             <div class="layout-page">
                 <div class="content-wrapper">
-                    <div class="d-flex flex-column justify-content-center align-items-center min-vh-100 bg-light">
-                        <div class="card d-flex justify-content-center align-items-center">
-                            <div class="card-header d-flex flex-column align-items-center">
-                                <h3 class="my-3 text-center" style="max-width: 30ch">Mais segurança na ativação do seu contrato</h3>
-                                <p class="text-body-secondary text-center" style="max-width: 50ch">Precisamos de um documento para validarmos
-                                    alguns dados não vai demorar muito</p>
-                            </div>
-                            <div class="card-body d-flex flex-column align-items-center">
-                                <div class="d-flex m-3 align-items-center">
-                                    <img src="https://cdn-icons-png.flaticon.com/512/12689/12689789.png" alt="face-scan-icon" width="180" height="180">
+                    <section class="section-py bg-body first-section-pt p-5">
+                        <div class="container">
+                            <div class="card px-3">
+                                <div class="row" class="static-table">
+                                    <div class="col-lg-7 card-body border-end p-md-8">
+                                        <h4 class="mb-2">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Escolha sua forma de pagamento</font>
+                                            </font>
+                                        </h4>
+                                        <div class="row g-5 py-3">
+                                            <div class="col-md col-lg-12 col-xl-12">
+                                                <div class="form-check custom-option custom-option-basic checked">
+                                                    <label class="form-check-label custom-option-content form-check-input-payment" for="customRadioCreditCard">
+                                                        <input name="payment" class="form-check-input mt-2" type="radio" value="CREDIT_CARD" id="customRadioCreditCard">
+                                                        <span class="custom-option-body">
+                                                            <img src="https://cdn-icons-png.flaticon.com/512/2695/2695969.png" alt="boleto" width="40">
+                                                            <span class="ms-4 fw-medium text-heading">
+                                                                Cartão de crédito
+                                                            </span>
+                                                        </span>
+                                                        <a href="{{ route('checkout.cartao', ['linkHash' => $data['link_hash']]) }}" class="stretched-link"></a>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md col-lg-12 col-xl-12">
+                                                <div class="form-check custom-option custom-option-basic">
+                                                    <label class="form-check-label custom-option-content form-check-input-payment" for="customRadioBoleto">
+                                                        <input name="payment" class="form-check-input mt-2" type="radio" value="BOLETO" id="customRadioBoleto">
+                                                        <span class="custom-option-body">
+                                                            <img src="https://raw.githubusercontent.com/bubbstore/ecommerce-icons/7be9e66d6ecd87fa618275245ba707cb96285e6a/gateways-e-adquirentes/boleto.svg" alt="boleto" width="58" data-app-light-img="icons/payments/paypal-light.png" data-app-dark-img="icons/payments/paypal-dark.png" style="visibility: visible;">
+                                                            <span class="ms-4 fw-medium text-heading">
+                                                                <font style="vertical-align: inherit;">
+                                                                    <font style="vertical-align: inherit;">Boleto</font>
+                                                                </font>
+                                                            </span>
+                                                        </span>
+                                                        <a href="{{ route('checkout.boleto', ['linkHash' => $data['link_hash']]) }}" class="stretched-link"></a>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md col-lg-12 col-xl-12">
+                                                <div class="form-check custom-option custom-option-basic">
+                                                    <label class="form-check-label custom-option-content form-check-input-payment" for="customRadioPix">
+                                                        <input name="payment" class="form-check-input mt-2" type="radio" value="PIX" id="customRadioPix">
+                                                        <span class="custom-option-body">
+                                                            <img src="https://img.icons8.com/?size=100&id=Dk4sj0EM4b20&format=png&color=000000" alt="pix" width="35" height="35" data-app-light-img="icons/payments/paypal-light.png" data-app-dark-img="icons/payments/paypal-dark.png" style="visibility: visible;">
+                                                            <span class="ms-4 fw-medium text-heading">
+                                                                <font style="vertical-align: inherit;">
+                                                                    <font style="vertical-align: inherit;">Pix</font>
+                                                                </font>
+                                                            </span>
+                                                        </span>
+                                                    </label>
+                                                    <a href="{{ route('checkout.pix', ['linkHash' => $data['link_hash']]) }}" class="stretched-link"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 card-body p-md-12 d-flex flex-column justify-content-between">
+                                        <div>
+                                            <h4 class="mb-2">
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">Resumo do pedido</font>
+                                                </font>
+                                            </h4>
+                                            <p class="mb-8">
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">
+                                                        Ele pode ajudar você a gerenciar e atender pedidos antes, </font>
+                                                </font><br>
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">
+                                                        durante e depois do atendimento.
+                                                    </font>
+                                                </font>
+                                            </p>
+                                        </div>
+                                        <div class="mt-5">
+                                            <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
+                                                <p class="mb-0">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">Valor Aluguel</font>
+                                                    </font>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">{{$data['proposta_total_valor']}}</font>
+                                                    </font>
+                                                </p>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
+                                                <p class="mb-0">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">Valor Setup</font>
+                                                    </font>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">{{$data['proposta_setup_valor']}}</font>
+                                                    </font>
+                                                </p>
+                                            </div>
+                                            <hr>
+                                            <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
+                                                <h5 class="mb-0">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">Total</font>
+                                                    </font>
+                                                </h5>
+                                                <h4 class="mb-0">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">{{$data['valor_total_pagamento']}}</font>
+                                                    </font>
+                                                </h4>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="my-6">
-                                    <div class="d-flex align-items-middle">
-                                        <i class="menu-icon icon-base ti tabler-check text-success"></i>
-                                        <h6 style="opacity: 75%;">É necessario o cadastro ser feito pelo
-                                            portador do cpf cadastrado</h6>
-                                    </div>
-                                    <div class="d-flex align-items-middle">
-                                        <i class="menu-icon icon-base ti tabler-check text-success"></i>
-                                        <h6 style="opacity: 75%;">Encontre um lugar com uma boa
-                                            iluminação</h6>
-                                    </div>
-                                    <div class="d-flex align-items-middle">
-                                        <i class="menu-icon icon-base ti tabler-check text-success"></i>
-                                        <h6 style="opacity: 75%;">Mantenha uma expressão neutra</h6>
-                                    </div>
-                                    <div class="d-flex align-items-middle">
-                                        <i class="menu-icon icon-base ti tabler-check text-success"></i>
-                                        <h6 style="opacity: 75%;">Evite o uso de acessorios faciais</h6>
-                                    </div>
-                                </div>
-                                <a href="{{ route('payment.active', ['link' => $link]) }}" class="btn btn-primary waves-effect waves-light">
-                                    <span class="align-middle d-sm-inline-block d-none me-sm-2">Continuar</span>
-                                    <i class="icon-base ti tabler-arrow-right icon-xs"></i>
-                                </a>
-                                <!--
-                                    <p class="mt-8"> Os dados serão coletados segundo os termos da <a
-                                        href="#">Política de Privacidade</a></p>
-                                    -->
                             </div>
                         </div>
-                    </div>
-
+                    </section>
                     <div class="content-backdrop fade"></div>
                 </div>
             </div>
@@ -78,22 +167,15 @@
     </div>
 
     <div class="layout-overlay layout-menu-toggle"></div>
-    <script src="{{asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/popper/popper.js')}}"></script>
     <script src="{{asset('assets/vendor/js/bootstrap.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/node-waves/node-waves.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/@algolia/autocomplete-js.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/pickr/pickr.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/hammer/hammer.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/i18n/i18n.js')}}"></script>
-    <script src="{{asset('assets/vendor/js/menu.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/cleave-zen/cleave-zen.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/moment/moment.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-    <script src="{{asset('assets/js/main.js')}}"></script>
-    <script src="{{asset('assets/js/form-layouts.js')}}"></script>
+    <script src="{{asset('assets/js/front-main.js')}}"></script>
+    <script src="{{asset('assets/js/pages-pricing.js')}}"></script>
+    <script src="{{asset('assets/js/front-page-payment.js')}}"></script>
 </body>
 
 </html>

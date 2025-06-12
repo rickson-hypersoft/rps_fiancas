@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Middleware;
 
@@ -17,7 +17,7 @@ class VerifyContractLink
      */
     public function handle(Request $request, Closure $next)
     {
-        $link = $request->route('link');
+        $link = $request->route('linkHash');
 
         // Verifica se o link está autenticado na sessão
         if ($request->session()->has("auth_link_{$link}")) {
@@ -25,6 +25,6 @@ class VerifyContractLink
         }
 
         // Armazena o link e redireciona para login
-        return redirect()->route('payment.login', ['link' => $link]);
+        return redirect()->route('activation.login', ['linkHash' => $link]);
     }
 }

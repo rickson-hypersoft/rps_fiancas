@@ -154,14 +154,14 @@
         const btnGerarBoleto = document.getElementById('gerar-boleto');
         const alterarPagamentoBtn = document.getElementById('alterar-pagamento');
         const boletoLinkContainer = document.getElementById('boleto-link-container');
-        const paymentId = `{{$id}}`;
+        let idPagamento = null; // Será preenchido após gerar o boleto
 
         btnGerarBoleto.addEventListener('click', function (e) {
             e.preventDefault();
 
             Swal.fire({
                 title: 'Processando...',
-                text: 'Estamos gerando o se boleto. Aguarde um instante.',
+                text: 'Estamos gerando o seu boleto. Aguarde um instante.',
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 didOpen: () => {
@@ -171,7 +171,7 @@
 
             const methodPayment = 'BOLETO';
 
-            fetch(`/pagamentos/update-metodo/${paymentId}`, {
+            fetch(`/pagamentos/checkout/boleto/{{ $linkHash }}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -180,109 +180,140 @@
                 body: JSON.stringify({
                     metodo_pagamento: methodPayment
                 })
-            })
-                .then(response => {
-                    if (!response.ok) throw new Error('Erro ao gerar pagamento');
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success && data.tipo === 'BOLETO') {
-                        const boletoUrl = data.link;
-                        const barCode = data.detalhes_pagamentos.barCode
+            }).then(response => {
+                if (!response.ok) throw new Error('Erro ao gerar pagamento');
+                return response.json();
+            }).then(data => {
+                console.log(data)
+                if (data.success) {
+                    // Salva o ID do pagamento para uso posterior
+                    idPagamento = data.id_pagamento;
 
-                        document.getElementById('boleto-container').style.display = 'none';
-                        boletoLinkContainer.style.display = 'block';
-                        boletoLinkContainer.innerHTML = `
-                         <h5 class="text-center">Aguardando o seu pagamento</h5>
-                          <div class="mt-3">
-                             <div class="text-center"><svg id="barcode"></svg></div>
-                        </div>
-                        <p><b>Atenção:</b> A confirmação de pagamento pode oocorrer em até 6 dias úteis, conforme a compensação bancária</p>
-                        <div class="text-center mt-3">
-                            <a href="${boletoUrl}" target="_blank" class="btn btn-outline-success">
-                                <i class="bx bx-printer"></i> Visualizar PDF
-                            </a>
-                           <button class="btn btn-outline-primary" id="btn-copiar-pix">
-                                <i class="bx bx-copy-alt"></i> Copiar código de barras
-                            </button>
-                            <input type="hidden" id="pix-payload" value="${data.detalhes_pagamentos.barCode}" />
-                                </div>
-        `;
+                    const boletoUrl = data.link;
+                    const barCode = data.detalhe_pagamento.barCode;
 
-                        btnGerarBoleto.style.display = 'none';
-                        alterarPagamentoBtn.style.display = 'block';
+                    document.getElementById('boleto-container').style.display = 'none';
+                    boletoLinkContainer.style.display = 'block';
+                    boletoLinkContainer.innerHTML = `
+                    <h5 class="text-center">Aguardando o seu pagamento</h5>
+                    <div class="mt-3">
+                        <div class="text-center"><svg id="barcode"></svg></div>
+                    </div>
+                    <p><b>Atenção:</b> A confirmação de pagamento pode ocorrer em até 6 dias úteis, conforme a compensação bancária</p>
+                    <div class="text-center mt-3">
+                        <a href="${boletoUrl}" target="_blank" class="btn btn-outline-success">
+                            <i class="bx bx-printer"></i> Visualizar PDF
+                        </a>
+                        <button class="btn btn-outline-primary" id="btn-copiar-pix">
+                            <i class="bx bx-copy-alt"></i> Copiar código de barras
+                        </button>
+                        <input type="hidden" id="pix-payload" value="${barCode}" />
+                    </div>
+                `;
 
-                        Swal.close();
+                    btnGerarBoleto.style.display = 'none';
+                    alterarPagamentoBtn.style.display = 'block';
 
-                        JsBarcode("#barcode", barCode, {
-                            format: "CODE128",
-                            lineColor: "#000",
-                            width: 2,
-                            height: 60,
-                            displayValue: true
-                        });
+                    Swal.close();
 
-                        setTimeout(() => {
-                            const copiarBtn = document.getElementById('btn-copiar-pix');
-                            copiarBtn.addEventListener('click', function () {
-                                const payload = document.getElementById('pix-payload').value;
-                                navigator.clipboard.writeText(payload).then(() => {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Código de barras copiado!',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    });
-                                }).catch(err => {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Erro ao copiar código de barras!',
-                                        text: err.message
-                                    });
+                    JsBarcode("#barcode", barCode, {
+                        format: "CODE128",
+                        lineColor: "#000",
+                        width: 2,
+                        height: 60,
+                        displayValue: true
+                    });
+
+                    setTimeout(() => {
+                        const copiarBtn = document.getElementById('btn-copiar-pix');
+                        copiarBtn.addEventListener('click', function () {
+                            const payload = document.getElementById('pix-payload').value;
+                            navigator.clipboard.writeText(payload).then(() => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Código de barras copiado!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            }).catch(err => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Erro ao copiar código de barras!',
+                                    text: err.message
                                 });
                             });
-                        }, 100);
-                    } else {
-                        Swal.close();
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Erro!',
-                            text: 'Não foi possível gerar o Pix.'
                         });
-                    }
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                    alert(error.message || 'Erro ao enviar a proposta.');
-                });
-        });
-
-        alterarPagamentoBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            Swal.fire({
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sim, desejo alterar!',
-                cancelButtonText: 'Cancelar',
-                html: `
-        <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Você tem certeza que deseja alterar a forma de pagamento?</h3>
-        <p style="text-align: center; white-space: pre-line; font-size: 1rem;">
-            Caso já tenha efetuado o pagamento do boleto não altere para outra forma de pagamento e entre com contato com o nosso time de atendimento para obter ajuda.<br>
-            Canal de atendimento: 00000000000<br>
-            WhatsApp: (34) 0000000000
-        </p> `
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = `/pagamentos/formCheckout/{{$data['link_hash']}}`; // ajuste o path se necessário
+                    }, 100);
+                } else {
+                    Swal.close();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: 'Não foi possível gerar o boleto.'
+                    });
                 }
+            }).catch(error => {
+                console.error('Erro:', error);
+                Swal.close();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro ao gerar boleto!',
+                    text: error.message || 'Erro ao enviar a proposta.'
+                });
             });
         });
+
+        if (alterarPagamentoBtn) {
+            alterarPagamentoBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                if (!idPagamento) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Pagamento ainda não gerado!',
+                        text: 'Você precisa gerar o boleto antes de alterar a forma de pagamento.'
+                    });
+                    return;
+                }
+
+                Swal.fire({
+                    title: 'Tem certeza?',
+                    text: "Você deseja alterar a forma de pagamento e cancelar o boleto atual?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sim, alterar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/pagamentos/checkout/cancelar/${idPagamento}/{{ $linkHash }}`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Forma de pagamento alterada!',
+                                    text: 'Agora você pode escolher outro método de pagamento.'
+                                }).then(() => {
+                                    window.location.href = `{{ route('checktou.index', ['linkHash' => $linkHash]) }}`;
+                                });
+                            })
+                            .catch(error => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Erro ao cancelar boleto!',
+                                    text: error.message
+                                });
+                            });
+                    }
+                });
+            });
+        }
     </script>
-
-
 </body>
 
 </html>

@@ -1,19 +1,10 @@
-
 <!doctype html>
 
-<html
-  lang="en"
-  class="layout-navbar-fixed layout-menu-fixed layout-compact"
-  dir="ltr"
-  data-skin="default"
-  data-assets-path="../../assets/"
-  data-template="horizontal-menu-template"
-  data-bs-theme="light">
-  <head>
+<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-skin="default" data-assets-path="../../assets/" data-template="horizontal-menu-template" data-bs-theme="light">
+
+<head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Demo: Vertical Layouts - Forms | Vuexy - Bootstrap Dashboard PRO</title>
 
@@ -26,9 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <link
-    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
-    rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="{{asset('assets/vendor/fonts/iconify-icons.css')}}" />
 
@@ -48,11 +37,11 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
 
     <style>
-      @media (max-width: 612px){
-        .full {
-          height: 100vh;
+        @media (max-width: 612px) {
+            .full {
+                height: 100vh;
+            }
         }
-      }
     </style>
     <!-- endbuild -->
 
@@ -71,87 +60,87 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 
     <script src="../../assets/js/config.js"></script>
-  </head>
+</head>
 
-  <body>
+<body>
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
-      <div class="layout-container">
-        <!-- Layout container -->
-        <div class="layout-page">
-          <!-- Content wrapper -->
-          <div class="content-wrapper">
-            <!-- Content -->
-              <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light full">
-                <div class="card p-4 text-center full" style="max-width: 480px; width: 100%;">
-                  <div class="d-flex justify-content-center">
-                    <img class="mb-3" height="100" width="100" src="https://cdn2.iconfinder.com/data/icons/greenline/512/check-1024.png" />
-                  </div>
-                  <h4 class="mb-4">Pagamento Efetuado</h4>
+        <div class="layout-container">
+            <!-- Layout container -->
+            <div class="layout-page">
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+                    <!-- Content -->
+                    <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light full">
+                        <div class="card p-4 text-center full" style="max-width: 480px; width: 100%;">
+                            <div class="d-flex justify-content-center">
+                                <img class="mb-3" height="100" width="100" src="https://cdn2.iconfinder.com/data/icons/greenline/512/check-1024.png" />
+                            </div>
+                            <h4 class="mb-4">Pagamento Efetuado</h4>
 
-                  @foreach ($paymentInfo as $info)
-                  @foreach ($propostalInfo as $proposta)
+                            @foreach ($paymentInfo as $info)
+                            @foreach ($propostalInfo as $proposta)
 
 
-                  <p class="text-start fw-bold">PAGAMENTO 1</p>
-                  <div class="card mb-3" style="border-radius: 10px; border: 2px solid rgb(180, 55, 180, 0.7)">
-                    <div class="card-body p-3">
-                      <div class="d-flex align-items-center mb-2">
-                        <i class="icon-base ti tabler-circle-check"></i>
-                        <strong class="me-auto">Taxa Serviço</strong>
-                        <span class="fw-semibold">R$ {{$proposta['PROPOSTA_TOTAL_VALOR']}}</span>
-                      </div>
-                      <div class="text-start">
-                        <p class="mb-1"><strong class="text-primary">{{$info['creditCard']['creditCardBrand']}}</strong> Cartão: **** **** **** {{$info['creditCard']['creditCardNumber']}}</p>
-                        <p class="mb-1">{{$proposta['PROPOSTA_TOTAL_PARC']}} parcela(s) de R$ {{$info['value']}}</p>
-                        <p>Próxima cobrança: {{$info['creditDate']}}</p>
-                      </div>
+                            <p class="text-start fw-bold">PAGAMENTO 1</p>
+                            <div class="card mb-3" style="border-radius: 10px; border: 2px solid rgb(180, 55, 180, 0.7)">
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="icon-base ti tabler-circle-check"></i>
+                                        <strong class="me-auto">Taxa Serviço</strong>
+                                        <span class="fw-semibold">R$ {{$proposta['PROPOSTA_TOTAL_VALOR']}}</span>
+                                    </div>
+                                    <div class="text-start">
+                                        <p class="mb-1"><strong class="text-primary">{{$info['creditCard']['creditCardBrand']}}</strong> Cartão: **** **** **** {{$info['creditCard']['creditCardNumber']}}</p>
+                                        <p class="mb-1">{{$proposta['PROPOSTA_TOTAL_PARC']}} parcela(s) de R$ {{$info['value']}}</p>
+                                        <p>Próxima cobrança: {{$info['creditDate']}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                            @endforeach
+
+                            <p class="text-start fw-bold">PAGAMENTO 2</p>
+                            <div class="card mb-3" style="border-radius: 10px; border: 2px solid rgb(180, 55, 180, 0.7)">
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="icon-base ti tabler-circle-check"></i>
+                                        <strong class="me-auto">Taxa Setup</strong>
+                                        <span class="fw-semibold">R$ {{$proposta['PROPOSTA_SETUP_VALOR']}}</span>
+                                    </div>
+                                    <div class="text-start">
+                                        <p class="mb-1"><strong class="text-primary">VISA</strong> Cartão: **** **** **** 1481</p>
+                                        <p class="mb-1">2 parcela(s) de R$ 15,00</p>
+                                        <p>Próxima cobrança: 03/07/2025</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card bg-light mt-3 p-3 text-start">
+                                <p class="mb-1 d-flex justify-content-between">
+                                    <span>Taxa Serviço</span>
+                                    <strong>R$ {{$proposta['PROPOSTA_TOTAL_VALOR']}}</strong>
+                                </p>
+                                <p class="mb-1 d-flex justify-content-between">
+                                    <span>Taxa Setup</span>
+                                    <strong>R$ {{$proposta['PROPOSTA_SETUP_VALOR']}}</strong>
+                                </p>
+                                <hr />
+                                <p class="mb-0 d-flex justify-content-between fw-bold">
+                                    <span>Total</span>
+                                    <span style="color: rgb(180, 55, 180)">R$ {{$proposta['PROPOSTA_TOTAL_VALOR'] + $proposta['PROPOSTA_SETUP_VALOR']}}</span>
+                                </p>
+                            </div>
+                        </div>
+
                     </div>
-                  </div>
-                  @endforeach
-                   @endforeach
-
-                  <p class="text-start fw-bold">PAGAMENTO 2</p>
-                  <div class="card mb-3" style="border-radius: 10px; border: 2px solid rgb(180, 55, 180, 0.7)">
-                    <div class="card-body p-3">
-                      <div class="d-flex align-items-center mb-2">
-                        <i class="icon-base ti tabler-circle-check"></i>
-                        <strong class="me-auto">Taxa Setup</strong>
-                        <span class="fw-semibold">R$ {{$proposta['PROPOSTA_SETUP_VALOR']}}</span>
-                      </div>
-                      <div class="text-start">
-                        <p class="mb-1"><strong class="text-primary">VISA</strong> Cartão: **** **** **** 1481</p>
-                        <p class="mb-1">2 parcela(s) de R$ 15,00</p>
-                        <p>Próxima cobrança: 03/07/2025</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="card bg-light mt-3 p-3 text-start">
-                    <p class="mb-1 d-flex justify-content-between">
-                      <span>Taxa Serviço</span>
-                      <strong>R$ {{$proposta['PROPOSTA_TOTAL_VALOR']}}</strong>
-                    </p>
-                    <p class="mb-1 d-flex justify-content-between">
-                      <span>Taxa Setup</span>
-                      <strong>R$ {{$proposta['PROPOSTA_SETUP_VALOR']}}</strong>
-                    </p>
-                    <hr />
-                    <p class="mb-0 d-flex justify-content-between fw-bold">
-                      <span>Total</span>
-                      <span style="color: rgb(180, 55, 180)">R$ {{$proposta['PROPOSTA_TOTAL_VALOR'] + $proposta['PROPOSTA_SETUP_VALOR']}}</span>
-                    </p>
-                  </div>
+                    <!--/ Content -->
+                    <div class="content-backdrop fade"></div>
                 </div>
-
-              </div>
-            <!--/ Content -->
-            <div class="content-backdrop fade"></div>
-          </div>
-          <!--/ Content wrapper -->
+                <!--/ Content wrapper -->
+            </div>
+            <!--/ Layout container -->
         </div>
-        <!--/ Layout container -->
-      </div>
     </div>
 
     <!-- Drag Target Area To SlideIn Menu On Small Screens -->
@@ -194,5 +183,6 @@
 
     <!-- Page JS -->
     <script src="../../assets/js/form-layouts.js"></script>
-  </body>
+</body>
+
 </html>

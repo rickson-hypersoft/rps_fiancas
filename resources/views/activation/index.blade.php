@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>Inivcta - Inquilinos</title>
+    <title>Invicta - Inquilinos</title>
     <meta name="description" content="" />
     <link rel="icon" type="image/x-icon" href="{{asset('assets/img/favicon/favicon.ico')}}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/flatpickr/flatpickr.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
-
     <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
     <script src="{{asset('assets/js/config.js')}}"></script>
 </head>
@@ -29,18 +28,49 @@
         <div class="layout-container">
             <div class="layout-page">
                 <div class="content-wrapper">
-                    <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-                        <div class="card d-flex justify-content-center align-items-center p-12">
-                            <h3 class="mt-3 text-center" style="max-width: 20ch">Autenticação verificada com sucesso!</h3>
-                            <p class="text-center" style="opacity: 80%; max-width: 35ch;">Você está seguro. Agora é só assinar os termos
-                                e confirmar o pagamento.</p>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Google_Verified_Badge.svg" height="132" width="132" class="m-8">
-                            <a href="{{ route('payment.term', ['link' => $link]) }}" type="submit" class="btn btn-primary waves-effect waves-light m-3">
-                                <span class="align-middle d-sm-inline-block d-none me-sm-2">Continuar</span>
-                                <i class="icon-base ti tabler-arrow-right icon-xs"></i>
-                            </a>
+                    <div class="d-flex flex-column justify-content-center align-items-center min-vh-100 bg-light">
+                        <div class="card d-flex justify-content-center align-items-center">
+                            <div class="card-header d-flex flex-column align-items-center">
+                                <h3 class="my-3 text-center" style="max-width: 30ch">Mais segurança na ativação do seu contrato</h3>
+                                <p class="text-body-secondary text-center" style="max-width: 50ch">Precisamos de um documento para validarmos
+                                    alguns dados não vai demorar muito</p>
+                            </div>
+                            <div class="card-body d-flex flex-column align-items-center">
+                                <div class="d-flex m-3 align-items-center">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/12689/12689789.png" alt="face-scan-icon" width="180" height="180">
+                                </div>
+                                <div class="my-6">
+                                    <div class="d-flex align-items-middle">
+                                        <i class="menu-icon icon-base ti tabler-check text-success"></i>
+                                        <h6 style="opacity: 75%;">É necessario o cadastro ser feito pelo
+                                            portador do cpf cadastrado</h6>
+                                    </div>
+                                    <div class="d-flex align-items-middle">
+                                        <i class="menu-icon icon-base ti tabler-check text-success"></i>
+                                        <h6 style="opacity: 75%;">Encontre um lugar com uma boa
+                                            iluminação</h6>
+                                    </div>
+                                    <div class="d-flex align-items-middle">
+                                        <i class="menu-icon icon-base ti tabler-check text-success"></i>
+                                        <h6 style="opacity: 75%;">Mantenha uma expressão neutra</h6>
+                                    </div>
+                                    <div class="d-flex align-items-middle">
+                                        <i class="menu-icon icon-base ti tabler-check text-success"></i>
+                                        <h6 style="opacity: 75%;">Evite o uso de acessorios faciais</h6>
+                                    </div>
+                                </div>
+                                <a href="{{ route('activation.faceId', ['linkHash' => $linkHash]) }}" class="btn btn-primary waves-effect waves-light">
+                                    <span class="align-middle d-sm-inline-block d-none me-sm-2">Continuar</span>
+                                    <i class="icon-base ti tabler-arrow-right icon-xs"></i>
+                                </a>
+                                <!--
+                                    <p class="mt-8"> Os dados serão coletados segundo os termos da <a
+                                        href="#">Política de Privacidade</a></p>
+                                    -->
+                            </div>
                         </div>
                     </div>
+
                     <div class="content-backdrop fade"></div>
                 </div>
             </div>
@@ -48,7 +78,6 @@
     </div>
 
     <div class="layout-overlay layout-menu-toggle"></div>
-    <div class="drag-target"></div>
     <script src="{{asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/popper/popper.js')}}"></script>
     <script src="{{asset('assets/vendor/js/bootstrap.js')}}"></script>

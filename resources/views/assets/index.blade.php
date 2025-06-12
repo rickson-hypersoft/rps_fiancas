@@ -41,7 +41,7 @@
                         <div class="avatar me-4">
                             <span class="avatar-initial rounded bg-label-danger"><i class="icon-base ti tabler-git-fork icon-28px"></i></span>
                         </div>
-                       <h4 class="mb-0">{{ $statusContagem['Cancelados'] }}</h4>
+                        <h4 class="mb-0">{{ $statusContagem['Cancelados'] }}</h4>
                     </div>
                     <p class="mb-1">Cancelados</p>
                 </div>
@@ -158,7 +158,7 @@
                                 <tbody id="ViewNiveisLTableItens">
                                     @foreach ($contratos as $contrato)
                                     @if($contrato['contrato_status'] == 'Ativo')
-                                        <tr>
+                                    <tr>
                                         <td><a href="{{route('assets.asset', ['id' => $contrato['id']])}}" class="text-success">{{$contrato['id']}}</a></td>
                                         <td>{{$contrato['pessoa_nome']}}</td>
                                         <td>{{$contrato['pessoa_doc']}}</td>
@@ -167,35 +167,31 @@
                                             <span class="badge text-bg-success">{{$contrato['contrato_status']}}</span>
                                         </td>
                                         <td>Corretor</td>
-<td>{{ \Carbon\Carbon::parse($contrato['data'])->format('d/m/Y') }}</td>
-<td>{{ \Carbon\Carbon::parse($contrato['data_ultima_atualizacao'])->format('d/m/Y') }}</td>
-                                       <td class="text-center">
-    @php
-        $faltando = [];
+                                        <td>{{ \Carbon\Carbon::parse($contrato['data'])->format('d/m/Y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($contrato['data_ultima_atualizacao'])->format('d/m/Y') }}</td>
+                                        <td class="text-center">
+                                            @php
+                                            $faltando = [];
 
-        if (empty($proposta->anexo_contrato)) {
-            $faltando[] = 'Necessário anexar o contrato de aluguel';
-        }
+                                            if (empty($proposta->anexo_contrato)) {
+                                            $faltando[] = 'Necessário anexar o contrato de aluguel';
+                                            }
 
-        if (empty($proposta->anexo_vistoria)) {
-            $faltando[] = 'Necessário anexar a vistoria';
-        }
+                                            if (empty($proposta->anexo_vistoria)) {
+                                            $faltando[] = 'Necessário anexar a vistoria';
+                                            }
 
-        $tooltip = implode('<br>', $faltando);
-    @endphp
+                                            $tooltip = implode('<br>', $faltando);
+                                            @endphp
 
-    @if (empty($faltando))
-        {{-- Tudo ok, exibe check verde --}}
-        <i class="ti ti-circle-check text-success"></i>
-    @else
-        {{-- Faltando anexos, exibe alerta com tooltip --}}
-        <i class="menu-icon icon-base ti tabler-alert-hexagon text-danger"
-           data-bs-toggle="tooltip"
-           data-bs-html="true"
-           data-bs-placement="bottom"
-           title="{!! $tooltip !!}"></i>
-    @endif
-</td>
+                                            @if (empty($faltando))
+                                            {{-- Tudo ok, exibe check verde --}}
+                                            <i class="ti ti-circle-check text-success"></i>
+                                            @else
+                                            {{-- Faltando anexos, exibe alerta com tooltip --}}
+                                            <i class="menu-icon icon-base ti tabler-alert-hexagon text-danger" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="bottom" title="{!! $tooltip !!}"></i>
+                                            @endif
+                                        </td>
                                     </tr>
                                     @else
                                     <tr>

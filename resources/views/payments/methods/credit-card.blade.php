@@ -46,7 +46,6 @@
                                 <div class="row" class="static-table">
                                     <div class="col-lg-7 card-body border-end p-md-8">
                                         <div class="d-flex align-items-center">
-                                            <a href="{{route('payment.formCheckout', ['link' => $link])}}"><i class="icon-base ti tabler-arrow-left icon-xs me-sm-2 me-0"></i></a>
                                             <h4 class="mb-2">
                                                 <font style="vertical-align: inherit;">
                                                     <font style="vertical-align: inherit;">Cartão de crédito</font>
@@ -56,7 +55,7 @@
                                         <div class="row g-5 py-3">
                                             <div class="card" style="background: #f7f7f7; box-shadow: none;">
                                                 <div class="card-body">
-                                                    <form action="{{ route('payment.checkout.save.credit-card', ['linkHash' => $link, 'id' => $id]) }}" method="POST">
+                                                    <form action="{{ route('checkout.save.cartao', ['linkHash' => $linkHash]) }}" method="POST">
                                                         @csrf
                                                         <div class="row" id="card-data-section">
                                                             <div class="mb-3 col-md-7">

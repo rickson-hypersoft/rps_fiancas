@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
@@ -15,8 +14,8 @@ class DashboardController extends Controller
     {
         $idImobiliaria = session('user')['id_imobiliaria'];
 
-        $token           = session('jwt_token');
-        $response       = Http::withToken($token)->get(config('api.route') . '/home/' . $idImobiliaria);
+        $token     = session('jwt_token');
+        $response  = Http::withToken($token)->get(config('api.route') . '/home/' . $idImobiliaria);
         $contratos = $response->json()['contratos'];
         $propostas = $response->json()['propostas'];
 

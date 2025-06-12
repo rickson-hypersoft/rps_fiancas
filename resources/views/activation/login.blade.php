@@ -267,7 +267,7 @@
                         <h4 class="mb-1">Que bom ter você na Invicta! 👋</h4>
                         <p class="mb-6">Falta pouco para ativar o seu contrato de fiança locatária. Realize o login para assinar o termo de adesão e efetuar o pagamento:</p>
 
-                        <form id="formAuthentication" class="mb-4 fv-plugins-bootstrap5 fv-plugins-framework" method="POST" action="{{ route('payment.verify.login') }}">
+                        <form id="formAuthentication" class="mb-4 fv-plugins-bootstrap5 fv-plugins-framework" method="POST" action="{{ route('activation.verify.login') }}">
                             @csrf
                             <input type="hidden" name="link" value="{{ $link }}">
                             <div class="mb-6 form-control-validation fv-plugins-icon-container">
