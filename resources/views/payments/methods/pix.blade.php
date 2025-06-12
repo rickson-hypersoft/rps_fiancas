@@ -43,16 +43,19 @@
                             <div class="card px-3">
                                 <div class="row" class="static-table">
                                     <div class="col-lg-7 card-body border-end p-md-8">
-                                        <h4 class="mb-2">
+                                       <div id="pixInfo" class="d-flex align-items-center">
+                                        <a href="{{route('checktou.index', ['linkHash' => $linkHash])}}" class="icon-base ti tabler-arrow-left icon-xs mb-4 me-3"></a>
+                                         <h6>
                                             <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">PIX</font>
+                                                <font style="vertical-align: inherit;">Pix</font>
                                             </font>
-                                        </h4>
+                                        </h6>
+                                       </div>
                                         <div id="pix-container" class="gerarpix">
                                             <div class="row g-5 py-3" id="pix-info">
                                                 <div class="col-md col-lg-12 col-xl-12">
                                                     <div class="p-3" style="background: #f7f7f7; border-radius: 5px">
-                                                        <p>Valor do PIX {{$data['valor_total_pagamento']}}</p>
+                                                        <p>Valor do Pix: <b>{{$data['valor_total_pagamento']}}</b></p>
                                                         <p>Após confirmar o pagamento, o código Pix ficará disponível para você pagar no banco da sua preferência.</p>
                                                     </div>
                                                 </div>
@@ -61,7 +64,11 @@
 
                                         <div id="qrcode-container" style="display: none;"></div>
 
-                                        <a href="#" id="gerar-codigo" class="btn btn-primary">Gerar Código pix</a>
+                                        <a href="#" id="gerar-codigo" class="btn btn-label-primary btn-prev waves-effect">
+                                            <span class="align-middle d-sm-inline-block">Gerar código pix</span>
+                                            <i class="icon-base ti tabler-arrow-right icon-xs me-sm-2 me-0"></i>
+                                        </a>
+
                                         <a href="#" id="alterar-pagamento" class="text-center mt-5" style="display: none;">Alterar forma de pagamento</a>
                                     </div>
 
@@ -187,11 +194,18 @@
                             idPagamento = data.id_pagamento;
 
                             document.getElementById('pix-info').style.display = 'none';
+                            document.getElementById('pixInfo').classList.remove('d-flex');
+                            document.getElementById('pixInfo').classList.add('d-none');
 
                             qrcodeContainer.style.display = 'block';
                             qrcodeContainer.innerHTML = `
                         <div class="text-center">
-                            <h5>Aguardando o seu pagamento</h5>
+                            <div class="badge bg-label-secondary text-body p-4 me-4 rounded">
+                              <i class="icon-base ti tabler-clock icon-lg"></i>
+                            </div>
+
+                            <h4 class="mt-4 mb-0">Aguardando o seu pagamento</h4>
+                            <p>Data de vencimento: ${data.data_vencimento}</p>
                             <img width="300" height="300" src="data:image/png;base64,${qrCode}" alt="QR Code do Pix" />
                             <p class="mt-3">Escaneie ou copie o pix</p>
                             <button class="btn btn-outline-primary" id="btn-copiar-pix">
@@ -251,12 +265,19 @@
                     e.preventDefault();
 
                     Swal.fire({
-                        title: 'Tem certeza?',
-                        text: "Você deseja alterar a forma de pagamento e cancelar o Pix atual?",
                         icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sim, alterar',
-                        cancelButtonText: 'Cancelar'
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, desejo alterar!',
+                cancelButtonText: 'Cancelar',
+                html: `
+        <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Você tem certeza que deseja alterar a forma de pagamento?</h3>
+        <p style="text-align: center; white-space: pre-line; font-size: 1rem;">
+            Caso já tenha efetuado o pagamento do boleto não altere para outra forma de pagamento e entre com contato com o nosso time de atendimento para obter ajuda.<br>
+            Canal de atendimento: 00000000000<br>
+            WhatsApp: (34) 0000000000
+        </p> `
                     }).then((result) => {
                         if (result.isConfirmed) {
                             fetch(`/pagamentos/checkout/cancelar/${idPagamento}/{{ $linkHash }}`, {
@@ -277,7 +298,7 @@
                                 .catch(error => {
                                     Swal.fire({
                                         icon: 'error',
-                                        title: 'Erro ao cancelar Pix!',
+                                        title: 'Erro ao cancelar Pix!' ,
                                         text: error.message
                                     });
                                 });
@@ -287,8 +308,6 @@
             }
         });
     </script>
-
-
 </body>
 
 </html>

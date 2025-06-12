@@ -289,9 +289,23 @@
     });
 
     const button = document.getElementById('btn-enviar-proposta');
+    let isSending = false;
 
     button.addEventListener('click', function (event) {
         event.preventDefault(); // impede o redirecionamento imediato
+
+        if (isSending) return;
+            isSending = true;
+
+        Swal.fire({
+                title: 'Enviando proposta...',
+                text: 'Aguarde o envio por e-mail e WhatsApp.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
 
         const propostaId = button.getAttribute('data-proposta-id');
         const redirectUrl = button.getAttribute('href');
@@ -318,8 +332,6 @@
                 return response.json();
             })
             .then(data => {
-                console.log('Email enviado com sucesso:', data);
-
                 // Somente após o e-mail ser enviado, enviar WhatsApp
                 return fetch('/propostas/whatsapp', {
                     method: 'POST',
@@ -344,12 +356,13 @@
                 return response.json();
             })
             .then(data => {
-                console.log('WhatsApp enviado com sucesso:', data);
+                Swal.close();
                 window.location.href = redirectUrl;
             })
             .catch(error => {
-                console.error('Erro:', error);
-                alert(error.message || 'Erro ao enviar a proposta.');
+                Swal.close();
+                Swal.fire('Erro', error.message || 'Erro ao enviar a proposta.', 'error');
+                isSending = false;
             });
     });
 </script>

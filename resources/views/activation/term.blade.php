@@ -32,8 +32,8 @@
                 <div class="content-wrapper">
                     <!-- Content -->
                     <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-                        <div class="container py-4" style="width: 800px;">
-                            <div class="card p-5 d-flex flex-column align-items-center">
+                        <div class="container py-4" style="width: 1000px;">
+                            <div class="card p-5 d-flex flex-column align-items-center" style="width: 1000px;">
                                 <div class="mt-5">
                                     <tbody>
                                         <tr>

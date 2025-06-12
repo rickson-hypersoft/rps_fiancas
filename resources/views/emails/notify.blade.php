@@ -11,7 +11,7 @@
     <table width="100%" cellpadding="0" cellspacing="0" style="background-color: rgb(200, 200, 200); padding: 20px 0;">
         <tr>
             <td align="center">
-                <img src="https://raw.githubusercontent.com/Marcos-Hypersoft/svgs-icons/refs/heads/main/logoInvicta.svg" alt="Logo Invicta" />
+                <img src="{{asset('assets/img/logo.svg')}}" alt="Logo Invicta" />
             </td>
         </tr>
         <tr>
@@ -23,7 +23,7 @@
                             <table width="100%" style="padding:0px 40px; margin-top:32px;">
                                 <tr>
                                     <td>
-                                        <p style="font-size:24px;font-weight:700;color:#ff774a;">Parabéns!</p>
+                                        <p style="font-size:24px;font-weight:700;color:#7367f0;">Parabéns!</p>
                                         <p style="font-weight:700;color:#697077;">Falta pouco para você pegar as chaves do seu novo imóvel</p>
                                     </td>
                                 </tr>
@@ -36,11 +36,11 @@
                                         <p> É muito bom ter você conosco.
                                             Nós estamos te ajudando a alugar um imóvel.
                                             Seu cadastro foi aprovado e agora faltam apenas alguns passos para finalizar seu cadastro.</p>
+                                        <p>Para continuar a alugar o seu imóvel de forma rápida e sem burocracia, siga os seguintes passos:</p>
                                     </td>
                                 </tr>
                             </table>
 
-                            <p>Para continuar a alugar o seu imóvel de forma rápida e sem burocracia, siga os seguintes passos:</p>
 
                             <table width="100%" cellpadding="0" cellspacing="0" style="padding: 0px 40px;margin-top: 32px;">
                                 <tr>
@@ -95,39 +95,47 @@
                                 </tr>
                             </table>
 
-                            <p>Atente-se as dicas para realização da biometria facial:</p>
+                            <table width="100%" style="padding:0px 40px">
+                                <tr>
+                                    <td>
+                                        <p>Atente-se as dicas para realização da biometria facial:</p>
 
-                            <ul>
-                                <li>Precisa ser realizada pelo titular do CPF cadastrado;</li>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <ul>
+                                        <li>Precisa ser realizada pelo titular do CPF cadastrado;</li>
 
-                                <li>Encontre um local bem iluminado;</li>
+                                        <li>Encontre um local bem iluminado;</li>
 
-                                <li>Mantenha uma expressão neutra;</li>
+                                        <li>Mantenha uma expressão neutra;</li>
 
-                                <li>Evite usar óculos ou máscara.</li>
-                            </ul>
+                                        <li>Evite usar óculos ou máscara.</li>
+                                    </ul>
+                                </tr>
+                            </table>
 
                             <table width="100%" style="text-align:center; padding:10px 0 24px 0">
                                 <tr>
                                     <td>
                                         <p>acesse o link para encontrar oque você procura</p>
-                                        <a style="color:#fff;background-color:#f56738;padding:10px 20px;font-size:12px;border-radius:5px;text-decoration:none;display:inline-block;" href="{{route('activation.index', ['linkHash' => $link])}}">
+                                        <a style="color:#fff;background-color:#7367f0;padding:10px 20px;font-size:12px;border-radius:5px;text-decoration:none;display:inline-block;" href="{{route('activation.index', ['linkHash' => $link])}}">
                                             Fazer leitura dos termos e alugar meu imóvel
                                         </a>
                                     </td>
                                 </tr>
                             </table>
 
-                            <table width="100%" style="padding:0px 40px">
+                            <!-- <table width="100%" style="padding:0px 40px">
                                 <tr>
                                     <td>
                                         <p><b>Atenciosamente,</b><br>Hypersoft / Software House</p>
                                     </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                </tr>-->
                 </table>
+            </td>
+        </tr>
+    </table>
     </table>
     </td>
     </tr>

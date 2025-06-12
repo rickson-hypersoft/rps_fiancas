@@ -269,7 +269,7 @@
 
                         <form id="formAuthentication" class="mb-4 fv-plugins-bootstrap5 fv-plugins-framework" method="POST" action="{{ route('activation.verify.login') }}">
                             @csrf
-                            <input type="hidden" name="link" value="{{ $link }}">
+                            <input type="hidden" name="link" value="{{ $linkHash }}">
                             <div class="mb-6 form-control-validation fv-plugins-icon-container">
                                 <label for="cpf" class="form-label">CPF:</label>
                                 <input type="text" class="form-control" id="cpf" name="cpf" placeholder="000.000.000-00" autofocus="">

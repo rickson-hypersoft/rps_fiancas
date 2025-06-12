@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use App\Http\Controllers\ActivationController;
 use App\Http\Controllers\Assets\AssetsController;
@@ -246,18 +246,18 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
     // Pagamentos
     Route::prefix('pagamentos')->group(function () {
         Route::get('/checkout/{linkHash}', [CheckoutController::class, 'index'])
-            ->name('checktou.index');
+            ->name('checktou.index')->middleware('verify.contract.link');;
 
-        Route::get('/checkout/pix/{linkHash}', [CheckoutController::class, 'carregarFormPix'])->name('checkout.pix');
-        Route::post('/checkout/pix/{linkHash}', [CheckoutController::class, 'criarPagamentoPix'])->name('checkout.save.pix');
+        Route::get('/checkout/pix/{linkHash}', [CheckoutController::class, 'carregarFormPix'])->name('checkout.pix')->middleware('verify.contract.link');;
+        Route::post('/checkout/pix/{linkHash}', [CheckoutController::class, 'criarPagamentoPix'])->name('checkout.save.pix')->middleware('verify.contract.link');;
 
-        Route::get('/checkout/boleto/{linkHash}', [CheckoutController::class, 'carregarFormBoleto'])->name('checkout.boleto');
-        Route::post('/checkout/boleto/{linkHash}', [CheckoutController::class, 'criarPagamentoBoleto'])->name('checkout.save.boleto');
+        Route::get('/checkout/boleto/{linkHash}', [CheckoutController::class, 'carregarFormBoleto'])->name('checkout.boleto')->middleware('verify.contract.link');;
+        Route::post('/checkout/boleto/{linkHash}', [CheckoutController::class, 'criarPagamentoBoleto'])->name('checkout.save.boleto')->middleware('verify.contract.link');;
 
-        Route::get('/checkout/cartao/{linkHash}', [CheckoutController::class, 'carregarFormCartao'])->name('checkout.cartao');
-        Route::post('/checkout/cartao/{linkHash}', [CheckoutController::class, 'criarPagamentoCartao'])->name('checkout.save.cartao');
+        Route::get('/checkout/cartao/{linkHash}', [CheckoutController::class, 'carregarFormCartao'])->name('checkout.cartao')->middleware('verify.contract.link');;
+        Route::post('/checkout/cartao/{linkHash}', [CheckoutController::class, 'criarPagamentoCartao'])->name('checkout.save.cartao')->middleware('verify.contract.link');;
 
-        Route::post('/checkout/cancelar/{idPagamento}/{linkHash}', [CheckoutController::class, 'cancelarPagamento'])->name('checkout.canceled');
+        Route::post('/checkout/cancelar/{idPagamento}/{linkHash}', [CheckoutController::class, 'cancelarPagamento'])->name('checkout.canceled')->middleware('verify.contract.link');;
 
         // Route::get('/pagamentos/pix/{linkHash}', [PaymentController::class, 'pix'])->name('payment.pix');
         // Route::get('/pagamentos/pix/{linkHash}/{id}', [PaymentController::class, 'pixCheckout'])->name('payment.checkout.pix');

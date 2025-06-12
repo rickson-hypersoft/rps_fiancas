@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Propostal;
 
@@ -15,9 +15,7 @@ use Illuminate\View\View;
 
 class PropostalController extends Controller
 {
-    public function __construct(protected EmailService $emailService)
-    {
-    }
+    public function __construct(protected EmailService $emailService) {}
 
     public function index(Request $request): View
     {
@@ -130,6 +128,7 @@ class PropostalController extends Controller
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
         $data     = $response->json();
 
+        $dataResponse = [];
         if ($data['proposta_status'] == 'Aprovado') {
             $data['contrato_status'] = 'Em Análise Biométrica';
             $proposta                = $this->parserValuesForInsert($data);
@@ -213,7 +212,7 @@ class PropostalController extends Controller
             return response()->json(['message' => 'Erro ao criar proposta na API 3'], 400);
         }
 
-        $propostaId = $response->json(['data']);
+        $propostaId = $response->json()['data'];
 
         return response()->json([
             'success' => true,
@@ -256,7 +255,7 @@ class PropostalController extends Controller
         $proposta['hora_ultima_atualizacao'] = $currentDate->format('H:i:s');
 
         if ($requestSanitize['setup'] != 0) {
-            $proposta['proposta_setup_valor'] = $this->parseValor($requestSanitize['setup'] ?? '0');
+            $proposta['proposta_setup_valor'] = $this->parseValor($requestSanitize['setup']);
         } else {
             $proposta['proposta_setup_valor'] = 0;
         }
@@ -283,7 +282,7 @@ class PropostalController extends Controller
             return response()->json(['message' => 'Erro ao criar proposta na API'], 400);
         }
 
-        $propostaId = $response->json(['data']);
+        $propostaId = $response->json()['data'];
 
         return response()->json([
             'success' => true,
@@ -367,8 +366,8 @@ class PropostalController extends Controller
 
         $this->saveHistory($proposta, "Aprovado");
 
-        $propostaId    = $response->json(['data']);
-        $id            = $response->json(['data'])['id'];
+        $propostaId    = $response->json()['data'];
+        $id            = $response->json()['data']['id'];
         $idImobiliaria = $propostaId['id_imobiliaria'];
 
         if ($request->hasFile('imagens') && $id) {
@@ -450,7 +449,7 @@ class PropostalController extends Controller
         return $response;
     }
 
-    private function styleStep2($data): array
+    private function styleStep2(array $data): array
     {
         switch ($data['proposta_credito_status']) {
             case 'Aprovado':
@@ -491,7 +490,7 @@ class PropostalController extends Controller
         }
     }
 
-    private function stylesStep5($data): array
+    private function stylesStep5(array $data): array
     {
         switch ($data['proposta_credito_status']) {
             case 'Aprovado':
@@ -541,7 +540,7 @@ class PropostalController extends Controller
         return floatval($limpo);
     }
 
-    private function saveHistory($data, $status = "")
+    private function saveHistory(array $data, string $status = ""): void
     {
         $token = session('jwt_token');
 
@@ -553,7 +552,7 @@ class PropostalController extends Controller
                 'data'           => $data['data'],
                 'hora'           => $data['hora'],
                 'id_usuario'     => session('user')['id'],
-                'historico'      => "Criada Solicitação #{$data['id']} do tipo {$data['imovel_tipo']}, com setup de {$data['proposta_setup_valor']} e valor do aluguel {$data['imovel_aluguel']}, valor do condomínio {$data['imovel_condominio']}, valor das taxas {$data['imovel_taxas']}, totalizando {$data['proposta_total_valor']}. O imóvel está situado no endereço {$data['endereco_completo']}, cujo CEP é {$data['imovel_cep']}",
+                'historico'      => "Criada Solicitação #{$data['id']} do tipo {$data['imovel_tipo']}, com setup de {$data['proposta_setup_valor']} e valor do aluguel {$data['imovel_aluguel']}, valor do condomínio {$data['imovel_condominio']}, valor das taxas {$data['imovel_taxas']}, totalizando {$data['valor_total_pagamento']}. O imóvel está situado no endereço {$data['endereco_completo']}, cujo CEP é {$data['imovel_cep']}",
             ];
 
             Http::withToken($token)->post(config('api.route') . '/history/create', $history);
@@ -564,7 +563,7 @@ class PropostalController extends Controller
         }
     }
 
-    private function insertHashLink(string | int $id)
+    private function insertHashLink(string | int $id): JsonResponse
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->post(config('api.route') . '/propostal/hash/' . $id);
@@ -576,7 +575,7 @@ class PropostalController extends Controller
         return response()->json("Hash criado com sucesso");
     }
 
-    public function sendNotification(Request $request)
+    public function sendNotification(Request $request): JsonResponse
     {
         $name  = $request->input('name');
         $email = $request->input('email');
@@ -589,7 +588,7 @@ class PropostalController extends Controller
         return response()->json(['erro' => 'Falha ao enviar o e-mail.'], 500);
     }
 
-    public function sendWhatsApp(Request $request)
+    public function sendWhatsApp(Request $request): JsonResponse
     {
         $to   = $request->input('to');
         $type = $request->input('type');
@@ -605,7 +604,7 @@ class PropostalController extends Controller
         return response()->json("Mensagem enviada com sucesso!");
     }
 
-    public function resume(string | int $id)
+    public function resume(string | int $id): View
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
@@ -614,7 +613,7 @@ class PropostalController extends Controller
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
-        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'], ]);
+        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'],]);
     }
 
     private function parserValuesForInsert(array $data): array

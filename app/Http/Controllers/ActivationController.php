@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -11,9 +11,9 @@ use Illuminate\View\View;
 
 class ActivationController extends Controller
 {
-    public function index(string $link): View
+    public function index(string $linkHash): View
     {
-        return view('activation.index', ['linkHash' => $link]);
+        return view('activation.index', ['linkHash' => $linkHash]);
     }
 
     public function faceId(string $link): View
@@ -36,7 +36,7 @@ class ActivationController extends Controller
         return view('activation.term', ['linkHash' => $link, 'data' => $data]);
     }
 
-    public function login(string $linkHash)
+    public function login(string $linkHash): View
     {
         return view('activation.login', ['linkHash' => $linkHash]);
     }

@@ -1,10 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Payments;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
@@ -20,7 +21,7 @@ class CheckoutController extends Controller
         return view('payments.index', ['link' => $link, 'data' => $data]);
     }
 
-    public function cancelarPagamento(string $idPagamento, string $linkHash)
+    public function cancelarPagamento(string $idPagamento, string $linkHash): JsonResponse
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->post(config('api.route') . '/checkout/canceled/' . $idPagamento . '/' . $linkHash);
@@ -29,7 +30,7 @@ class CheckoutController extends Controller
         return response()->json($data);
     }
 
-    public function carregarFormPix(string $linkHash)
+    public function carregarFormPix(string $linkHash): View
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $linkHash);
@@ -38,7 +39,7 @@ class CheckoutController extends Controller
         return view('payments.methods.pix', ['linkHash' => $linkHash, 'data' => $data]);
     }
 
-    public function criarPagamentoPix(string $linkHash)
+    public function criarPagamentoPix(string $linkHash): JsonResponse
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->post(
@@ -50,7 +51,7 @@ class CheckoutController extends Controller
         return response()->json($data);
     }
 
-    public function carregarFormBoleto(string $linkHash)
+    public function carregarFormBoleto(string $linkHash): View
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $linkHash);
@@ -59,7 +60,7 @@ class CheckoutController extends Controller
         return view('payments.methods.boleto', ['linkHash' => $linkHash, 'data' => $data]);
     }
 
-    public function criarPagamentoBoleto(string $linkHash)
+    public function criarPagamentoBoleto(string $linkHash): JsonResponse
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->post(
@@ -71,7 +72,7 @@ class CheckoutController extends Controller
         return response()->json($data);
     }
 
-    public function carregarFormCartao(string $linkHash)
+    public function carregarFormCartao(string $linkHash): View
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $linkHash);
@@ -100,7 +101,7 @@ class CheckoutController extends Controller
         return view('payments.methods.credit-card', ['linkHash' => $linkHash, 'data' => $data]);
     }
 
-    public function criarPagamentoCartao(Request $request, string $linkHash)
+    public function criarPagamentoCartao(Request $request, string $linkHash): JsonResponse
     {
         $request->merge([
             'id_usuario' => session('user')['id'],
