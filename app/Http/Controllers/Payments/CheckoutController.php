@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Controllers\Payments;
 
@@ -122,6 +122,7 @@ class CheckoutController extends Controller
                 // Apenas um pagamento
                 $ids = is_array($response['ids_pagamentos']) ? $response['ids_pagamentos'][0] : $response['ids_pagamentos'];
             }
+
             return redirect()->route('checkout.confirmation.cart', ['linkHash' => $linkHash, 'idPagamento' => $ids]);
         }
 
@@ -140,8 +141,8 @@ class CheckoutController extends Controller
         $response = Http::withToken($token)->get($url);
 
         return view('payments.confirmation.credit-card', [
-            'paymentInfo' => $response->json()['detalhes_pagamentos'],
-            'propostalInfo' => $response->json()['propostas']
+            'paymentInfo'   => $response->json()['detalhes_pagamentos'],
+            'propostalInfo' => $response->json()['propostas'],
         ]);
     }
 }

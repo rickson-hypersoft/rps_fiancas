@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Controllers\Propostal;
 
@@ -15,7 +15,9 @@ use Illuminate\View\View;
 
 class PropostalController extends Controller
 {
-    public function __construct(protected EmailService $emailService) {}
+    public function __construct(protected EmailService $emailService)
+    {
+    }
 
     public function index(Request $request): View
     {
@@ -129,6 +131,7 @@ class PropostalController extends Controller
         $data     = $response->json();
 
         $dataResponse = [];
+
         if ($data['proposta_status'] == 'Aprovado') {
             $data['contrato_status'] = 'Em Análise Biométrica';
             $proposta                = $this->parserValuesForInsert($data);
@@ -613,7 +616,7 @@ class PropostalController extends Controller
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
-        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'],]);
+        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'], ]);
     }
 
     private function parserValuesForInsert(array $data): array

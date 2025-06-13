@@ -1,85 +1,90 @@
 @extends('dashboard')
 @section('content')
 <div class="col-12">
+    <h4>Editar Imóvel</h4>
+
+    @if (session('success'))
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <span>{{ session('success') }}</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
     <div class="card">
         <div class="card-header pb-3 pt-3" style="background: #f7f7f7">
             <h5 class="p-0 m-0">Produto</h5>
         </div>
         <div class="card-body mt-5">
-            <form action="" class="row">
+            <form action="{{route('assets.upload', ['idContrato' => $data['id']])}}" id="formEdit" class="row" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="col-sm-3 mb-4 form-control-validation fv-plugins-icon-container">
                     <label class="form-label" for="formValidationUsername">Valor Aluguel</label>
                     <div class="input-group input-group-merge">
-                        <span class="input-group-text">R$</span>
-                        <input name="imovel_aluguel" style="text-align: right" id="imovel_aluguel" type="text" class="form-control form-control-lg" value="" aria-label="Amount (to the nearest dollar)">
+                        <span class="input-group-text">
+                            <i class="ti tabler-currency-dollar"></i>
+                        </span>
+                        <input name="imovel_aluguel" disabled readonly style="text-align: right" id="imovel_aluguel" type="text" class="form-control form-control-lg" value="{{$data['imovel_aluguel']}}" aria-label="Amount (to the nearest dollar)">
                     </div>
                 </div>
 
                 <div class="col-sm-3 mb-4 form-control-validation fv-plugins-icon-container">
-                    <label class="form-label" for="formValidationUsername">Valor Aluguel</label>
+                    <label class="form-label" for="formValidationUsername">Valor do Condomínio</label>
                     <div class="input-group input-group-merge">
-                        <span class="input-group-text">R$</span>
-                        <input name="imovel_aluguel" style="text-align: right" id="imovel_aluguel" type="text" class="form-control form-control-lg" value="" aria-label="Amount (to the nearest dollar)">
+                        <span class="input-group-text">
+                            <i class="ti tabler-currency-dollar"></i>
+                        </span>
+                        <input disabled readonly name="imovel_condominio" style="text-align: right" id="imovel_condominio" type="text" class="form-control form-control-lg" value="{{$data['imovel_condominio']}}" aria-label="Amount (to the nearest dollar)">
                     </div>
                 </div>
 
                 <div class="col-sm-3 mb-4 form-control-validation fv-plugins-icon-container">
-                    <label class="form-label" for="formValidationUsername">Valor Aluguel</label>
+                    <label class="form-label" for="formValidationUsername">Outras Taxas</label>
                     <div class="input-group input-group-merge">
-                        <span class="input-group-text">R$</span>
-                        <input name="imovel_aluguel" style="text-align: right" id="imovel_aluguel" type="text" class="form-control form-control-lg" value="" aria-label="Amount (to the nearest dollar)">
+                        <span class="input-group-text">
+                            <i class="ti tabler-currency-dollar"></i>
+                        </span>
+                        <input disabled readonly name="imovel_taxas" style="text-align: right" id="imovel_taxas" type="text" class="form-control form-control-lg" value="{{$data['imovel_taxas']}}" aria-label="Amount (to the nearest dollar)">
                     </div>
                 </div>
 
                 <div class="col-sm-3 mb-4 form-control-validation fv-plugins-icon-container">
-                    <label class="form-label" for="formValidationUsername">Valor Aluguel</label>
+                    <label class="form-label" for="formValidationUsername">Valor locatício total</label>
                     <div class="input-group input-group-merge">
-                        <span class="input-group-text">R$</span>
-                        <input name="imovel_aluguel" style="text-align: right" id="imovel_aluguel" type="text" class="form-control form-control-lg" value="" aria-label="Amount (to the nearest dollar)">
+                        <span class="input-group-text">
+                            <i class="ti tabler-currency-dollar"></i>
+                        </span>
+                        <input disabled readonly name="valor_total_pagamento" style="text-align: right" id="valor_total_pagamento" type="text" class="form-control form-control-lg" value="{{$data['valor_total_pagamento']}}" aria-label="Amount (to the nearest dollar)">
                     </div>
                 </div>
 
+                <div class="col-sm-3 mb-4 form-control-validation">
+                    <label class="form-label" for="formValidationUsername">Tipo</label>
+                    <div class="input-group">
 
-                <div class="col-sm-3 mb-4 form-control-validation fv-plugins-icon-container">
-                    <label class="form-label" for="formValidationUsername">Valor Aluguel</label>
-                    <div class="input-group input-group-merge">
-                        <span class="input-group-text">R$</span>
-                        <input name="imovel_aluguel" style="text-align: right" id="imovel_aluguel" type="text" class="form-control form-control-lg" value="" aria-label="Amount (to the nearest dollar)">
+                        <input disabled readonly name="imovel_tipo" id="imovel_tipo" type="text" class="form-control form-control-lg" value="{{$data['imovel_tipo']}}" aria-label="Amount (to the nearest dollar)">
                     </div>
                 </div>
 
-                <div class="col-sm-3 mb-4 form-control-validation fv-plugins-icon-container">
-                    <label class="form-label" for="formValidationUsername">Valor Aluguel</label>
-                    <div class="input-group input-group-merge">
-                        <span class="input-group-text">R$</span>
-                        <input name="imovel_aluguel" style="text-align: right" id="imovel_aluguel" type="text" class="form-control form-control-lg" value="" aria-label="Amount (to the nearest dollar)">
+                <div class="col-sm-3 mb-4 form-control-validation">
+                    <label class="form-label" for="formValidationUsername">Setup</label>
+                    <div class="input-group">
+
+                        <input disabled readonly name="proposta_setup_valor" style="text-align: right" id="proposta_setup_valor" type="text" class="form-control form-control-lg" value="{{$data['proposta_setup_valor']}}" aria-label="Amount (to the nearest dollar)">
                     </div>
                 </div>
 
-                <div class="col-sm-3 mb-4 form-control-validation fv-plugins-icon-container">
-                    <label class="form-label" for="formValidationUsername">Valor Aluguel</label>
-                    <div class="input-group input-group-merge">
-                        <span class="input-group-text">R$</span>
-                        <input name="imovel_aluguel" style="text-align: right" id="imovel_aluguel" type="text" class="form-control form-control-lg" value="" aria-label="Amount (to the nearest dollar)">
+                <div class="col-sm-3 mb-4 form-control-validation">
+                    <label class="form-label" for="formValidationUsername">Parcelas Setup</label>
+                    <div class="input-group">
+
+                        <input disabled readonly name="proposta_setup_parc" style="text-align: right" id="proposta_setup_parc" type="text" class="form-control form-control-lg" value="{{$data['proposta_setup_parc']}}" aria-label="Amount (to the nearest dollar)">
                     </div>
                 </div>
 
-                <div class="col-sm-3 mb-4 form-control-validation fv-plugins-icon-container">
-                    <label class="form-label" for="formValidationUsername">Valor Aluguel</label>
-                    <div class="input-group input-group-merge">
-                        <span class="input-group-text">R$</span>
-                        <input name="imovel_aluguel" style="text-align: right" id="imovel_aluguel" type="text" class="form-control form-control-lg" value="" aria-label="Amount (to the nearest dollar)">
-                    </div>
+                <div class="col-sm-3 mb-4 form-control-validation">
+                    <label class="form-label" for="formValidationUsername">Resposável pelo Pagmento</label>
+                    <input disabled readonly name="pessoa_nome" id="pessoa_nome" type="text" class="form-control form-control-lg" value="{{$data['pessoa_nome']}}" aria-label="Amount (to the nearest dollar)">
                 </div>
-
-                <div class="col-sm-3 mb-4 form-control-validation fv-plugins-icon-container">
-                    <label class="form-label" for="formValidationUsername">Valor Aluguel</label>
-                    <div class="input-group input-group-merge">
-                        <span class="input-group-text">R$</span>
-                        <input name="imovel_aluguel" style="text-align: right" id="imovel_aluguel" type="text" class="form-control form-control-lg" value="" aria-label="Amount (to the nearest dollar)">
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
 
@@ -88,82 +93,82 @@
             <h5 class="p-0 m-0">Localização</h5>
         </div>
         <div class="card-body mt-5">
-            <form action="" class="row">
-                <div class="row mt-5">
-                    <div class="col-md-3 mb-2">
-                        <div class="form-control-validation fv-plugins-icon-container">
-                            <label class="form-label" for="imovel_cep">CEP</label>
-                            <input type="text" name="imovel_cep" id="imovel_cep_dados" class="form-control form-control-lg" value="" disabled />
-                            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                            </div>
+            <div class="row">
+                <div class="col-md-2 mb-2 col-12">
+                    <div class="form-control-validation fv-plugins-icon-container">
+                        <label class="form-label" for="imovel_cep">CEP</label>
+                        <input type="text" name="imovel_cep" id="imovel_cep" class="form-control form-control-lg" value="{{$data['imovel_cep']}}" disabled readonly />
+                        <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                         </div>
                     </div>
-                    <div class="col-md-6 mb-2">
-                        <div class="form-control-validation fv-plugins-icon-container">
-                            <label class="form-label" for="imovel_endereco">Endereço</label>
-                            <input type="text" name="imovel_endereco" id="imovel_endereco" class="form-control form-control-lg" value="" />
-                            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                            </div>
+                </div>
+                <div class="col-md-8 mb-2">
+                    <div class="form-control-validation fv-plugins-icon-container">
+                        <label class="form-label" for="imovel_endereco">Endereço</label>
+                        <input type="text" name="imovel_endereco" id="imovel_endereco" class="form-control form-control-lg" value="{{$data['imovel_endereco']}}" disabled readonly />
+                        <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                         </div>
                     </div>
-                    <div class="col-md-3 mb-2">
-                        <div class="form-control-validation fv-plugins-icon-container">
-                            <label class="form-label" for="imovel_numero">Número</label>
-                            <input type="text" name="imovel_numero" id="imovel_numero" class="form-control form-control-lg" value="" />
-                            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <div class="form-control-validation fv-plugins-icon-container">
-                            <label class="form-label" for="imovel_bairro">Bairro</label>
-                            <input type="text" name="imovel_bairro" id="imovel_bairro" class="form-control form-control-lg" value="" />
-                            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <div class="form-control-validation fv-plugins-icon-container">
-                            <label class="form-label" for="imovel_estado">Estado</label>
-                            <input type="text" name="imovel_estado" id="imovel_estado_dados" class="form-control form-control-lg" value="" />
+                </div>
+                <div class="col-md-2 mb-2">
+                    <div class="form-control-validation fv-plugins-icon-container">
+                        <label class="form-label" for="imovel_numero">Número</label>
+                        <input type="text" name="imovel_numero" id="imovel_numero" class="form-control form-control-lg" value="{{$data['imovel_numero']}}" disabled readonly />
+                        <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-2">
                     <div class="form-control-validation fv-plugins-icon-container">
+                        <label class="form-label" for="imovel_bairro">Bairro</label>
+                        <input type="text" name="imovel_bairro" id="imovel_bairro" class="form-control form-control-lg" value="{{$data['imovel_bairro']}}" disabled readonly />
+                        <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <div class="form-control-validation fv-plugins-icon-container">
+                        <label class="form-label" for="imovel_estado">Estado</label>
+                        <input type="text" name="imovel_estado" id="imovel_estado_dados" class="form-control form-control-lg" value="{{$data['imovel_estado']}}" disabled readonly />
+                    </div>
+                </div>
+                <div class="col-md-5 mb-2">
+                    <div class="form-control-validation fv-plugins-icon-container">
                         <label class="form-label" for="imovel_cidade">Cidade</label>
-                        <input type="text" name="imovel_cidade" id="imovel_cidade_dados" class="form-control form-control-lg" value="" />
+                        <input type="text" name="imovel_cidade" id="imovel_cidade" class="form-control form-control-lg" value="{{$data['imovel_cidade']}}" disabled readonly />
                     </div>
                 </div>
 
-                <div class="col-md-8 mb-2">
+                <div class="col-md-6 mb-2">
                     <div class="form-control-validation fv-plugins-icon-container">
                         <label class="form-label" for="imovel_complemento">Complemento</label>
-                        <input type="text" name="imovel_complemento" id="imovel_complemento" class="form-control form-control-lg" value="" />
+                        <input type="text" name="imovel_complemento" id="imovel_complemento" class="form-control form-control-lg" value="{{$data['imovel_complemento']}}" disabled readonly />
                     </div>
                 </div>
 
-                <div class="col-md-6 mb-2">
+                <div class="col-md-3 mb-2">
                     <div class="form-control-validation fv-plugins-icon-container">
                         <label class="form-label" for="imovel_tag">Tag</label>
-                        <input type="text" name="imovel_tag" id="imovel_tag" class="form-control form-control-lg" value="" />
+                        <input type="text" name="imovel_tag" id="imovel_tag" class="form-control form-control-lg" value="{{$data['imovel_tag']}}" disabled readonly />
                     </div>
                 </div>
 
-                <div class="col-md-6 mb-2">
+                <div class="col-md-3 mb-2">
                     <div class="form-control-validation fv-plugins-icon-container">
-                        <label class="form-label" for="imovel_tag">Ramo Atividade</label>
-                        <input type="text" name="imovel_tag" id="imovel_tag" class="form-control form-control-lg" value="" />
+                        <label class="form-label" for="imovel_ramo_atv">Ramo Atividade</label>
+                        <input type="text" name="imovel_ramo_atv" id="imovel_ramo_atv" class="form-control form-control-lg" value="{{$data['imovel_ramo_atv']}}" disabled readonly />
                     </div>
                 </div>
 
-                <div class="col-md-12 mb-2">
+                <div class="col-md-12 mb-2 py-2">
                     <div class="form-control-validation fv-plugins-icon-container">
-                        <label class="form-label" for="imovel_tag">Descrição</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="observacao"></textarea>
+                        <label class="form-label" for="observacao">Descrição</label>
+                        <textarea disabled readonly class="form-control" id="observacao" rows="3" name="observacao">
+                            {{$data['observacao']}}
+                        </textarea>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -174,46 +179,37 @@
         </div>
         <div class="card-body mt-5">
             <div class="row">
-                <div class="col-md-4">
-                    <form action="/upload" class="dropzone needsclick dz-clickable" id="dropzone-basic">
-                        <div class="dz-message needsclick">
-                            Contrato
-                            <span class="note needsclick">(This is just a demo dropzone. Selected files are
-                                <span class="fw-medium">not</span> actually uploaded.)</span>
-                        </div>
-                    </form>
+                <!-- Contrato -->
+                <div class="col-md-4 mb-3">
+                    <label for="file_contrato" class="form-label">Contrato</label>
+                    <input class="form-control" type="file" id="file_contrato" name="arquivos[contrato]">
                 </div>
 
-                <div class="col-md-4">
-                    <form action="/upload" class="dropzone needsclick dz-clickable" id="dropzone-basic">
-                        <div class="dz-message needsclick">
-                            Vistoria
-                            <span class="note needsclick">(This is just a demo dropzone. Selected files are
-                                <span class="fw-medium">not</span> actually uploaded.)</span>
-                        </div>
-
-                    </form>
+                <!-- Vistoria -->
+                <div class="col-md-4 mb-3">
+                    <label for="file_vistoria" class="form-label">Vistoria</label>
+                    <input class="form-control" type="file" id="file_vistoria" name="arquivos[vistoria]">
                 </div>
 
-                <div class="col-md-4">
-                    <form action="/upload" class="dropzone needsclick dz-clickable" id="dropzone-basic">
-                        <div class="dz-message needsclick">
-                            Apólice
-                            <span class="note needsclick">(This is just a demo dropzone. Selected files are
-                                <span class="fw-medium">not</span> actually uploaded.)</span>
-                        </div>
-                    </form>
-
+                <!-- Apólice -->
+                <div class="col-md-4 mb-3">
+                    <label for="file_apolice" class="form-label">Apólice</label>
+                    <input class="form-control" type="file" id="file_apolice" name="arquivos[apolice]">
                 </div>
-                </form>
             </div>
         </div>
-    </div>
 
+    </div>
+    </form>
     <div class="mt-5">
-        <a href="" class="btn btn-secondary">Voltar</a>
-        <button class="btn btn-primary">Salvar alterações</button>
+        <a href="{{route('assets.asset', ['id' => $data['id']])}}" class="btn btn-secondary">Voltar</a>
+        <button id="enviar" type="button" class="btn btn-primary">Salvar alterações</button>
     </div>
 </div>
 
+<script>
+    document.getElementById('enviar').addEventListener('click', function () {
+        document.getElementById('formEdit').submit();
+    });
+</script>
 @endsection
