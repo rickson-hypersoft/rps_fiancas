@@ -8,6 +8,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Financial\FinancialAccountController;
 use App\Http\Controllers\Financial\FinancialCategoryController;
+use App\Http\Controllers\Financial\FinancialMoviController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Payments\CheckoutController;
 use App\Http\Controllers\Payments\PaymentController;
@@ -135,6 +136,16 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
     Route::delete('/imobiliaria/financeiro/categoria/excluir/{financeiro_categoria}', [FinancialCategoryController::class, 'delete'])
         ->name('financial.financial_category.delete')
         ->middleware('check.permission:6');
+
+    Route::get('/imobiliaria/financeiro/movimentacao', [FinancialMoviController::class, 'index'])
+        ->name('financial.financial_movi.index');
+    Route::get('/imobiliaria/financeiro/movimentacao/cadastrar', [FinancialMoviController::class, 'create'])
+        ->name('financial.financial_movi.create');
+    Route::get('/imobiliaria/financeiro/movimentacao/editar', [FinancialMoviController::class, 'edit'])
+        ->name('financial.financial_movi.edit');
+
+    Route::post('/imobiliaria/financeiro/movimentacao/cadastrar', [FinancialMoviController::class, 'store'])
+        ->name('financial.financial_movi.store');
 
     /* Rotas antigas
     Route::get('/propostas', [PropostalController::class, 'index'])

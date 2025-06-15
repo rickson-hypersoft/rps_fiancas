@@ -183,8 +183,8 @@
                                                 <div data-i18n="Categorias">Categorias</div>
                                             </a>
                                         </li>
-                                        <li class="menu-item">
-                                            <a href="#" class="menu-link">
+                                        <li class="menu-item {{ request()->routeIs('financial.financial_movi.index') ? 'active' : '' }}">
+                                            <a href="{{route('financial.financial_movi.index')}}" class="menu-link">
                                                 <div data-i18n="Lançamentos">Lançamentos</div>
                                             </a>
                                         </li>
