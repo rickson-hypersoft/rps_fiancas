@@ -18,7 +18,8 @@ class DashboardController extends Controller
         $response  = Http::withToken($token)->get(config('api.route') . '/home/' . $idImobiliaria);
         $contratos = $response->json()['contratos'];
         $propostas = $response->json()['propostas'];
+        $cards     = $response->json()['propostasCard'];
 
-        return view('home', ['contratos' => $contratos, 'propostas' => $propostas]);
+        return view('home', ['contratos' => $contratos, 'propostas' => $propostas, 'cards' => $cards]);
     }
 }

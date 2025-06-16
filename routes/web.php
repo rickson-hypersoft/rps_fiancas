@@ -141,11 +141,15 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         ->name('financial.financial_movi.index');
     Route::get('/imobiliaria/financeiro/movimentacao/cadastrar', [FinancialMoviController::class, 'create'])
         ->name('financial.financial_movi.create');
-    Route::get('/imobiliaria/financeiro/movimentacao/editar', [FinancialMoviController::class, 'edit'])
+    Route::get('/imobiliaria/financeiro/movimentacao/editar/{financeiro_movi}', [FinancialMoviController::class, 'edit'])
         ->name('financial.financial_movi.edit');
 
     Route::post('/imobiliaria/financeiro/movimentacao/cadastrar', [FinancialMoviController::class, 'store'])
         ->name('financial.financial_movi.store');
+    Route::put('/imobiliaria/financeiro/movimentacao/editar/{financeiro_movi}', [FinancialMoviController::class, 'update'])
+        ->name('financial.financial_movi.update');
+    Route::delete('/imobiliaria/financeiro/movimentacao/deletar/{financeiro_movi}', [FinancialMoviController::class, 'delete'])
+        ->name('financial.financial_movi.delete');
 
     /* Rotas antigas
     Route::get('/propostas', [PropostalController::class, 'index'])
@@ -193,6 +197,8 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         Route::get('/resumo/{id}', [PropostalController::class, 'resume'])->name('propostal.resume');
         Route::post('/email', [PropostalController::class, 'sendNotification'])->name('propostal.send');
         Route::post('/whatsapp', [PropostalController::class, 'sendWhatsApp'])->name('propostal.send');
+
+        Route::get('/alteracao/{id}', [PropostalController::class, 'salvarMotivoAlteracao'])->name('propostal.alter');
     });
 
     // Contratos

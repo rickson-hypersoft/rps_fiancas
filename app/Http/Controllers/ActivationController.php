@@ -21,7 +21,7 @@ class ActivationController extends Controller
         // Por enquanto vai marcar face_id = 1;
         $token = session('jwt_token');
 
-        $response = Http::withToken($token)->get(config('api.route') . '/assets/faceId/' . $link);
+        $response = Http::withToken($token)->get(config('api.route') . '/activation/faceId/' . $link);
         $data     = $response->json();
 
         return view('activation.confirm', ['linkHash' => $link]);
@@ -50,7 +50,7 @@ class ActivationController extends Controller
 
         $token = session('jwt_token');
 
-        $response = Http::withToken($token)->get(config('api.route') . '/assets/' . $request->input('link'));
+        $response = Http::withToken($token)->get(config('api.route') . '/activation/' . $request->input('link'));
         $data     = $response->json();
 
         if (! $data) {

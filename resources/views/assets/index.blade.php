@@ -197,7 +197,7 @@
 
                                             @if (empty($faltando))
                                             {{-- Tudo ok, exibe check verde --}}
-                                            <i class="ti ti-circle-check text-success"></i>
+                                            <i class="menu-icon icon-base ti tabler-circle-check text-success"></i>
                                             @else
                                             {{-- Faltando anexos, exibe alerta com tooltip --}}
                                             <i class="menu-icon icon-base ti tabler-alert-hexagon text-danger" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="bottom" title="{!! $tooltip !!}"></i>

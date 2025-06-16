@@ -110,7 +110,7 @@
                             $badgeColor = 'danger';
                             }
                             @endphp
-                            @if ($propostal['contrato_status'] == 'Pendente')
+                            @if ($propostal['contrato_status'] == 'Pendente' and $propostal['proposta_status'] != 'Cancelado')
                             <tr>
                                 <td>
                                     <a href="{{route('propostal.resume', $propostal['id'])}}" class="text-success">{{$propostal['id']}}</a>
@@ -130,10 +130,9 @@
                                             <i class="icon-base ti tabler-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item waves-effect" data-bs-toggle="modal" data-bs-target="#modalCancelarProposta" href="javascript:void(0);"><i class="icon-base ti tabler-trash me-1"></i> Cancelar proposta</a>
-                                            </div>
-                                            <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="icon-base ti tabler-pencil me-1"></i> Alteração imobiliária</a>
+                                           <a class="dropdown-item waves-effect btnCancelarProposta" data-bs-toggle="modal" data-bs-target="#modalCancelarProposta" href="javascript:void(0);" data-id="{{ $propostal['id'] }}"><i class="icon-base ti tabler-trash me-1"></i> Cancelar proposta</a>
+
+                                            <a class="dropdown-item waves-effect btnAlterarProposta" data-bs-toggle="modal" data-bs-target="#modalAlterarProposta" href="javascript:void(0);" data-id="{{ $propostal['id'] }}"><i class="icon-base ti tabler-edit me-1"></i> Alteração imobiliária</a>
                                         </div>
                                     </div>
                                 </td>
@@ -327,6 +326,43 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalAlterarProposta" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAlterarPropostaTitle">Qual o motivo da sua solicitação de alteração?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formAlterarProposta" method="GET" action="">
+                @csrf
+                <input type="hidden" name="id" id="propostaIdInput">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-4">
+                            <label for="motivo" class="form-label">Selecionar motivo</label>
+                            <select id="motivo" class="form-select form-select-lg" name="motivo">
+                                <option value="Dados do inquilino">Dados do inquilino</option>
+                                <option value="Valor locatício">Valor locatício</option>
+                                <option value="Forma de pagamento/recorrência">Forma de pagamento/recorrência</option>
+                                <option value="Dados do imóvel">Dados do imóvel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col mb-4">
+                            <label for="exampleFormControlTextarea1" class="form-label">Explicar motivo (opcional)</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="observacao"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" id="btnConfirmarAlteracao" class="btn btn-primary waves-effect waves-light">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -334,8 +370,6 @@
     document.addEventListener("DOMContentLoaded", function () {
         const modalCancelar = new bootstrap.Modal(document.getElementById('modalCancelarProposta'));
         const form = document.getElementById('formCancelarProposta');
-
-        console.log(form)
 
         // Abertura do modal e set do ID e action
         document.querySelectorAll('.btnCancelarProposta').forEach(button => {
@@ -377,6 +411,34 @@
                     Swal.fire('Erro', 'Ocorreu um erro ao cancelar a proposta.', 'error');
                 });
         });
+
+       document.querySelectorAll('.btnAlterarProposta').forEach(button => {
+        button.addEventListener('click', function () {
+            const id = this.dataset.id;
+            document.getElementById('propostaIdInput').value = id;
+        });
+    });
+
+    const modalAlterar = new bootstrap.Modal(document.getElementById('modalAlterarProposta'));
+    document.getElementById('btnConfirmarAlteracao').addEventListener('click', function () {
+        modalAlterar.hide();
+        let idProposta = document.getElementById('propostaIdInput').value;
+        let motivo = document.getElementById('motivo').value;
+        let observacao = document.getElementById('exampleFormControlTextarea1').value;
+
+        Swal.fire({
+            title: 'Alteração registrada!',
+            html: `<p>Você será redirecionado para a tela de alteração.</p>
+                   <a href="/propostas/alteracao/${idProposta}?motivo=${encodeURIComponent(motivo)}&observacao=${encodeURIComponent(observacao)}" class="btn btn-primary mt-2">Ir para alteração agora</a>`,
+            icon: 'success',
+            showConfirmButton: false,
+        });
+
+        // Se quiser redirecionar automático:
+        // setTimeout(() => {
+        //     window.location.href = `/propostas/alteracao/${idProposta}?motivo=${encodeURIComponent(motivo)}&observacao=${encodeURIComponent(observacao)}`;
+        // }, 3000);
+    });
     });
 </script>
 @endsection

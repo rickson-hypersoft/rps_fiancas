@@ -141,6 +141,25 @@ class PropostalController extends Controller
             $dataResponse = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
         }
 
+        if ($data['proposta_status'] == 'Alteracao Imobiliaria') {
+            $data['proposta_status'] = 'Aprovado';
+            $proposta                = $this->parserValuesForInsert($data);
+
+            $proposta['contrato_status'] = 'Pendente';
+
+            $dataResponse = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
+        }
+
+        if ($data['proposta_status'] != 'Aprovado') {
+            $styles = $this->stylesStep5($data);
+
+            return view('propostal.wizard', [
+                'step'     => 'step5',
+                'proposta' => $data,
+                'styles'   => $styles,
+            ]);
+        }
+
         $styles = $this->stylesStep5($dataResponse->json()['data']);
 
         return view('propostal.wizard', [
@@ -495,7 +514,7 @@ class PropostalController extends Controller
 
     private function stylesStep5(array $data): array
     {
-        switch ($data['proposta_credito_status']) {
+        switch ($data['proposta_status']) {
             case 'Aprovado':
                 return [
                     'colorText'     => 'fw-bold text-success',
@@ -640,5 +659,29 @@ class PropostalController extends Controller
         };
 
         return $data;
+    }
+
+    public function salvarMotivoAlteracao(Request $request, int | string $id)
+    {
+        $token = session('jwt_token');
+
+        $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
+        $proposta = $response->json();
+
+        $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
+        $dataHistory = $response->json();
+
+        $parserPropostal                    = $this->parserValuesForInsert($proposta);
+        $parserPropostal['proposta_status'] = 'Alteracao Imobiliaria';
+        $parserPropostal['observacao']      = $request->all()['motivo'];
+
+        $response     = Http::withToken($token)->post(config('api.route') . '/propostal/create', $parserPropostal);
+        $responseData = $response->json();
+
+        return view('propostal.wizard', [
+            'step'      => 'step4',
+            'proposta'  => $responseData['data'],
+            'histories' => $dataHistory['data'],
+        ]);
     }
 }

@@ -1,5 +1,6 @@
 @extends('dashboard')
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="col-md-12">
     @if ($errors->any())
     <div class="alert alert-danger alert-dismissible" role="alert">
@@ -22,27 +23,34 @@
             <h5>Meu financeiro</h5>
             <div class="card">
                 <div class="card-body  mb-1 pb-1">
-                    <form action="" class="row">
+                    <form action="{{route('financial.financial_movi.index')}}" class="row">
                         <div class="mb-4 col-md-3">
                             <label for="largeInput" class="form-label">Conta</label>
-                            <select class="form-select form-select-lg" name="status" id="status">
+                            <select class="form-select form-select-lg" name="id_conta" id="id_conta">
                                 <option value="">Todos</option>
                                  @foreach ($contas as $conta)
                         <option value="{{$conta['id']}}">{{$conta['descricao']}}</option>
                         @endforeach
                             </select>
                         </div>
-                        <div class="mb-4 col-md-2">
-                            <label for="largeInput" class="form-label">Data Inicial</label>
-                            <input id="largeInput" class="form-control form-control-lg" type="date">
-                        </div>
-                        <div class="mb-4 col-md-2">
-                            <label for="largeInput" class="form-label">Data Final</label>
-                            <input id="largeInput" class="form-control form-control-lg" type="date">
-                        </div>
+@php
+    $hoje = \Carbon\Carbon::now();
+    $dataInicial = $hoje->copy()->startOfMonth()->format('Y-m-d');
+    $dataFinal = $hoje->copy()->endOfMonth()->format('Y-m-d');
+@endphp
+
+<div class="mb-4 col-md-2">
+    <label for="data_inicial" class="form-label">Data Inicial</label>
+    <input id="data_inicial" class="form-control form-control-lg" name="data_inicial" type="date" value="{{ old('data_inicial', $dataInicial) }}">
+</div>
+
+<div class="mb-4 col-md-2">
+    <label for="data_final" class="form-label">Data Final</label>
+    <input id="data_final" class="form-control form-control-lg" name="data_final" type="date" value="{{ old('data_final', $dataFinal) }}">
+</div>
                         <div class="mb-4 col-md-3">
                             <label for="largeInput" class="form-label">Categoria</label>
-                            <select class="form-select form-select-lg" name="status" id="status">
+                            <select class="form-select form-select-lg" name="id_categoria" id="id_categoria">
                                 <option value="">Todos</option>
                                  @foreach ($categorias as $categoria)
                         <option value="{{$categoria['id']}}">{{$categoria['descricao']}}</option>
@@ -64,7 +72,7 @@
                                 <div class="avatar me-4">
                                     <span class="avatar-initial rounded bg-label-secondary"><i class="icon-base ti tabler-calendar icon-28px"></i></span>
                                 </div>
-                                <h4 class="mb-0">R$ 182.452,69</h4>
+                                <h4 class="mb-0">R$ {{ number_format($valores['saldoAnterior'], 2, ',', '.') }}</h4>
                             </div>
                             <p class="mb-1">Saldo Anterior</p>
 
@@ -79,7 +87,7 @@
                                 <div class="avatar me-4">
                                     <span class="avatar-initial rounded bg-label-primary"><i class="icon-base ti tabler-moneybag icon-28px"></i></span>
                                 </div>
-                                <h4 class="mb-0"></h4>
+                                <h4 class="mb-0">R$ {{ number_format($valores['entradas'], 2, ',', '.') }}</h4>
 
                             </div>
                             <p class="mb-1">Entradas</p>
@@ -94,7 +102,7 @@
                                 <div class="avatar me-4">
                                     <span class="avatar-initial rounded bg-label-danger"><i class="icon-base ti tabler-moneybag icon-28px"></i></span>
                                 </div>
-                                <h4 class="mb-0"></h4>
+                                <h4 class="mb-0">R$ {{ number_format($valores['saidas'], 2, ',', '.') }}</h4>
                             </div>
                             <p class="mb-1">Saídas</p>
                         </div>
@@ -108,7 +116,7 @@
                                 <div class="avatar me-4">
                                     <span class="avatar-initial rounded bg-label-success"><i class="icon-base ti tabler-moneybag icon-28px"></i></span>
                                 </div>
-                                <h4 class="mb-0"></h4>
+                                <h4 class="mb-0">R$ {{ number_format($valores['saldoAtual'], 2, ',', '.') }}</h4>
                             </div>
                             <p class="mb-1">Saldo Atual</p>
                         </div>
@@ -118,10 +126,11 @@
 
             <div class="card mb-0">
                 <div class="card-header">
+                     <h5>Listagem das Movimentações</h5>
                     <hr>
                     <div class="row align-items-center pt-5">
                         <div class="col-sm-7 col-12 mb-1">
-                            <form action="" method="GET">
+                            <form action="{{route('financial.financial_movi.index')}}" method="GET">
                                 <label for="pesquisar" class="form-label">Pesquisar</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-control-lg" placeholder="Pesquisar pela descrição" id="pesquisar" value="{{request('search')}}" name="search" aria-label="Pesquisar pela descrição" aria-describedby="button-addon2">
@@ -141,7 +150,6 @@
                     <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 18px;">
                         <thead>
                             <tr>
-                                <th>Documento</th>
                                 <th>Conta</th>
                                 <th class="d-none d-lg-table-cell">Data</th>
                                 <th class="d-none d-lg-table-cell">Histórico</th>
@@ -153,13 +161,26 @@
                         <tbody id="ViewNiveisLTableItens">
                             @foreach ($movimentacoes as $movimentacao)
                                 <tr>
-                                    <td>{{$movimentacao['id_conta']}}</td>
-                                    <td>{{$movimentacao['data']}}</td>
+                                    <td>{{
+        collect($contas)->firstWhere('id', $movimentacao['id_conta'])['descricao'] ?? 'Conta não encontrada'
+    }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($movimentacao['data'])->format('d/m/Y') }}</td>
                                     <td>{{$movimentacao['historico']}}</td>
-                                    <td>{{$movimentacao['tipo']}}</td>
+                                    <td>R$ {{ number_format($movimentacao['valor'], 2, ',', '.') }}</td>
+                                    <td><span class="badge bg-label-{{$movimentacao['tipo'] == 'Crédito' ? 'primary' : 'danger'}} me-1">{{$movimentacao['tipo']}}</span></td>
                                     <td>
-                                        <a href="">Link</a>
-                                    </td>
+                                    <div class="dropdown" style="text-align: center;">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="icon-base ti tabler-dots-vertical"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item waves-effect" href="{{route('financial.financial_movi.edit', $movimentacao['id'])}}"><i class="icon-base ti tabler-pencil me-1"></i> Editar</a>
+                                            <a class="dropdown-item waves-effect btn-excluir" href="javascript:void(0);" data-id="{{$movimentacao['id']}}" data-route="{{ route('financial.financial_movi.delete', ['financeiro_movi' => '__id__']) }}">
+                                                <i class="icon-base ti tabler-trash me-1"></i> Excluir
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -172,5 +193,34 @@
 </div>
 @endsection
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-excluir').forEach(function (btn) {
+            console.log(btn)
+            btn.addEventListener('click', function () {
+                const id = this.dataset.id;
+                const route = this.dataset.route.replace('__id__', id);
 
+                Swal.fire({
+                    title: 'Tem certeza que deseja excluir?',
+                    html: `
+                        <form id="form-excluir" action="${route}" method="POST">
+                            <input type="hidden" name="_token" value="${document.querySelector('meta[name=csrf-token]').getAttribute('content')}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <p class="mt-3">Essa ação não poderá ser desfeita.</p>
+
+                            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                                <button type="button" class="swal2-cancel swal2-styled" onclick="Swal.close()">Cancelar</button>
+                                <button type="submit" class="swal2-confirm swal2-styled" style="background-color:#d33;">Excluir</button>
+                            </div>
+                        </form>
+                    `,
+                    showConfirmButton: false,
+                    showCancelButton: false,
+                });
+            });
+        });
+    });
+</script>
 @endsection
