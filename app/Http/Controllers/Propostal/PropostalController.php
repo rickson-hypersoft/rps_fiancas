@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Propostal;
 
@@ -15,17 +15,17 @@ use Illuminate\View\View;
 
 class PropostalController extends Controller
 {
-    public function __construct(protected EmailService $emailService)
-    {
-    }
+    public function __construct(protected EmailService $emailService) {}
 
     public function index(Request $request): View
     {
         $token         = session('jwt_token');
         $idImobiliaria = session('user')['id_imobiliaria'];
 
+        $requestSanitize = $this->sanitizeData($request->all(), ['search']);
+
         $queryParams = [
-            'search'     => $request->input('search'),
+            'search'     => $requestSanitize['search'] ?? null,
             'status'     => $request->input('status'),
             'created_at' => $request->input('created_at'),
         ];
@@ -220,6 +220,10 @@ class PropostalController extends Controller
 
         if ($requestSanitize['imovel_aluguel'] <= 0) {
             return response()->json(['message' => 'Campo valor aluguel inválido!'], 400);
+        }
+
+        if (! $this->validaCpf($requestSanitize['pessoa_doc'])) {
+            return response()->json(['message' => 'Campo cpf inválido!'], 400);
         }
 
         $token = session('jwt_token');
@@ -640,7 +644,7 @@ class PropostalController extends Controller
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
-        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'], ]);
+        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'],]);
     }
 
     private function parserValuesForInsert(array $data): array

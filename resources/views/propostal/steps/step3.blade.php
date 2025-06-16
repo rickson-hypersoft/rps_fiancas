@@ -217,15 +217,56 @@
     let dropzone;
 
     // Só inicialize se ainda não existir
-    if (!Dropzone.instances.length) {
-        dropzone = new Dropzone("#dropzone-multi", {
-            url: "/upload",
-            autoProcessQueue: false,
-            maxFiles: 6
-        });
-    } else {
-        dropzone = Dropzone.instances[0]; // reutiliza a instância existente
-    }
+if (!Dropzone.instances.length) {
+    dropzone = new Dropzone("#dropzone-multi", {
+        url: "/upload",
+        autoProcessQueue: false,
+        maxFiles: 7,
+        accept: function(file, done) {
+            if (dropzone.files.length >= dropzone.options.maxFiles) {
+                done("Você só pode enviar até 6 arquivos");
+                Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: "Você só pode enviar até 6 arquivos"
+            });
+            } else {
+                done();
+            }
+        }
+    });
+
+    dropzone.on("addedfile", function(file) {
+        if (dropzone.files.length > dropzone.options.maxFiles) {
+            dropzone.removeFile(file);
+        }
+    });
+} else {
+    dropzone = Dropzone.instances[0];
+
+    // Aqui adiciona o evento para garantir que funciona também na instância já criada
+    dropzone.options.maxFiles = 7;
+
+    dropzone.on("addedfile", function(file) {
+        if (dropzone.files.length > dropzone.options.maxFiles) {
+            dropzone.removeFile(file);
+        }
+    });
+
+    // Para o accept, infelizmente ele é só na criação, então você pode substituir a função no objeto:
+    dropzone.options.accept = function(file, done) {
+        if (dropzone.files.length >= dropzone.options.maxFiles) {
+            done("Você só pode enviar até 6 arquivos");
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: "Você só pode enviar até 6 arquivos"
+            });
+        } else {
+            done();
+        }
+    };
+}
 
     const idProposta = "{{ $proposta['id'] }}"
 

@@ -206,7 +206,14 @@
     </div>
 </div>
 
+@section('scripts')
 <script>
+    IMask(document.getElementById('cpf'), {
+        mask: '000.000.000-00'
+    });
+    IMask(document.getElementById('telefone'), {
+        mask: '00 0000-0000'
+    });
     document.addEventListener('DOMContentLoaded', function () {
         const categoriaSelect = document.getElementById('categoria');
         const permissoesParaDesabilitar = [
@@ -298,4 +305,5 @@
         categoriaSelect.addEventListener('change', toggleImobiliariaSelect);
     });
 </script>
+@endsection
 @endsection

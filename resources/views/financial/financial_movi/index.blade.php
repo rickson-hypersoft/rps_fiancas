@@ -135,7 +135,7 @@
                             <form action="{{route('financial.financial_movi.index')}}" method="GET">
                                 <label for="pesquisar" class="form-label">Pesquisar</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control form-control-lg" placeholder="Pesquisar pela descrição" id="pesquisar" value="{{request('search')}}" name="search" aria-label="Pesquisar pela descrição" aria-describedby="button-addon2">
+                                    <input type="text" class="form-control form-control-lg" placeholder="Pesquisar pela descrição" id="pesquisar" value="{{request('search')}}" name="search" aria-label="Pesquisar pela conta" aria-describedby="button-addon2">
                                     <button class="btn btn-outline-primary waves-effect" type="submit" id="button-addon2">
                                         <i class="icon-base ti tabler-search"></i>
                                     </button>

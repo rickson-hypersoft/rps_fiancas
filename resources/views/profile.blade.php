@@ -98,7 +98,7 @@
         mask: '000.000.000-00'
     });
     IMask(document.getElementById('telefone'), {
-        mask: '(00) 0 0000-0000'
+        mask: '00 0000-0000'
     });
 </script>
 @endsection

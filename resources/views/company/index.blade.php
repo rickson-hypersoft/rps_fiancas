@@ -111,6 +111,9 @@
     IMask(document.getElementById('cep'), {
         mask: '00000-000'
     });
+    IMask(document.getElementById('telefone'), {
+        mask: '00 0000-0000'
+    });
 </script>
 @endsection
 @endsection

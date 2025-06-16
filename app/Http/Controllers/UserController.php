@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -16,7 +16,9 @@ class UserController extends Controller
     public function index(Request $request): View
     {
         $page        = $request->get('page', 1);
-        $queryParams = ['search' => $request->input('search'), 'page' => $page];
+        $requestSanitize = $this->sanitizeData($request->all(), ['search']);
+
+        $queryParams = ['search' => $requestSanitize['search'] ?? null, 'page' => $page];
         $token       = session('jwt_token');
         $response    = Http::withToken($token)->get(config('api.route') . '/users', $queryParams);
         $data        = $response->json();
@@ -53,6 +55,12 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
+        }
+
+        if (! $this->validaCpf($requestSanitize['cpf'])) {
+            return back()
+                ->withErrors(['cpf' => 'O CPF informado é inválido.'])
+                ->withInput();
         }
 
         $userData         = $validator->validated();
@@ -106,6 +114,12 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
+        }
+
+        if (! $this->validaCpf($requestSanitize['cpf'])) {
+            return back()
+                ->withErrors(['cpf' => 'O CPF informado é inválido.'])
+                ->withInput();
         }
 
         $userData         = $validator->validated();

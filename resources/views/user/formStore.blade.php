@@ -55,23 +55,24 @@
                         <label for="telefone" class="form-label">Telefone</label>
                         <input value="{{ old('telefone') }}" type="text" class="form-control form-control-lg" id="telefone" name="telefone" maxlength="16">
                     </div>
-                    <div class="col-md-4">
-                        <label for="nivel" class="form-label">Nivel</label>
-                        <select class="form-select form-select-lg" name="nivel" id="nivel" aria-label="Default select example">
-                            <option selected="">Selecionar o nível</option>
-                            <option value="Administrador">Administrador</option>
-                            <option value="Corretor">Corretor</option>
-                            <option value="Financeiro">Financeiro</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="categoria" class="form-label">Categoria</label>
-                        <select class="form-select form-select-lg" id="categoria" name="categoria" aria-label="Default select example">
-                            <option selected="">selecionar categoria</option>
-                            <option value="Fianças">Fianças</option>
-                            <option value="Imobiliária">Imobiliária</option>
-                        </select>
-                    </div>
+                   <div class="col-md-4">
+    <label for="nivel" class="form-label">Nível</label>
+    <select class="form-select form-select-lg" name="nivel" id="nivel" aria-label="Default select example">
+        <option value="">Selecionar o nível</option>
+        <option value="Administrador" {{ old('nivel') == 'Administrador' ? 'selected' : '' }}>Administrador</option>
+        <option value="Corretor" {{ old('nivel') == 'Corretor' ? 'selected' : '' }}>Corretor</option>
+        <option value="Financeiro" {{ old('nivel') == 'Financeiro' ? 'selected' : '' }}>Financeiro</option>
+    </select>
+</div>
+
+<div class="col-md-4">
+    <label for="categoria" class="form-label">Categoria</label>
+    <select class="form-select form-select-lg" id="categoria" name="categoria" aria-label="Default select example">
+        <option value="">Selecionar categoria</option>
+        <option value="Fianças" {{ old('categoria') == 'Fianças' ? 'selected' : '' }}>Fianças</option>
+        <option value="Imobiliária" {{ old('categoria') == 'Imobiliária' ? 'selected' : '' }}>Imobiliária</option>
+    </select>
+</div>
                     <div class="col-md-4" id="imobiliaria-select-wrapper" style="display: none;">
                         <label for="imobiliaria_id" class="form-label">Imobiliária</label>
                         <select class="form-select form-select-lg" name="imobiliaria_id" id="imobiliaria_id">
@@ -186,7 +187,15 @@
     </div>
 </div>
 
+@section('scripts')
 <script>
+    IMask(document.getElementById('cpf'), {
+        mask: '000.000.000-00'
+    });
+    IMask(document.getElementById('telefone'), {
+        mask: '00 0000-0000'
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         const categoriaSelect = document.getElementById('categoria');
         const permissoesParaDesabilitar = [
@@ -272,4 +281,5 @@
         categoriaSelect.addEventListener('change', toggleImobiliariaSelect);
     });
 </script>
+@endsection
 @endsection
