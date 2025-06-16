@@ -66,7 +66,7 @@
                             </div>
                         </div>
                         <div class="col-2">
-                            <button type="submit" class="btn btn-primary btn-lg waves-effect waves-light mb-0">
+                            <button type="submit" class="btn btn-primary btn-lg waves-effect waves-light mb-md-2">
                                 <span class="icon-xs icon-base ti tabler-search me-2"></span>Pesquisar
                             </button>
                         </div>

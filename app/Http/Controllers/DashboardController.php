@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function index(Request $request): View
     {
-        $idImobiliaria = session('user')['id_imobiliaria'];
+        $idImobiliaria = session('user')['id_imobiliaria'] ?? null;
 
         $token     = session('jwt_token');
         $response  = Http::withToken($token)->get(config('api.route') . '/home/' . $idImobiliaria);

@@ -179,7 +179,7 @@
                                 <div class="content-header mb-4 mt-5">
                                     <h6 class="mb-0">Documentos</h6>
                                 </div>
-                                <div action="/upload" class="dropzone needsclick dz-clickable" id="dropzone-basic">
+                                <div action="/upload" class="dropzone needsclick dz-clickable" id="dropzone-multi">
                                     <div class="dz-message needsclick">
                                         Arraste para cá ou clique para selecionar
                                         arquivos

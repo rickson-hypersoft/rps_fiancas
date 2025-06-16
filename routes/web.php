@@ -11,7 +11,6 @@ use App\Http\Controllers\Financial\FinancialCategoryController;
 use App\Http\Controllers\Financial\FinancialMoviController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Payments\CheckoutController;
-use App\Http\Controllers\Payments\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Propostal\PropostalController;
 use App\Http\Controllers\RealEstateSector\RealEstateSectorUserController;
@@ -151,24 +150,6 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
     Route::delete('/imobiliaria/financeiro/movimentacao/deletar/{financeiro_movi}', [FinancialMoviController::class, 'delete'])
         ->name('financial.financial_movi.delete');
 
-    /* Rotas antigas
-    Route::get('/propostas', [PropostalController::class, 'index'])
-        ->name('propostal.index');
-    Route::get('/propostas/resumo/{id}', [PropostalController::class, 'resume'])
-        ->name('propostal.resume');
-    Route::post('/propostas/cancelar/{id}', [PropostalController::class, 'delete'])
-        ->name('propostal.delete')
-        ->middleware('check.permission:11');
-    Route::get('/propostas/criar-proposta', [PropostalController::class, 'create'])
-        ->name('propostal.create')
-        ->middleware('check.permission:11');
-    Route::post('/propostas/criar-proposta', [PropostalController::class, 'store'])
-        ->name('propostal.store')
-        ->middleware('check.permission:11');
-    Route::get('/propostas/{id}', [PropostalController::class, 'find'])
-        ->name('propostal.find');
-        */
-
     Route::prefix('propostas')->group(function () {
         Route::get('/listagem', [PropostalController::class, 'index'])
             ->name('propostal.index');
@@ -211,42 +192,6 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
     Route::post('/upload/{idContrato}', [AssetsController::class, 'uploadAnexo'])->name('assets.upload');
     Route::get('/anexos/baixar/{idContrato}/{tipo}', [AssetsController::class, 'baixarAnexo']);
 
-    // Pagamentos
-    // Route::get('/pagamentos/ativacao/{link}', [PaymentController::class, 'index'])
-    //     ->name("payment.activation")
-    //     ->middleware('verify.contract.link');
-
-    // Route::get('/pagamentos/ativado/{link}', [PaymentController::class, 'faceId'])
-    //     ->name("payment.active")
-    //     ->middleware('verify.contract.link');
-
-    // Route::get('/pagamentos/termo/{link}', [PaymentController::class, 'term'])
-    //     ->name("payment.term")
-    //     ->middleware('verify.contract.link');
-
-    // Route::get('/pagamentos/formCheckout/{link}', [PaymentController::class, 'formCheckout'])
-    //     ->name("payment.formCheckout")
-    //     ->middleware('verify.contract.link');
-
-    // Route::get('/pagamentos/checkout/{link}/{method}/{id}', [PaymentController::class, 'checkout'])
-    //     ->name("payment.checkout")
-    //     ->middleware('verify.contract.link');
-    // Route::get('/pagamentos/{id}', [PaymentController::class, 'confirmation'])
-    //     ->name("payment.confirmation");
-    // Route::post('/pagamentos/checkout/{link}', [PaymentController::class, 'saveCheckout'])
-    //     ->name("payment.save.checkout")
-    //     ->middleware('verify.contract.link');
-
-    // Route::post('/pagamentos/pix/{linkHash}', [PaymentController::class, 'pixCheckout'])->name('payment.save.pix');
-    // Route::get('/pagamentos/pix/{linkHash}', [PaymentController::class, 'pix'])->name('payment.pix');
-    // Route::get('/pagamentos/pix/{linkHash}/{id}', [PaymentController::class, 'pixCheckout'])->name('payment.checkout.pix');
-    // Route::get('/pagamentos/boleto/{linkHash}/{id}', [PaymentController::class, 'boletoCheckout'])->name('payment.checkout.boleto');
-    // Route::get('/pagamentos/cartao/{linkHash}/{id}', [PaymentController::class, 'creditCardCheckout'])->name('payment.checkout.credit-card');
-    // Route::post('/pagamentos/cartao/{linkHash}/{id}', [PaymentController::class, 'creditCardSaveCheckout'])->name('payment.checkout.save.credit-card');
-    // Route::post('/pagamentos/update-metodo/{id}', [PaymentController::class, 'editarPagamento'])->name('payment.alter.payment');
-    // Route::get('/pagamentos/login/{link}', [PaymentController::class, 'login'])->name('payment.login');
-    // Route::post('/pagamentos/login', [PaymentController::class, 'verifyLogin'])->name('payment.verify.login');
-
     // Ativação
     Route::prefix('ativacao')->group(function () {
         Route::get('/login/{linkHash}', [ActivationController::class, 'login'])->name('activation.login');
@@ -288,8 +233,5 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         Route::get('/confirmacao/cartao/{linkHash}/{idPagamento}', [CheckoutController::class, 'cartaoConfirmacao'])
             ->name('checkout.confirmation.cart')
             ->middleware('verify.contract.link');
-
-        // Route::get('/pagamentos/pix/{linkHash}', [PaymentController::class, 'pix'])->name('payment.pix');
-        // Route::get('/pagamentos/pix/{linkHash}/{id}', [PaymentController::class, 'pixCheckout'])->name('payment.checkout.pix');
     });
 });
