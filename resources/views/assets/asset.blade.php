@@ -28,7 +28,7 @@
                 </div>
                 <div class="card-body mt-4">
                     <h5>Número do Contrato: <span class="text-success">#{{$data['id']}}</span></h5>
-                    <p>Situação atual: <span class="badge rounded-pill bg-success badge-dot border"></span> {{$data['contrato_status']}}</p>
+                    <p>Situação atual: <span class="badge rounded-pill bg-{{$data['proposta_status'] == 'Cancelado' ? 'danger' : 'success'}} badge-dot border"></span> {{$data['contrato_status']}}</p>
 
                     <!--<p>Proxíma Renovação estimada: 03/06/2025</p>
                     <p>Fiança disponível: <span class="badge text-bg-success">R$ 8.000,00</span></p>
@@ -202,7 +202,7 @@
                         <p class="card-subtitle">{{$data['imovel_ramo_atv']}}</p>
                     </div>
                     <div>
-                        <span class="badge bg-label-success">{{$data['proposta_status']}}</span>
+                        <span class="badge bg-label-{{$data['proposta_status'] == 'Cancelado' ? 'danger' : 'success'}}">{{$data['proposta_status']}}</span>
                     </div>
                 </div>
 
@@ -246,6 +246,7 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.querySelectorAll('.btn-download-anexo').forEach(link => {
         link.addEventListener('click', function (e) {
@@ -268,7 +269,7 @@
                     a.remove();
                 })
                 .catch(error => {
-                    alert('Arquivo não encontrado.');
+                    Swal.fire('Erro', 'Arquivo não encontrado.', 'error');
                 });
         });
     });

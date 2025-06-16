@@ -3,7 +3,7 @@
 <div class="col-12 mb-6">
     <h4>Análise em andamento</h4>
     <div class="nav-align-top nav-tabs-shadow">
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-tabs flex-sm-row flex-column" role="tablist">
             <li class="nav-item p-3" role="presentation">
                 <button type="button" class="nav-link waves-effect active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pendente" aria-controls="navs-pendente" aria-selected="true">
                     Imóvel com Contrato Pendente
@@ -30,7 +30,7 @@
                 <form method="GET" action="{{route('propostal.index')}}">
                     @csrf
                     <div class="row align-items-end">
-                        <div class="col-6">
+                        <div class="col-md-6 col-12 mb-2">
                             <div>
                                 <label for="largeInput" class="form-label">Pesquisar</label>
                                 <div class="input-group input-group-merge">
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-md-2 col-12 mb-2">
                             <div>
                                 <label for="largeSelect" class="form-label">Status</label>
                                 <select name="status" id="largeSelect" class="form-select form-select-lg">
@@ -59,7 +59,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-md-2 col-12 mb-2">
                             <div>
                                 <label id="created_at" class="form-label">Criado em:</label>
                                 <input type="date" name="created_at" id="created_at" class="form-control form-control-lg" value="{{ request('created_at') }}">
@@ -130,7 +130,7 @@
                                             <i class="icon-base ti tabler-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                           <a class="dropdown-item waves-effect btnCancelarProposta" data-bs-toggle="modal" data-bs-target="#modalCancelarProposta" href="javascript:void(0);" data-id="{{ $propostal['id'] }}"><i class="icon-base ti tabler-trash me-1"></i> Cancelar proposta</a>
+                                            <a class="dropdown-item waves-effect btnCancelarProposta" data-bs-toggle="modal" data-bs-target="#modalCancelarProposta" href="javascript:void(0);" data-id="{{ $propostal['id'] }}"><i class="icon-base ti tabler-trash me-1"></i> Cancelar proposta</a>
 
                                             <a class="dropdown-item waves-effect btnAlterarProposta" data-bs-toggle="modal" data-bs-target="#modalAlterarProposta" href="javascript:void(0);" data-id="{{ $propostal['id'] }}"><i class="icon-base ti tabler-edit me-1"></i> Alteração imobiliária</a>
                                         </div>
@@ -313,7 +313,7 @@
                     <div class="row g-4">
                         <div class="col mb-4">
                             <label for="exampleFormControlTextarea1" class="form-label">Explicar motivo (opcional)</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="observacao"></textarea>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="motivo_opicional"></textarea>
                         </div>
                     </div>
                 </div>
@@ -407,38 +407,39 @@
                     });
                 })
                 .catch(error => {
+                    modalCancelar.hide();
                     console.error(error);
                     Swal.fire('Erro', 'Ocorreu um erro ao cancelar a proposta.', 'error');
                 });
         });
 
-       document.querySelectorAll('.btnAlterarProposta').forEach(button => {
-        button.addEventListener('click', function () {
-            const id = this.dataset.id;
-            document.getElementById('propostaIdInput').value = id;
+        document.querySelectorAll('.btnAlterarProposta').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.dataset.id;
+                document.getElementById('propostaIdInput').value = id;
+            });
         });
-    });
 
-    const modalAlterar = new bootstrap.Modal(document.getElementById('modalAlterarProposta'));
-    document.getElementById('btnConfirmarAlteracao').addEventListener('click', function () {
-        modalAlterar.hide();
-        let idProposta = document.getElementById('propostaIdInput').value;
-        let motivo = document.getElementById('motivo').value;
-        let observacao = document.getElementById('exampleFormControlTextarea1').value;
+        const modalAlterar = new bootstrap.Modal(document.getElementById('modalAlterarProposta'));
+        document.getElementById('btnConfirmarAlteracao').addEventListener('click', function () {
+            modalAlterar.hide();
+            let idProposta = document.getElementById('propostaIdInput').value;
+            let motivo = document.getElementById('motivo').value;
+            let observacao = document.getElementById('exampleFormControlTextarea1').value;
 
-        Swal.fire({
-            title: 'Alteração registrada!',
-            html: `<p>Você será redirecionado para a tela de alteração.</p>
+            Swal.fire({
+                title: 'Alteração registrada!',
+                html: `<p>Você será redirecionado para a tela de alteração.</p>
                    <a href="/propostas/alteracao/${idProposta}?motivo=${encodeURIComponent(motivo)}&observacao=${encodeURIComponent(observacao)}" class="btn btn-primary mt-2">Ir para alteração agora</a>`,
-            icon: 'success',
-            showConfirmButton: false,
-        });
+                icon: 'success',
+                showConfirmButton: false,
+            });
 
-        // Se quiser redirecionar automático:
-        // setTimeout(() => {
-        //     window.location.href = `/propostas/alteracao/${idProposta}?motivo=${encodeURIComponent(motivo)}&observacao=${encodeURIComponent(observacao)}`;
-        // }, 3000);
-    });
+            // Se quiser redirecionar automático:
+            // setTimeout(() => {
+            //     window.location.href = `/propostas/alteracao/${idProposta}?motivo=${encodeURIComponent(motivo)}&observacao=${encodeURIComponent(observacao)}`;
+            // }, 3000);
+        });
     });
 </script>
 @endsection

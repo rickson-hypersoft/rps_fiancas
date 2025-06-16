@@ -210,6 +210,10 @@
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    IMask(document.getElementById('pessoa_telefone'), {
+        mask: '00 0000-0000'
+    });
+
     let dropzone;
 
     // Só inicialize se ainda não existir
@@ -232,49 +236,49 @@
         const formData = new FormData(form);
         const url = `/propostas/salvar-step3/${idProposta}`;
 
+        // Adiciona os arquivos do Dropzone
         dropzone.getAcceptedFiles().forEach((file, index) => {
             formData.append(`imagens[${index}]`, file, file.name);
         });
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}' // proteção contra CSRF
-            },
-            body: formData
-        })
-            .then(async response => {
-                const data = await response.json();
-                if (!response.ok) {
-                    // Aqui trata erros retornados do Laravel
-                    throw data;
-                }
-                return data;
-            })
-            .then(data => {
-                Swal.fire({
-                    title: 'Aguarde...',
-                    text: 'Atualizando dados complementares',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
+        // Abre o SweetAlert de loading antes de iniciar o fetch
+        Swal.fire({
+            title: 'Aguarde...',
+            text: 'Atualizando dados complementares',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
-                // Simula tempo da análise (exemplo: 2 segundos), depois redireciona
-                setTimeout(() => {
-                    window.location.href = `/propostas/step4/${data.data.id}`;
-                }, 2000);
-            })
-            .catch(error => {
-                console.error(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erro!',
-                    text: error.message || 'Houve um problema ao criar a proposta.'
-                });
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: formData
             });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw data;
+            }
+
+            // Redireciona para a próxima etapa
+            window.location.href = `/propostas/step4/${data.data.id}`;
+
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: error.message || 'Houve um problema ao criar a proposta.'
+            });
+        }
     });
 </script>
 @endsection

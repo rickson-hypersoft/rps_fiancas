@@ -28,33 +28,35 @@
                             <label for="largeInput" class="form-label">Conta</label>
                             <select class="form-select form-select-lg" name="id_conta" id="id_conta">
                                 <option value="">Todos</option>
-                                 @foreach ($contas as $conta)
-                        <option value="{{$conta['id']}}">{{$conta['descricao']}}</option>
-                        @endforeach
+                                @foreach ($contas as $conta)
+                                <option value="{{ $conta['id'] }}" {{ request()->query('id_conta') == $conta['id'] ? 'selected' : '' }}>
+                                    {{ $conta['descricao'] }}
+                                </option>
+                                @endforeach
                             </select>
                         </div>
-@php
-    $hoje = \Carbon\Carbon::now();
-    $dataInicial = $hoje->copy()->startOfMonth()->format('Y-m-d');
-    $dataFinal = $hoje->copy()->endOfMonth()->format('Y-m-d');
-@endphp
+                        @php
+                        $hoje = \Carbon\Carbon::now();
+                        $dataInicial = $hoje->copy()->startOfMonth()->format('Y-m-d');
+                        $dataFinal = $hoje->copy()->endOfMonth()->format('Y-m-d');
+                        @endphp
 
-<div class="mb-4 col-md-2">
-    <label for="data_inicial" class="form-label">Data Inicial</label>
-    <input id="data_inicial" class="form-control form-control-lg" name="data_inicial" type="date" value="{{ old('data_inicial', $dataInicial) }}">
-</div>
+                        <div class="mb-4 col-md-2">
+                            <label for="data_inicial" class="form-label">Data Inicial</label>
+                            <input id="data_inicial" class="form-control form-control-lg" name="data_inicial" type="date" value="{{ old('data_inicial', request()->query('data_inicial', $dataInicial)) }}">
+                        </div>
 
-<div class="mb-4 col-md-2">
-    <label for="data_final" class="form-label">Data Final</label>
-    <input id="data_final" class="form-control form-control-lg" name="data_final" type="date" value="{{ old('data_final', $dataFinal) }}">
-</div>
+                        <div class="mb-4 col-md-2">
+                            <label for="data_final" class="form-label">Data Final</label>
+                            <input id="data_final" class="form-control form-control-lg" name="data_final" type="date" value="{{ old('data_final', $dataFinal) }}">
+                        </div>
                         <div class="mb-4 col-md-3">
                             <label for="largeInput" class="form-label">Categoria</label>
                             <select class="form-select form-select-lg" name="id_categoria" id="id_categoria">
                                 <option value="">Todos</option>
-                                 @foreach ($categorias as $categoria)
-                        <option value="{{$categoria['id']}}">{{$categoria['descricao']}}</option>
-                        @endforeach
+                                @foreach ($categorias as $categoria)
+                                <option value="{{$categoria['id']}}" {{ request()->query('id_categoria') == $categoria['id'] ? 'selected' : '' }}>{{$categoria['descricao']}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-2">
@@ -126,7 +128,7 @@
 
             <div class="card mb-0">
                 <div class="card-header">
-                     <h5>Listagem das Movimentações</h5>
+                    <h5>Listagem das Movimentações</h5>
                     <hr>
                     <div class="row align-items-center pt-5">
                         <div class="col-sm-7 col-12 mb-1">
@@ -150,6 +152,7 @@
                     <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 18px;">
                         <thead>
                             <tr>
+                                <th style="width: 10px">Documento</th>
                                 <th>Conta</th>
                                 <th class="d-none d-lg-table-cell">Data</th>
                                 <th class="d-none d-lg-table-cell">Histórico</th>
@@ -160,15 +163,16 @@
                         </thead>
                         <tbody id="ViewNiveisLTableItens">
                             @foreach ($movimentacoes as $movimentacao)
-                                <tr>
-                                    <td>{{
-        collect($contas)->firstWhere('id', $movimentacao['id_conta'])['descricao'] ?? 'Conta não encontrada'
-    }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($movimentacao['data'])->format('d/m/Y') }}</td>
-                                    <td>{{$movimentacao['historico']}}</td>
-                                    <td>R$ {{ number_format($movimentacao['valor'], 2, ',', '.') }}</td>
-                                    <td><span class="badge bg-label-{{$movimentacao['tipo'] == 'Crédito' ? 'primary' : 'danger'}} me-1">{{$movimentacao['tipo']}}</span></td>
-                                    <td>
+                            <tr>
+                                <td style="width: 10px">{{$movimentacao['id']}}</td>
+                                <td>{{
+                                    collect($contas)->firstWhere('id', $movimentacao['id_conta'])['descricao'] ?? 'Conta não encontrada'
+                                    }}</td>
+                                <td>{{ \Carbon\Carbon::parse($movimentacao['data'])->format('d/m/Y') }}</td>
+                                <td>{{$movimentacao['historico']}}</td>
+                                <td>R$ {{ number_format($movimentacao['valor'], 2, ',', '.') }}</td>
+                                <td><span class="badge bg-label-{{$movimentacao['tipo'] == 'Crédito' ? 'primary' : 'danger'}} me-1">{{$movimentacao['tipo']}}</span></td>
+                                <td>
                                     <div class="dropdown" style="text-align: center;">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                             <i class="icon-base ti tabler-dots-vertical"></i>
@@ -181,7 +185,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                </tr>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>

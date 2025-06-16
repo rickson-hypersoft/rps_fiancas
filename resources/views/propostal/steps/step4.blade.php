@@ -38,7 +38,10 @@
             <div class="card">
                 <div class="card-body">
                     <div class="content-header">
-                        <h6 class="mb-0">Dados do plano</h6>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-0">Dados do plano</h6>
+                            <a href="{{route('propostal.step2', ['id' => $proposta['id']])}}" class="text-success">Editar Dados</a>
+                        </div>
                         <hr>
                     </div>
 
@@ -66,7 +69,10 @@
             <div class="card">
                 <div class="card-body">
                     <div class="content-header">
-                        <h6 class="mb-0">Dados da locação</h6>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-0">Dados da locação</h6>
+                            <a href="{{route('propostal.create.step1', ['id' => $proposta['id']])}}" class="text-success">Editar Dados</a>
+                        </div>
                         <hr>
                     </div>
 
@@ -109,7 +115,10 @@
             <div class="card">
                 <div class="card-body">
                     <div class="content-header">
-                        <h6 class="mb-0">Endereço do imóvel</h6>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-0">Endereço do imóvel</h6>
+                            <a href="{{route('propostal.step3', ['id' => $proposta['id']])}}" class="text-success">Editar Dados</a>
+                        </div>
                         <hr>
                     </div>
 
@@ -137,7 +146,10 @@
             <div class="card">
                 <div class="card-body">
                     <div class="content-header">
-                        <h6 class="mb-0">Dados do inquilino</h6>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-0">Dados do inquilino</h6>
+                            <a href="{{route('propostal.create.step1', ['id' => $proposta['id']])}}" class="text-success">Editar Dados</a>
+                        </div>
                         <hr>
                     </div>
 
@@ -295,17 +307,17 @@
         event.preventDefault(); // impede o redirecionamento imediato
 
         if (isSending) return;
-            isSending = true;
+        isSending = true;
 
         Swal.fire({
-                title: 'Enviando proposta...',
-                text: 'Aguarde o envio por e-mail e WhatsApp.',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
+            title: 'Enviando proposta...',
+            text: 'Aguarde o envio por e-mail e WhatsApp.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
         const propostaId = button.getAttribute('data-proposta-id');
         const redirectUrl = button.getAttribute('href');
@@ -356,8 +368,8 @@
                 return response.json();
             })
             .then(data => {
-                Swal.close();
                 window.location.href = redirectUrl;
+                Swal.close();
             })
             .catch(error => {
                 Swal.close();

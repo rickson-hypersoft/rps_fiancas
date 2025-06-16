@@ -108,52 +108,52 @@
 <script>
     document.getElementById('form-proposta').addEventListener('submit', async function (e) {
         e.preventDefault();
-        const id = document.getElementById('id'); // ❌ aqui é o elemento
-        const valor = id.value; // ✅ valor do input
 
-        const form = e.target;
-        const formData = new FormData(form);
-        const url = `/propostas/salvar-step2/${valor}`;
+        // Mostra o SweetAlert de carregamento ANTES de começar o fetch
+        Swal.fire({
+            title: 'Aguarde...',
+            text: 'Transformando sua simulação em um rascunho de proposta!',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}' // proteção contra CSRF
-            },
-            body: formData
-        })
-            .then(async response => {
-                const data = await response.json();
-                if (!response.ok) {
-                    // Aqui trata erros retornados do Laravel
-                    throw data;
-                }
-                return data;
-            })
-            .then(data => {
-                Swal.fire({
-                    title: 'Aguarde...',
-                    text: 'Transformando sua simulação em um rascunho de proposta!',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
+        try {
+            const id = document.getElementById('id'); // Pega o elemento
+            const valor = id.value; // Pega o valor
 
-                // Simula tempo da análise (exemplo: 2 segundos), depois redireciona
-                setTimeout(() => {
-                    window.location.href = `/propostas/step3/${data.data.id}`;
-                }, 2000);
-            })
-            .catch(error => {
-                console.error(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erro!',
-                    text: error.message || 'Houve um problema ao criar a proposta.'
-                });
+            const form = e.target;
+            const formData = new FormData(form);
+            const url = `/propostas/salvar-step2/${valor}`;
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Proteção CSRF
+                },
+                body: formData
             });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw data;
+            }
+
+            // Redireciona ao sucesso
+            window.location.href = `/propostas/step3/${data.data.id}`;
+
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: error.message || 'Houve um problema ao criar a proposta.'
+            });
+        }
     });
+
 </script>
 @endsection

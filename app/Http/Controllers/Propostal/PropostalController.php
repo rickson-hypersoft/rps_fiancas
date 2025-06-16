@@ -447,7 +447,12 @@ class PropostalController extends Controller
 
         $requestSanitize['id_imobiliaria']          = session('user')['id_imobiliaria'];
         $requestSanitize['proposta_status']         = 'Cancelado';
+        $requestSanitize['contrato_status']         = 'Cancelado';
         $requestSanitize['proposta_credito_status'] = 'Cancelado';
+        $requestSanitize['motivo']                  = $motivo;
+        $requestSanitize['motivo_explicacao']       = $motivoOpicional;
+        $requestSanitize['data_ultima_atualizacao'] = date('Y-m-d');
+        $requestSanitize['hora_ultima_atualizacao'] = date('H:i:s');
 
         $historico = "Solicitação cancelada #{$id} por motivo de {$motivo}";
 

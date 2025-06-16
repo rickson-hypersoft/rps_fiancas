@@ -18,6 +18,8 @@ class CheckoutController extends Controller
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $link);
         $data     = $response->json();
 
+        // Marcar termo como ativado e lido
+
         return view('payments.index', ['link' => $link, 'data' => $data]);
     }
 

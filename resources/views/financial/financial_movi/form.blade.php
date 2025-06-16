@@ -3,14 +3,14 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
-             <div class="d-flex justify-content-between align-items-center">
-                    <h5>
-                        {{$method == 'PUT' ? 'Editar Movimentação' : 'Registrar Movimentação'}}
-                    </h5>
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>
+                    {{$method == 'PUT' ? 'Editar Movimentação' : 'Registrar Movimentação'}}
+                </h5>
 
-                </div>
-                <hr class="mt-0 pt-0">
-             <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework mb-0" novalidate="novalidate">
+            </div>
+            <hr class="mt-0 pt-0">
+            <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework mb-0" novalidate="novalidate">
                 @csrf
                 @if($method === 'PUT')
                 @method('PUT')
@@ -37,13 +37,13 @@
             <div class="row gy-4 gx-6">
                 <div class="col-md-4">
                     <label for="data" class="form-label">Data de Lançamento</label>
-                  <input type="date" class="form-control form-control-lg" name="data" id="data" value="{{ old('data', $movi['data'] ?? date('Y-m-d')) }}">
+                    <input type="date" class="form-control form-control-lg" name="data" id="data" value="{{ old('data', $movi['data'] ?? date('Y-m-d')) }}">
 
                 </div>
 
-                 <div class="col-md-4">
+                <div class="col-md-4">
                     <label for="valor" class="form-label">Valor</label>
-                     <div class="input-group input-group-merge input-group-lg">
+                    <div class="input-group input-group-merge input-group-lg">
                         <span class="input-group-text">
                             <i class="ti tabler-currency-dollar"></i>
                         </span>
@@ -51,12 +51,12 @@
                     </div>
                 </div>
 
-               <div class="col-md-4">
+                <div class="col-md-4">
                     <label for="conta" class="form-label">Conta</label>
                     <select class="form-select form-select-lg" name="id_conta" id="conta" aria-label="Default select example">
                         <option value="">Todos</option>
                         @foreach ($contas as $conta)
-                        <option value="{{$conta['id']}}" {{ isset($movi['id_conta']) == $conta['id'] ? 'selected' : '' }}>{{$conta['descricao']}}</option>
+                        <option value="{{$conta['id']}}" {{ isset($movi['id_conta'])==$conta['id'] ? 'selected' : '' }}>{{$conta['descricao']}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -66,7 +66,7 @@
                     <select class="form-select form-select-lg" name="id_categoria" id="categoria" aria-label="Default select example">
                         <option value="">Todos</option>
                         @foreach ($categorias as $categoria)
-                        <option value="{{$categoria['id']}}" {{ isset($movi['id_categoria']) == $categoria['id'] ? 'selected' : '' }}>{{$categoria['descricao']}}</option>
+                        <option value="{{$categoria['id']}}" {{ isset($movi['id_categoria'])==$categoria['id'] ? 'selected' : '' }}>{{trim($categoria['descricao'])}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -75,10 +75,10 @@
                     <label for="tipo" class="form-label">Tipo</label>
                     <select class="form-select form-select-lg" name="tipo" id="tipo" aria-label="Default select example">
                         <option value="">Selecionar Tipo</option>
-                        <option value="D" {{ isset($movi['tipo']) == 'D' ? 'selected' : '' }}>
+                        <option value="D" {{ isset($movi['tipo'])=='D' ? 'selected' : '' }}>
                             Débito
                         </option>
-                        <option value="C" {{ isset($movi['tipo']) == 'C' ? 'selected' : '' }}>
+                        <option value="C" {{ isset($movi['tipo'])=='C' ? 'selected' : '' }}>
                             Crédito
                         </option>
                     </select>
@@ -86,9 +86,7 @@
 
                 <div class="col-md-12">
                     <label for="historico" class="form-label">Histórico</label>
-                  <textarea class="form-control" name="historico" id="historico" rows="3">
-                    {{ old('historico', $movi['historico'] ?? '') }}
-                  </textarea>
+                    <textarea class="form-control" name="historico" id="historico" rows="3">{{ old('historico', $movi['historico'] ?? '') }}</textarea>
                 </div>
 
                 <div class="mt-4">

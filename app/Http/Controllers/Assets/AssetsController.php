@@ -39,11 +39,11 @@ class AssetsController extends Controller
 
         if (! empty($data['contratos'])) {
             foreach ($data['contratos'] as $contrato) {
-                $status = $contrato['CONTRATO_STATUS'] ?? '';
+                $status = $contrato['STATUS_PERSONALIZADO'] ?? '';
                 $total  = $contrato['TOTAL'] ?? 0;
 
                 // Mapear nomes conhecidos para os do card
-                switch (strtolower($status)) {
+                switch (trim(strtolower($status))) {
                     case 'ativo':
                         $statusContagem['Ativos'] = $total;
 

@@ -247,70 +247,63 @@ $id = $proposta['id'];
     document.getElementById('form-proposta').addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        const cepInput = document.getElementById('imovel_cep');
-        const cep = cepInput.value.replace(/\D/g, '');
-        if (cep.length === 8) {
-            await fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.erro) {
-                        document.getElementById('imovel_estado').value = data.uf;
-                        document.getElementById('imovel_cidade').value = data.localidade;
-                    }
-                });
-        }
+        // Abre o SweetAlert de carregamento ANTES de tudo
+        Swal.fire({
+            title: 'Aguarde...',
+            text: 'Análise de crédito em andamento',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
-        const form = e.target;
-        const formData = new FormData(form);
-        const idProposta = document.getElementById('idProposta').value
-        console.log(idProposta)
-        let url = '/propostas/salvar-step1/'
-
-        if (idProposta) {
-            url = '/propostas/salvar-step1/' + idProposta
-        }
-
-        console.log(url)
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: formData
-        })
-            .then(async response => {
-                const data = await response.json();
-                if (!response.ok) {
-                    // Aqui trata erros retornados do Laravel
-                    throw data;
+        try {
+            // Preenche endereço pelo CEP antes de enviar
+            const cepInput = document.getElementById('imovel_cep');
+            const cep = cepInput.value.replace(/\D/g, '');
+            if (cep.length === 8) {
+                const cepResponse = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const dataCep = await cepResponse.json();
+                if (!dataCep.erro) {
+                    document.getElementById('imovel_estado').value = dataCep.uf;
+                    document.getElementById('imovel_cidade').value = dataCep.localidade;
                 }
-                return data;
-            })
-            .then(data => {
-                Swal.fire({
-                    title: 'Aguarde...',
-                    text: 'Análise de crédito em andamento',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
+            }
 
-                // Simula tempo da análise (exemplo: 2 segundos), depois redireciona
-                setTimeout(() => {
-                    window.location.href = `/propostas/step2/${data.data.id}`;
-                }, 2000);
-            })
-            .catch(error => {
-                console.error(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erro!',
-                    text: error.message || 'Houve um problema ao criar a proposta.'
-                });
+            const form = e.target;
+            const formData = new FormData(form);
+            const idProposta = document.getElementById('idProposta').value;
+            let url = '/propostas/salvar-step1/';
+            if (idProposta) {
+                url += idProposta;
+            }
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: formData
             });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw data;
+            }
+
+            // Se deu tudo certo, redireciona
+            window.location.href = `/propostas/step2/${data.data.id}`;
+
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: error.message || 'Houve um problema ao criar a proposta.'
+            });
+        }
     });
 </script>
 @endsection
