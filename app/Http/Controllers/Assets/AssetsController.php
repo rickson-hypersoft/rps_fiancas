@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Assets;
 
@@ -17,8 +17,10 @@ class AssetsController extends Controller
         $token         = session('jwt_token');
         $idImobiliaria = session('user')['id_imobiliaria'];
 
+        $requestSanitize = $this->sanitizeData($request->all(), ['search']);
+
         $queryParams = [
-            'search'     => $request->input('search'),
+            'search'     => $requestSanitize['search'] ?? null,
             'status'     => $request->input('status'),
             'created_at' => $request->input('created_at'),
             'pendences'  => $request->input('pendences'),

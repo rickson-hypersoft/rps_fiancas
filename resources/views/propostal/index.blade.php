@@ -28,7 +28,6 @@
         <div class="tab-content">
             <div class="p-5 bordered" style="border-radius: 10px;">
                 <form method="GET" action="{{route('propostal.index')}}">
-                    @csrf
                     <div class="row align-items-end">
                         <div class="col-md-6 col-12 mb-2">
                             <div>
