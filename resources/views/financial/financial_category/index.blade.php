@@ -32,13 +32,15 @@
                                     <button class="btn btn-outline-primary waves-effect" type="submit" id="button-addon2">
                                         <i class="icon-base ti tabler-search"></i>
                                     </button>
+                                </div>
                             </form>
                         </div>
-                    </div>
-                    <div class="col-sm-5 mt-4" style="text-align: right">
+
+                         <div class="col-sm-5" style="text-align: right">
                         <a href="{{route('financial.financial_category.create')}}" class="btn btn-primary btn-lg waves-effect waves-light">Adicionar Categoria</a>
                     </div>
-                </div>
+                    </div>
+
             </div>
             <div class="card-body">
                 <div class="table table-responsive" style="height: 250px;">

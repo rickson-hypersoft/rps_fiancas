@@ -1,9 +1,9 @@
 @extends('dashboard')
 @section('content')
 <div class="col-md-12">
+    <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
     <div class="card">
         <div class="card-header">
-            <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
                 @csrf
                 @if($method === 'PUT')
                 @method('PUT')
@@ -134,11 +134,11 @@
                     <a href="{{route('realestatesector.index')}}" class="btn btn-label-secondary waves-effect">Cancelar</a>
                 </div>
             </div>
-            </form>
         </div>
     </div>
+</form>
 </div>
-
+@section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const editButtons = document.querySelectorAll('.btn-edit');
@@ -159,10 +159,16 @@
             });
         });
     });
-</script>
 
-@section('scripts')
-<script>
+    const form = document.querySelector('form');
+        const button = form.querySelector('.btn-primary');
+
+        form.addEventListener('submit', function (e) {
+            button.disabled = true;
+            button.innerText = 'Salvando...';
+        });
+
+
     IMask(document.getElementById('cnpj'), {
         mask: '00.000.000/0000-00'
     });
@@ -175,10 +181,10 @@
     IMask(document.getElementById('custo_saida'), {
         mask: Number,
         scale: 2,
-        thousandsSeparator: '.',  // CORRIGIDO: separador de milhar brasileiro
-        padFractionalZeros: true, // Garante que sempre haja duas casas decimais
+        thousandsSeparator: '.',
+        padFractionalZeros: true,
         normalizeZeros: true,
-        radix: ',',               // separador decimal brasileiro
+        radix: ',',
         mapToRadix: ['.'],
         min: 0,
         max: 1000000,
@@ -188,15 +194,29 @@
     IMask(document.getElementById('cobertura_total'), {
         mask: Number,
         scale: 2,
-        thousandsSeparator: '.',  // CORRIGIDO: separador de milhar brasileiro
-        padFractionalZeros: true, // Garante que sempre haja duas casas decimais
+        thousandsSeparator: '.',
+        padFractionalZeros: true,
         normalizeZeros: true,
-        radix: ',',               // separador decimal brasileiro
+        radix: ',',
         mapToRadix: ['.'],
         min: 0,
         max: 1000000,
         autofix: true,
     });
+
+   IMask(document.getElementById('taxa_padrao'), {
+    mask: Number,
+    scale: 2,
+    signed: false,
+    thousandsSeparator: '.',
+    padFractionalZeros: true,
+    normalizeZeros: true,
+    radix: ',',
+    mapToRadix: ['.'],
+    min: 0,
+    max: 1000000,
+    autofix: true,
+});
 </script>
 @endsection
 @endsection

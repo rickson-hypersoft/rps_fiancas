@@ -7,14 +7,8 @@
                 <h5>
                     {{$method == 'PUT' ? 'Editar Movimentação' : 'Registrar Movimentação'}}
                 </h5>
-
             </div>
             <hr class="mt-0 pt-0">
-            <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework mb-0" novalidate="novalidate">
-                @csrf
-                @if($method === 'PUT')
-                @method('PUT')
-                @endif
         </div>
         <div class="card-body">
             @if ($errors->any())
@@ -33,15 +27,17 @@
             </div>
             @endif
 
-
-            <div class="row gy-4 gx-6">
-                <div class="col-md-4">
+            <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework mb-0 row" novalidate="novalidate">
+                @csrf
+                @if($method === 'PUT')
+                @method('PUT')
+                @endif
+                <div class="col-md-4 col-12 mb-2">
                     <label for="data" class="form-label">Data de Lançamento</label>
                     <input type="date" class="form-control form-control-lg" name="data" id="data" value="{{ old('data', $movi['data'] ?? date('Y-m-d')) }}">
-
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-4 col-12 mb-2">
                     <label for="valor" class="form-label">Valor</label>
                     <div class="input-group input-group-merge input-group-lg">
                         <span class="input-group-text">
@@ -51,7 +47,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-4 col-12 mb-2">
                     <label for="conta" class="form-label">Conta</label>
                     <select class="form-select form-select-lg" name="id_conta" id="conta" aria-label="Default select example">
                         <option value="">Todos</option>
@@ -61,7 +57,7 @@
                     </select>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-4 col-12 mb-2">
                     <label for="categoria" class="form-label">Categoria</label>
                     <select class="form-select form-select-lg" name="id_categoria" id="categoria" aria-label="Default select example">
                         <option value="">Todos</option>
@@ -71,10 +67,9 @@
                     </select>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-4 col-12 mb-2">
                     <label for="tipo" class="form-label">Tipo</label>
                     <select class="form-select form-select-lg" name="tipo" id="tipo" aria-label="Default select example">
-                        <option value="">Selecionar Tipo</option>
                         <option value="D" {{ isset($movi['tipo'])=='D' ? 'selected' : '' }}>
                             Débito
                         </option>
@@ -84,7 +79,7 @@
                     </select>
                 </div>
 
-                <div class="col-md-12">
+                <div class="col-md-12 mb-2">
                     <label for="historico" class="form-label">Histórico</label>
                     <textarea class="form-control" name="historico" id="historico" rows="3">{{ old('historico', $movi['historico'] ?? '') }}</textarea>
                 </div>
@@ -93,9 +88,20 @@
                     <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">{{$method == 'PUT' ? 'Salvar alteração' : 'Gravar'}}</button>
                     <a href="{{route('financial.financial_movi.index')}}" class="btn btn-label-secondary waves-effect">Cancelar</a>
                 </div>
-            </div>
             </form>
-        </div>
     </div>
 </div>
+@section('scripts')
+<script>
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', function (e) {
+        const buttons = form.querySelectorAll('button[type="submit"]');
+        buttons.forEach(btn => {
+            btn.disabled = true;
+            btn.innerText = 'Salvando...';
+        });
+    });
+</script>
+@endsection
 @endsection

@@ -1,9 +1,9 @@
 @extends('dashboard')
 @section('content')
 <div class="col-md-12">
+    <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework mb-0" novalidate="novalidate">
     <div class="card">
         <div class="card-header">
-            <form action="{{ $action }}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework mb-0" novalidate="novalidate">
                 @csrf
                 @if($method === 'PUT')
                 @method('PUT')
@@ -74,8 +74,19 @@
                     <a href="{{route('financial.financial_category.index')}}" class="btn btn-label-secondary waves-effect">Cancelar</a>
                 </div>
             </div>
-            </form>
         </div>
     </div>
+</form>
 </div>
+@section('scripts')
+<script>
+    const form = document.querySelector('form');
+    const button = form.querySelector('.btn-primary');
+
+    form.addEventListener('submit', function (e) {
+        button.disabled = true;
+        button.innerText = 'Salvando...';
+    });
+</script>
+@endsection
 @endsection

@@ -1,6 +1,9 @@
 @extends('dashboard')
 @section('content')
 <div class="col-md-12">
+    <form method="POST" action="{{route('update.my-profile', $user['id'])}}" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
     <div class="card">
         <!-- Account -->
         <div class="card-body pb-0">
@@ -20,9 +23,7 @@
             </div>
             @endif
 
-            <form method="POST" action="{{route('update.my-profile', $user['id'])}}" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
+
 
                 <div class="d-flex align-items-start align-items-sm-center gap-6">
                     @php
@@ -84,16 +85,24 @@
 
             </div>
             <div class="mt-4 d-flex">
-                <button type="submit" class="btn btn-primary me-3">Salvar alterações</button>
+                <button type="submit" class="btn btn-primary me-3" id="salvar">Salvar alterações</button>
                 <button type="reset" class="btn btn-label-secondary">Cancelar</button>
             </div>
-            </form>
         </div>
         <!-- /Account -->
     </div>
+</form>
 </div>
 @section('scripts')
 <script>
+        const form = document.querySelector('form');
+    const button = form.querySelector('#salvar');
+
+    form.addEventListener('submit', function (e) {
+        button.disabled = true;
+        button.innerText = 'Salvando...';
+    });
+
     IMask(document.getElementById('cpf'), {
         mask: '000.000.000-00'
     });

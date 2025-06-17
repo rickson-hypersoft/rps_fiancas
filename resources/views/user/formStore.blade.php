@@ -189,6 +189,14 @@
 
 @section('scripts')
 <script>
+    const form = document.querySelector('form');
+    const button = form.querySelector('.btn-primary');
+
+    form.addEventListener('submit', function (e) {
+        button.disabled = true;
+        button.innerText = 'Salvando...';
+    });
+
     IMask(document.getElementById('cpf'), {
         mask: '000.000.000-00'
     });

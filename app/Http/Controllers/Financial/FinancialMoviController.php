@@ -96,7 +96,7 @@ class FinancialMoviController extends Controller
             'id_categoria' => 'nullable|numeric',
             'tipo'         => 'nullable|string',
             'historico'    => 'nullable|string',
-            'valor'        => 'nullable|numeric',
+            'valor'        => 'numeric|between:1,9999999.99',
             'data'         => 'nullable|date',
         ]);
 

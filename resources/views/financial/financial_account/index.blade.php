@@ -32,13 +32,14 @@
                                     <button class="btn btn-outline-primary waves-effect" type="submit" id="button-addon2">
                                         <i class="icon-base ti tabler-search"></i>
                                     </button>
+                                </div>
                             </form>
                         </div>
+
+                         <div class="col-sm-5" style="text-align: right">
+                            <a href="{{route('financial.financial_account.create')}}" class="btn btn-lg btn-primary waves-effect waves-light">Adicionar Conta</a>
+                        </div>
                     </div>
-                    <div class="col-sm-5 mt-4" style="text-align: right">
-                        <a href="{{route('financial.financial_account.create')}}" class="btn btn-lg btn-primary waves-effect waves-light">Adicionar Conta</a>
-                    </div>
-                </div>
             </div>
             <div class="card-body">
                 <div class="table table-responsive" style="height: 250px;">

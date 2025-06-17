@@ -28,18 +28,15 @@
         <div class="tab-content">
             <div class="p-5 bordered" style="border-radius: 10px;">
                 <form method="GET" action="{{route('propostal.index')}}">
-                    <div class="row align-items-end">
+                    <div class="row align-items-center">
                         <div class="col-md-6 col-12 mb-2">
-                            <div>
                                 <label for="largeInput" class="form-label">Pesquisar</label>
                                 <div class="input-group input-group-merge">
                                     <span class="input-group-text " id="basic-addon-search31"><i class="icon-base ti tabler-search"></i></span>
                                     <input type="text" name="search" class="form-control form-control-lg" placeholder="Número da proposta, nome/razão social, CPF/CNPJ ou Tag" aria-label="Número da proposta, nome/razão social, CPF/CNPJ ou Tag" value="{{ request('search') }}">
                                 </div>
-                            </div>
                         </div>
                         <div class="col-md-2 col-12 mb-2">
-                            <div>
                                 <label for="largeSelect" class="form-label">Status</label>
                                 <select name="status" id="largeSelect" class="form-select form-select-lg">
                                     <option value="">Todos</option>
@@ -56,16 +53,13 @@
                                     <option value="Rascunho" {{ request('status')=='Rascunho' ? 'selected' : '' }}>Pendente Análise</option>
                                     <option value="Rascunho" {{ request('status')=='Rascunho' ? 'selected' : '' }}>Suspenso</option>
                                 </select>
-                            </div>
                         </div>
                         <div class="col-md-2 col-12 mb-2">
-                            <div>
                                 <label id="created_at" class="form-label">Criado em:</label>
                                 <input type="date" name="created_at" id="created_at" class="form-control form-control-lg" value="{{ request('created_at') }}">
-                            </div>
                         </div>
-                        <div class="col-2">
-                            <button type="submit" class="btn btn-primary btn-lg waves-effect waves-light mb-md-2">
+                        <div class="col-md-2 mt-2">
+                            <button type="submit" class="btn btn-primary btn-lg waves-effect waves-light">
                                 <span class="icon-xs icon-base ti tabler-search me-2"></span>Pesquisar
                             </button>
                         </div>

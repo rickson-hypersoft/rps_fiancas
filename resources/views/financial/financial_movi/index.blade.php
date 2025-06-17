@@ -135,17 +135,17 @@
                             <form action="{{route('financial.financial_movi.index')}}" method="GET">
                                 <label for="pesquisar" class="form-label">Pesquisar</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control form-control-lg" placeholder="Pesquisar pela descrição" id="pesquisar" value="{{request('search')}}" name="search" aria-label="Pesquisar pela conta" aria-describedby="button-addon2">
+                                    <input type="text" class="form-control form-control-lg" placeholder="Pesquisar pela conta" id="pesquisar" value="{{request('search')}}" name="search" aria-label="Pesquisar pela conta" aria-describedby="button-addon2">
                                     <button class="btn btn-outline-primary waves-effect" type="submit" id="button-addon2">
                                         <i class="icon-base ti tabler-search"></i>
                                     </button>
+                                </div>
                             </form>
                         </div>
-                    </div>
-                    <div class="col-sm-5 mt-4" style="text-align: right">
+                          <div class="col-sm-5" style="text-align: right">
                         <a href="{{route('financial.financial_movi.create')}}" class="btn btn-primary btn-lg waves-effect waves-light">Adicionar</a>
                     </div>
-                </div>
+                    </div>
             </div>
             <div class="card-body mt-5">
                 <div class="table table-responsive" style="height: 250px;">

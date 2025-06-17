@@ -32,14 +32,15 @@
                                     <button class="btn btn-outline-primary waves-effect" type="submit" id="button-addon2">
                                         <i class="icon-base ti tabler-search"></i>
                                     </button>
+                                </div>
                             </form>
                         </div>
-                    </div>
-                    <div class="col-sm-5 mt-4" style="text-align: right">
-                        <a href="{{route('realestatesector.create')}}" class="btn btn-lg btn-primary waves-effect waves-light">Adicionar Imobiliária</a>
+
+                        <div class="col-sm-5" style="text-align: right">
+                            <a href="{{route('realestatesector.create')}}" class="btn btn-lg btn-primary waves-effect waves-light">Adicionar Imobiliária</a>
+                        </div>
                     </div>
                 </div>
-            </div>
             <div class="card-body">
                 <div class="table table-responsive" style="height: 250px;">
                     <table class="table table-sm table-borderless table-striped table-hover" style="font-size: 18px;">
@@ -128,9 +129,9 @@
                 </div>
                 @endif
             </div>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 <!-- Modal 1-->

@@ -16,6 +16,7 @@ class RealEstateSectorController extends Controller
     public function index(Request $request): View
     {
         $search = $request->input('search');
+        $requestSanitize = $this->sanitizeData($request->all(), ['search']);
 
         // Se o search contém apenas números e tem 14 dígitos, provavelmente é um CNPJ
         if ($search) {
@@ -30,7 +31,7 @@ class RealEstateSectorController extends Controller
 
         $queryParams = [
             'page'   => $request->get('page', 1),
-            'search' => $search,
+            'search' => $requestSanitize['search'] ?? null,
         ];
 
         $token    = session('jwt_token');

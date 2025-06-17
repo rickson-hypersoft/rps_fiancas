@@ -1,9 +1,9 @@
 @extends('dashboard')
 @section('content')
 <div class="col-md-12">
+    <form action="{{route('user.update', $user['id'])}}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
     <div class="card">
         <div class="card-header">
-            <form action="{{route('user.update', $user['id'])}}" method="POST" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
                 @csrf
                 @method('PUT')
                 <div class="d-flex justify-content-between align-items-center">
@@ -201,13 +201,21 @@
                     <a href="{{route('user.index')}}" class="btn btn-label-secondary waves-effect">Cancelar</a>
                 </div>
             </div>
-            </form>
         </div>
     </div>
+</form>
 </div>
 
 @section('scripts')
 <script>
+     const form = document.querySelector('form');
+    const button = form.querySelector('.btn-primary');
+
+    form.addEventListener('submit', function (e) {
+        button.disabled = true;
+        button.innerText = 'Salvando...';
+    });
+
     IMask(document.getElementById('cpf'), {
         mask: '000.000.000-00'
     });

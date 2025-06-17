@@ -23,8 +23,8 @@
                 <div class="card-header">
                     <h5>Listagem de Usuários</h5>
                     <hr>
-                    <div class="row align-items-center pt-5">
-                        <div class="col-sm-7 col-12 mb-1">
+                     <div class="row align-items-center pt-5">
+                       <div class="col-sm-7 col-12 mb-1">
                             <form action="{{route('user.index')}}" method="GET">
                                 <label for="pesquisar" class="form-label">Pesquisar</label>
                                 <div class="input-group">
@@ -32,13 +32,13 @@
                                     <button class="btn btn-outline-primary waves-effect" type="submit" id="button-addon2">
                                         <i class="icon-base ti tabler-search"></i>
                                     </button>
+                                </div>
                             </form>
                         </div>
+                         <div class="col-sm-5" style="text-align: right">
+                            <a href="{{route('user.create')}}" class="btn btn-lg btn-primary waves-effect waves-light">Adicionar Usuário</a>
+                         </div>
                     </div>
-                    <div class="col-sm-5 mt-4" style="text-align: right">
-                        <a href="{{route('user.create')}}" class="btn btn-lg btn-primary waves-effect waves-light">Adicionar Usuário</a>
-                    </div>
-                </div>
             </div>
             <div class="card-body">
                 <div class="table table-responsive" style="height: 250px;">

@@ -122,7 +122,7 @@ $contratosMapeados = collect($contratos)->mapWithKeys(fn ($item) => [trim($item[
                 </form>
                 </div>
 
-                <div class="card overflow-hidden" style="height: 440px">
+                <div class="card overflow-hidden" style="height: 424px">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center">
                             <i class="icon-base ti tabler-list-details me-3"></i>
