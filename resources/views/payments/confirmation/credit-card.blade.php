@@ -86,11 +86,11 @@
                                     <div class="d-flex align-items-center mb-2">
                                         <i class="icon-base ti tabler-circle-check"></i>
                                         <strong class="me-auto">Taxa Serviço</strong>
-                                        <span class="fw-semibold">R$ {{$proposta['PROPOSTA_TOTAL_VALOR']}}</span>
+                                        <span class="fw-semibold">{{$proposta['proposta_total_valor']}}</span>
                                     </div>
                                     <div class="text-start">
                                         <p class="mb-1"><strong class="text-primary">{{$paymentInfo[0]['creditCard']['creditCardBrand']}}</strong> Cartão: **** **** **** {{$paymentInfo[0]['creditCard']['creditCardNumber']}}</p>
-                                        <p class="mb-1">{{$proposta['PROPOSTA_TOTAL_PARC']}} parcela(s) de R$ {{$paymentInfo[0]['value']}}</p>
+                                        <p class="mb-1">{{$proposta['proposta_total_parc']}} parcela(s) de R$ {{$paymentInfo[0]['value']}}</p>
                                         <p>Próxima cobrança: {{$paymentInfo[0]['creditDate']}}</p>
                                     </div>
                                 </div>
@@ -104,11 +104,11 @@
                                     <div class="d-flex align-items-center mb-2">
                                         <i class="icon-base ti tabler-circle-check"></i>
                                         <strong class="me-auto">Taxa Setup</strong>
-                                        <span class="fw-semibold">R$ {{$proposta['PROPOSTA_SETUP_VALOR']}}</span>
+                                        <span class="fw-semibold">{{$proposta['proposta_setup_valor']}}</span>
                                     </div>
                                     <div class="text-start">
                                         <p class="mb-1"><strong class="text-primary">{{$paymentInfo[1]['creditCard']['creditCardBrand']}}</strong> Cartão: **** **** **** {{$paymentInfo[1]['creditCard']['creditCardNumber']}}</p>
-                                        <p class="mb-1">{{$proposta['PROPOSTA_SETUP_PARC']}} parcela(s) de R$ {{$paymentInfo[1]['value']}}</p>
+                                        <p class="mb-1">{{$proposta['proposta_setup_parc']}} parcela(s) de R$ {{$paymentInfo[1]['value']}}</p>
                                         <p>Próxima cobrança: {{$paymentInfo[1]['creditDate']}}</p>
                                     </div>
                                 </div>
@@ -119,16 +119,16 @@
                             <div class="card bg-light mt-3 p-3 text-start">
                                 <p class="mb-1 d-flex justify-content-between">
                                     <span>Taxa Serviço</span>
-                                    <strong>R$ {{$proposta['PROPOSTA_TOTAL_VALOR']}}</strong>
+                                    <strong>{{$proposta['proposta_total_valor']}}</strong>
                                 </p>
                                 <p class="mb-1 d-flex justify-content-between">
                                     <span>Taxa Setup</span>
-                                    <strong>R$ {{$proposta['PROPOSTA_SETUP_VALOR']}}</strong>
+                                    <strong>{{$proposta['proposta_setup_valor']}}</strong>
                                 </p>
                                 <hr />
                                 <p class="mb-0 d-flex justify-content-between fw-bold">
                                     <span>Total</span>
-                                    <span style="color: rgb(180, 55, 180)">R$ {{$proposta['PROPOSTA_TOTAL_VALOR'] + $proposta['PROPOSTA_SETUP_VALOR']}}</span>
+                                    <span style="color: rgb(180, 55, 180)">{{ $proposta['valor_total_pagamento']}}</span>
                                 </p>
                             </div>
                         </div>

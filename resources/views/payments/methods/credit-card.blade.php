@@ -414,7 +414,11 @@
                     document.getElementById('pareclas').classList.remove('d-none')
                     document.getElementById('pareclas').classList.add('d-flex')
                 } else {
-                    alert('Por favor, preencha todos os campos obrigatórios corretamente.');
+                    Swal.fire({
+                            icon: "error",
+                            title: "Erro nos dados do cartão!",
+                            text: "Por favor, preencha todos os campos obrigatórios corretamente.",
+                        });
                 }
 
 
@@ -454,6 +458,7 @@
             */
 
             document.getElementById('confirmar-pagamento').addEventListener("click", function () {
+                document.getElementById('confirmar-pagamento').disabled = true;
                 // Você pode validar o campo de parcelas aqui, se necessário
                 form.submit();
             });

@@ -470,7 +470,8 @@ class PropostalController extends Controller
             "id_imobiliaria" => session('user')['id_imobiliaria'],
             "id_movi"        => $id,
             "id_usuario"     => session('user')['id'],
-            "data"           => date('Y-m-d H:i:s'),
+            "data"           => date('Y-m-d'),
+            "hora"           => date('H:i:s'),
             'historico'      => $historico,
             "movi"           => "Proposta",
         ];
@@ -594,6 +595,10 @@ class PropostalController extends Controller
         if ($status == 'Cancelado') {
             Http::withToken($token)->post(config('api.route') . '/history/create', $data);
         }
+
+        if ($status == 'Alteração') {
+            Http::withToken($token)->post(config('api.route') . '/history/create', $data);
+        }
     }
 
     private function insertHashLink(string | int $id): JsonResponse
@@ -676,6 +681,9 @@ class PropostalController extends Controller
     {
         $token = session('jwt_token');
 
+        $motivo          = $request->input('motivo');
+        $motivoOpicional = $request->input('observacao');
+
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
         $proposta = $response->json();
 
@@ -683,8 +691,29 @@ class PropostalController extends Controller
         $dataHistory = $response->json();
 
         $parserPropostal                    = $this->parserValuesForInsert($proposta);
-        $parserPropostal['proposta_status'] = 'Alteracao Imobiliaria';
-        $parserPropostal['observacao']      = $request->all()['motivo'];
+        $parserPropostal['motivo']                  = $motivo;
+        $parserPropostal['motivo_explicacao']       = $motivoOpicional;
+        $parserPropostal['data_ultima_atualizacao'] = date('Y-m-d');
+        $parserPropostal['hora_ultima_atualizacao'] = date('H:i:s');
+        $parserPropostal['proposta_status'] = 'Alteração Imobíliaria';
+
+        $historico = "Solicitação alterada #{$id} por motivo de {$motivo}";
+
+        if ($motivoOpicional) {
+            $historico = "Solicitação alterada #{$id} por motivo de {$motivo}, explicação: {$motivoOpicional}";
+        }
+
+        $historico = [
+            "id_imobiliaria" => session('user')['id_imobiliaria'],
+            "id_movi"        => $id,
+            "id_usuario"     => session('user')['id'],
+            "data"           => date('Y-m-d'),
+            "hora"           => date('H:i:s'),
+            'historico'      => $historico,
+            "movi"           => "Proposta",
+        ];
+
+        $this->saveHistory($historico, "Alteração");
 
         $response     = Http::withToken($token)->post(config('api.route') . '/propostal/create', $parserPropostal);
         $responseData = $response->json();

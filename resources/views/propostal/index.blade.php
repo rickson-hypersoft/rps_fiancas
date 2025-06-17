@@ -305,8 +305,8 @@
                     </div>
                     <div class="row g-4">
                         <div class="col mb-4">
-                            <label for="exampleFormControlTextarea1" class="form-label">Explicar motivo (opcional)</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="motivo_opicional"></textarea>
+                            <label for="motivo_opicional" class="form-label">Explicar motivo (opcional)</label>
+                            <textarea class="form-control" id="motivo_opicional" rows="3" name="motivo_opicional"></textarea>
                         </div>
                     </div>
                 </div>
@@ -332,8 +332,8 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col mb-4">
-                            <label for="motivo" class="form-label">Selecionar motivo</label>
-                            <select id="motivo" class="form-select form-select-lg" name="motivo">
+                            <label for="motivoAlteracao" class="form-label">Selecionar motivo</label>
+                            <select id="motivoAlteracao" class="form-select form-select-lg" name="motivoAlteracao">
                                 <option value="Dados do inquilino">Dados do inquilino</option>
                                 <option value="Valor locatício">Valor locatício</option>
                                 <option value="Forma de pagamento/recorrência">Forma de pagamento/recorrência</option>
@@ -343,8 +343,8 @@
                     </div>
                     <div class="row g-4">
                         <div class="col mb-4">
-                            <label for="exampleFormControlTextarea1" class="form-label">Explicar motivo (opcional)</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="observacao"></textarea>
+                            <label for="observacaoAlteracao" class="form-label">Explicar motivo (opcional)</label>
+                            <textarea class="form-control" id="observacaoAlteracao" rows="3" name="observacaoAlteracao"></textarea>
                         </div>
                     </div>
                 </div>
@@ -417,8 +417,8 @@
         document.getElementById('btnConfirmarAlteracao').addEventListener('click', function () {
             modalAlterar.hide();
             let idProposta = document.getElementById('propostaIdInput').value;
-            let motivo = document.getElementById('motivo').value;
-            let observacao = document.getElementById('exampleFormControlTextarea1').value;
+            let motivo = document.getElementById('motivoAlteracao').value;
+            let observacao = document.getElementById('observacaoAlteracao').value;
 
             Swal.fire({
                 title: 'Alteração registrada!',
