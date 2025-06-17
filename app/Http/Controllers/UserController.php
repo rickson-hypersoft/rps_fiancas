@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
@@ -15,7 +15,7 @@ class UserController extends Controller
 {
     public function index(Request $request): View
     {
-        $page        = $request->get('page', 1);
+        $page            = $request->get('page', 1);
         $requestSanitize = $this->sanitizeData($request->all(), ['search']);
 
         $queryParams = ['search' => $requestSanitize['search'] ?? null, 'page' => $page];
