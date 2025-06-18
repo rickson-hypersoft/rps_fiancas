@@ -24,7 +24,7 @@
                         <div>
                             @php
                                 $status = $proposta['proposta_status'];
-                                $badgeColor = '';
+                                $badgeColor = 'secondary';
 
                                 if ($status == 'Aprovado') {
                                     $badgeColor = 'success';
@@ -53,7 +53,13 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="content-header">
-                            <h6 class="mb-0">Dados do plano</h6>
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-0">Dados do plano</h6>
+                                @if ($proposta['proposta_status'] == 'Rascunho')
+                                    <a href="{{ route('propostal.step2', ['id' => $proposta['id']]) }}"
+                                        class="text-success">Editar Dados</a>
+                                @endif
+                            </div>
                             <hr>
                         </div>
 
@@ -80,10 +86,14 @@
             <div class="col-lg-8 m-0 px-0.5">
                 <div class="card">
                     <div class="card-body">
-                        <div class="content-header">
+                        <div class="d-flex justify-content-between">
                             <h6 class="mb-0">Dados da locação</h6>
-                            <hr>
+                            @if ($proposta['proposta_status'] == 'Rascunho')
+                                <a href="{{ route('propostal.create.step1', ['id' => $proposta['id']]) }}"
+                                    class="text-success">Editar Dados</a>
+                            @endif
                         </div>
+                        <hr>
 
                         <div class="card-body m-0 p-0">
                             <div class="d-flex justify-content-between">
@@ -94,7 +104,7 @@
                                     <p>Outras taxas</p>
                                 </div>
                                 <div>
-                                    <p id="imovel_tipo_resumo"></p>
+                                    <p id="imovel_tipo_resumo"> {{ $proposta['imovel_tipo'] }}</p>
                                     <p style="text-align: right" id="imovel_aluguel_resumo">
                                         {{ $proposta['imovel_aluguel'] }}</p>
                                     <p style="text-align: right" id="imovel_condominio_resumo">
@@ -123,10 +133,15 @@
             <div class="col-lg-8 m-0 px-0.5">
                 <div class="card">
                     <div class="card-body">
-                        <div class="content-header">
+                        <div class="d-flex justify-content-between">
                             <h6 class="mb-0">Endereço do imóvel</h6>
-                            <hr>
+                            @if ($proposta['proposta_status'] == 'Rascunho')
+                                <a href="{{ route('propostal.step3', ['id' => $proposta['id']]) }}"
+                                    class="text-success">Editar
+                                    Dados</a>
+                            @endif
                         </div>
+                        <hr>
 
                         <div class="card-body m-0 p-0">
                             <div>
@@ -135,7 +150,9 @@
                             </div>
                             <div>
                                 <p class="fw-bold">Endereço</p>
-                                <p id="imovel_endereco_completo">{{ $proposta['endereco_completo'] }}</p>
+                                <p id="imovel_endereco_completo">
+                                    {{ $proposta['imovel_endereco'] == null ? 'Não possui endereço preenchido' : $proposta['endereco_completo'] }}
+                                </p>
                             </div>
                             <div>
                                 <p class="fw-bold">Complemento</p>
@@ -151,10 +168,14 @@
             <div class="col-lg-8 m-0 px-0.5">
                 <div class="card">
                     <div class="card-body">
-                        <div class="content-header">
+                        <div class="d-flex justify-content-between">
                             <h6 class="mb-0">Dados do inquilino</h6>
-                            <hr>
+                            @if ($proposta['proposta_status'] == 'Rascunho')
+                                <a href="{{ route('propostal.create.step1', ['id' => $proposta['id']]) }}"
+                                    class="text-success">Editar Dados</a>
+                            @endif
                         </div>
+                        <hr>
 
                         <div class="card-body m-0 p-0">
                             <div class="card-body m-0 p-0">

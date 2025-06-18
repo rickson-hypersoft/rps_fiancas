@@ -324,7 +324,8 @@
                                     class="align-middle">Minha conta</span>
                             </a>
                         </li>
-                        @php$user = session('user');
+                        @php
+                            $user = session('user');
                             $categoria = $user['categoria'] ?? null;
                             $idImobiliaria = $user['id_imobiliaria'] ?? null;
                             $links = [
@@ -358,7 +359,7 @@
                                     ],
                                 ],
                             ];
-                        @endphp @if (isset($links[$categoria]))
+                        @endphp ?> @if (isset($links[$categoria]))
                             @foreach ($links[$categoria] as $link)
                                 @if ($link)
                                     <li>

@@ -264,7 +264,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         IMask(document.getElementById('pessoa_telefone'), {
-            mask: '00 0000-0000'
+            mask: '00 00000-0000'
         });
 
         let dropzone;

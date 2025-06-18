@@ -213,26 +213,6 @@
                                         </ul>
                                     </li>
                                 @endif
-
-                                <!-- Relatórios -->
-                                <li class="menu-item">
-                                    <a href="javascript:void(0)" class="menu-link menu-toggle">
-                                        <i class="menu-icon icon-base ti tabler-printer"></i>
-                                        <div data-i18n="Relatórios">Relatórios</div>
-                                    </a>
-                                    <ul class="menu-sub">
-                                        <li class="menu-item">
-                                            <a href="#" class="menu-link">
-                                                <div data-i18n="Minhas Comissões">Minhas Comissões</div>
-                                            </a>
-                                        </li>
-                                        <li class="menu-item">
-                                            <a href="#" class="menu-link">
-                                                <div data-i18n="Financeiro">Financeiro</div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
                             </ul>
                         </div>
                     </aside>

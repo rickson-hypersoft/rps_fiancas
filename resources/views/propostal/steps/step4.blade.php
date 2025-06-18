@@ -89,7 +89,7 @@
                                 <p>Outras taxas</p>
                             </div>
                             <div>
-                                <p id="imovel_tipo_resumo"></p>
+                                <p id="imovel_tipo_resumo">{{ $proposta['imovel_tipo'] }}</p>
                                 <p style="text-align: right" id="imovel_aluguel_resumo">
                                     {{ $proposta['imovel_aluguel'] }}</p>
                                 <p style="text-align: right" id="imovel_condominio_resumo">

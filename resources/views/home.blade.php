@@ -10,15 +10,13 @@
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide m-0 p-0">
                                     <div class="row">
-                                        <img
-                                            src="{{ asset('assets/img/pages/bannerinvicta2.PNG') }}" />
+                                        <img src="{{ asset('assets/img/pages/bannerinvicta2.PNG') }}" />
                                     </div>
                                 </div>
 
                                 <div class="swiper-slide m-0 p-0">
                                     <div class="row">
-                                        <img
-                                            src="{{ asset('assets/img/pages/bannerinvicta1.PNG') }}" />
+                                        <img src="{{ asset('assets/img/pages/bannerinvicta1.PNG') }}" />
                                     </div>
                                 </div>
                             </div>
@@ -62,15 +60,17 @@
                                 <div class="row gy-3">
                                     @foreach ($statusContratos as $status => $config)
                                         <div class="col-md-3 col-6">
-                                            <div class="d-flex align-items-center">
-                                                <div class="badge bg-label-{{ $config['color'] }} me-4 rounded p-2">
-                                                    <i class="icon-base ti {{ $config['icon'] }} icon-lg"></i>
+                                            <a href="{{ route('assets.index', ['status' => $status]) }}">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="badge bg-label-{{ $config['color'] }} me-4 rounded p-2">
+                                                        <i class="icon-base ti {{ $config['icon'] }} icon-lg"></i>
+                                                    </div>
+                                                    <div class="card-info">
+                                                        <h5 class="mb-0">{{ $contratosMapeados[$status] ?? 0 }}</h5>
+                                                        <small>{{ $status }}</small>
+                                                    </div>
                                                 </div>
-                                                <div class="card-info">
-                                                    <h5 class="mb-0">{{ $contratosMapeados[$status] ?? 0 }}</h5>
-                                                    <small>{{ $status }}</small>
-                                                </div>
-                                            </div>
+                                            </a>
                                         </div>
                                     @endforeach
                                 </div>
@@ -88,15 +88,17 @@
                                 <div class="row gy-3">
                                     @foreach ($statusPropostas as $status => $config)
                                         <div class="col-md-3 col-6">
-                                            <div class="d-flex align-items-center">
-                                                <div class="badge bg-label-{{ $config['color'] }} me-4 rounded p-2">
-                                                    <i class="icon-base ti {{ $config['icon'] }} icon-lg"></i>
+                                            <a href="{{ route('propostal.index', ['status' => $status]) }}">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="badge bg-label-{{ $config['color'] }} me-4 rounded p-2">
+                                                        <i class="icon-base ti {{ $config['icon'] }} icon-lg"></i>
+                                                    </div>
+                                                    <div class="card-info">
+                                                        <h5 class="mb-0">{{ $propostasMapeadas[$status] ?? 0 }}</h5>
+                                                        <small>{{ $config['label'] }}</small>
+                                                    </div>
                                                 </div>
-                                                <div class="card-info">
-                                                    <h5 class="mb-0">{{ $propostasMapeadas[$status] ?? 0 }}</h5>
-                                                    <small>{{ $config['label'] }}</small>
-                                                </div>
-                                            </div>
+                                            </a>
                                         </div>
                                     @endforeach
                                 </div>
@@ -111,7 +113,7 @@
                         <form method="GET" action="{{ route('assets.index') }}">
 
                             <h5 class="card-header">
-                                Pesquisar propostas e contratos por número ou nome do
+                                Pesquisar contratos por número ou nome do
                                 cliente
                             </h5>
                             <div class="card-body demo-vertical-spacing demo-only-element">
@@ -190,69 +192,69 @@
 
 
                                 <!--
-                                <li class="timeline-item timeline-item-transparent">
-                                    <span class="timeline-point timeline-point-success"></span>
-                                    <div class="timeline-event">
-                                        <div class="timeline-header mb-1">
-                                            <h6 class="mb-0">Proposta Aprovada</h6>
-                                            <small class="text-body-secondary">28/05 11:30</small>
-                                        </div>
-                                        <p class="mb-2">
-                                            Inquilino Richard Igor Silva
-                                        </p>
-                                        <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
-                                            Visualizar
-                                        </button>
-                                    </div>
-                                </li>
-                                <li class="timeline-item timeline-item-transparent">
-                                    <span class="timeline-point timeline-point-secondary"></span>
-                                    <div class="timeline-event">
-                                        <div class="timeline-header mb-1">
-                                            <h6 class="mb-0">Nova Proposta</h6>
-                                            <small class="text-body-secondary">28/05 10:30</small>
-                                        </div>
-                                        <p class="mb-2">
-                                            Inquilino Richard Igor Silva
-                                        </p>
-                                        <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
-                                            Visualizar
-                                        </button>
-                                    </div>
-                                </li>
+                                                        <li class="timeline-item timeline-item-transparent">
+                                                            <span class="timeline-point timeline-point-success"></span>
+                                                            <div class="timeline-event">
+                                                                <div class="timeline-header mb-1">
+                                                                    <h6 class="mb-0">Proposta Aprovada</h6>
+                                                                    <small class="text-body-secondary">28/05 11:30</small>
+                                                                </div>
+                                                                <p class="mb-2">
+                                                                    Inquilino Richard Igor Silva
+                                                                </p>
+                                                                <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
+                                                                    Visualizar
+                                                                </button>
+                                                            </div>
+                                                        </li>
+                                                        <li class="timeline-item timeline-item-transparent">
+                                                            <span class="timeline-point timeline-point-secondary"></span>
+                                                            <div class="timeline-event">
+                                                                <div class="timeline-header mb-1">
+                                                                    <h6 class="mb-0">Nova Proposta</h6>
+                                                                    <small class="text-body-secondary">28/05 10:30</small>
+                                                                </div>
+                                                                <p class="mb-2">
+                                                                    Inquilino Richard Igor Silva
+                                                                </p>
+                                                                <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
+                                                                    Visualizar
+                                                                </button>
+                                                            </div>
+                                                        </li>
 
-                                <li class="timeline-item timeline-item-transparent">
-                                    <span class="timeline-point timeline-point-secondary"></span>
-                                    <div class="timeline-event">
-                                        <div class="timeline-header mb-1">
-                                            <h6 class="mb-0">Nova Proposta</h6>
-                                            <small class="text-body-secondary">28/05 10:30</small>
-                                        </div>
-                                        <p class="mb-2">
-                                            Inquilino Richard Igor Silva
-                                        </p>
-                                        <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
-                                            Visualizar
-                                        </button>
-                                    </div>
-                                </li>
+                                                        <li class="timeline-item timeline-item-transparent">
+                                                            <span class="timeline-point timeline-point-secondary"></span>
+                                                            <div class="timeline-event">
+                                                                <div class="timeline-header mb-1">
+                                                                    <h6 class="mb-0">Nova Proposta</h6>
+                                                                    <small class="text-body-secondary">28/05 10:30</small>
+                                                                </div>
+                                                                <p class="mb-2">
+                                                                    Inquilino Richard Igor Silva
+                                                                </p>
+                                                                <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
+                                                                    Visualizar
+                                                                </button>
+                                                            </div>
+                                                        </li>
 
-                                <li class="timeline-item timeline-item-transparent">
-                                    <span class="timeline-point timeline-point-secondary"></span>
-                                    <div class="timeline-event">
-                                        <div class="timeline-header mb-1">
-                                            <h6 class="mb-0">Nova Proposta</h6>
-                                            <small class="text-body-secondary">28/05 10:30</small>
-                                        </div>
-                                        <p class="mb-2">
-                                            Inquilino Richard Igor Silva
-                                        </p>
-                                        <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
-                                            Visualizar
-                                        </button>
-                                    </div>
-                                </li>
-                            -->
+                                                        <li class="timeline-item timeline-item-transparent">
+                                                            <span class="timeline-point timeline-point-secondary"></span>
+                                                            <div class="timeline-event">
+                                                                <div class="timeline-header mb-1">
+                                                                    <h6 class="mb-0">Nova Proposta</h6>
+                                                                    <small class="text-body-secondary">28/05 10:30</small>
+                                                                </div>
+                                                                <p class="mb-2">
+                                                                    Inquilino Richard Igor Silva
+                                                                </p>
+                                                                <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
+                                                                    Visualizar
+                                                                </button>
+                                                            </div>
+                                                        </li>
+                                                    -->
                             </ul>
                         </div>
                     </div>
