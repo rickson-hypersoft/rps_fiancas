@@ -371,7 +371,7 @@
                     return response.json();
                 })
                 .then(data => {
-                    // Somente após o e-mail ser enviado, enviar WhatsApp
+                    // Após o e-mail, enviar o WhatsApp
                     return fetch('/propostas/whatsapp', {
                         method: 'POST',
                         headers: {
@@ -395,12 +395,32 @@
                     return response.json();
                 })
                 .then(data => {
+                    // Após o WhatsApp, agora atualizar o status
+                    return fetch(`/propostas/atualizar/status/${propostaId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            proposta_status: 'Aprovado',
+                            contrato_status: 'Pendente',
+                            contrato_sub_status: 'Em análise biométrica',
+                        })
+                    });
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Erro ao atualizar o status da proposta');
+                    return response.json();
+                })
+                .then(data => {
+                    // Se tudo der certo: redirecionar
                     window.location.href = redirectUrl;
                     Swal.close();
                 })
                 .catch(error => {
                     Swal.close();
-                    Swal.fire('Erro', error.message || 'Erro ao enviar a proposta.', 'error');
+                    Swal.fire('Erro', error.message || 'Erro ao processar a proposta.', 'error');
                     isSending = false;
                 });
         });

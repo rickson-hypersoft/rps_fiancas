@@ -764,4 +764,16 @@ class PropostalController extends Controller
     // Caso não venha com o prefixo esperado, retorna o número original
     return $numero;
 }
+
+public function updateStatus(Request $request, string | int $id): JsonResponse
+    {
+        $token    = session('jwt_token');
+        $response = Http::withToken($token)->post(config('api.route') . '/propostal/editStatus/' . $id, $request->all());
+
+        if (! $response->successful()) {
+            return response()->json("Não foi possível atualizar status!");
+        }
+
+        return response()->json("Status atualizado com sucesso!");
+    }
 }
