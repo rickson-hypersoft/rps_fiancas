@@ -20,6 +20,7 @@ class AssetsController extends Controller
         $requestSanitize = $this->sanitizeData($request->all(), ['search']);
 
         $queryParams = [
+             'page'   => $request->get('page', 1),
             'search'     => $requestSanitize['search'] ?? null,
             'status'     => $request->input('status'),
             'created_at' => $request->input('created_at'),
@@ -66,7 +67,8 @@ class AssetsController extends Controller
             }
         }
 
-        return view('assets.index', ['statusContagem' => $statusContagem, 'contratos' => $data['data']]);
+        return view('assets.index', ['statusContagem' => $statusContagem, 'contratos' => $data['data'],  'pagination'
+        =>$data['meta'],]);
     }
 
     public function find(string $idContrato): View
@@ -105,7 +107,7 @@ class AssetsController extends Controller
                 if ($tipo == 'contrato') {
                     $proposta['anx_contrato'] = 1;
                     $parserPropostal          = $this->parserValuesForInsert($proposta);
-                    Http::withToken($token)->post(config('api.route') . '/propostal/create', $parserPropostal);
+                   $response= Http::withToken($token)->post(config('api.route') . '/propostal/create', $parserPropostal);
                 }
 
                 if ($tipo == 'vistoria') {
@@ -157,7 +159,7 @@ class AssetsController extends Controller
             }
         }
 
-        return back()->with('success', 'Arquivos enviados com sucesso!');
+        return redirect()->route('assets.asset', ['id' => $idContrato])->with('success','Arquivos enviados com sucesso!');
     }
 
     private function parseValor(string $valor): float

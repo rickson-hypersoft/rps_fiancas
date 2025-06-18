@@ -536,6 +536,15 @@ class PropostalController extends Controller
                     'cardStyle'     => '',
                 ];
 
+            case 'Alteração Imobiliária':
+                return [
+                    'colorText'     => 'fw-bold text-success',
+                    'text'          => 'A proposta enviada e aguardando ativação pelo inquilino.',
+                    'paragrapfCard' => 'A ativação do contrato locação com garantia da Invicta é efetivada mediante o aceite dos termos e pagamento. Enviamos os próximos passos para o e-mail e WhatsApp da pessoa inquilina.',
+                    'card'          => 'content-header mb-4 p-5 bg-success text-white',
+                    'cardStyle'     => '',
+                ];
+
             case 'Pendente':
                 return [
                     'colorText'     => 'fw-bold text-warning',
@@ -695,7 +704,7 @@ class PropostalController extends Controller
         $parserPropostal['motivo_explicacao']       = $motivoOpicional;
         $parserPropostal['data_ultima_atualizacao'] = date('Y-m-d');
         $parserPropostal['hora_ultima_atualizacao'] = date('H:i:s');
-        $parserPropostal['proposta_status'] = 'Alteração Imobíliaria';
+        $parserPropostal['proposta_status'] = 'Alteração Imobiliária';
 
         $historico = "Solicitação alterada #{$id} por motivo de {$motivo}";
 

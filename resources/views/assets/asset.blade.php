@@ -3,6 +3,13 @@
 <div class="col-12 mb-6">
     <div class="row">
         <div class="col-12">
+              @if (session('success'))
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <span>{{ session('success') }}</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
             <div class="card">
                 <div class="card-header mb-0 pb-3 pt-3" style="background: #f7f7f7;">
                     <div class="d-flex align-items-center justify-content-between">

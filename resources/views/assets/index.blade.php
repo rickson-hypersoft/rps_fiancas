@@ -210,7 +210,53 @@
                             </table>
                         </div>
 
+                        @php
+                   $firstItem = $pagination['from'];
+                   $lastItem = $pagination['to'];
+                   $total = $pagination['total'];
+                   $currentPage = $pagination['current_page'];
+                   $lastPage = $pagination['last_page'];
+                   @endphp
+
+                   @if ($total > 0 && $lastPage > 1)
+                   <div class="mt-25 float-end">
+                       <div class="d-flex justify-content-between align-items-center mt-3 py-2 px-4" style="background: #eee; border-radius: 5rem;">
+                           <div class="mx-2">
+                               <span>{{ $firstItem }} a {{ $lastItem }} de {{ $total }}</span>
+                           </div>
+
+                           <nav aria-label="Page navigation">
+                               <ul class="pagination pagination-sm mb-0">
+                                   <li class="page-item first {{ $currentPage == 1 ? 'disabled' : '' }}">
+                                       <a class="page-link" href="{{ url()->current() . '?page=1' }}" aria-label="Primeira página">
+                                           <i class="icon-base ti tabler-chevrons-left icon-sm"></i>
+                                       </a>
+                                   </li>
+
+                                   <li class="page-item prev {{ $currentPage == 1 ? 'disabled' : '' }}">
+                                       <a class="page-link" href="{{ url()->current() . '?page=' . max(1, $currentPage - 1) }}" aria-label="Página anterior">
+                                           <i class="icon-base ti tabler-chevron-left icon-sm"></i>
+                                       </a>
+                                   </li>
+
+                                   <li class="page-item next {{ $currentPage == $lastPage ? 'disabled' : '' }}">
+                                       <a class="page-link" href="{{ url()->current() . '?page=' . min($lastPage, $currentPage + 1) }}" aria-label="Próxima página">
+                                           <i class="icon-base ti tabler-chevron-right icon-sm"></i>
+                                       </a>
+                                   </li>
+
+                                   <li class="page-item last {{ $currentPage == $lastPage ? 'disabled' : '' }}">
+                                       <a class="page-link" href="{{ url()->current() . '?page=' . $lastPage }}" aria-label="Última página">
+                                           <i class="icon-base ti tabler-chevrons-right icon-sm"></i>
+                                       </a>
+                                   </li>
+                               </ul>
+                           </nav>
+                       </div>
+                   </div>
+                   @endif
                     </div>
+
                 </div>
             </div>
         </div>
