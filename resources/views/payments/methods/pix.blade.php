@@ -1,23 +1,27 @@
 <!doctype html>
 
-<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-wide" dir="ltr" data-skin="default" data-assets-path="../../assets/" data-template="horizontal-menu-template" data-bs-theme="light">
+<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-wide" dir="ltr" data-skin="default"
+    data-assets-path="../../assets/" data-template="horizontal-menu-template" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <title>Invicta - Inquilinos</title>
     <meta name="description" content="" />
-    <link rel="icon" type="image/x-icon" href="{{asset('assets/img/favicon/favicon.ico')}}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/iconify-icons.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/node-waves/node-waves.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/pickr/pickr-themes.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/css/core.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/css/pages/front-page-payment.css')}}" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/iconify-icons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/node-waves/node-waves.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/pickr/pickr-themes.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/front-page-payment.css') }}" />
 
     <style>
         @media (min-width: 769px) {
@@ -27,13 +31,13 @@
         }
     </style>
 
-    <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
-    <script src="{{asset('assets/js/config.js')}}"></script>
+    <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
+    <script src="{{ asset('assets/js/config.js') }}"></script>
 </head>
 
 <body>
-    <script src="{{asset('assets/vendor/js/dropdown-hover.js')}}"></script>
-    <script src="{{asset('assets/vendor/js/mega-dropdown.js')}}"></script>
+    <script src="{{ asset('assets/vendor/js/dropdown-hover.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/mega-dropdown.js') }}"></script>
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
         <div class="layout-container">
             <div class="layout-page">
@@ -43,20 +47,23 @@
                             <div class="card px-3">
                                 <div class="row" class="static-table">
                                     <div class="col-lg-7 card-body border-end p-md-8">
-                                       <div id="pixInfo" class="d-flex align-items-center">
-                                        <a href="{{route('checktou.index', ['linkHash' => $linkHash])}}" class="icon-base ti tabler-arrow-left icon-xs mb-4 me-3"></a>
-                                         <h6>
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">Pix</font>
-                                            </font>
-                                        </h6>
-                                       </div>
+                                        <div id="pixInfo" class="d-flex align-items-center">
+                                            <a href="{{ route('checktou.index', ['linkHash' => $linkHash]) }}"
+                                                class="icon-base ti tabler-arrow-left icon-xs mb-4 me-3"></a>
+                                            <h6>
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">Pix</font>
+                                                </font>
+                                            </h6>
+                                        </div>
                                         <div id="pix-container" class="gerarpix">
                                             <div class="row g-5 py-3" id="pix-info">
                                                 <div class="col-md col-lg-12 col-xl-12">
                                                     <div class="p-3" style="background: #f7f7f7; border-radius: 5px">
-                                                        <p>Valor do Pix: <b>{{$data['valor_total_pagamento']}}</b></p>
-                                                        <p>Após confirmar o pagamento, o código Pix ficará disponível para você pagar no banco da sua preferência.</p>
+                                                        <p>Valor do Pix: <b>{{ $data['valor_total_pagamento'] }}</b>
+                                                        </p>
+                                                        <p>Após confirmar o pagamento, o código Pix ficará disponível
+                                                            para você pagar no banco da sua preferência.</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -64,12 +71,14 @@
 
                                         <div id="qrcode-container" style="display: none;"></div>
 
-                                        <a href="#" id="gerar-codigo" class="btn btn-label-primary btn-prev waves-effect">
-                                            <span class="align-middle d-sm-inline-block">Gerar código pix</span>
+                                        <a href="#" id="gerar-codigo"
+                                            class="btn btn-label-primary btn-prev waves-effect">
+                                            <span class="d-sm-inline-block align-middle">Gerar código pix</span>
                                             <i class="icon-base ti tabler-arrow-right icon-xs me-sm-2 me-0"></i>
                                         </a>
 
-                                        <a href="#" id="alterar-pagamento" class="text-center mt-5" style="display: none;">Alterar forma de pagamento</a>
+                                        <a href="#" id="alterar-pagamento" class="mt-5 text-center"
+                                            style="display: none;">Alterar forma de pagamento</a>
                                     </div>
 
                                     <div class="col-lg-5 card-body p-md-12 d-flex flex-column justify-content-between">
@@ -82,7 +91,8 @@
                                             <p class="mb-8">
                                                 <font style="vertical-align: inherit;">
                                                     <font style="vertical-align: inherit;">
-                                                        Ele pode ajudar você a gerenciar e atender pedidos antes, </font>
+                                                        Ele pode ajudar você a gerenciar e atender pedidos antes,
+                                                    </font>
                                                 </font><br>
                                                 <font style="vertical-align: inherit;">
                                                     <font style="vertical-align: inherit;">
@@ -100,7 +110,8 @@
                                                 </p>
                                                 <p class="mb-0">
                                                     <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;">{{$data['proposta_total_valor']}}</font>
+                                                        <font style="vertical-align: inherit;">
+                                                            {{ $data['proposta_total_valor'] }}</font>
                                                     </font>
                                                 </p>
                                             </div>
@@ -112,7 +123,8 @@
                                                 </p>
                                                 <p class="mb-0">
                                                     <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;">{{$data['proposta_setup_valor']}}</font>
+                                                        <font style="vertical-align: inherit;">
+                                                            {{ $data['proposta_setup_valor'] }}</font>
                                                     </font>
                                                 </p>
                                             </div>
@@ -125,7 +137,8 @@
                                                 </h5>
                                                 <h4 class="mb-0">
                                                     <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;">{{$data['valor_total_pagamento']}}</font>
+                                                        <font style="vertical-align: inherit;">
+                                                            {{ $data['valor_total_pagamento'] }}</font>
                                                     </font>
                                                 </h4>
                                             </div>
@@ -144,22 +157,22 @@
     </div>
 
     <div class="layout-overlay layout-menu-toggle"></div>
-    <script src="{{asset('assets/vendor/libs/popper/popper.js')}}"></script>
-    <script src="{{asset('assets/vendor/js/bootstrap.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/node-waves/node-waves.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/@algolia/autocomplete-js.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/pickr/pickr.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/cleave-zen/cleave-zen.js')}}"></script>
-    <script src="{{asset('assets/js/front-page-payment.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/node-waves/node-waves.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/@algolia/autocomplete-js.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/pickr/pickr.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/cleave-zen/cleave-zen.js') }}"></script>
+    <script src="{{ asset('assets/js/front-page-payment.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const btnGerarPix = document.getElementById('gerar-codigo');
             const alterarPagamentoBtn = document.getElementById('alterar-pagamento');
             const qrcodeContainer = document.getElementById('qrcode-container');
             let idPagamento = null;
 
-            btnGerarPix.addEventListener('click', function (e) {
+            btnGerarPix.addEventListener('click', function(e) {
                 e.preventDefault();
 
                 Swal.fire({
@@ -173,15 +186,15 @@
                 const methodPayment = 'PIX';
 
                 fetch(`/pagamentos/checkout/pix/{{ $linkHash }}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        metodo_pagamento: methodPayment
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            metodo_pagamento: methodPayment
+                        })
                     })
-                })
                     .then(response => {
                         if (!response.ok) throw new Error('Erro ao gerar pagamento');
                         return response.json();
@@ -224,7 +237,7 @@
 
                             // Botão de copiar Pix
                             const copiarBtn = document.getElementById('btn-copiar-pix');
-                            copiarBtn.addEventListener('click', function () {
+                            copiarBtn.addEventListener('click', function() {
                                 const payload = document.getElementById('pix-payload').value;
                                 navigator.clipboard.writeText(payload).then(() => {
                                     Swal.fire({
@@ -261,17 +274,17 @@
             });
 
             if (alterarPagamentoBtn) {
-                alterarPagamentoBtn.addEventListener('click', function (e) {
+                alterarPagamentoBtn.addEventListener('click', function(e) {
                     e.preventDefault();
 
                     Swal.fire({
                         icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sim, desejo alterar!',
-                cancelButtonText: 'Cancelar',
-                html: `
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sim, desejo alterar!',
+                        cancelButtonText: 'Cancelar',
+                        html: `
                         <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Você tem certeza que deseja alterar a forma de pagamento?</h3>
                         <p style="text-align: center; white-space: pre-line; font-size: 1rem;">
                             Caso já tenha efetuado o pagamento do boleto não altere para outra forma de pagamento e entre com contato com o nosso time de atendimento para obter ajuda.<br>
@@ -281,24 +294,26 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             fetch(`/pagamentos/checkout/cancelar/${idPagamento}/{{ $linkHash }}`, {
-                                method: 'POST',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                    'Content-Type': 'application/json'
-                                }
-                            })
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                        'Content-Type': 'application/json'
+                                    }
+                                })
                                 .then(response => response.json())
                                 .then(data => {
                                     Swal.fire({
                                         icon: 'success',
                                         title: 'Forma de pagamento alterada!',
                                         text: 'Agora você pode escolher outro método de pagamento.'
-                                    }).then(() => window.location.href = `{{route('checktou.index', ['linkHash' => $linkHash])}}`);
+                                    }).then(() => window.location.href =
+                                        `{{ route('checktou.index', ['linkHash' => $linkHash]) }}`
+                                        );
                                 })
                                 .catch(error => {
                                     Swal.fire({
                                         icon: 'error',
-                                        title: 'Erro ao cancelar Pix!' ,
+                                        title: 'Erro ao cancelar Pix!',
                                         text: error.message
                                     });
                                 });

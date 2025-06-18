@@ -1,23 +1,27 @@
 <!doctype html>
 
-<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-wide" dir="ltr" data-skin="default" data-assets-path="../../assets/" data-template="horizontal-menu-template" data-bs-theme="light">
+<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-wide" dir="ltr" data-skin="default"
+    data-assets-path="../../assets/" data-template="horizontal-menu-template" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <title>Invicta - Inquilinos</title>
     <meta name="description" content="" />
-    <link rel="icon" type="image/x-icon" href="{{asset('assets/img/favicon/favicon.ico')}}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/iconify-icons.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/node-waves/node-waves.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/pickr/pickr-themes.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/css/core.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/css/pages/front-page-payment.css')}}" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/iconify-icons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/node-waves/node-waves.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/pickr/pickr-themes.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/front-page-payment.css') }}" />
     <style>
         @media (min-width: 769px) {
             .static-table {
@@ -29,13 +33,13 @@
             border: 1px solid red;
         }
     </style>
-    <script src="{{asset('assets/vendor/js/helpers.js')}}"></script>
-    <script src="{{asset('assets/js/config.js')}}"></script>
+    <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
+    <script src="{{ asset('assets/js/config.js') }}"></script>
 </head>
 
 <body>
-    <script src="{{asset('assets/vendor/js/dropdown-hover.js')}}"></script>
-    <script src="{{asset('assets/vendor/js/mega-dropdown.js')}}"></script>
+    <script src="{{ asset('assets/vendor/js/dropdown-hover.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/mega-dropdown.js') }}"></script>
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
         <div class="layout-container">
             <div class="layout-page">
@@ -46,7 +50,8 @@
                                 <div class="row" class="static-table">
                                     <div class="col-lg-7 card-body border-end p-md-8">
                                         <div id="cartaoInfo" class="d-flex align-items-center">
-                                            <a href="{{route('checktou.index', ['linkHash' => $linkHash])}}" class="icon-base ti tabler-arrow-left icon-xs mb-4 me-3"></a>
+                                            <a href="{{ route('checktou.index', ['linkHash' => $linkHash]) }}"
+                                                class="icon-base ti tabler-arrow-left icon-xs mb-4 me-3"></a>
                                             <h6>
                                                 <font style="vertical-align: inherit;">
                                                     <font style="vertical-align: inherit;">Cartão de crédito</font>
@@ -55,16 +60,19 @@
                                         </div>
 
                                         <div id="pareclas" class="d-none align-items-center">
-                                            <a href="#" id="parcelas_link" class="icon-base ti tabler-arrow-left icon-xs mb-4 me-3"></a>
+                                            <a href="#" id="parcelas_link"
+                                                class="icon-base ti tabler-arrow-left icon-xs mb-4 me-3"></a>
                                             <h6>
                                                 <font style="vertical-align: inherit;">
-                                                    <font style="vertical-align: inherit;">Selecionar a quantidade de parcelas</font>
+                                                    <font style="vertical-align: inherit;">Selecionar a quantidade de
+                                                        parcelas</font>
                                                 </font>
                                             </h6>
                                         </div>
 
                                         <div id="revisar" class="d-none align-items-center">
-                                            <a href="#" id="revisar_link" class="icon-base ti tabler-arrow-left icon-xs mb-4 me-3"></a>
+                                            <a href="#" id="revisar_link"
+                                                class="icon-base ti tabler-arrow-left icon-xs mb-4 me-3"></a>
                                             <h6>
                                                 <font style="vertical-align: inherit;">
                                                     <font style="vertical-align: inherit;">Revisar pagamento</font>
@@ -74,87 +82,139 @@
                                         <div class="row g-5 py-3">
                                             <div class="card" style="background: #f7f7f7; box-shadow: none;">
                                                 <div class="card-body">
-                                                    <form action="{{ route('checkout.save.cartao', ['linkHash' => $linkHash]) }}" method="POST">
+                                                    <form
+                                                        action="{{ route('checkout.save.cartao', ['linkHash' => $linkHash]) }}"
+                                                        method="POST">
                                                         @csrf
                                                         <div class="row" id="card-data-section">
-                                                            <div class="mb-3 col-md-7">
-                                                                <label for="numero_cartao" class="form-label">Número do cartão</label>
-                                                                <input type="text" class="form-control bg-white" name="numero_cartao" id="numero_cartao" placeholder="0000 0000 0000 0000" required />
+                                                            <div class="col-md-7 mb-3">
+                                                                <label for="numero_cartao" class="form-label">Número do
+                                                                    cartão</label>
+                                                                <input type="text" class="form-control bg-white"
+                                                                    name="numero_cartao" id="numero_cartao"
+                                                                    placeholder="0000 0000 0000 0000" required />
                                                             </div>
-                                                            <div class="mb-3 col-md-2">
+                                                            <div class="col-md-2 mb-3">
                                                                 <label for="cvv" class="form-label">CVV</label>
-                                                                <input type="text" class="form-control bg-white" name="cvv" id="cvv" placeholder="000" required />
+                                                                <input type="text" class="form-control bg-white"
+                                                                    name="cvv" id="cvv" placeholder="000"
+                                                                    required />
                                                             </div>
-                                                            <div class="mb-3 col-md-3">
-                                                                <label for="data_vencimento" class="form-label">Vencimento</label>
-                                                                <input type="text" class="form-control bg-white" name="data_vencimento" id="data_vencimento" placeholder="00/00" required />
+                                                            <div class="col-md-3 mb-3">
+                                                                <label for="data_vencimento"
+                                                                    class="form-label">Vencimento</label>
+                                                                <input type="text" class="form-control bg-white"
+                                                                    name="data_vencimento" id="data_vencimento"
+                                                                    placeholder="00/00" required />
                                                             </div>
-                                                            <div class="mb-3 col-md-7">
-                                                                <label for="nome_cartao" class="form-label">Nome (como está no cartão)</label>
-                                                                <input type="text" class="form-control bg-white" name="nome_cartao" id="nome_cartao" placeholder="Nome impresso no cartão" required />
+                                                            <div class="col-md-7 mb-3">
+                                                                <label for="nome_cartao" class="form-label">Nome (como
+                                                                    está no cartão)</label>
+                                                                <input type="text" class="form-control bg-white"
+                                                                    name="nome_cartao" id="nome_cartao"
+                                                                    placeholder="Nome impresso no cartão" required />
                                                             </div>
 
                                                             <hr>
-                                                            <div class="mb-3 col-md-8">
-                                                                <label for="pessoa_nome" class="form-label">Nome Completo</label>
-                                                                <input type="text" class="form-control bg-white" name="pessoa_nome" id="pessoa_nome" placeholder="Nome completo do titular do cartão" required />
+                                                            <div class="col-md-8 mb-3">
+                                                                <label for="pessoa_nome" class="form-label">Nome
+                                                                    Completo</label>
+                                                                <input type="text" class="form-control bg-white"
+                                                                    name="pessoa_nome" id="pessoa_nome"
+                                                                    placeholder="Nome completo do titular do cartão"
+                                                                    required />
                                                             </div>
-                                                            <div class="mb-3 col-md-4">
+                                                            <div class="col-md-4 mb-3">
                                                                 <label for="pessoa_doc" class="form-label">CPF</label>
-                                                                <input type="text" class="form-control bg-white" name="pessoa_doc" id="pessoa_doc" placeholder="000.000.000-00" required />
+                                                                <input type="text" class="form-control bg-white"
+                                                                    name="pessoa_doc" id="pessoa_doc"
+                                                                    placeholder="000.000.000-00" required />
                                                             </div>
-                                                            <div class="mb-3 col-md-4">
+                                                            <div class="col-md-4 mb-3">
                                                                 <label for="pessoa_cep" class="form-label">CEP</label>
-                                                                <input type="text" class="form-control bg-white" name="pessoa_cep" id="pessoa_cep" placeholder="00000-000" required />
+                                                                <input type="text" class="form-control bg-white"
+                                                                    name="pessoa_cep" id="pessoa_cep"
+                                                                    placeholder="00000-000" required />
                                                             </div>
-                                                            <div class="mb-3 col-md-8">
-                                                                <label for="pessoa_endereco" class="form-label">Endereço</label>
-                                                                <input type="text" class="form-control bg-white" name="pessoa_endereco" id="pessoa_endereco" required />
+                                                            <div class="col-md-8 mb-3">
+                                                                <label for="pessoa_endereco"
+                                                                    class="form-label">Endereço</label>
+                                                                <input type="text" class="form-control bg-white"
+                                                                    name="pessoa_endereco" id="pessoa_endereco"
+                                                                    required />
                                                             </div>
-                                                            <div class="mb-3 col-md-3">
-                                                                <label for="pessoa_numero" class="form-label">Número</label>
-                                                                <input type="text" class="form-control bg-white" name="pessoa_numero" id="pessoa_numero" placeholder="000" required />
+                                                            <div class="col-md-3 mb-3">
+                                                                <label for="pessoa_numero"
+                                                                    class="form-label">Número</label>
+                                                                <input type="text" class="form-control bg-white"
+                                                                    name="pessoa_numero" id="pessoa_numero"
+                                                                    placeholder="000" required />
                                                             </div>
-                                                            <div class="mb-3 col-md-6">
-                                                                <label for="pessoa_complemento" class="form-label">Complemento</label>
-                                                                <input type="text" class="form-control bg-white" name="pessoa_complemento" id="pessoa_complemento" placeholder="Complemento" />
+                                                            <div class="col-md-6 mb-3">
+                                                                <label for="pessoa_complemento"
+                                                                    class="form-label">Complemento</label>
+                                                                <input type="text" class="form-control bg-white"
+                                                                    name="pessoa_complemento" id="pessoa_complemento"
+                                                                    placeholder="Complemento" />
                                                             </div>
 
-                                                            <div class="mb-3 col-md-3" id="estado-container">
-                                                                <label class="form-label" for="pessoa_estado">Estado</label>
-                                                                <input type="text" name="pessoa_estado" id="pessoa_estado" class="form-control bg-white" readonly>
+                                                            <div class="col-md-3 mb-3" id="estado-container">
+                                                                <label class="form-label"
+                                                                    for="pessoa_estado">Estado</label>
+                                                                <input type="text" name="pessoa_estado"
+                                                                    id="pessoa_estado" class="form-control bg-white"
+                                                                    readonly>
                                                             </div>
 
-                                                            <div class="mb-3 col-md-6" id="cidade-container">
-                                                                <label class="form-label" for="pessoa_cidade">Cidade</label>
-                                                                <input type="text" name="pessoa_cidade" id="pessoa_cidade" class="form-control bg-white" readonly>
+                                                            <div class="col-md-6 mb-3" id="cidade-container">
+                                                                <label class="form-label"
+                                                                    for="pessoa_cidade">Cidade</label>
+                                                                <input type="text" name="pessoa_cidade"
+                                                                    id="pessoa_cidade" class="form-control bg-white"
+                                                                    readonly>
                                                             </div>
 
-                                                            <div class="mb-3 col-md-6">
-                                                                <label for="pessoa_bairro" class="form-label">Bairro</label>
-                                                                <input type="text" class="form-control bg-white" name="pessoa_bairro" id="pessoa_bairro" required />
+                                                            <div class="col-md-6 mb-3">
+                                                                <label for="pessoa_bairro"
+                                                                    class="form-label">Bairro</label>
+                                                                <input type="text" class="form-control bg-white"
+                                                                    name="pessoa_bairro" id="pessoa_bairro"
+                                                                    required />
                                                             </div>
                                                             <div>
-                                                                <a href="#" id="btn-continuar" class="btn btn-label-primary btn-prev waves-effect">
-                                                                    <span class="align-middle d-sm-inline-block">Continuar</span>
-                                                                    <i class="icon-base ti tabler-arrow-right icon-xs me-sm-2 me-0"></i>
+                                                                <a href="#" id="btn-continuar"
+                                                                    class="btn btn-label-primary btn-prev waves-effect">
+                                                                    <span
+                                                                        class="d-sm-inline-block align-middle">Continuar</span>
+                                                                    <i
+                                                                        class="icon-base ti tabler-arrow-right icon-xs me-sm-2 me-0"></i>
                                                                 </a>
                                                             </div>
 
                                                         </div>
 
-                                                        <div class="row" id="installment-section" style="display: none;">
+                                                        <div class="row" id="installment-section"
+                                                            style="display: none;">
                                                             <div>
                                                                 <span>Pagamento 1</span>
                                                                 <div class="card mt-5" style="box-shadow: none;">
                                                                     <div class="card-body" style="background: #fff;">
-                                                                        <h6>Aluguel Imóvel <span class="fw-normal">{{$data['proposta_total_valor']}}</span></h6>
+                                                                        <h6>Aluguel Imóvel <span
+                                                                                class="fw-normal">{{ $data['proposta_total_valor'] }}</span>
+                                                                        </h6>
                                                                         <hr>
                                                                         <div class="mb-4">
-                                                                            <label for="parcelas_imovel_aluguel" class="form-label">Parcelas</label>
-                                                                            <select class="form-select" name="proposta_total_parc" id="parcelas_imovel_aluguel" placeholder="Selecione uma forma de pagamento" aria-label="Default select example">
-                                                                                @foreach($data['parcelas_total_valor_disponiveis'] as $numero => $descricao)
-                                                                                <option value="{{ $numero }}">{{ $descricao }}</option>
+                                                                            <label for="parcelas_imovel_aluguel"
+                                                                                class="form-label">Parcelas</label>
+                                                                            <select class="form-select"
+                                                                                name="proposta_total_parc"
+                                                                                id="parcelas_imovel_aluguel"
+                                                                                placeholder="Selecione uma forma de pagamento"
+                                                                                aria-label="Default select example">
+                                                                                @foreach ($data['parcelas_total_valor_disponiveis'] as $numero => $descricao)
+                                                                                    <option
+                                                                                        value="{{ $numero }}">
+                                                                                        {{ $descricao }}</option>
                                                                                 @endforeach
                                                                             </select>
                                                                         </div>
@@ -166,13 +226,22 @@
                                                                 <span>Pagamento 2</span>
                                                                 <div class="card mt-5" style="box-shadow: none;">
                                                                     <div class="card-body" style="background: #fff;">
-                                                                        <h6>Setup <span class="fw-normal">{{$data['proposta_setup_valor']}}</span></h6>
+                                                                        <h6>Setup <span
+                                                                                class="fw-normal">{{ $data['proposta_setup_valor'] }}</span>
+                                                                        </h6>
                                                                         <hr>
                                                                         <div class="mb-4">
-                                                                            <label for="parcelas_imovel_aluguel" class="form-label">Parcelas</label>
-                                                                            <select class="form-select" name="proposta_setup_parc" id="parcelas_imovel_aluguel" placeholder="Selecione uma forma de pagamento" aria-label="Default select example">
-                                                                                @foreach($data['parcelas_setup_disponiveis'] as $numero => $descricao)
-                                                                                <option value="{{ $numero }}">{{ $descricao }}</option>
+                                                                            <label for="parcelas_imovel_aluguel"
+                                                                                class="form-label">Parcelas</label>
+                                                                            <select class="form-select"
+                                                                                name="proposta_setup_parc"
+                                                                                id="parcelas_imovel_aluguel"
+                                                                                placeholder="Selecione uma forma de pagamento"
+                                                                                aria-label="Default select example">
+                                                                                @foreach ($data['parcelas_setup_disponiveis'] as $numero => $descricao)
+                                                                                    <option
+                                                                                        value="{{ $numero }}">
+                                                                                        {{ $descricao }}</option>
                                                                                 @endforeach
                                                                             </select>
                                                                         </div>
@@ -180,14 +249,20 @@
                                                                 </div>
                                                             </div>
                                                             <div class="mt-3">
-                                                                <button class="btn btn-label-primary btn-prev waves-effect" id="confirmar-pagamento">
-                                                                    <span class="align-middle d-sm-inline-block">Confirmar pagamento</span>
-                                                                    <i class="icon-base ti tabler-arrow-right icon-xs me-sm-2 me-0"></i>
+                                                                <button
+                                                                    class="btn btn-label-primary btn-prev waves-effect"
+                                                                    id="confirmar-pagamento">
+                                                                    <span
+                                                                        class="d-sm-inline-block align-middle">Confirmar
+                                                                        pagamento</span>
+                                                                    <i
+                                                                        class="icon-base ti tabler-arrow-right icon-xs me-sm-2 me-0"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
 
-                                                        <div class="row" id="revisar-section" style="display: none;">
+                                                        <div class="row" id="revisar-section"
+                                                            style="display: none;">
                                                             <div class="card mt-5" style="box-shadow: none;">
                                                                 <div class="card-body p-3">
                                                                     <span>Pagamento 1</span>
@@ -195,9 +270,13 @@
                                                                         <h5 class="me-auto">Taxa Serviço</h5>
                                                                         <h6 class="fw-semibold">R$ 960,00</h6>
                                                                     </div>
-                                                                    <div class="text-start d-flex justify-content-between">
-                                                                        <p class="mb-1"><strong class="text-primary">VISA</strong> Cartão: **** **** **** 1481</p>
-                                                                        <p class="mb-1">12 parcela(s) de R$ 80,00 sem juros</p>
+                                                                    <div
+                                                                        class="d-flex justify-content-between text-start">
+                                                                        <p class="mb-1"><strong
+                                                                                class="text-primary">VISA</strong>
+                                                                            Cartão: **** **** **** 1481</p>
+                                                                        <p class="mb-1">12 parcela(s) de R$ 80,00 sem
+                                                                            juros</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -209,18 +288,29 @@
                                                                         <h5 class="me-auto">Taxa Serviço</h5>
                                                                         <h6 class="fw-semibold">R$ 960,00</h6>
                                                                     </div>
-                                                                    <div class="text-start d-flex justify-content-between">
-                                                                        <p class="mb-1"><strong class="text-primary">VISA</strong> Cartão: **** **** **** 1481</p>
-                                                                        <p class="mb-1">2 parcela(s) de R$ 15,00 sem juros</p>
+                                                                    <div
+                                                                        class="d-flex justify-content-between text-start">
+                                                                        <p class="mb-1"><strong
+                                                                                class="text-primary">VISA</strong>
+                                                                            Cartão: **** **** **** 1481</p>
+                                                                        <p class="mb-1">2 parcela(s) de R$ 15,00 sem
+                                                                            juros</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
 
-                                                            <div class="d-flex align-items-center mt-5 justify-content-between">
-                                                                <a href="#" id="alterar">Alterar forma de pagamento</a>
-                                                                <button class="btn btn-label-primary btn-prev waves-effect" id="confirmar-pagamento">
-                                                                    <span class="align-middle d-sm-inline-block">Confirmar pagamento</span>
-                                                                    <i class="icon-base ti tabler-arrow-right icon-xs me-sm-2 me-0"></i>
+                                                            <div
+                                                                class="d-flex align-items-center justify-content-between mt-5">
+                                                                <a href="#" id="alterar">Alterar forma de
+                                                                    pagamento</a>
+                                                                <button
+                                                                    class="btn btn-label-primary btn-prev waves-effect"
+                                                                    id="confirmar-pagamento">
+                                                                    <span
+                                                                        class="d-sm-inline-block align-middle">Confirmar
+                                                                        pagamento</span>
+                                                                    <i
+                                                                        class="icon-base ti tabler-arrow-right icon-xs me-sm-2 me-0"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -240,7 +330,8 @@
                                             <p class="mb-8">
                                                 <font style="vertical-align: inherit;">
                                                     <font style="vertical-align: inherit;">
-                                                        Ele pode ajudar você a gerenciar e atender pedidos antes, </font>
+                                                        Ele pode ajudar você a gerenciar e atender pedidos antes,
+                                                    </font>
                                                 </font><br>
                                                 <font style="vertical-align: inherit;">
                                                     <font style="vertical-align: inherit;">
@@ -258,7 +349,8 @@
                                                 </p>
                                                 <p class="mb-0">
                                                     <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;">{{$data['proposta_total_valor']}}</font>
+                                                        <font style="vertical-align: inherit;">
+                                                            {{ $data['proposta_total_valor'] }}</font>
                                                     </font>
                                                 </p>
                                             </div>
@@ -270,7 +362,8 @@
                                                 </p>
                                                 <p class="mb-0">
                                                     <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;">{{$data['proposta_setup_valor']}}</font>
+                                                        <font style="vertical-align: inherit;">
+                                                            {{ $data['proposta_setup_valor'] }}</font>
                                                     </font>
                                                 </p>
                                             </div>
@@ -283,7 +376,8 @@
                                                 </h5>
                                                 <h4 class="mb-0">
                                                     <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;">{{$data['valor_total_pagamento']}}</font>
+                                                        <font style="vertical-align: inherit;">
+                                                            {{ $data['valor_total_pagamento'] }}</font>
                                                     </font>
                                                 </h4>
                                             </div>
@@ -319,9 +413,9 @@
             mask: '00000-000'
         });
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             // Preenchimento automático de cidade/estado via CEP
-            document.getElementById('pessoa_cep').addEventListener('blur', function () {
+            document.getElementById('pessoa_cep').addEventListener('blur', function() {
                 const cep = this.value.replace(/\D/g, '');
 
                 const statusEl = document.getElementById('cep-status');
@@ -372,7 +466,7 @@
             const form = document.querySelector("form"); // Ou use um ID fixo para o formulário
             const methodPayment = 'CREDIT_CARD';
 
-            btnContinuar.addEventListener("click", function () {
+            btnContinuar.addEventListener("click", function() {
                 const camposObrigatorios = [
                     'numero_cartao',
                     'cvv',
@@ -389,7 +483,7 @@
 
                 let preenchido = true;
 
-                camposObrigatorios.forEach(function (campo) {
+                camposObrigatorios.forEach(function(campo) {
                     const elemento = document.getElementById(campo);
 
                     if (!elemento) {
@@ -415,16 +509,16 @@
                     document.getElementById('pareclas').classList.add('d-flex')
                 } else {
                     Swal.fire({
-                            icon: "error",
-                            title: "Erro nos dados do cartão!",
-                            text: "Por favor, preencha todos os campos obrigatórios corretamente.",
-                        });
+                        icon: "error",
+                        title: "Erro nos dados do cartão!",
+                        text: "Por favor, preencha todos os campos obrigatórios corretamente.",
+                    });
                 }
 
 
             });
 
-            document.getElementById('parcelas_link').addEventListener('click', function () {
+            document.getElementById('parcelas_link').addEventListener('click', function() {
                 cardDataSection.classList.remove("d-none");
                 cardDataSection.classList.add("row");
                 installmentSection.style.display = "none";
@@ -457,7 +551,7 @@
             })
             */
 
-            document.getElementById('confirmar-pagamento').addEventListener("click", function () {
+            document.getElementById('confirmar-pagamento').addEventListener("click", function() {
                 document.getElementById('confirmar-pagamento').disabled = true;
                 // Você pode validar o campo de parcelas aqui, se necessário
                 form.submit();
@@ -476,12 +570,12 @@
                         confirmButtonText: 'Sim, desejo alterar!',
                         cancelButtonText: 'Cancelar',
                         html: `
-                        <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Você tem certeza que deseja alterar a forma de pagamento?</h3>
-                        <p style="text-align: center; white-space: pre-line; font-size: 1rem;">
-                            Caso já tenha efetuado o pagamento do boleto não altere para outra forma de pagamento e entre com contato com o nosso time de atendimento para obter ajuda.<br>
-                            Canal de atendimento: 00000000000<br>
-                            WhatsApp: (34) 0000000000
-                        </p> `
+                    <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Você tem certeza que deseja alterar a forma de pagamento?</h3>
+                    <p style="text-align: center; white-space: pre-line; font-size: 1rem;">
+                        Caso já tenha efetuado o pagamento do boleto não altere para outra forma de pagamento e entre com contato com o nosso time de atendimento para obter ajuda.<br>
+                        Canal de atendimento: 00000000000<br>
+                        WhatsApp: (34) 0000000000
+                    </p> `
                     }).then((result) => {
                         if (result.isConfirmed) {
                             fetch(`/pagamentos/checkout/cancelar/${idPagamento}/{{ $linkHash }}`, {
@@ -497,7 +591,7 @@
                                         icon: 'success',
                                         title: 'Forma de pagamento alterada!',
                                         text: 'Agora você pode escolher outro método de pagamento.'
-                                    }).then(() => window.location.href = `{{route('checktou.index', ['linkHash' => $linkHash])}}`);
+                                    }).then(() => window.location.href = `{{ route('checktou.index', ['linkHash' => $linkHash]) }}`);
                                 })
 
                         }
@@ -510,13 +604,13 @@
 
 
     <div class="layout-overlay layout-menu-toggle"></div>
-    <script src="{{asset('assets/vendor/libs/popper/popper.js')}}"></script>
-    <script src="{{asset('assets/vendor/js/bootstrap.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/node-waves/node-waves.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/@algolia/autocomplete-js.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/pickr/pickr.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/cleave-zen/cleave-zen.js')}}"></script>
-    <script src="{{asset('assets/js/front-page-payment.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/node-waves/node-waves.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/@algolia/autocomplete-js.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/pickr/pickr.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/cleave-zen/cleave-zen.js') }}"></script>
+    <script src="{{ asset('assets/js/front-page-payment.js') }}"></script>
 </body>
 
 </html>

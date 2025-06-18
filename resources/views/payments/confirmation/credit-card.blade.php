@@ -1,10 +1,12 @@
 <!doctype html>
 
-<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-skin="default" data-assets-path="../../assets/" data-template="horizontal-menu-template" data-bs-theme="light">
+<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-skin="default"
+    data-assets-path="../../assets/" data-template="horizontal-menu-template" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Invicta - Inquilinos</title>
 
@@ -17,24 +19,26 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
+        rel="stylesheet" />
 
-    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/iconify-icons.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/iconify-icons.css') }}" />
 
 
     <!-- Core CSS -->
     <!-- build:css assets/vendor/css/theme.css  -->
 
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/node-waves/node-waves.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/node-waves/node-waves.css') }}" />
 
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/pickr/pickr-themes.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/pickr/pickr-themes.css') }}" />
 
-    <link rel="stylesheet" href="{{asset('assets/vendor/css/core.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
 
     <!-- Vendors CSS -->
 
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
 
     <style>
         @media (max-width: 612px) {
@@ -72,63 +76,76 @@
                 <div class="content-wrapper">
                     <!-- Content -->
                     <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light full">
-                        <div class="card p-4 text-center full" style="max-width: 480px; width: 100%;">
+                        <div class="card full p-4 text-center" style="max-width: 480px; width: 100%;">
                             <div class="d-flex justify-content-center">
-                                <img class="mb-3" height="100" width="100" src="https://cdn2.iconfinder.com/data/icons/greenline/512/check-1024.png" />
+                                <img class="mb-3" height="100" width="100"
+                                    src="https://cdn2.iconfinder.com/data/icons/greenline/512/check-1024.png" />
                             </div>
                             <h4 class="mb-4">Pagamento Efetuado</h4>
 
                             @foreach ($propostalInfo as $proposta)
-                            @if($paymentInfo[0])
-                            <p class="text-start fw-bold">PAGAMENTO 1</p>
-                            <div class="card mb-3" style="border-radius: 10px; border: 2px solid rgb(180, 55, 180, 0.7)">
-                                <div class="card-body p-3">
-                                    <div class="d-flex align-items-center mb-2">
-                                        <i class="icon-base ti tabler-circle-check"></i>
-                                        <strong class="me-auto">Taxa Serviço</strong>
-                                        <span class="fw-semibold">{{$proposta['proposta_total_valor']}}</span>
+                                @if ($paymentInfo[0])
+                                    <p class="fw-bold text-start">PAGAMENTO 1</p>
+                                    <div class="card mb-3"
+                                        style="border-radius: 10px; border: 2px solid rgb(180, 55, 180, 0.7)">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="icon-base ti tabler-circle-check"></i>
+                                                <strong class="me-auto">Taxa Serviço</strong>
+                                                <span class="fw-semibold">{{ $proposta['proposta_total_valor'] }}</span>
+                                            </div>
+                                            <div class="text-start">
+                                                <p class="mb-1"><strong
+                                                        class="text-primary">{{ $paymentInfo[0]['creditCard']['creditCardBrand'] }}</strong>
+                                                    Cartão: **** **** ****
+                                                    {{ $paymentInfo[0]['creditCard']['creditCardNumber'] }}</p>
+                                                <p class="mb-1">{{ $proposta['proposta_total_parc'] }} parcela(s) de
+                                                    R$ {{ $paymentInfo[0]['value'] }}</p>
+                                                <p>Próxima cobrança: {{ $paymentInfo[0]['creditDate'] }}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="text-start">
-                                        <p class="mb-1"><strong class="text-primary">{{$paymentInfo[0]['creditCard']['creditCardBrand']}}</strong> Cartão: **** **** **** {{$paymentInfo[0]['creditCard']['creditCardNumber']}}</p>
-                                        <p class="mb-1">{{$proposta['proposta_total_parc']}} parcela(s) de R$ {{$paymentInfo[0]['value']}}</p>
-                                        <p>Próxima cobrança: {{$paymentInfo[0]['creditDate']}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
+                                @endif
 
-                            @if($paymentInfo[1])
-                            <p class="text-start fw-bold">PAGAMENTO 2</p>
-                            <div class="card mb-3" style="border-radius: 10px; border: 2px solid rgb(180, 55, 180, 0.7)">
-                                <div class="card-body p-3">
-                                    <div class="d-flex align-items-center mb-2">
-                                        <i class="icon-base ti tabler-circle-check"></i>
-                                        <strong class="me-auto">Taxa Setup</strong>
-                                        <span class="fw-semibold">{{$proposta['proposta_setup_valor']}}</span>
+                                @if ($paymentInfo[1])
+                                    <p class="fw-bold text-start">PAGAMENTO 2</p>
+                                    <div class="card mb-3"
+                                        style="border-radius: 10px; border: 2px solid rgb(180, 55, 180, 0.7)">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="icon-base ti tabler-circle-check"></i>
+                                                <strong class="me-auto">Taxa Setup</strong>
+                                                <span
+                                                    class="fw-semibold">{{ $proposta['proposta_setup_valor'] }}</span>
+                                            </div>
+                                            <div class="text-start">
+                                                <p class="mb-1"><strong
+                                                        class="text-primary">{{ $paymentInfo[1]['creditCard']['creditCardBrand'] }}</strong>
+                                                    Cartão: **** **** ****
+                                                    {{ $paymentInfo[1]['creditCard']['creditCardNumber'] }}</p>
+                                                <p class="mb-1">{{ $proposta['proposta_setup_parc'] }} parcela(s) de
+                                                    R$ {{ $paymentInfo[1]['value'] }}</p>
+                                                <p>Próxima cobrança: {{ $paymentInfo[1]['creditDate'] }}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="text-start">
-                                        <p class="mb-1"><strong class="text-primary">{{$paymentInfo[1]['creditCard']['creditCardBrand']}}</strong> Cartão: **** **** **** {{$paymentInfo[1]['creditCard']['creditCardNumber']}}</p>
-                                        <p class="mb-1">{{$proposta['proposta_setup_parc']}} parcela(s) de R$ {{$paymentInfo[1]['value']}}</p>
-                                        <p>Próxima cobrança: {{$paymentInfo[1]['creditDate']}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
+                                @endif
                             @endforeach
 
                             <div class="card bg-light mt-3 p-3 text-start">
-                                <p class="mb-1 d-flex justify-content-between">
+                                <p class="d-flex justify-content-between mb-1">
                                     <span>Taxa Serviço</span>
-                                    <strong>{{$proposta['proposta_total_valor']}}</strong>
+                                    <strong>{{ $proposta['proposta_total_valor'] }}</strong>
                                 </p>
-                                <p class="mb-1 d-flex justify-content-between">
+                                <p class="d-flex justify-content-between mb-1">
                                     <span>Taxa Setup</span>
-                                    <strong>{{$proposta['proposta_setup_valor']}}</strong>
+                                    <strong>{{ $proposta['proposta_setup_valor'] }}</strong>
                                 </p>
                                 <hr />
-                                <p class="mb-0 d-flex justify-content-between fw-bold">
+                                <p class="d-flex justify-content-between fw-bold mb-0">
                                     <span>Total</span>
-                                    <span style="color: rgb(180, 55, 180)">{{ $proposta['valor_total_pagamento']}}</span>
+                                    <span
+                                        style="color: rgb(180, 55, 180)">{{ $proposta['valor_total_pagamento'] }}</span>
                                 </p>
                             </div>
                         </div>

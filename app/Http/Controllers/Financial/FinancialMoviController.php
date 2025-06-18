@@ -16,7 +16,7 @@ class FinancialMoviController extends Controller
     public function index(Request $request): View
     {
         $queryParams = [
-            'page'   => $request->get('page', 1),
+            'page'         => $request->get('page', 1),
             "id_conta"     => $request->input('id_conta'),
             "data_inicial" => $request->input('data_inicial'),
             "data_final"   => $request->input('data_final'),
@@ -41,7 +41,7 @@ class FinancialMoviController extends Controller
             'contas'        => $contas,
             'categorias'    => $categorias,
             'valores'       => $valores,
-            'pagination'        =>$response->json()['meta'],
+            'pagination'    => $response->json()['meta'],
         ]);
     }
 

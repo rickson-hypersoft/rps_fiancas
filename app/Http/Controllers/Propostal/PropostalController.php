@@ -699,12 +699,12 @@ class PropostalController extends Controller
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
-        $parserPropostal                    = $this->parserValuesForInsert($proposta);
+        $parserPropostal                            = $this->parserValuesForInsert($proposta);
         $parserPropostal['motivo']                  = $motivo;
         $parserPropostal['motivo_explicacao']       = $motivoOpicional;
         $parserPropostal['data_ultima_atualizacao'] = date('Y-m-d');
         $parserPropostal['hora_ultima_atualizacao'] = date('H:i:s');
-        $parserPropostal['proposta_status'] = 'Alteração Imobiliária';
+        $parserPropostal['proposta_status']         = 'Alteração Imobiliária';
 
         $historico = "Solicitação alterada #{$id} por motivo de {$motivo}";
 
