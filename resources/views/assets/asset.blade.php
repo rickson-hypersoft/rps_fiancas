@@ -39,9 +39,11 @@
                                 class="badge rounded-pill bg-{{ $data['proposta_status'] == 'Cancelado' ? 'danger' : 'success' }} badge-dot border"></span>
                             {{ $data['contrato_status'] }}</p>
 
-                        <!--<p>Proxíma Renovação estimada: 03/06/2025</p>
-                                            <p>Fiança disponível: <span class="badge text-bg-success">R$ 8.000,00</span></p>
-                                            <span>* Este valor considera apenas inadimplências pagas e provisionadas. Inadimplências em análise não são debatidas deste valor.</span>-->
+                        <p>Proxíma Renovação estimada: {{ $data['prox_renovacao'] }}</p>
+                        <p>Fiança disponível: <span class="badge text-bg-success">{{ $data['fianca_disponivel'] }}</span>
+                        </p>
+                        <span>* Este valor considera apenas inadimplências pagas e provisionadas. Inadimplências em
+                            análise não são debatidas deste valor.</span>
                     </div>
                 </div>
             </div>
@@ -110,11 +112,11 @@
                                             <td class="text-end">{{ $data['proposta_setup_parc'] }}x</td>
                                         </tr>
                                         <!-- ??
-                                                            <tr>
-                                                                <td class="fw-bold">Pagador:</td>
-                                                                <td class="text-end">R$ 0,00</td>
-                                                            </tr>
-                                                        -->
+                                                                                <tr>
+                                                                                    <td class="fw-bold">Pagador:</td>
+                                                                                    <td class="text-end">R$ 0,00</td>
+                                                                                </tr>
+                                                                            -->
                                     </tbody>
                                 </table>
 
@@ -149,11 +151,11 @@
                                             <td class="text-end">{{ $data['imovel_tag'] }}</td>
                                         </tr>
                                         <!--
-                                                            <tr>
-                                                                <td class="fw-bold">Descrição:</td>
-                                                                <td class="text-end">R$ 0,00</td>
-                                                            </tr>
-                                                        -->
+                                                                                <tr>
+                                                                                    <td class="fw-bold">Descrição:</td>
+                                                                                    <td class="text-end">R$ 0,00</td>
+                                                                                </tr>
+                                                                            -->
                                     </tbody>
                                 </table>
                                 <h6 class="bg-light mb-0 p-3">Documentos</h6>

@@ -28,7 +28,8 @@ class RealEstateSectorUserController extends Controller
         $token = session('jwt_token');
 
         $requestSanitize = $request->all();
-        $requestSanitize = $this->sanitizeData($request->all(), ['telefone', 'cep', 'taxa_padrao', 'custo_saida', 'cobertura_total']);
+        $requestSanitize = $this->sanitizeData($request->all(), ['telefone', 'cep', 'taxa_padrao', 'custo_saida',
+            'cobertura_total']);
 
         $validator = Validator::make($requestSanitize, [
             'razao'           => 'required|string|max:100',
@@ -58,7 +59,10 @@ class RealEstateSectorUserController extends Controller
 
         $realEstateSectorData = $validator->validated();
 
-        $response       = Http::withToken($token)->put(config('api.route') . '/realestatesector/' . $id, $realEstateSectorData);
+        $response = Http::withToken($token)->put(
+            config('api.route') . '/realestatesector/' . $id,
+            $realEstateSectorData
+        );
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

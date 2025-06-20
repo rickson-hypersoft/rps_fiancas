@@ -51,29 +51,42 @@
                                 <label for="largeSelect" class="form-label">Status</label>
                                 <select name="status" id="largeSelect" class="form-select form-select-lg">
                                     <option value="">Todos</option>
-                                    <option value="Pendente" {{ request('status') == 'Pendente' ? 'selected' : '' }}>
+                                    <option value="Aguardando Cancelamento"
+                                        {{ request('status') == 'Aguardando Cancelamento' ? 'selected' : '' }}>
                                         Aguardando Cancelamento</option>
-                                    <option value="Aprovado" {{ request('status') == 'Aprovado' ? 'selected' : '' }}>Alteração
+                                    <option value="Alteração Imobiliária"
+                                        {{ request('status') == 'Alteração Imobiliária' ? 'selected' : '' }}>
+                                        Alteração
                                         Imobiliária</option>
-                                    <option value="Cancelado" {{ request('status') == 'Cancelado' ? 'selected' : '' }}>
+                                    <option value="Alteração Imobiliária"
+                                        {{ request('status') == 'Alteração Imobiliária' ? 'selected' : '' }}>
                                         Alteração Imobiliária solicitada</option>
-                                    <option value="Negado" {{ request('status') == 'Negado' ? 'selected' : '' }}>Analise
+                                    <option value="Análise" {{ request('status') == 'Análise' ? 'selected' : '' }}>Análise
                                     </option>
-                                    <option value="Rascunho" {{ request('status') == 'Rascunho' ? 'selected' : '' }}>Aprovado
+                                    <option value="Aprovado" {{ request('status') == 'Aprovado' ? 'selected' : '' }}>
+                                        Aprovado
                                     </option>
-                                    <option value="Rascunho" {{ request('status') == 'Rascunho' ? 'selected' : '' }}>Em
+                                    <option value="Em análise biométrica"
+                                        {{ request('status') == 'Em análise biométrica' ? 'selected' : '' }}>Em
                                         análise Biométrica</option>
-                                    <option value="Rascunho" {{ request('status') == 'Rascunho' ? 'selected' : '' }}>Em
+                                    <option value="Em análise Biométrica - Ag Retorno Imobiliária"
+                                        {{ request('status') == 'Em análise Biométrica - Ag Retorno Imobiliária' ? 'selected' : '' }}>
+                                        Em
                                         análise Biométrica - Ag Retorno Imobiliária</option>
-                                    <option value="Rascunho" {{ request('status') == 'Rascunho' ? 'selected' : '' }}>Em
-                                        análise de estorno</option>
-                                    <option value="Rascunho" {{ request('status') == 'Rascunho' ? 'selected' : '' }}>Em
+                                    <option value="Análise de estorno"
+                                        {{ request('status') == 'Análise de estorno' ? 'selected' : '' }}>Em
+                                        Análise de estorno</option>
+                                    <option value="Em cancelamento"
+                                        {{ request('status') == 'Em cancelamento' ? 'selected' : '' }}>Em
                                         cancelamento</option>
-                                    <option value="Rascunho" {{ request('status') == 'Rascunho' ? 'selected' : '' }}>Pendente
+                                    <option value="Pendente" {{ request('status') == 'Pendente' ? 'selected' : '' }}>
+                                        Pendente
                                     </option>
-                                    <option value="Rascunho" {{ request('status') == 'Rascunho' ? 'selected' : '' }}>Pendente
-                                        Análise</option>
-                                    <option value="Rascunho" {{ request('status') == 'Rascunho' ? 'selected' : '' }}>Suspenso
+                                    <option value="Pendente Análise"
+                                        {{ request('status') == 'Pendente Análise' ? 'selected' : '' }}>
+                                        Pendente Análise</option>
+                                    <option value="Suspenso" {{ request('status') == 'Suspenso' ? 'selected' : '' }}>
+                                        Suspenso
                                     </option>
                                 </select>
                             </div>
@@ -93,7 +106,7 @@
 
                 <div class="tab-pane fade active show" id="navs-pendente" role="tabpanel">
                     <div class="table-responsive mt-4 text-nowrap pt-2">
-                        <table class="table">
+                        <table class="table" style="font-size: 13px">
                             <thead>
                                 <tr>
                                     <th>Contrato</th>

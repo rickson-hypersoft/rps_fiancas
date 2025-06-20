@@ -23,52 +23,76 @@
                 <h5>Meu financeiro</h5>
                 <div class="card">
                     <div class="card-body mb-1 pb-1">
-                        <form action="{{ route('financial.financial_movi.index') }}" class="row">
-                            <div class="col-md-3 mb-4">
-                                <label for="largeInput" class="form-label">Conta</label>
-                                <select class="form-select form-select-lg" name="id_conta" id="id_conta">
-                                    <option value="">Todos</option>
-                                    @foreach ($contas as $conta)
-                                        <option value="{{ $conta['id'] }}"
-                                            {{ request()->query('id_conta') == $conta['id'] ? 'selected' : '' }}>
-                                            {{ $conta['descricao'] }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @php
-                                $hoje = \Carbon\Carbon::now();
-                                $dataInicial = $hoje->copy()->startOfMonth()->format('Y-m-d');
-                                $dataFinal = $hoje->copy()->endOfMonth()->format('Y-m-d');
-                            @endphp
+                        <div class="row g-2 align-items-end">
+                            {{-- Formulário de pesquisa --}}
+                            <form action="{{ route('financial.financial_movi.index') }}" method="GET"
+                                class="col-md-10 row g-2 align-items-end">
 
-                            <div class="col-md-2 mb-4">
-                                <label for="data_inicial" class="form-label">Data Inicial</label>
-                                <input id="data_inicial" class="form-control form-control-lg" name="data_inicial"
-                                    type="date"
-                                    value="{{ old('data_inicial', request()->query('data_inicial', $dataInicial)) }}">
-                            </div>
+                                <div class="col-md-3">
+                                    <label for="id_conta" class="form-label mb-1">Conta</label>
+                                    <select class="form-select form-select-sm" name="id_conta" id="id_conta">
+                                        <option value="">Todos</option>
+                                        @foreach ($contas as $conta)
+                                            <option value="{{ $conta['id'] }}"
+                                                {{ request()->query('id_conta') == $conta['id'] ? 'selected' : '' }}>
+                                                {{ $conta['descricao'] }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
-                            <div class="col-md-2 mb-4">
-                                <label for="data_final" class="form-label">Data Final</label>
-                                <input id="data_final" class="form-control form-control-lg" name="data_final" type="date"
-                                    value="{{ old('data_final', $dataFinal) }}">
-                            </div>
-                            <div class="col-md-3 mb-4">
-                                <label for="largeInput" class="form-label">Categoria</label>
-                                <select class="form-select form-select-lg" name="id_categoria" id="id_categoria">
-                                    <option value="">Todos</option>
-                                    @foreach ($categorias as $categoria)
-                                        <option value="{{ $categoria['id'] }}"
-                                            {{ request()->query('id_categoria') == $categoria['id'] ? 'selected' : '' }}>
-                                            {{ $categoria['descricao'] }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-primary btn-lg mt-5">Pesquisar</button>
-                            </div>
-                        </form>
+                                @php
+                                    $hoje = \Carbon\Carbon::now();
+                                    $dataInicial = $hoje->copy()->startOfMonth()->format('Y-m-d');
+                                    $dataFinal = $hoje->copy()->endOfMonth()->format('Y-m-d');
+                                @endphp
+
+                                <div class="col-md-2">
+                                    <label for="data_inicial" class="form-label mb-1">Data Inicial</label>
+                                    <input id="data_inicial" class="form-control form-control-sm" name="data_inicial"
+                                        type="date"
+                                        value="{{ old('data_inicial', request()->query('data_inicial', $dataInicial)) }}">
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="data_final" class="form-label mb-1">Data Final</label>
+                                    <input id="data_final" class="form-control form-control-sm" name="data_final"
+                                        type="date"
+                                        value="{{ old('data_final', request()->query('data_final', $dataFinal)) }}">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="id_categoria" class="form-label mb-1">Categoria</label>
+                                    <select class="form-select form-select-sm" name="id_categoria" id="id_categoria">
+                                        <option value="">Todos</option>
+                                        @foreach ($categorias as $categoria)
+                                            <option value="{{ $categoria['id'] }}"
+                                                {{ request()->query('id_categoria') == $categoria['id'] ? 'selected' : '' }}>
+                                                {{ $categoria['descricao'] }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 d-grid">
+                                    <button type="submit" class="btn btn-primary btn-sm">Pesquisar</button>
+                                </div>
+                            </form>
+
+                            {{-- Formulário de exportação XLSX --}}
+                            <form method="GET" action="{{ route('financial.financial_movi.export') }}"
+                                class="col-md-2 d-grid">
+                                {{-- Mantendo os filtros na exportação --}}
+                                <input type="hidden" name="id_conta" value="{{ request('id_conta') }}">
+                                <input type="hidden" name="id_categoria" value="{{ request('id_categoria') }}">
+                                <input type="hidden" name="data_inicial"
+                                    value="{{ request('data_inicial') ?? $dataInicial }}">
+                                <input type="hidden" name="data_final" value="{{ request('data_final') ?? $dataFinal }}">
+                                <input type="hidden" name="search" value="{{ request('search') }}">
+
+                                <button type="submit" class="btn btn-success btn-sm">Exportar XLSX</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
@@ -136,11 +160,11 @@
                     </div>
                 </div>
 
-                <div class="card mb-0">
+                <div class="card mb-0 mt-5">
                     <div class="card-header">
                         <h5>Listagem das Movimentações</h5>
                         <hr>
-                        <div class="row align-items-center pt-5">
+                        <div class="row align-items-center pt-3">
                             <div class="col-sm-7 col-12 mb-1">
                                 <form action="{{ route('financial.financial_movi.index') }}" method="GET">
                                     <label for="pesquisar" class="form-label">Pesquisar</label>
@@ -162,7 +186,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body mt-5">
+                    <div class="card-body">
                         <div class="table-responsive table" style="height: 250px;">
                             <table class="table-sm table-borderless table-striped table-hover table"
                                 style="font-size: 18px;">

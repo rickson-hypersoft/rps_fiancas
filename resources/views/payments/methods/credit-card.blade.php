@@ -38,6 +38,8 @@
 </head>
 
 <body>
+
+
     <script src="{{ asset('assets/vendor/js/dropdown-hover.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/mega-dropdown.js') }}"></script>
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
@@ -46,6 +48,15 @@
                 <div class="content-wrapper">
                     <section class="section-py bg-body first-section-pt p-5">
                         <div class="container">
+                            @if ($errors->any())
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    @foreach ($errors->all() as $error)
+                                        <span>{{ $error }}</span>
+                                    @endforeach
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endif
                             <div class="card px-3">
                                 <div class="row" class="static-table">
                                     <div class="col-lg-7 card-body border-end p-md-8">
@@ -92,27 +103,30 @@
                                                                     cartão</label>
                                                                 <input type="text" class="form-control bg-white"
                                                                     name="numero_cartao" id="numero_cartao"
-                                                                    placeholder="0000 0000 0000 0000" required />
+                                                                    placeholder="0000 0000 0000 0000" required
+                                                                    value="{{ old('numero_cartao') }}" />
                                                             </div>
                                                             <div class="col-md-2 mb-3">
                                                                 <label for="cvv" class="form-label">CVV</label>
                                                                 <input type="text" class="form-control bg-white"
                                                                     name="cvv" id="cvv" placeholder="000"
-                                                                    required />
+                                                                    required value="{{ old('cvv') }}" />
                                                             </div>
                                                             <div class="col-md-3 mb-3">
                                                                 <label for="data_vencimento"
                                                                     class="form-label">Vencimento</label>
                                                                 <input type="text" class="form-control bg-white"
                                                                     name="data_vencimento" id="data_vencimento"
-                                                                    placeholder="00/00" required />
+                                                                    placeholder="00/00" required
+                                                                    value="{{ old('data_vencimento') }}" />
                                                             </div>
                                                             <div class="col-md-7 mb-3">
                                                                 <label for="nome_cartao" class="form-label">Nome (como
                                                                     está no cartão)</label>
                                                                 <input type="text" class="form-control bg-white"
                                                                     name="nome_cartao" id="nome_cartao"
-                                                                    placeholder="Nome impresso no cartão" required />
+                                                                    placeholder="Nome impresso no cartão" required
+                                                                    value="{{ old('nome_cartao') }}" />
                                                             </div>
 
                                                             <hr>
@@ -122,40 +136,44 @@
                                                                 <input type="text" class="form-control bg-white"
                                                                     name="pessoa_nome" id="pessoa_nome"
                                                                     placeholder="Nome completo do titular do cartão"
-                                                                    required />
+                                                                    required value="{{ old('pessoa_nome') }}" />
                                                             </div>
                                                             <div class="col-md-4 mb-3">
                                                                 <label for="pessoa_doc" class="form-label">CPF</label>
                                                                 <input type="text" class="form-control bg-white"
                                                                     name="pessoa_doc" id="pessoa_doc"
-                                                                    placeholder="000.000.000-00" required />
+                                                                    placeholder="000.000.000-00" required
+                                                                    value="{{ old('pessoa_doc') }}" />
                                                             </div>
                                                             <div class="col-md-4 mb-3">
                                                                 <label for="pessoa_cep" class="form-label">CEP</label>
                                                                 <input type="text" class="form-control bg-white"
                                                                     name="pessoa_cep" id="pessoa_cep"
-                                                                    placeholder="00000-000" required />
+                                                                    placeholder="00000-000" required
+                                                                    value="{{ old('pessoa_cep') }}" />
                                                             </div>
                                                             <div class="col-md-8 mb-3">
                                                                 <label for="pessoa_endereco"
                                                                     class="form-label">Endereço</label>
                                                                 <input type="text" class="form-control bg-white"
                                                                     name="pessoa_endereco" id="pessoa_endereco"
-                                                                    required />
+                                                                    required value="{{ old('pessoa_endereco') }}" />
                                                             </div>
                                                             <div class="col-md-3 mb-3">
                                                                 <label for="pessoa_numero"
                                                                     class="form-label">Número</label>
                                                                 <input type="text" class="form-control bg-white"
                                                                     name="pessoa_numero" id="pessoa_numero"
-                                                                    placeholder="000" required />
+                                                                    placeholder="000" required
+                                                                    value="{{ old('pessoa_numero') }}" />
                                                             </div>
                                                             <div class="col-md-6 mb-3">
                                                                 <label for="pessoa_complemento"
                                                                     class="form-label">Complemento</label>
                                                                 <input type="text" class="form-control bg-white"
                                                                     name="pessoa_complemento" id="pessoa_complemento"
-                                                                    placeholder="Complemento" />
+                                                                    placeholder="Complemento"
+                                                                    value="{{ old('pessoa_complemento') }}" />
                                                             </div>
 
                                                             <div class="col-md-3 mb-3" id="estado-container">
@@ -163,7 +181,7 @@
                                                                     for="pessoa_estado">Estado</label>
                                                                 <input type="text" name="pessoa_estado"
                                                                     id="pessoa_estado" class="form-control bg-white"
-                                                                    readonly>
+                                                                    readonly value="{{ old('pessoa_estado') }}" />
                                                             </div>
 
                                                             <div class="col-md-6 mb-3" id="cidade-container">
@@ -171,15 +189,15 @@
                                                                     for="pessoa_cidade">Cidade</label>
                                                                 <input type="text" name="pessoa_cidade"
                                                                     id="pessoa_cidade" class="form-control bg-white"
-                                                                    readonly>
+                                                                    readonly value="{{ old('pessoa_cidade') }}" />
                                                             </div>
 
                                                             <div class="col-md-6 mb-3">
                                                                 <label for="pessoa_bairro"
                                                                     class="form-label">Bairro</label>
                                                                 <input type="text" class="form-control bg-white"
-                                                                    name="pessoa_bairro" id="pessoa_bairro"
-                                                                    required />
+                                                                    name="pessoa_bairro" id="pessoa_bairro" required
+                                                                    value="{{ old('pessoa_bairro') }}" />
                                                             </div>
                                                             <div>
                                                                 <a href="#" id="btn-continuar"
@@ -199,7 +217,7 @@
                                                                 <span>Pagamento 1</span>
                                                                 <div class="card mt-5" style="box-shadow: none;">
                                                                     <div class="card-body" style="background: #fff;">
-                                                                        <h6>Aluguel Imóvel <span
+                                                                        <h6>Taxa Serviço <span
                                                                                 class="fw-normal">{{ $data['proposta_total_valor'] }}</span>
                                                                         </h6>
                                                                         <hr>
@@ -226,7 +244,7 @@
                                                                 <span>Pagamento 2</span>
                                                                 <div class="card mt-5" style="box-shadow: none;">
                                                                     <div class="card-body" style="background: #fff;">
-                                                                        <h6>Setup <span
+                                                                        <h6>Taxa Setup<span
                                                                                 class="fw-normal">{{ $data['proposta_setup_valor'] }}</span>
                                                                         </h6>
                                                                         <hr>
@@ -344,7 +362,7 @@
                                             <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
                                                 <p class="mb-0">
                                                     <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;">Valor Aluguel</font>
+                                                        <font style="vertical-align: inherit;">Taxa Serviço</font>
                                                     </font>
                                                 </p>
                                                 <p class="mb-0">
@@ -357,7 +375,7 @@
                                             <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
                                                 <p class="mb-0">
                                                     <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;">Valor Setup</font>
+                                                        <font style="vertical-align: inherit;">Taxa Setup</font>
                                                     </font>
                                                 </p>
                                                 <p class="mb-0">
@@ -558,47 +576,47 @@
             });
 
             /*
-            if (alterarPagamentoBtn) {
-                alterarPagamentoBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
+                                if (alterarPagamentoBtn) {
+                                    alterarPagamentoBtn.addEventListener('click', function (e) {
+                                        e.preventDefault();
 
-                    Swal.fire({
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Sim, desejo alterar!',
-                        cancelButtonText: 'Cancelar',
-                        html: `
-                    <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Você tem certeza que deseja alterar a forma de pagamento?</h3>
-                    <p style="text-align: center; white-space: pre-line; font-size: 1rem;">
-                        Caso já tenha efetuado o pagamento do boleto não altere para outra forma de pagamento e entre com contato com o nosso time de atendimento para obter ajuda.<br>
-                        Canal de atendimento: 00000000000<br>
-                        WhatsApp: (34) 0000000000
-                    </p> `
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            fetch(`/pagamentos/checkout/cancelar/${idPagamento}/{{ $linkHash }}`, {
-                                method: 'POST',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                    'Content-Type': 'application/json'
+                                        Swal.fire({
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Sim, desejo alterar!',
+                                            cancelButtonText: 'Cancelar',
+                                            html: `
+        <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Você tem certeza que deseja alterar a forma de pagamento?</h3>
+        <p style="text-align: center; white-space: pre-line; font-size: 1rem;">
+            Caso já tenha efetuado o pagamento do boleto não altere para outra forma de pagamento e entre com contato com o nosso time de atendimento para obter ajuda.<br>
+            Canal de atendimento: 00000000000<br>
+            WhatsApp: (34) 0000000000
+        </p> `
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                fetch(`/pagamentos/checkout/cancelar/${idPagamento}/{{ $linkHash }}`, {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                                        'Content-Type': 'application/json'
+                                                    }
+                                                })
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        Swal.fire({
+                                                            icon: 'success',
+                                                            title: 'Forma de pagamento alterada!',
+                                                            text: 'Agora você pode escolher outro método de pagamento.'
+                                                        }).then(() => window.location.href = `{{ route('checktou.index', ['linkHash' => $linkHash]) }}`);
+                                                    })
+
+                                            }
+                                        });
+                                    });
                                 }
-                            })
-                                .then(response => response.json())
-                                .then(data => {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Forma de pagamento alterada!',
-                                        text: 'Agora você pode escolher outro método de pagamento.'
-                                    }).then(() => window.location.href = `{{ route('checktou.index', ['linkHash' => $linkHash]) }}`);
-                                })
-
-                        }
-                    });
-                });
-            }
-            */
+                                */
         });
     </script>
 

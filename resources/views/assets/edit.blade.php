@@ -22,10 +22,11 @@
                         <label class="form-label" for="formValidationUsername">Valor Aluguel</label>
                         <div class="input-group input-group-merge">
                             <span class="input-group-text">
-                                <i class="ti tabler-currency-dollar"></i>
+                                R$
                             </span>
                             <input name="imovel_aluguel" disabled readonly style="text-align: right" id="imovel_aluguel"
-                                type="text" class="form-control form-control-lg" value="{{ $data['imovel_aluguel'] }}"
+                                type="text" class="form-control form-control-lg"
+                                value="{{ str_replace('R$ ', '', $data['imovel_aluguel']) }}"
                                 aria-label="Amount (to the nearest dollar)">
                         </div>
                     </div>
@@ -34,11 +35,12 @@
                         <label class="form-label" for="formValidationUsername">Valor do Condomínio</label>
                         <div class="input-group input-group-merge">
                             <span class="input-group-text">
-                                <i class="ti tabler-currency-dollar"></i>
+                                R$
                             </span>
                             <input disabled readonly name="imovel_condominio" style="text-align: right"
                                 id="imovel_condominio" type="text" class="form-control form-control-lg"
-                                value="{{ $data['imovel_condominio'] }}" aria-label="Amount (to the nearest dollar)">
+                                value="{{ str_replace('R$ ', '', $data['imovel_condominio']) }}"
+                                aria-label="Amount (to the nearest dollar)">
                         </div>
                     </div>
 
@@ -46,10 +48,11 @@
                         <label class="form-label" for="formValidationUsername">Outras Taxas</label>
                         <div class="input-group input-group-merge">
                             <span class="input-group-text">
-                                <i class="ti tabler-currency-dollar"></i>
+                                R$
                             </span>
                             <input disabled readonly name="imovel_taxas" style="text-align: right" id="imovel_taxas"
-                                type="text" class="form-control form-control-lg" value="{{ $data['imovel_taxas'] }}"
+                                type="text" class="form-control form-control-lg"
+                                value="{{ str_replace('R$ ', '', $data['imovel_taxas']) }}"
                                 aria-label="Amount (to the nearest dollar)">
                         </div>
                     </div>
@@ -58,11 +61,12 @@
                         <label class="form-label" for="formValidationUsername">Valor locatício total</label>
                         <div class="input-group input-group-merge">
                             <span class="input-group-text">
-                                <i class="ti tabler-currency-dollar"></i>
+                                R$
                             </span>
                             <input disabled readonly name="valor_total_pagamento" style="text-align: right"
                                 id="valor_total_pagamento" type="text" class="form-control form-control-lg"
-                                value="{{ $data['valor_total_pagamento'] }}" aria-label="Amount (to the nearest dollar)">
+                                value="{{ str_replace('R$ ', '', $data['valor_total_pagamento']) }}"
+                                aria-label="Amount (to the nearest dollar)">
                         </div>
                     </div>
 
@@ -78,11 +82,14 @@
 
                     <div class="col-sm-3 form-control-validation mb-4">
                         <label class="form-label" for="formValidationUsername">Setup</label>
-                        <div class="input-group">
-
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text">
+                                R$
+                            </span>
                             <input disabled readonly name="proposta_setup_valor" style="text-align: right"
                                 id="proposta_setup_valor" type="text" class="form-control form-control-lg"
-                                value="{{ $data['proposta_setup_valor'] }}" aria-label="Amount (to the nearest dollar)">
+                                value="{{ str_replace('R$ ', '', $data['proposta_setup_valor']) }}"
+                                aria-label="Amount (to the nearest dollar)">
                         </div>
                     </div>
 

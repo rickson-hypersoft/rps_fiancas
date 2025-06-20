@@ -150,6 +150,8 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
     Route::delete('/imobiliaria/financeiro/movimentacao/deletar/{financeiro_movi}', [FinancialMoviController::class, 'delete'])
         ->name('financial.financial_movi.delete');
 
+    Route::get('/imobiliaria/financeiro/movimentacao/export', [FinancialMoviController::class, 'export'])->name('financial.financial_movi.export');
+
     Route::prefix('propostas')->group(function () {
         Route::get('/listagem', [PropostalController::class, 'index'])
             ->name('propostal.index');

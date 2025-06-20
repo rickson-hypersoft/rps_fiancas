@@ -43,11 +43,12 @@
                         <label for="valor" class="form-label">Valor</label>
                         <div class="input-group input-group-merge input-group-lg">
                             <span class="input-group-text">
-                                <i class="ti tabler-currency-dollar"></i>
+                                R$
                             </span>
-                            <input name="valor" style="text-align: right" id="valor" type="number"
-                                class="form-control form-control-lg" value="{{ old('valor', $movi['valor'] ?? '') }}"
-                                aria-label="Amount (to the nearest dollar)">
+                            <input name="valor" style="text-align: right" id="valor" type="text"
+                                class="form-control form-control-lg"
+                                value="{{ number_format(old('valor', $movi['valor'] ?? 0), 2, ',', '.') }}"
+                                aria-label="Amount">
                         </div>
                     </div>
 
@@ -55,10 +56,10 @@
                         <label for="conta" class="form-label">Conta</label>
                         <select class="form-select form-select-lg" name="id_conta" id="conta"
                             aria-label="Default select example">
-                            <option value="">Todos</option>
                             @foreach ($contas as $conta)
                                 <option value="{{ $conta['id'] }}"
-                                    {{ isset($movi['id_conta']) == $conta['id'] ? 'selected' : '' }}>{{ $conta['descricao'] }}
+                                    {{ isset($movi['id_conta']) && $movi['id_conta'] == $conta['id'] ? 'selected' : '' }}>
+                                    {{ $conta['descricao'] }}
                                 </option>
                             @endforeach
                         </select>
@@ -68,11 +69,12 @@
                         <label for="categoria" class="form-label">Categoria</label>
                         <select class="form-select form-select-lg" name="id_categoria" id="categoria"
                             aria-label="Default select example">
-                            <option value="">Todos</option>
+                            <option value="">Selecionar categoria</option>
                             @foreach ($categorias as $categoria)
                                 <option value="{{ $categoria['id'] }}"
-                                    {{ isset($movi['id_categoria']) == $categoria['id'] ? 'selected' : '' }}>
-                                    {{ trim($categoria['descricao']) }}</option>
+                                    {{ isset($movi['id_categoria']) && $movi['id_categoria'] == $categoria['id'] ? 'selected' : '' }}>
+                                    {{ $categoria['descricao'] }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -81,10 +83,12 @@
                         <label for="tipo" class="form-label">Tipo</label>
                         <select class="form-select form-select-lg" name="tipo" id="tipo"
                             aria-label="Default select example">
-                            <option value="D" {{ isset($movi['tipo']) == 'D' ? 'selected' : '' }}>
+                            <option value="D"
+                                {{ isset($movi['tipo']) && $movi['tipo'] == 'Débito' ? 'selected' : '' }}>
                                 Débito
                             </option>
-                            <option value="C" {{ isset($movi['tipo']) == 'C' ? 'selected' : '' }}>
+                            <option value="C"
+                                {{ isset($movi['tipo']) && $movi['tipo'] == 'Crédito' ? 'selected' : '' }}>
                                 Crédito
                             </option>
                         </select>
@@ -106,6 +110,19 @@
         </div>
     @section('scripts')
         <script>
+            IMask(document.getElementById("valor"), {
+                mask: Number,
+                scale: 2,
+                thousandsSeparator: ".",
+                padFractionalZeros: true,
+                normalizeZeros: true,
+                radix: ",",
+                mapToRadix: ["."],
+                min: 0,
+                max: 1000000,
+                autofix: true,
+            });
+
             const form = document.querySelector('form');
 
             form.addEventListener('submit', function(e) {

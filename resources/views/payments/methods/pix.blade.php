@@ -105,7 +105,7 @@
                                             <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
                                                 <p class="mb-0">
                                                     <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;">Valor Aluguel</font>
+                                                        <font style="vertical-align: inherit;">Taxa Serviço</font>
                                                     </font>
                                                 </p>
                                                 <p class="mb-0">
@@ -118,7 +118,7 @@
                                             <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
                                                 <p class="mb-0">
                                                     <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;">Valor Setup</font>
+                                                        <font style="vertical-align: inherit;">Taxa Setup</font>
                                                     </font>
                                                 </p>
                                                 <p class="mb-0">
@@ -308,7 +308,7 @@
                                         text: 'Agora você pode escolher outro método de pagamento.'
                                     }).then(() => window.location.href =
                                         `{{ route('checktou.index', ['linkHash' => $linkHash]) }}`
-                                        );
+                                    );
                                 })
                                 .catch(error => {
                                     Swal.fire({

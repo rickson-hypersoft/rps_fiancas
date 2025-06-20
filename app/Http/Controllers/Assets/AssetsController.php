@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Assets;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -79,6 +80,11 @@ class AssetsController extends Controller
 
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $idContrato);
         $dataHistory = $response->json();
+
+        $dateConvert                       = Carbon::parse($data['data']['data'])->addYear();
+        $fiancaDisponivel                  = ($this->parseValor($data['data']['imovel_aluguel']) * 40);
+        $data['data']['fianca_disponivel'] = 'R$ ' . number_format(floatval($fiancaDisponivel), 2, ',', '');
+        $data['data']['prox_renovacao']    = $dateConvert->format('d/m/Y');
 
         return view('assets.asset', ['data' => $data['data'], 'histories' => $dataHistory['data']]);
     }

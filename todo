@@ -1,0 +1,54 @@
+Urgente:
+
+Proposta
+✅ Conseguir acompanhar o status do contrato mesmo fechando em telas durante a jornada
+✅ Telefone aceitar com 9 a mais
+✅ Corrigir campo Proposta_Total_Valor (deve ser o valor do aluguel x taxa padrão / 100 x 12)
+[ ] Tabela: Propostas_Pagamentos, em vez de excluir, coloque ativo=0
+✅ Pagamento em Cartão, alterar para Taxa Serviço e Taxa Setup
+✅ Pagamento não aprovado, melhorar a tela
+[ ] Na tela precisa aparecer que etapa o inquilino esta
+
+Contratos
+✅ Filtro: Todos e Pendentes
+✅ Paginação 10 linhas
+[ ] Exportar em XLS formatado
+✅ Fiança disponível: 40x o valor do aluguel
+[ ] Anexar abrir tela de edição, quando tiver anexo, aparecer Anexado e fazer down
+[ ] Na tela de visualização do contrato alinhar a esquerda os dados
+[ ] Na tela de visualização do contrato trocar imagem por uma imagem mais parecida com um ícone
+[ ] Falta a parte do Termo
+✅ Input colocar R$
+[ ] Anexos de Documentos - Acrescentar Tabela com: Tipo(Contrato, Vistoria..) Nome do arquivo, data do anexo, opções: download e remover
+[ ] Na tela de contratos, ao clicar no título (Todos, Ativos...) já filtrar
+[ ] Modal do alteração imobiliária ta errado
+
+Financeiro
+✅ Ajustar select como eu passei
+✅ Verificar alinhamentos da tela
+✅ Na tela de edição, em Contas é obrigatório, não pode ter opção todos
+✅ Categoria tirar todos e colocar nenhum
+✅ Opção de exportar xls na tela principal
+✅ No final colocar os totais (Saldo Anterior, Créditos, Débitos, Saldo Atual)
+
+Integração
+[ ] Verificar se o cliente existe pelo cpf ou cnpj e se existir, conferir dados, se não existir incluir o mesmo
+[ ] Passar todos os dados que tiver para o cliente
+[ ] Boleto ou Pix tem que gerar Taxa Serviço + Taxa Setup
+[ ] Boleto - Descrição: Referente Fiança Locatícia nº XXX
+[ ] Microsserviço de confirmação esta com erro
+
+Melhorias
+
+Home
+[] Ao clicar no ícone de contratos e propostas, abrir ela já com o filtro do status
+✅ Pesquisa tirar a palavra proposta
+
+Proposta
+✅ Tirar #XX e mudar para nº xxx
+❌ Logo buscar da King Host - Não foi possível, pois mesmo assim necessário o HTTPS
+[ ] PDF contrato, alinhamentos e espaçamentos grandes
+[ ] Alinhar botão de avançar
+
+Relatórios
+✅ Remover

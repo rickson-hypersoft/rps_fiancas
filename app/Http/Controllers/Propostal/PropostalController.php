@@ -281,9 +281,9 @@ class PropostalController extends Controller
         */
         $imobiliaria = Http::withToken(session('jwt_token'))->get(config('api.route') . '/realestatesector/' . $id);
 
-        $taxaPadrao = $imobiliaria->json()['data']['taxa_padrao'];
-        $taxaPadraoFormatada = floatval($taxaPadrao) / 100;
-        $cobertura = 12;
+        $taxaPadrao                       = $imobiliaria->json()['data']['taxa_padrao'];
+        $taxaPadraoFormatada              = floatval($taxaPadrao) / 100;
+        $cobertura                        = 12;
         $proposta['proposta_total_valor'] = $proposta['imovel_aluguel'] * $taxaPadraoFormatada * $cobertura;
 
         $currentDate                         = new DateTime();
@@ -648,7 +648,7 @@ class PropostalController extends Controller
         $to   = $request->input('to');
         $type = $request->input('type');
         $link = $request->input('link');
-        $to = $this->corrigirNumero($to);
+        $to   = $this->corrigirNumero($to);
 
         $token    = session('jwt_token');
         $response = Http::withToken($token)->post(config('api.route') . '/enviar-whatsapp/' . $type . '/' . $link, ['to' => $to]);
@@ -743,29 +743,30 @@ class PropostalController extends Controller
         ]);
     }
 
-    private function corrigirNumero($numero) {
-    // Garante que o número é só os dígitos e o prefixo
-    $numero = trim($numero);
+    private function corrigirNumero($numero)
+    {
+        // Garante que o número é só os dígitos e o prefixo
+        $numero = trim($numero);
 
-    $prefixo = '+5534';
+        $prefixo = '+5534';
 
-    // Só processa se começar com o prefixo
-    if (strpos($numero, $prefixo) === 0) {
-        $parteNumero = substr($numero, strlen($prefixo)); // pega o que vem depois do +5534
+        // Só processa se começar com o prefixo
+        if (strpos($numero, $prefixo) === 0) {
+            $parteNumero = substr($numero, strlen($prefixo)); // pega o que vem depois do +5534
 
-        // Se tiver 9 dígitos, remove o primeiro (normalmente o 9 extra)
-        if (strlen($parteNumero) == 9) {
-            $parteNumero = substr($parteNumero, 1);
+            // Se tiver 9 dígitos, remove o primeiro (normalmente o 9 extra)
+            if (strlen($parteNumero) == 9) {
+                $parteNumero = substr($parteNumero, 1);
+            }
+
+            return $prefixo . $parteNumero;
         }
 
-        return $prefixo . $parteNumero;
+        // Caso não venha com o prefixo esperado, retorna o número original
+        return $numero;
     }
 
-    // Caso não venha com o prefixo esperado, retorna o número original
-    return $numero;
-}
-
-public function updateStatus(Request $request, string | int $id): JsonResponse
+    public function updateStatus(Request $request, string | int $id): JsonResponse
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->post(config('api.route') . '/propostal/editStatus/' . $id, $request->all());

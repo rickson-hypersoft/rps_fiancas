@@ -128,9 +128,9 @@ class CheckoutController extends Controller
             return redirect()->route('checkout.confirmation.cart', ['linkHash' => $linkHash, 'idPagamento' => $ids]);
         }
 
-        return redirect()->back()->withErrors([
-            'checkout' => 'Erro ao processar o pagamento. Tente novamente.',
-        ]);
+        return back()->withErrors([
+            'checkout' => $response->json()['message'][0]['description'],
+        ])->withInput();
     }
 
     public function cartaoConfirmacao(string $linkHash, string $idPagamento)

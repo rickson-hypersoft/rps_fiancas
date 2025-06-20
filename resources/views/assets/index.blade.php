@@ -124,12 +124,9 @@
 
                                                 <div class="col-md-2 col-12">
                                                     <label for="data" class="form-label">Data de criação</label>
-                                                    <select name="created_at" class="form-select form-select-lg"
-                                                        id="data">
-                                                        <option>Hoje</option>
-                                                        <option>Últimos 7 dias</option>
-                                                        <option>Últimos 30 dias</option>
-                                                    </select>
+                                                    <input type="date" name="created_at"
+                                                        class="form-control form-control-lg"
+                                                        value="{{ request('created_at') }}">
                                                 </div>
 
                                                 <div class="col-md-2 col-12">
@@ -142,15 +139,13 @@
 
 
                                                 <div class="col-md-3 col-12">
-                                                    <label for="pendencias" class="form-label">Pendências</label>
+                                                    <label for="pendencias" class="form-label">Situação</label>
                                                     <select name="pendences" class="form-select form-select-lg"
                                                         id="pendencias">
                                                         <option value="">Todos</option>
-                                                        <option {{ request('pendences') == 'contrato' ? 'selected' : '' }}
-                                                            value="contrato">Necessário anexar o contrato de aluguel
+                                                        <option {{ request('pendences') == 'Pendentes' ? 'selected' : '' }}
+                                                            value="Pendentes">Pendentes
                                                         </option>
-                                                        <option {{ request('pendences') == 'vistoria' ? 'selected' : '' }}
-                                                            value="vistoria">Necessário anexar a vistoria</option>
                                                     </select>
                                                 </div>
 
@@ -171,9 +166,8 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive table" style="height: 250px;">
-                                <table class="table-sm table-borderless table-striped table-hover table"
-                                    style="font-size: 18px;">
+                            <div class="table-responsive mt-4 text-nowrap pt-2" style="height: 250px">
+                                <table class="table" style="font-size: 13px">
                                     <thead>
                                         <tr>
                                             <th>Contrato</th>
@@ -269,7 +263,8 @@
                                         <nav aria-label="Page navigation">
                                             <ul class="pagination pagination-sm mb-0">
                                                 <li class="page-item first {{ $currentPage == 1 ? 'disabled' : '' }}">
-                                                    <a class="page-link" href="{{ url()->current() . '?page=1' }}"
+                                                    <a class="page-link"
+                                                        href="{{ url()->current() . '?' . http_build_query(array_merge(request()->query(), ['page' => 1])) }}"
                                                         aria-label="Primeira página">
                                                         <i class="icon-base ti tabler-chevrons-left icon-sm"></i>
                                                     </a>
@@ -277,7 +272,7 @@
 
                                                 <li class="page-item prev {{ $currentPage == 1 ? 'disabled' : '' }}">
                                                     <a class="page-link"
-                                                        href="{{ url()->current() . '?page=' . max(1, $currentPage - 1) }}"
+                                                        href="{{ url()->current() . '?' . http_build_query(array_merge(request()->query(), ['page' => max(1, $currentPage - 1)])) }}"
                                                         aria-label="Página anterior">
                                                         <i class="icon-base ti tabler-chevron-left icon-sm"></i>
                                                     </a>
@@ -286,7 +281,7 @@
                                                 <li
                                                     class="page-item next {{ $currentPage == $lastPage ? 'disabled' : '' }}">
                                                     <a class="page-link"
-                                                        href="{{ url()->current() . '?page=' . min($lastPage, $currentPage + 1) }}"
+                                                        href="{{ url()->current() . '?' . http_build_query(array_merge(request()->query(), ['page' => min($lastPage, $currentPage + 1)])) }}"
                                                         aria-label="Próxima página">
                                                         <i class="icon-base ti tabler-chevron-right icon-sm"></i>
                                                     </a>
@@ -295,7 +290,7 @@
                                                 <li
                                                     class="page-item last {{ $currentPage == $lastPage ? 'disabled' : '' }}">
                                                     <a class="page-link"
-                                                        href="{{ url()->current() . '?page=' . $lastPage }}"
+                                                        href="{{ url()->current() . '?' . http_build_query(array_merge(request()->query(), ['page' => $lastPage])) }}"
                                                         aria-label="Última página">
                                                         <i class="icon-base ti tabler-chevrons-right icon-sm"></i>
                                                     </a>
