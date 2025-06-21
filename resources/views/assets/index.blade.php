@@ -155,9 +155,8 @@
                                                 </div>
 
                                                 <div class="col-md-2 col-12">
-                                                    <button type="button"
-                                                        class="btn btn-outline-success btn-lg w-100">Exportar
-                                                        detalhado</button>
+                                                    <a href="{{ route('assets.export.detalhado', request()->query()) }}"
+                                                        class="btn btn-outline-success btn-lg w-100">Exportar detalhado</a>
                                                 </div>
                                             </div>
                                         </form>

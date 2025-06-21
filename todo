@@ -12,7 +12,7 @@ Proposta
 Contratos
 ✅ Filtro: Todos e Pendentes
 ✅ Paginação 10 linhas
-[ ] Exportar em XLS formatado
+✅ Exportar em XLS formatado
 ✅ Fiança disponível: 40x o valor do aluguel
 [ ] Anexar abrir tela de edição, quando tiver anexo, aparecer Anexado e fazer down
 [ ] Na tela de visualização do contrato alinhar a esquerda os dados
@@ -32,11 +32,11 @@ Financeiro
 ✅ No final colocar os totais (Saldo Anterior, Créditos, Débitos, Saldo Atual)
 
 Integração
-[ ] Verificar se o cliente existe pelo cpf ou cnpj e se existir, conferir dados, se não existir incluir o mesmo
-[ ] Passar todos os dados que tiver para o cliente
-[ ] Boleto ou Pix tem que gerar Taxa Serviço + Taxa Setup
-[ ] Boleto - Descrição: Referente Fiança Locatícia nº XXX
-[ ] Microsserviço de confirmação esta com erro
+✅ Verificar se o cliente existe pelo cpf ou cnpj e se existir, conferir dados, se não existir incluir o mesmo
+✅ Passar todos os dados que tiver para o cliente
+✅ Boleto ou Pix tem que gerar Taxa Serviço + Taxa Setup
+✅ Boleto - Descrição: Referente Fiança Locatícia nº XXX
+✅ Microsserviço de confirmação esta com erro
 
 Melhorias
 

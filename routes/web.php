@@ -196,6 +196,7 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         ->name("assets.edit");
     Route::post('/upload/{idContrato}', [AssetsController::class, 'uploadAnexo'])->name('assets.upload');
     Route::get('/anexos/baixar/{idContrato}/{tipo}', [AssetsController::class, 'baixarAnexo']);
+    Route::get('/contratos/export-detalhado', [AssetsController::class, 'exportDetalhado'])->name('assets.export.detalhado');
 
     // Ativação
     Route::prefix('ativacao')->group(function () {
