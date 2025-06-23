@@ -7,7 +7,7 @@ Proposta
 ✅ Tabela: Propostas_Pagamentos, em vez de excluir, coloque ativo=0
 ✅ Pagamento em Cartão, alterar para Taxa Serviço e Taxa Setup
 ✅ Pagamento não aprovado, melhorar a tela
-[ ] Na tela precisa aparecer que etapa o inquilino esta
+✅ Na tela precisa aparecer que etapa o inquilino esta
 
 Contratos
 ✅ Filtro: Todos e Pendentes
@@ -16,7 +16,7 @@ Contratos
 ✅ Fiança disponível: 40x o valor do aluguel
 ✅ Anexar abrir tela de edição, quando tiver anexo, aparecer Anexado e fazer down
 ✅ Na tela de visualização do contrato alinhar a esquerda os dados
-[ ] Na tela de visualização do contrato trocar imagem por uma imagem mais parecida com um ícone
+✅ Na tela de visualização do contrato trocar imagem por uma imagem mais parecida com um ícone
 [ ] Falta a parte do Termo
 ✅ Input colocar R$
 ✅ Anexos de Documentos - Acrescentar Tabela com: Tipo(Contrato, Vistoria..) Nome do arquivo, data do anexo, opções: download e remover

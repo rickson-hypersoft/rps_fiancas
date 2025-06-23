@@ -359,7 +359,8 @@
                                     ],
                                 ],
                             ];
-                        @endphp ?> @if (isset($links[$categoria]))
+                        @endphp
+                        @if (isset($links[$categoria]))
                             @foreach ($links[$categoria] as $link)
                                 @if ($link)
                                     <li>

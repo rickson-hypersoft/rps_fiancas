@@ -111,8 +111,8 @@
 
                         @if ($total > 0 && $lastPage > 1)
                             <div class="mt-25 float-end">
-                                <div class="d-flex justify-content-between align-items-center mt-3 px-4 py-2"
-                                    style="background: #eee; border-radius: 5rem;">
+                                <div class="d-flex justify-content-between align-items-center bg-light mt-3 px-4 py-2"
+                                    style="border-radius: 5rem;">
                                     <div class="mx-2">
                                         <span>{{ $firstItem }} a {{ $lastItem }} de {{ $total }}</span>
                                     </div>
@@ -194,7 +194,11 @@
                         <input type="hidden" name="id" id="form-id">
                         <div class="mb-3">
                             <label for="form-taxa" class="form-label">Taxa</label>
-                            <input type="text" class="form-control" name="taxa" id="form-taxa">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text">R$</span>
+                                <input name="taxa" style="text-align: right" id='form-taxa' type="text"
+                                    class="form-control form-control-lg">
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label for="ativo" class="form-label">Ativo</label>
@@ -217,6 +221,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.open-setup-modal').forEach(function(el) {
@@ -271,7 +277,7 @@
                                     href="javascript:void(0);"
                                     data-id="${item.id}"
                                     data-imobiliaria="${item.id_imobiliaria}"
-                                    data-taxa="${item.taxa}"
+                                    data-taxa="${item.taxa_original}"
                                     data-ativo="${item.ativo}"
                                 >
                                     <i class="icon-base ti tabler-pencil me-1"></i> Editar
@@ -326,10 +332,9 @@
             // Botão de adicionar
             document.querySelector('.btn-add').addEventListener('click', function(e) {
                 if (!currentImobiliariaId) return;
-                console.log(currentImobiliariaId);
 
                 form.action = '/adm/imobiliarias/cadastrar/setup/' +
-                currentImobiliariaId; // Rota de criação
+                    currentImobiliariaId; // Rota de criação
                 modalTitle.textContent = 'Adicionar Configuração';
                 form.reset(); // Limpa o formulário
                 document.getElementById('form-id').value = '';
@@ -382,5 +387,5 @@
             });
         });
     </script>
-
+@endsection
 @endsection

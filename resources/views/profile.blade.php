@@ -23,8 +23,6 @@
                         </div>
                     @endif
 
-
-
                     <div class="d-flex align-items-start align-items-sm-center gap-6">
                         @php
                             $profileImage = file_exists(public_path("assets/user-profiles/{$user['id']}.png"))
@@ -84,13 +82,15 @@
                                 value="{{ $user['categoria'] }}" disabled />
                         </div>
 
-                        <div class="col-md-6">
-                            <label for="ativo" class="form-label">Ativo</label>
-                            <div class="form-check form-switch mb-2">
-                                <input class="form-check-input" type="checkbox" id="user-status-switch" name="ativo"
-                                    {{ $user['ativo'] ? 'checked' : '' }}>
+                        <!--
+                            <div class="col-md-6">
+                                <label for="ativo" class="form-label">Ativo</label>
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="user-status-switch" name="ativo"
+                                        {{ $user['ativo'] ? 'checked' : '' }}>
+                                </div>
                             </div>
-                        </div>
+                        -->
 
                     </div>
                     <div class="d-flex mt-4">
@@ -104,19 +104,20 @@
     </div>
 @section('scripts')
     <script>
+        IMask(document.getElementById('cpf'), {
+            mask: '000.000.000-00'
+        });
+
+        IMask(document.getElementById('telefone'), {
+            mask: '00 0000-0000'
+        });
+
         const form = document.querySelector('form');
         const button = form.querySelector('#salvar');
 
         form.addEventListener('submit', function(e) {
             button.disabled = true;
             button.innerText = 'Salvando...';
-        });
-
-        IMask(document.getElementById('cpf'), {
-            mask: '000.000.000-00'
-        });
-        IMask(document.getElementById('telefone'), {
-            mask: '00 0000-0000'
         });
     </script>
 @endsection

@@ -47,7 +47,7 @@
                             </span>
                             <input name="valor" style="text-align: right" id="valor" type="text"
                                 class="form-control form-control-lg"
-                                value="{{ number_format(old('valor', $movi['valor'] ?? 0), 2, ',', '.') }}"
+                                value="{{ number_format((float) str_replace(['.', ','], ['', '.'], old('valor', $movi['valor'] ?? 0)), 2, ',', '.') }}"
                                 aria-label="Amount">
                         </div>
                     </div>

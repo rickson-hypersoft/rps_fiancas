@@ -98,13 +98,13 @@
                             <label for="banco_agencia" class="form-label">Agência</label>
                             <input value="{{ old('banco_agencia', $financialAccount['banco_agencia'] ?? '') }}"
                                 type="text" class="form-control form-control-lg" id="banco_agencia" name="banco_agencia"
-                                maxlength="100">
+                                maxlength="20">
                         </div>
 
                         <div class="col-md-4" style="{{ $mostrarBanco ? '' : 'display: none;' }}">
                             <label for="banco_conta" class="form-label">Conta</label>
                             <input value="{{ old('banco_conta', $financialAccount['banco_conta'] ?? '') }}" type="text"
-                                class="form-control form-control-lg" id="banco_conta" name="banco_conta" maxlength="100">
+                                class="form-control form-control-lg" id="banco_conta" name="banco_conta" maxlength="20">
                         </div>
 
                         <div class="col-md-4" style="{{ $mostrarBanco ? '' : 'display: none;' }}">

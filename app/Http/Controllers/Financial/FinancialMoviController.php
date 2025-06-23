@@ -102,6 +102,10 @@ class FinancialMoviController extends Controller
         $requestSanitize          = $request->all();
         $requestSanitize['valor'] = (float) str_replace(',', '.', str_replace('.', '', $requestSanitize['valor']));
 
+        if ($requestSanitize['valor'] <= 0.0) {
+            return back()->withErrors(['valor' => 'O valor deve ser maior que zero.'])->withInput();
+        }
+
         $validator = Validator::make($requestSanitize, [
             'id_conta'     => 'nullable|numeric',
             'id_categoria' => 'nullable|numeric',

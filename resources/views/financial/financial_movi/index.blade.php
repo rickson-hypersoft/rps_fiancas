@@ -248,8 +248,8 @@
 
                         @if ($total > 0 && $lastPage > 1)
                             <div class="mt-25 float-end">
-                                <div class="d-flex justify-content-between align-items-center mt-3 px-4 py-2"
-                                    style="background: #eee; border-radius: 5rem;">
+                                <div class="d-flex justify-content-between align-items-center bg-light mt-3 px-4 py-2"
+                                    style="border-radius: 5rem;">
                                     <div class="mx-2">
                                         <span>{{ $firstItem }} a {{ $lastItem }} de {{ $total }}</span>
                                     </div>

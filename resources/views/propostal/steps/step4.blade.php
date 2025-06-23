@@ -200,12 +200,12 @@
                     <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample"
                         style="">
                         @foreach ($histories as $history)
-                            <div class="accordion-body">
+                            <div class="accordion-body mb-0 mt-0 pb-0 pt-0">
                                 {{ \Carbon\Carbon::parse($history['data'])->format('d/m/Y') }} {{ $history['hora'] }}
                                 - {{ $history['historico'] }}
+                                <hr>
                             </div>
                         @endforeach
-
                     </div>
                 </div>
             </div>
