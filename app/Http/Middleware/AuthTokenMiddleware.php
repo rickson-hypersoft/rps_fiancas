@@ -19,7 +19,7 @@ class AuthTokenMiddleware
         }
 
         // Decodifica o payload do token JWT
-        $parts = explode('.', $token);
+        $parts = explode('.', (string) $token);
 
         if (count($parts) !== 3) {
             session()->forget('jwt_token');

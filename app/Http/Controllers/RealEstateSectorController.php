@@ -21,7 +21,7 @@ class RealEstateSectorController extends Controller
         // Se o search contém apenas números e tem 14 dígitos, provavelmente é um CNPJ
         if ($search) {
             // Decodifica o parâmetro, se estiver vindo via URL encoded
-            $decodedSearch = urldecode($search);
+            $decodedSearch = urldecode((string) $search);
 
             // Se for um CNPJ, remove os caracteres especiais
             if (preg_match('/\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}/', $decodedSearch)) {
@@ -195,11 +195,7 @@ class RealEstateSectorController extends Controller
         $token           = session('jwt_token');
         $requestSanitize = $this->sanitizeData($request->all(), ['taxa']);
 
-        if (! $requestSanitize['ativo']) {
-            $requestSanitize['ativo'] = 0;
-        } else {
-            $requestSanitize['ativo'] = 1;
-        }
+        $requestSanitize['ativo'] = $requestSanitize['ativo'] ? 1 : 0;
 
         $requestSanitize['id_imobiliaria'] = $id;
 
@@ -219,11 +215,7 @@ class RealEstateSectorController extends Controller
         $token           = session('jwt_token');
         $requestSanitize = $this->sanitizeData($request->all(), ['taxa']);
 
-        if (! isset($requestSanitize['ativo'])) {
-            $requestSanitize['ativo'] = 0;
-        } else {
-            $requestSanitize['ativo'] = 1;
-        }
+        $requestSanitize['ativo'] = isset($requestSanitize['ativo']) ? 1 : 0;
 
         $requestSanitize['id_imobiliaria'] = $idImobiliaria;
         $requestSanitize['taxa']           = floatval($requestSanitize['taxa']);

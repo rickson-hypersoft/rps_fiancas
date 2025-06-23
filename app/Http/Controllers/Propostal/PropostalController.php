@@ -42,7 +42,7 @@ class PropostalController extends Controller
     {
         $proposta = null;
 
-        if ($id) {
+        if ($id !== 0 && ($id !== '' && $id !== '0')) {
             $token    = session('jwt_token');
             $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
             $proposta = $response->json();
@@ -65,7 +65,7 @@ class PropostalController extends Controller
         $responseSetup = Http::withToken($token)->get(config('api.route') . '/realestatesectorsetup/' . $data['id_imobiliaria']);
         $setups        = $responseSetup->json();
 
-        $parseValorBR = function ($valor) {
+        $parseValorBR = function ($valor): float {
             if (is_string($valor)) {
                 $valor = str_replace(['R$', '.', ' ', ' '], '', $valor); // Remove R$, pontos, espaços normais e não-quebráveis
                 $valor = str_replace(',', '.', $valor); // Troca vírgula por ponto
@@ -230,7 +230,7 @@ class PropostalController extends Controller
 
         $token = session('jwt_token');
 
-        if ($id) {
+        if ($id !== 0 && ($id !== '' && $id !== '0')) {
             $requestSanitize['id'] = $id;
         }
 
@@ -290,11 +290,7 @@ class PropostalController extends Controller
         $proposta['data_ultima_atualizacao'] = $currentDate->format('Y-m-d');
         $proposta['hora_ultima_atualizacao'] = $currentDate->format('H:i:s');
 
-        if ($requestSanitize['setup'] != 0) {
-            $proposta['proposta_setup_valor'] = $this->parseValor($requestSanitize['setup']);
-        } else {
-            $proposta['proposta_setup_valor'] = 0;
-        }
+        $proposta['proposta_setup_valor'] = $requestSanitize['setup'] != 0 ? $this->parseValor($requestSanitize['setup']) : 0;
 
         if ($proposta["pessoa_tipo"] == "Pessoa Física") {
             $proposta["pessoa_tipo"] = "PF";
@@ -486,112 +482,94 @@ class PropostalController extends Controller
 
         $this->saveHistory($proposta, "Cancelado");
 
-        $response = Http::withToken($token)->post(config('api.route') . '/propostal/canceled/' . $id, $requestSanitize);
-
-        return $response;
+        return Http::withToken($token)->post(config('api.route') . '/propostal/canceled/' . $id, $requestSanitize);
     }
 
     private function styleStep2(array $data): array
     {
-        switch ($data['proposta_credito_status']) {
-            case 'Aprovado':
-                return [
-                    'colorText'    => 'fw-bold text-success',
-                    'text'         => 'Crédito aprovado!',
-                    'card'         => 'content-header mb-4 p-5 bg-success text-white',
-                    'icon'         => 'menu-icon icon-base ti tabler-check',
-                    'badge'        => 'Simulação',
-                    'detalhamento' => "O inquilino {$data['pessoa_nome']} do CPF {$data['pessoa_doc']} está aprovado para uma locação com garantia de um imóvel {$data['imovel_tipo']}, na cidade de {$data['imovel_cidade']} - {$data['imovel_estado']}",
-                    'displaySetup' => 'block',
-                    'cardStyle'    => '',
-                ];
-
-            case 'Aguardando Pagamento':
-                return [
-                    'colorText'    => 'fw-bold text-success',
-                    'text'         => 'Crédito aprovado!',
-                    'card'         => 'content-header mb-4 p-5 bg-success text-white',
-                    'icon'         => 'menu-icon icon-base ti tabler-check',
-                    'badge'        => 'Simulação',
-                    'detalhamento' => "O inquilino {$data['pessoa_nome']} do CPF {$data['pessoa_doc']} está aprovado para uma locação com garantia de um imóvel {$data['imovel_tipo']}, na cidade de {$data['imovel_cidade']} - {$data['imovel_estado']}",
-                    'displaySetup' => 'block',
-                    'cardStyle'    => '',
-                ];
-
-            case 'Pendente':
-                return [
-                    'colorText'    => 'fw-bold text-warning',
-                    'text'         => 'Crédito pendente de análise!',
-                    'card'         => 'content-header mb-4 p-5 text-white',
-                    'cardStyle'    => 'background: #FFA600;',
-                    'icon'         => 'menu-icon icon-base ti tabler-clock',
-                    'badge'        => 'Simulação',
-                    'detalhamento' => "O inquilino {$data['pessoa_nome']} do CPF {$data['pessoa_doc']} está pendente de uma análise manual para uma locação com garantia de um imóvel {$data['imovel_tipo']}, na cidade de {$data['imovel_cidade']} - {$data['imovel_estado']}",
-                    'displaySetup' => 'block',
-                ];
-
-            default:
-                return [
-                    'colorText'    => 'fw-bold text-secondary',
-                    'text'         => 'Crédito reprovado para fiança!',
-                    'card'         => 'content-header mb-4 p-5 bg-secondary text-white',
-                    'icon'         => 'menu-icon icon-base ti tabler-x',
-                    'badge'        => 'Reprovado',
-                    'detalhamento' => "O inquilino {$data['pessoa_nome']} do CPF {$data['pessoa_doc']} está reprovado para uma locação com garantia de um imóvel {$data['imovel_tipo']}, na cidade de {$data['imovel_cidade']} - {$data['imovel_estado']}",
-                    'displaySetup' => 'none',
-                    'cardStyle'    => '',
-                ];
-        }
+        return match ($data['proposta_credito_status']) {
+            'Aprovado' => [
+                'colorText'    => 'fw-bold text-success',
+                'text'         => 'Crédito aprovado!',
+                'card'         => 'content-header mb-4 p-5 bg-success text-white',
+                'icon'         => 'menu-icon icon-base ti tabler-check',
+                'badge'        => 'Simulação',
+                'detalhamento' => "O inquilino {$data['pessoa_nome']} do CPF {$data['pessoa_doc']} está aprovado para uma locação com garantia de um imóvel {$data['imovel_tipo']}, na cidade de {$data['imovel_cidade']} - {$data['imovel_estado']}",
+                'displaySetup' => 'block',
+                'cardStyle'    => '',
+            ],
+            'Aguardando Pagamento' => [
+                'colorText'    => 'fw-bold text-success',
+                'text'         => 'Crédito aprovado!',
+                'card'         => 'content-header mb-4 p-5 bg-success text-white',
+                'icon'         => 'menu-icon icon-base ti tabler-check',
+                'badge'        => 'Simulação',
+                'detalhamento' => "O inquilino {$data['pessoa_nome']} do CPF {$data['pessoa_doc']} está aprovado para uma locação com garantia de um imóvel {$data['imovel_tipo']}, na cidade de {$data['imovel_cidade']} - {$data['imovel_estado']}",
+                'displaySetup' => 'block',
+                'cardStyle'    => '',
+            ],
+            'Pendente' => [
+                'colorText'    => 'fw-bold text-warning',
+                'text'         => 'Crédito pendente de análise!',
+                'card'         => 'content-header mb-4 p-5 text-white',
+                'cardStyle'    => 'background: #FFA600;',
+                'icon'         => 'menu-icon icon-base ti tabler-clock',
+                'badge'        => 'Simulação',
+                'detalhamento' => "O inquilino {$data['pessoa_nome']} do CPF {$data['pessoa_doc']} está pendente de uma análise manual para uma locação com garantia de um imóvel {$data['imovel_tipo']}, na cidade de {$data['imovel_cidade']} - {$data['imovel_estado']}",
+                'displaySetup' => 'block',
+            ],
+            default => [
+                'colorText'    => 'fw-bold text-secondary',
+                'text'         => 'Crédito reprovado para fiança!',
+                'card'         => 'content-header mb-4 p-5 bg-secondary text-white',
+                'icon'         => 'menu-icon icon-base ti tabler-x',
+                'badge'        => 'Reprovado',
+                'detalhamento' => "O inquilino {$data['pessoa_nome']} do CPF {$data['pessoa_doc']} está reprovado para uma locação com garantia de um imóvel {$data['imovel_tipo']}, na cidade de {$data['imovel_cidade']} - {$data['imovel_estado']}",
+                'displaySetup' => 'none',
+                'cardStyle'    => '',
+            ],
+        };
     }
 
     private function stylesStep5(array $data): array
     {
-        switch ($data['proposta_status']) {
-            case 'Aprovado':
-                return [
-                    'colorText'     => 'fw-bold text-success',
-                    'text'          => 'A proposta enviada e aguardando ativação pelo inquilino.',
-                    'paragrapfCard' => 'A ativação do contrato locação com garantia da Invicta é efetivada mediante o aceite dos termos e pagamento. Enviamos os próximos passos para o e-mail e WhatsApp da pessoa inquilina.',
-                    'card'          => 'content-header mb-4 p-5 bg-success text-white',
-                    'cardStyle'     => '',
-                ];
-
-            case 'Alteração Imobiliária':
-                return [
-                    'colorText'     => 'fw-bold text-success',
-                    'text'          => 'A proposta enviada e aguardando ativação pelo inquilino.',
-                    'paragrapfCard' => 'A ativação do contrato locação com garantia da Invicta é efetivada mediante o aceite dos termos e pagamento. Enviamos os próximos passos para o e-mail e WhatsApp da pessoa inquilina.',
-                    'card'          => 'content-header mb-4 p-5 bg-success text-white',
-                    'cardStyle'     => '',
-                ];
-
-            case 'Pendente':
-                return [
-                    'colorText'     => 'fw-bold text-warning',
-                    'text'          => 'A proposta está em análise manual pelo nosso time interno.',
-                    'paragrapfCard' => 'Estaremos em contato através da nossa plataforma e por e-mail para dar retorno em até 30 minutos.',
-                    'card'          => 'content-header mb-4 p-5 text-white',
-                    'cardStyle'     => 'background-color: #FFA600;',
-                ];
-
-            case 'Negado':
-                return [
-                    'colorText'     => 'fw-bold text-secondary',
-                    'text'          => 'A proposta foi negada após análise.',
-                    'paragrapfCard' => 'Estaremos em contato através da nossa plataforma e por e-mail para dar retorno em até 30 minutos.',
-                    'card'          => 'content-header mb-4 p-5 bg-secondary text-white',
-                    'cardStyle'     => '',
-                ];
-
-            default:
-                return [
-                    'colorText'     => 'fw-bold text-muted',
-                    'text'          => 'Status da proposta desconhecido.',
-                    'paragrapfCard' => '',
-                    'card'          => 'content-header mb-4 p-5 bg-light text-dark',
-                    'cardStyle'     => '',
-                ];
-        }
+        return match ($data['proposta_status']) {
+            'Aprovado' => [
+                'colorText'     => 'fw-bold text-success',
+                'text'          => 'A proposta enviada e aguardando ativação pelo inquilino.',
+                'paragrapfCard' => 'A ativação do contrato locação com garantia da Invicta é efetivada mediante o aceite dos termos e pagamento. Enviamos os próximos passos para o e-mail e WhatsApp da pessoa inquilina.',
+                'card'          => 'content-header mb-4 p-5 bg-success text-white',
+                'cardStyle'     => '',
+            ],
+            'Alteração Imobiliária' => [
+                'colorText'     => 'fw-bold text-success',
+                'text'          => 'A proposta enviada e aguardando ativação pelo inquilino.',
+                'paragrapfCard' => 'A ativação do contrato locação com garantia da Invicta é efetivada mediante o aceite dos termos e pagamento. Enviamos os próximos passos para o e-mail e WhatsApp da pessoa inquilina.',
+                'card'          => 'content-header mb-4 p-5 bg-success text-white',
+                'cardStyle'     => '',
+            ],
+            'Pendente' => [
+                'colorText'     => 'fw-bold text-warning',
+                'text'          => 'A proposta está em análise manual pelo nosso time interno.',
+                'paragrapfCard' => 'Estaremos em contato através da nossa plataforma e por e-mail para dar retorno em até 30 minutos.',
+                'card'          => 'content-header mb-4 p-5 text-white',
+                'cardStyle'     => 'background-color: #FFA600;',
+            ],
+            'Negado' => [
+                'colorText'     => 'fw-bold text-secondary',
+                'text'          => 'A proposta foi negada após análise.',
+                'paragrapfCard' => 'Estaremos em contato através da nossa plataforma e por e-mail para dar retorno em até 30 minutos.',
+                'card'          => 'content-header mb-4 p-5 bg-secondary text-white',
+                'cardStyle'     => '',
+            ],
+            default => [
+                'colorText'     => 'fw-bold text-muted',
+                'text'          => 'Status da proposta desconhecido.',
+                'paragrapfCard' => '',
+                'card'          => 'content-header mb-4 p-5 bg-light text-dark',
+                'cardStyle'     => '',
+            ],
+        };
     }
 
     private function parseValor(string $valor): float
@@ -607,7 +585,7 @@ class PropostalController extends Controller
     {
         $token = session('jwt_token');
 
-        if ($status == "Aprovado") {
+        if ($status === "Aprovado") {
             $history = [
                 'id_imobiliaria' => $data['id_imobiliaria'],
                 'id_movi'        => $data['id'],
@@ -621,11 +599,11 @@ class PropostalController extends Controller
             Http::withToken($token)->post(config('api.route') . '/history/create', $history);
         }
 
-        if ($status == 'Cancelado') {
+        if ($status === 'Cancelado') {
             Http::withToken($token)->post(config('api.route') . '/history/create', $data);
         }
 
-        if ($status == 'Alteração') {
+        if ($status === 'Alteração') {
             Http::withToken($token)->post(config('api.route') . '/history/create', $data);
         }
     }
@@ -755,15 +733,15 @@ class PropostalController extends Controller
         ]);
     }
 
-    private function corrigirNumero($numero)
+    private function corrigirNumero($numero): string
     {
         // Garante que o número é só os dígitos e o prefixo
-        $numero = trim($numero);
+        $numero = trim((string) $numero);
 
         $prefixo = '+5534';
 
         // Só processa se começar com o prefixo
-        if (strpos($numero, $prefixo) === 0) {
+        if (str_starts_with($numero, $prefixo)) {
             $parteNumero = substr($numero, strlen($prefixo)); // pega o que vem depois do +5534
 
             // Se tiver 9 dígitos, remove o primeiro (normalmente o 9 extra)

@@ -18,7 +18,7 @@ class CheckUserPermission
     public function handle(Request $request, Closure $next, string | int $permId): Response
     {
         $userPermission = session('user')['permissoes'];
-        $permissions    = explode('|', trim($userPermission, '|'));
+        $permissions    = explode('|', trim((string) $userPermission, '|'));
 
         if (! in_array($permId, $permissions)) {
             return redirect()->route('permission_denied');

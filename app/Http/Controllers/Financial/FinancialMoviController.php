@@ -268,7 +268,7 @@ class FinancialMoviController extends Controller
         ];
 
         foreach ($cards as $card) {
-            if ($card['merge']) {
+            if ($card['merge'] !== '' && $card['merge'] !== '0') {
                 $sheet->getStyle($card['merge'])
                     ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER)
                     ->setVertical(Alignment::VERTICAL_CENTER)
@@ -307,7 +307,7 @@ class FinancialMoviController extends Controller
         foreach ($movimentacoes as $movi) {
             $sheet->setCellValue('A' . $linha, $this->getContaDescricao($contas, $movi['id_conta'] ?? null));
             $sheet->setCellValue('B' . $linha, $this->getCategoriaDescricao($categorias, $movi['id_categoria'] ?? null));
-            $dataFormatada = ! empty($movi['data']) ? \Carbon\Carbon::parse($movi['data'])->format('d/m/Y') : '-';
+            $dataFormatada = empty($movi['data']) ? '-' : \Carbon\Carbon::parse($movi['data'])->format('d/m/Y');
             $sheet->setCellValue('C' . $linha, $dataFormatada);
             $sheet->setCellValue('D' . $linha, $movi['historico'] ?? '-');
             $sheet->setCellValue('E' . $linha, floatval($movi['valor']));
@@ -325,7 +325,7 @@ class FinancialMoviController extends Controller
         $writer   = new Xlsx($spreadsheet);
         $fileName = 'relatorio_financeiro_' . now()->format('Ymd_His') . '.xlsx';
 
-        return response()->streamDownload(function () use ($writer) {
+        return response()->streamDownload(function () use ($writer): void {
             $writer->save('php://output');
         }, $fileName, [
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

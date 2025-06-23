@@ -216,7 +216,7 @@
             </div>
         </div>
 
-        <div class="card mt-5">
+        <div class="card mt-5" id="anexos">
             <div class="card-header pb-3 pt-3" style="background: #f7f7f7">
                 <h5 class="m-0 p-0">Anexos/Documentos</h5>
                 <p>O arquivo anexado obrigatóriamente deverá ser pdf ou umagem de no máximo 80MB</p>
@@ -242,30 +242,39 @@
                     </div>
                 </div>
 
-                <div class="table-responsive mt-3 text-nowrap">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Tipo</th>
-                                <th>Nome do arquivo</th>
-                                <th>Data do anexo</th>
-                                <th>Download</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                            <tr>
-                                <td>
-                                    Contrato
-                                </td>
-                                <td>ContratoTeste.pdf</td>
-                                <td>
-                                    12/06/2025
-                                </td>
-                                <td><span class="badge bg-label-primary me-1">Baixar</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                @if ($data['anexo_contrato'] || $data['anexo_vistoria'] || $data['anexo_apolice'])
+                    <div class="table-responsive mt-5 text-nowrap">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Nome do arquivo</th>
+                                    <th>Data do anexo</th>
+                                    <th>Download</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                @foreach ($anexos as $anexo)
+                                    <tr>
+                                        <td>
+                                            {{ $anexo['movi'] }}
+                                        </td>
+                                        <td>{{ $anexo['nome_arquivo_original'] }}</td>
+                                        <td>
+                                            {{ \Carbon\Carbon::parse($anexo['data'])->format('d/m/Y') }}
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn-download-anexo"
+                                                data-tipo="{{ $anexo['movi_sub'] }}" data-id="{{ $data['id'] }}">
+                                                <i class="ti tabler-file-type-pdf"></i> Baixar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
             </div>
 
         </div>
@@ -276,7 +285,36 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        document.querySelectorAll('.btn-download-anexo').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const tipo = this.dataset.tipo.toLowerCase();
+                const idContrato = this.dataset.id;
+
+                console.log(tipo, idContrato);
+
+                fetch(`/anexos/baixar/${idContrato}/${tipo}`)
+                    .then(res => {
+                        if (!res.ok) throw new Error('Erro ao baixar');
+                        return res.blob();
+                    })
+                    .then(blob => {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `${tipo}.pdf`; // ou .html, se for esse o formato
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                    })
+                    .catch(error => {
+                        Swal.fire('Erro', 'Arquivo não encontrado.', 'error');
+                    });
+            });
+        });
+
         document.getElementById('enviar').addEventListener('click', function() {
             document.getElementById('formEdit').submit();
         });

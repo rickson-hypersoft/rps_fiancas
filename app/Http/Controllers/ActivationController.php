@@ -22,7 +22,7 @@ class ActivationController extends Controller
         $token = session('jwt_token');
 
         $response = Http::withToken($token)->get(config('api.route') . '/activation/faceId/' . $link);
-        $data     = $response->json();
+        $response->json();
 
         return view('activation.confirm', ['linkHash' => $link]);
     }

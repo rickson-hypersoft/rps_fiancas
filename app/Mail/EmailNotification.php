@@ -15,14 +15,8 @@ class EmailNotification extends Mailable
     use Queueable;
     use SerializesModels;
 
-    protected string $nome;
-
-    protected string $link;
-
-    public function __construct(string $nome, string $link)
+    public function __construct(protected string $nome, protected string $link)
     {
-        $this->nome = $nome;
-        $this->link = $link;
     }
 
     /**

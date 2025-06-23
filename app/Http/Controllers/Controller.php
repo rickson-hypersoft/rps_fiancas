@@ -14,7 +14,7 @@ abstract class Controller
     protected function sanitizeData(?array $data, ?array $fields): ?array
     {
         $sanitize = function (?string $value): ?string {
-            if (! $value) {
+            if ($value === null || $value === '' || $value === '0') {
                 return null;
             }
 
@@ -29,9 +29,8 @@ abstract class Controller
             if (preg_match('/^[\d\.\,]+$/', $value)) {
                 // Remove os pontos de milhar e troca vírgula por ponto
                 $value = str_replace('.', '', $value);
-                $value = str_replace(',', '.', $value);
 
-                return $value;
+                return str_replace(',', '.', $value);
             }
 
             // Caso seja um campo como CPF/CNPJ/telefone/endereço, remove todos os não numéricos
@@ -55,7 +54,7 @@ abstract class Controller
     {
         $cpf = preg_replace('/[^0-9]/', '', $cpf);
 
-        if (strlen($cpf) != 11 || preg_match('/(\d)\1{10}/', $cpf)) {
+        if (strlen((string) $cpf) != 11 || preg_match('/(\d)\1{10}/', (string) $cpf)) {
             return false;
         }
 

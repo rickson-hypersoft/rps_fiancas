@@ -111,11 +111,11 @@
                                             <td class="text-start">{{ $data['proposta_setup_parc'] }}x</td>
                                         </tr>
                                         <!-- ??
-                                                                                                                                                                                        <tr>
-                                                                                                                                                                                            <td style="width: 180px" class="fw-bold">Pagador:</td>
-                                                                                                                                                                                            <td class="text-start">R$ 0,00</td>
-                                                                                                                                                                                        </tr>
-                                                                                                                                                                                    -->
+                                                                                                                                                                                                <tr>
+                                                                                                                                                                                                    <td style="width: 180px" class="fw-bold">Pagador:</td>
+                                                                                                                                                                                                    <td class="text-start">R$ 0,00</td>
+                                                                                                                                                                                                </tr>
+                                                                                                                                                                                            -->
                                     </tbody>
                                 </table>
 
@@ -150,11 +150,11 @@
                                             <td class="text-start">{{ $data['imovel_tag'] }}</td>
                                         </tr>
                                         <!--
-                                                                                                                                                                                        <tr>
-                                                                                                                                                                                            <td style="width: 180px" class="fw-bold">Descrição:</td>
-                                                                                                                                                                                            <td class="text-start">R$ 0,00</td>
-                                                                                                                                                                                        </tr>
-                                                                                                                                                                                    -->
+                                                                                                                                                                                                <tr>
+                                                                                                                                                                                                    <td style="width: 180px" class="fw-bold">Descrição:</td>
+                                                                                                                                                                                                    <td class="text-start">R$ 0,00</td>
+                                                                                                                                                                                                </tr>
+                                                                                                                                                                                            -->
                                     </tbody>
                                 </table>
                                 <h6 class="bg-light mb-0 p-3">Documentos</h6>
@@ -170,7 +170,8 @@
                                                         <i class="ti tabler-file-type-pdf"></i> Baixar
                                                     </a>
                                                 @else
-                                                    <a href="{{ route('assets.edit', ['idContrato' => $data['id']]) }}">
+                                                    <a
+                                                        href="{{ route('assets.edit', ['idContrato' => $data['id']]) }}#anexos">
                                                         <i class="ti tabler-file-type-pdf"></i> Anexar
                                                     </a>
                                                 @endif

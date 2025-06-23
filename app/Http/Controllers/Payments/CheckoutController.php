@@ -81,7 +81,7 @@ class CheckoutController extends Controller
         $data     = $response->json();
 
         $propostaTotalValor              = $data['proposta_total_valor'];
-        $valorNumericoPropostaTotalValor = floatval(str_replace(',', '.', preg_replace('/[^\d,]/', '', $propostaTotalValor)));
+        $valorNumericoPropostaTotalValor = floatval(str_replace(',', '.', preg_replace('/[^\d,]/', '', (string) $propostaTotalValor)));
         $parcelasTotalValor              = [];
 
         for ($i = 1; $i <= 12; $i++) {
@@ -91,7 +91,7 @@ class CheckoutController extends Controller
         $data['parcelas_total_valor_disponiveis'] = $parcelasTotalValor;
 
         $propostaSetupValor              = $data['proposta_setup_valor'];
-        $valorNumericoPropostaSetupValor = floatval(str_replace(',', '.', preg_replace('/[^\d,]/', '', $propostaSetupValor)));
+        $valorNumericoPropostaSetupValor = floatval(str_replace(',', '.', preg_replace('/[^\d,]/', '', (string) $propostaSetupValor)));
         $parcelasSetupValor              = [];
 
         for ($i = 1; $i <= 3; $i++) {

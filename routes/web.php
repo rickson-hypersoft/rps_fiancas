@@ -24,7 +24,7 @@ Route::redirect('/', '/login');
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
-Route::middleware(['auth.token'])->group(function () {
+Route::middleware(['auth.token'])->group(function (): void {
     Route::redirect('/', '/dashboard');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -34,7 +34,7 @@ Route::middleware(['auth.token'])->group(function () {
 });
 
 // Fianças
-Route::middleware(['auth.token', 'check.category:Fianças'])->group(function () {
+Route::middleware(['auth.token', 'check.category:Fianças'])->group(function (): void {
     Route::get('/adm/empresa', [CompanyController::class, 'index'])->name('company.index');
     Route::put('/adm/empresas/{empresa}', [CompanyController::class, 'update'])->name('company.store');
     Route::get('/adm/imobiliarias', [RealEstateSectorController::class, 'index'])->name('realestatesector.index');
@@ -69,10 +69,8 @@ Route::middleware(['auth.token', 'check.category:Fianças'])->group(function () 
 });
 
 // Imobiliárias
-Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function () {
-    Route::get('/acesso-negado', function () {
-        return view('errors.permission_denied');
-    })->name('permission_denied');
+Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function (): void {
+    Route::get('/acesso-negado', fn () => view('errors.permission_denied'))->name('permission_denied');
 
     Route::get('/imobiliaria/imobiliarias/{imobiliaria}', [RealEstateSectorUserController::class, 'index'])
         ->name('realestatesector.realestatesectors.index');
@@ -152,7 +150,7 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
 
     Route::get('/imobiliaria/financeiro/movimentacao/export', [FinancialMoviController::class, 'export'])->name('financial.financial_movi.export');
 
-    Route::prefix('propostas')->group(function () {
+    Route::prefix('propostas')->group(function (): void {
         Route::get('/listagem', [PropostalController::class, 'index'])
             ->name('propostal.index');
 
@@ -199,7 +197,7 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
     Route::get('/contratos/export-detalhado', [AssetsController::class, 'exportDetalhado'])->name('assets.export.detalhado');
 
     // Ativação
-    Route::prefix('ativacao')->group(function () {
+    Route::prefix('ativacao')->group(function (): void {
         Route::get('/login/{linkHash}', [ActivationController::class, 'login'])->name('activation.login');
 
         Route::post('/login', [ActivationController::class, 'verifyLogin'])->name('activation.verify.login');
@@ -214,7 +212,7 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
     });
 
     // Pagamentos
-    Route::prefix('pagamentos')->group(function () {
+    Route::prefix('pagamentos')->group(function (): void {
         Route::get('/checkout/{linkHash}', [CheckoutController::class, 'index'])
             ->name('checktou.index')->middleware('verify.contract.link');
         ;
