@@ -60,7 +60,8 @@
                                 <div class="row gy-3">
                                     @foreach ($statusContratos as $status => $config)
                                         <div class="col-md-3 col-6">
-                                            <a href="{{ route('assets.index', ['status' => $status]) }}">
+                                            <a href="{{ route('assets.index', ['status' => $status]) }}"
+                                                class ="text-secondary">
                                                 <div class="d-flex align-items-center">
                                                     <div class="badge bg-label-{{ $config['color'] }} me-4 rounded p-2">
                                                         <i class="icon-base ti {{ $config['icon'] }} icon-lg"></i>
@@ -88,7 +89,8 @@
                                 <div class="row gy-3">
                                     @foreach ($statusPropostas as $status => $config)
                                         <div class="col-md-3 col-6">
-                                            <a href="{{ route('propostal.index', ['status' => $status]) }}">
+                                            <a href="{{ route('propostal.index', ['status' => $status]) }}"
+                                                class ="text-secondary">
                                                 <div class="d-flex align-items-center">
                                                     <div class="badge bg-label-{{ $config['color'] }} me-4 rounded p-2">
                                                         <i class="icon-base ti {{ $config['icon'] }} icon-lg"></i>
@@ -192,69 +194,69 @@
 
 
                                 <!--
-                                                        <li class="timeline-item timeline-item-transparent">
-                                                            <span class="timeline-point timeline-point-success"></span>
-                                                            <div class="timeline-event">
-                                                                <div class="timeline-header mb-1">
-                                                                    <h6 class="mb-0">Proposta Aprovada</h6>
-                                                                    <small class="text-body-secondary">28/05 11:30</small>
-                                                                </div>
-                                                                <p class="mb-2">
-                                                                    Inquilino Richard Igor Silva
-                                                                </p>
-                                                                <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
-                                                                    Visualizar
-                                                                </button>
-                                                            </div>
-                                                        </li>
-                                                        <li class="timeline-item timeline-item-transparent">
-                                                            <span class="timeline-point timeline-point-secondary"></span>
-                                                            <div class="timeline-event">
-                                                                <div class="timeline-header mb-1">
-                                                                    <h6 class="mb-0">Nova Proposta</h6>
-                                                                    <small class="text-body-secondary">28/05 10:30</small>
-                                                                </div>
-                                                                <p class="mb-2">
-                                                                    Inquilino Richard Igor Silva
-                                                                </p>
-                                                                <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
-                                                                    Visualizar
-                                                                </button>
-                                                            </div>
-                                                        </li>
+                                                                <li class="timeline-item timeline-item-transparent">
+                                                                    <span class="timeline-point timeline-point-success"></span>
+                                                                    <div class="timeline-event">
+                                                                        <div class="timeline-header mb-1">
+                                                                            <h6 class="mb-0">Proposta Aprovada</h6>
+                                                                            <small class="text-body-secondary">28/05 11:30</small>
+                                                                        </div>
+                                                                        <p class="mb-2">
+                                                                            Inquilino Richard Igor Silva
+                                                                        </p>
+                                                                        <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
+                                                                            Visualizar
+                                                                        </button>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="timeline-item timeline-item-transparent">
+                                                                    <span class="timeline-point timeline-point-secondary"></span>
+                                                                    <div class="timeline-event">
+                                                                        <div class="timeline-header mb-1">
+                                                                            <h6 class="mb-0">Nova Proposta</h6>
+                                                                            <small class="text-body-secondary">28/05 10:30</small>
+                                                                        </div>
+                                                                        <p class="mb-2">
+                                                                            Inquilino Richard Igor Silva
+                                                                        </p>
+                                                                        <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
+                                                                            Visualizar
+                                                                        </button>
+                                                                    </div>
+                                                                </li>
 
-                                                        <li class="timeline-item timeline-item-transparent">
-                                                            <span class="timeline-point timeline-point-secondary"></span>
-                                                            <div class="timeline-event">
-                                                                <div class="timeline-header mb-1">
-                                                                    <h6 class="mb-0">Nova Proposta</h6>
-                                                                    <small class="text-body-secondary">28/05 10:30</small>
-                                                                </div>
-                                                                <p class="mb-2">
-                                                                    Inquilino Richard Igor Silva
-                                                                </p>
-                                                                <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
-                                                                    Visualizar
-                                                                </button>
-                                                            </div>
-                                                        </li>
+                                                                <li class="timeline-item timeline-item-transparent">
+                                                                    <span class="timeline-point timeline-point-secondary"></span>
+                                                                    <div class="timeline-event">
+                                                                        <div class="timeline-header mb-1">
+                                                                            <h6 class="mb-0">Nova Proposta</h6>
+                                                                            <small class="text-body-secondary">28/05 10:30</small>
+                                                                        </div>
+                                                                        <p class="mb-2">
+                                                                            Inquilino Richard Igor Silva
+                                                                        </p>
+                                                                        <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
+                                                                            Visualizar
+                                                                        </button>
+                                                                    </div>
+                                                                </li>
 
-                                                        <li class="timeline-item timeline-item-transparent">
-                                                            <span class="timeline-point timeline-point-secondary"></span>
-                                                            <div class="timeline-event">
-                                                                <div class="timeline-header mb-1">
-                                                                    <h6 class="mb-0">Nova Proposta</h6>
-                                                                    <small class="text-body-secondary">28/05 10:30</small>
-                                                                </div>
-                                                                <p class="mb-2">
-                                                                    Inquilino Richard Igor Silva
-                                                                </p>
-                                                                <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
-                                                                    Visualizar
-                                                                </button>
-                                                            </div>
-                                                        </li>
-                                                    -->
+                                                                <li class="timeline-item timeline-item-transparent">
+                                                                    <span class="timeline-point timeline-point-secondary"></span>
+                                                                    <div class="timeline-event">
+                                                                        <div class="timeline-header mb-1">
+                                                                            <h6 class="mb-0">Nova Proposta</h6>
+                                                                            <small class="text-body-secondary">28/05 10:30</small>
+                                                                        </div>
+                                                                        <p class="mb-2">
+                                                                            Inquilino Richard Igor Silva
+                                                                        </p>
+                                                                        <button type="button" class="btn btn-xs rounded-pill btn-label-secondary">
+                                                                            Visualizar
+                                                                        </button>
+                                                                    </div>
+                                                                </li>
+                                                            -->
                             </ul>
                         </div>
                     </div>

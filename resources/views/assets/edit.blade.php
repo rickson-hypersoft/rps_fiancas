@@ -257,7 +257,7 @@
                                 @foreach ($anexos as $anexo)
                                     <tr>
                                         <td>
-                                            {{ $anexo['movi'] }}
+                                            {{ $anexo['movi_sub'] }}
                                         </td>
                                         <td>{{ $anexo['nome_arquivo_original'] }}</td>
                                         <td>

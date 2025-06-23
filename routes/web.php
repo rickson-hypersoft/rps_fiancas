@@ -209,6 +209,8 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         Route::get('/faceId/{linkHash}', [ActivationController::class, 'faceId'])->name('activation.faceId')->middleware('verify.contract.link');
 
         Route::get('/term/{linkHash}', [ActivationController::class, 'term'])->name('activation.term')->middleware('verify.contract.link');
+
+        Route::get('/term/active/{linkHash}', [ActivationController::class, 'activeTerm'])->name('activation.term_active')->middleware('verify.contract.link');
     });
 
     // Pagamentos
