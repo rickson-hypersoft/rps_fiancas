@@ -1353,8 +1353,11 @@
                                         SERVIÇOS INVICTA.</span></p>
                                 <p><span style="-aw-import:ignore">&nbsp;</span></p>
                             </div>
+
                         </div>
+
                     </div>
+
                     <!--/ Content -->
                     <div class="content-backdrop fade"></div>
                 </div>
@@ -1362,15 +1365,6 @@
             </div>
             <!--/ Layout container -->
         </div>
-    </div>
-
-    <div class="position-fixed d-flex justify-content-end bottom-0 end-0 start-0 bg-white p-3 shadow">
-        <a href="{{ route('checktou.index', ['linkHash' => $linkHash]) }}"
-            class="btn btn-primary waves-effect waves-light m-3">
-            <span class="d-sm-inline-block d-none me-sm-2 align-middle">Li, e aceito os termos de uso</span>
-            <i class="icon-base ti tabler-arrow-right icon-xs"></i>
-
-        </a>
     </div>
     <div class="layout-overlay layout-menu-toggle"></div>
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>

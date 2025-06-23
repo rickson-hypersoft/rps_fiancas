@@ -506,6 +506,18 @@ class PropostalController extends Controller
                     'cardStyle'    => '',
                 ];
 
+            case 'Aguardando Pagamento':
+                return [
+                    'colorText'    => 'fw-bold text-success',
+                    'text'         => 'Crédito aprovado!',
+                    'card'         => 'content-header mb-4 p-5 bg-success text-white',
+                    'icon'         => 'menu-icon icon-base ti tabler-check',
+                    'badge'        => 'Simulação',
+                    'detalhamento' => "O inquilino {$data['pessoa_nome']} do CPF {$data['pessoa_doc']} está aprovado para uma locação com garantia de um imóvel {$data['imovel_tipo']}, na cidade de {$data['imovel_cidade']} - {$data['imovel_estado']}",
+                    'displaySetup' => 'block',
+                    'cardStyle'    => '',
+                ];
+
             case 'Pendente':
                 return [
                     'colorText'    => 'fw-bold text-warning',

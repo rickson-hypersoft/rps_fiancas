@@ -15,13 +15,13 @@ Contratos
 ✅ Exportar em XLS formatado
 ✅ Fiança disponível: 40x o valor do aluguel
 [ ] Anexar abrir tela de edição, quando tiver anexo, aparecer Anexado e fazer down
-[ ] Na tela de visualização do contrato alinhar a esquerda os dados
+✅ Na tela de visualização do contrato alinhar a esquerda os dados
 [ ] Na tela de visualização do contrato trocar imagem por uma imagem mais parecida com um ícone
 [ ] Falta a parte do Termo
 ✅ Input colocar R$
 [ ] Anexos de Documentos - Acrescentar Tabela com: Tipo(Contrato, Vistoria..) Nome do arquivo, data do anexo, opções: download e remover
-[ ] Na tela de contratos, ao clicar no título (Todos, Ativos...) já filtrar
-[ ] Modal do alteração imobiliária ta errado
+✅ Na tela de contratos, ao clicar no título (Todos, Ativos...) já filtrar
+✅ Modal do alteração imobiliária ta errado
 
 Financeiro
 ✅ Ajustar select como eu passei

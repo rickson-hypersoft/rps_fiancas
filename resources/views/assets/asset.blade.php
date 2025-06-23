@@ -74,49 +74,48 @@
                             <div class="col-4 d-none d-sm-block">
                                 <img src="{{ asset('assets/img/casa.png') }}" alt="" class="img-fluid">
                             </div>
-
                             <div class="col-12 col-sm-8">
                                 <h6 class="bg-light mb-0 p-3">Dados do Contrato</h6>
                                 <table class="table-borderless mb-0 mt-0 table">
                                     <tbody>
                                         <tr>
-                                            <td class="fw-bold">Tipo de Imóvel:</td>
-                                            <td class="text-end">{{ $data['imovel_tipo'] }}</td>
+                                            <td style="width: 180px" class="fw-bold">Tipo de Imóvel:</td>
+                                            <td class="text-start">{{ $data['imovel_tipo'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Valor Aluguel:</td>
-                                            <td class="text-end">{{ $data['imovel_aluguel'] }}</td>
+                                            <td style="width: 180px" class="fw-bold">Valor Aluguel:</td>
+                                            <td class="text-start">{{ $data['imovel_aluguel'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Valor Condomínio:</td>
-                                            <td class="text-end">{{ $data['imovel_condominio'] }}</td>
+                                            <td style="width: 180px" class="fw-bold">Valor Condomínio:</td>
+                                            <td class="text-start">{{ $data['imovel_condominio'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Outras Taxas:</td>
-                                            <td class="text-end">{{ $data['imovel_taxas'] }}</td>
+                                            <td style="width: 180px" class="fw-bold">Outras Taxas:</td>
+                                            <td class="text-start">{{ $data['imovel_taxas'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Valor Locatício Total:</td>
-                                            <td class="text-end">{{ $data['valor_total_pagamento'] }}</td>
+                                            <td style="width: 180px" class="fw-bold">Valor Locatício Total:</td>
+                                            <td class="text-start">{{ $data['valor_total_pagamento'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Parcelas Serviço:</td>
-                                            <td class="text-end">{{ $data['proposta_total_parc'] }}x</td>
+                                            <td style="width: 180px" class="fw-bold">Parcelas Serviço:</td>
+                                            <td class="text-start">{{ $data['proposta_total_parc'] }}x</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Valor Setup:</td>
-                                            <td class="text-end">{{ $data['proposta_setup_valor'] }}</td>
+                                            <td style="width: 180px" class="fw-bold">Valor Setup:</td>
+                                            <td class="text-start">{{ $data['proposta_setup_valor'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Parcelas Setup:</td>
-                                            <td class="text-end">{{ $data['proposta_setup_parc'] }}x</td>
+                                            <td style="width: 180px" class="fw-bold">Parcelas Setup:</td>
+                                            <td class="text-start">{{ $data['proposta_setup_parc'] }}x</td>
                                         </tr>
                                         <!-- ??
-                                                                                <tr>
-                                                                                    <td class="fw-bold">Pagador:</td>
-                                                                                    <td class="text-end">R$ 0,00</td>
-                                                                                </tr>
-                                                                            -->
+                                                                                                                                                                                        <tr>
+                                                                                                                                                                                            <td style="width: 180px" class="fw-bold">Pagador:</td>
+                                                                                                                                                                                            <td class="text-start">R$ 0,00</td>
+                                                                                                                                                                                        </tr>
+                                                                                                                                                                                    -->
                                     </tbody>
                                 </table>
 
@@ -124,17 +123,17 @@
                                 <table class="table-borderless mb-0 mt-0 table">
                                     <tbody>
                                         <tr>
-                                            <td class="fw-bold">CEP:</td>
-                                            <td class="text-end">{{ $data['imovel_cep'] }}</td>
+                                            <td style="width: 180px" class="fw-bold">CEP:</td>
+                                            <td class="text-start">{{ $data['imovel_cep'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Endereço:</td>
-                                            <td class="text-end">{{ $data['imovel_endereco'] }} -
+                                            <td style="width: 180px" class="fw-bold">Endereço:</td>
+                                            <td class="text-start">{{ $data['imovel_endereco'] }} -
                                                 {{ $data['imovel_numero'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Bairro:</td>
-                                            <td class="text-end">{{ $data['imovel_bairro'] }}</td>
+                                            <td style="width: 180px" class="fw-bold">Bairro:</td>
+                                            <td class="text-start">{{ $data['imovel_bairro'] }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -143,46 +142,70 @@
                                 <table class="table-borderless mb-0 mt-0 table">
                                     <tbody>
                                         <tr>
-                                            <td class="fw-bold">Complemento:</td>
-                                            <td class="text-end">{{ $data['imovel_complemento'] }}</td>
+                                            <td style="width: 180px" class="fw-bold">Complemento:</td>
+                                            <td class="text-start">{{ $data['imovel_complemento'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Tag:</td>
-                                            <td class="text-end">{{ $data['imovel_tag'] }}</td>
+                                            <td style="width: 180px" class="fw-bold">Tag:</td>
+                                            <td class="text-start">{{ $data['imovel_tag'] }}</td>
                                         </tr>
                                         <!--
-                                                                                <tr>
-                                                                                    <td class="fw-bold">Descrição:</td>
-                                                                                    <td class="text-end">R$ 0,00</td>
-                                                                                </tr>
-                                                                            -->
+                                                                                                                                                                                        <tr>
+                                                                                                                                                                                            <td style="width: 180px" class="fw-bold">Descrição:</td>
+                                                                                                                                                                                            <td class="text-start">R$ 0,00</td>
+                                                                                                                                                                                        </tr>
+                                                                                                                                                                                    -->
                                     </tbody>
                                 </table>
                                 <h6 class="bg-light mb-0 p-3">Documentos</h6>
                                 <table class="table-borderless mb-0 mt-0 table">
                                     <tbody>
+
                                         <tr>
-                                            <td class="fw-bold">Contrato:</td>
-                                            <td class="text-end">
-                                                <a href="#" class="btn-download-anexo" data-tipo="contrato"
-                                                    data-id="{{ $data['id'] }}"><i class="ti tabler-file-type-pdf"></i>
-                                                    Anexar</a>
+                                            <td style="width: 180px" class="fw-bold">Contrato:</td>
+                                            <td class="text-start">
+                                                @if ($data['anexo_contrato'] == 1)
+                                                    <a href="#" class="btn-download-anexo" data-tipo="contrato"
+                                                        data-id="{{ $data['id'] }}">
+                                                        <i class="ti tabler-file-type-pdf"></i> Baixar
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('assets.edit', ['idContrato' => $data['id']]) }}">
+                                                        <i class="ti tabler-file-type-pdf"></i> Anexar
+                                                    </a>
+                                                @endif
                                             </td>
                                         </tr>
+
                                         <tr>
-                                            <td class="fw-bold">Vistoria:</td>
-                                            <td class="text-end">
-                                                <a href="#" class="btn-download-anexo" data-tipo="vistoria"
-                                                    data-id="{{ $data['id'] }}"><i class="ti tabler-file-type-pdf"></i>
-                                                    Anexar</a>
+                                            <td style="width: 180px" class="fw-bold">Vistoria:</td>
+                                            <td class="text-start">
+                                                @if ($data['anexo_vistoria'] == 1)
+                                                    <a href="#" class="btn-download-anexo" data-tipo="vistoria"
+                                                        data-id="{{ $data['id'] }}">
+                                                        <i class="ti tabler-file-type-pdf"></i> Baixar
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('assets.edit', ['idContrato' => $data['id']]) }}">
+                                                        <i class="ti tabler-file-type-pdf"></i> Anexar
+                                                    </a>
+                                                @endif
                                             </td>
                                         </tr>
+
                                         <tr>
-                                            <td class="fw-bold">Apólice:</td>
-                                            <td class="text-end">
-                                                <a href="#" class="btn-download-anexo" data-tipo="apolice"
-                                                    data-id="{{ $data['id'] }}"><i class="ti tabler-file-type-pdf"></i>
-                                                    Anexar</a>
+                                            <td style="width: 180px" class="fw-bold">Apólice:</td>
+                                            <td class="text-start">
+                                                @if ($data['anexo_apolice'] == 1)
+                                                    <a href="#" class="btn-download-anexo" data-tipo="apolice"
+                                                        data-id="{{ $data['id'] }}">
+                                                        <i class="ti tabler-file-type-pdf"></i> Baixar
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('assets.edit', ['idContrato' => $data['id']]) }}">
+                                                        <i class="ti tabler-file-type-pdf"></i> Anexar
+                                                    </a>
+                                                @endif
                                             </td>
                                         </tr>
                                     </tbody>
@@ -238,29 +261,29 @@
                             <table class="table-borderless mb-0 table">
                                 <tbody>
                                     <tr>
-                                        <td class="fw-bold">Nome:</td>
-                                        <td class="text-end">{{ $data['pessoa_nome'] }}</td>
+                                        <td style="width: 180px" class="fw-bold">Nome:</td>
+                                        <td class="text-start">{{ $data['pessoa_nome'] }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">CPF:</td>
-                                        <td class="text-end">{{ $data['pessoa_doc'] }}</td>
+                                        <td style="width: 180px" class="fw-bold">CPF:</td>
+                                        <td class="text-start">{{ $data['pessoa_doc'] }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">Data Nascimento:</td>
-                                        <td class="text-end">
+                                        <td style="width: 180px" class="fw-bold">Data Nascimento:</td>
+                                        <td style="width: 180px" class="text-start">
                                             {{ \Carbon\Carbon::parse($data['data_nascimento'])->format('d/m/Y') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">E-mail:</td>
-                                        <td class="text-end">{{ $data['pessoa_email'] }}</td>
+                                        <td style="width: 180px" class="fw-bold">E-mail:</td>
+                                        <td class="text-start">{{ $data['pessoa_email'] }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">Telefone Fixo/Celular:</td>
-                                        <td class="text-end">{{ $data['pessoa_telefone'] }}</td>
+                                        <td style="width: 180px" class="fw-bold">Telefone Fixo/Celular:</td>
+                                        <td class="text-start">{{ $data['pessoa_telefone'] }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">Comprovante Fatura:</td>
-                                        <td class="text-end"></td>
+                                        <td style="width: 180px" class="fw-bold">Comprovante Fatura:</td>
+                                        <td class="text-start"></td>
                                     </tr>
                                 </tbody>
                             </table>

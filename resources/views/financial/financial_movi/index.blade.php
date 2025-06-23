@@ -30,7 +30,7 @@
 
                                 <div class="col-md-3">
                                     <label for="id_conta" class="form-label mb-1">Conta</label>
-                                    <select class="form-select form-select-sm" name="id_conta" id="id_conta">
+                                    <select class="form-select form-select-lg" name="id_conta" id="id_conta">
                                         <option value="">Todos</option>
                                         @foreach ($contas as $conta)
                                             <option value="{{ $conta['id'] }}"
@@ -49,21 +49,21 @@
 
                                 <div class="col-md-2">
                                     <label for="data_inicial" class="form-label mb-1">Data Inicial</label>
-                                    <input id="data_inicial" class="form-control form-control-sm" name="data_inicial"
+                                    <input id="data_inicial" class="form-control form-control-lg" name="data_inicial"
                                         type="date"
                                         value="{{ old('data_inicial', request()->query('data_inicial', $dataInicial)) }}">
                                 </div>
 
                                 <div class="col-md-2">
                                     <label for="data_final" class="form-label mb-1">Data Final</label>
-                                    <input id="data_final" class="form-control form-control-sm" name="data_final"
+                                    <input id="data_final" class="form-control form-control-lg" name="data_final"
                                         type="date"
                                         value="{{ old('data_final', request()->query('data_final', $dataFinal)) }}">
                                 </div>
 
                                 <div class="col-md-3">
                                     <label for="id_categoria" class="form-label mb-1">Categoria</label>
-                                    <select class="form-select form-select-sm" name="id_categoria" id="id_categoria">
+                                    <select class="form-select form-select-lg" name="id_categoria" id="id_categoria">
                                         <option value="">Todos</option>
                                         @foreach ($categorias as $categoria)
                                             <option value="{{ $categoria['id'] }}"
@@ -75,7 +75,7 @@
                                 </div>
 
                                 <div class="col-md-2 d-grid">
-                                    <button type="submit" class="btn btn-primary btn-sm">Pesquisar</button>
+                                    <button type="submit" class="btn btn-primary btn-lg">Pesquisar</button>
                                 </div>
                             </form>
 
@@ -90,7 +90,7 @@
                                 <input type="hidden" name="data_final" value="{{ request('data_final') ?? $dataFinal }}">
                                 <input type="hidden" name="search" value="{{ request('search') }}">
 
-                                <button type="submit" class="btn btn-success btn-sm">Exportar XLSX</button>
+                                <button type="submit" class="btn btn-success btn-lg">Exportar XLSX</button>
                             </form>
                         </div>
                     </div>

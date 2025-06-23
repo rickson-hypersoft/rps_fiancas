@@ -241,6 +241,31 @@
                         <input class="form-control" type="file" id="file_apolice" name="arquivos[apolice]">
                     </div>
                 </div>
+
+                <div class="table-responsive mt-3 text-nowrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Nome do arquivo</th>
+                                <th>Data do anexo</th>
+                                <th>Download</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            <tr>
+                                <td>
+                                    Contrato
+                                </td>
+                                <td>ContratoTeste.pdf</td>
+                                <td>
+                                    12/06/2025
+                                </td>
+                                <td><span class="badge bg-label-primary me-1">Baixar</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </div>

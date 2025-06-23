@@ -55,7 +55,8 @@
                         <div class="content-header">
                             <div class="d-flex justify-content-between">
                                 <h6 class="mb-0">Dados do plano</h6>
-                                @if ($proposta['proposta_status'] == 'Rascunho')
+                                @if (in_array($proposta['proposta_status'], ['Aprovado', 'Rascunho', 'Alteração Imobiliária']) &&
+                                        $proposta['contrato_status'] == 'Pendente')
                                     <a href="{{ route('propostal.step2', ['id' => $proposta['id']]) }}"
                                         class="text-success">Editar Dados</a>
                                 @endif
@@ -88,7 +89,8 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-0">Dados da locação</h6>
-                            @if ($proposta['proposta_status'] == 'Rascunho')
+                            @if (in_array($proposta['proposta_status'], ['Aprovado', 'Rascunho', 'Alteração Imobiliária']) &&
+                                    $proposta['contrato_status'] == 'Pendente')
                                 <a href="{{ route('propostal.create.step1', ['id' => $proposta['id']]) }}"
                                     class="text-success">Editar Dados</a>
                             @endif
@@ -135,7 +137,8 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-0">Endereço do imóvel</h6>
-                            @if ($proposta['proposta_status'] == 'Rascunho')
+                            @if (in_array($proposta['proposta_status'], ['Aprovado', 'Rascunho', 'Alteração Imobiliária']) &&
+                                    $proposta['contrato_status'] == 'Pendente')
                                 <a href="{{ route('propostal.step3', ['id' => $proposta['id']]) }}"
                                     class="text-success">Editar
                                     Dados</a>
@@ -170,7 +173,8 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-0">Dados do inquilino</h6>
-                            @if ($proposta['proposta_status'] == 'Rascunho')
+                            @if (in_array($proposta['proposta_status'], ['Aprovado', 'Rascunho', 'Alteração Imobiliária']) &&
+                                    $proposta['contrato_status'] == 'Pendente')
                                 <a href="{{ route('propostal.create.step1', ['id' => $proposta['id']]) }}"
                                     class="text-success">Editar Dados</a>
                             @endif

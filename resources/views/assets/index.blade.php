@@ -7,14 +7,16 @@
             <div class="col-lg-3 col-sm-6 mb-2">
                 <div class="card card-border-shadow-primary h-100">
                     <div class="card-body">
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="avatar me-4">
-                                <span class="avatar-initial bg-label-primary rounded"><i
-                                        class="icon-base ti tabler-ticket icon-28px"></i></span>
+                        <a class="text-secondary" href="{{ route('assets.index', ['status' => '']) }}">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="avatar me-4">
+                                    <span class="avatar-initial bg-label-primary rounded"><i
+                                            class="icon-base ti tabler-ticket icon-28px"></i></span>
+                                </div>
+                                <h4 class="mb-0">{{ $statusContagem['Todos'] }}</h4>
                             </div>
-                            <h4 class="mb-0">{{ $statusContagem['Todos'] }}</h4>
-                        </div>
-                        <p class="mb-1">Todos</p>
+                            <p class="mb-1">Todos</p>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -22,15 +24,16 @@
             <div class="col-lg-3 col-sm-6 mb-2">
                 <div class="card card-border-shadow-success h-100">
                     <div class="card-body">
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="avatar me-4">
-                                <span class="avatar-initial bg-label-success rounded"><i
-                                        class="icon-base ti tabler-check icon-28px"></i></span>
+                        <a class="text-secondary" href="{{ route('assets.index', ['status' => 'Ativo']) }}">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="avatar me-4">
+                                    <span class="avatar-initial bg-label-success rounded"><i
+                                            class="icon-base ti tabler-check icon-28px"></i></span>
+                                </div>
+                                <h4 class="mb-0">{{ $statusContagem['Ativos'] }}</h4>
                             </div>
-                            <h4 class="mb-0">{{ $statusContagem['Ativos'] }}</h4>
-
-                        </div>
-                        <p class="mb-1">Ativos</p>
+                            <p class="mb-1">Ativos</p>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -38,14 +41,16 @@
             <div class="col-lg-3 col-sm-6 mb-2">
                 <div class="card card-border-shadow-danger h-100">
                     <div class="card-body">
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="avatar me-4">
-                                <span class="avatar-initial bg-label-danger rounded"><i
-                                        class="icon-base ti tabler-ban icon-28px"></i></span>
+                        <a class="text-secondary" href="{{ route('assets.index', ['status' => 'Cancelado']) }}">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="avatar me-4">
+                                    <span class="avatar-initial bg-label-danger rounded"><i
+                                            class="icon-base ti tabler-ban icon-28px"></i></span>
+                                </div>
+                                <h4 class="mb-0">{{ $statusContagem['Cancelados'] }}</h4>
                             </div>
-                            <h4 class="mb-0">{{ $statusContagem['Cancelados'] }}</h4>
-                        </div>
-                        <p class="mb-1">Cancelados</p>
+                            <p class="mb-1">Cancelados</p>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -53,14 +58,16 @@
             <div class="col-lg-3 col-sm-6 mb-2">
                 <div class="card card-border-shadow-info h-100">
                     <div class="card-body">
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="avatar me-4">
-                                <span class="avatar-initial bg-label-info rounded"><i
-                                        class="icon-base ti tabler-clock icon-28px"></i></span>
+                        <a class="text-secondary" href="{{ route('assets.index', ['status' => 'Em renovação']) }}">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="avatar me-4">
+                                    <span class="avatar-initial bg-label-info rounded"><i
+                                            class="icon-base ti tabler-clock icon-28px"></i></span>
+                                </div>
+                                <h4 class="mb-0">{{ $statusContagem['Em renovação'] }}</h4>
                             </div>
-                            <h4 class="mb-0">{{ $statusContagem['Em renovação'] }}</h4>
-                        </div>
-                        <p class="mb-1">Em renovação</p>
+                            <p class="mb-1">Em renovação</p>
+                        </a>
                     </div>
                 </div>
             </div>
