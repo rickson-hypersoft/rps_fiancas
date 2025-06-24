@@ -140,7 +140,10 @@
                                             $badgeColor = 'danger';
                                         }
                                     @endphp
-                                    @if ($propostal['contrato_status'] == 'Pendente' and $propostal['proposta_status'] != 'Cancelado')
+                                    @if (
+                                        $propostal['contrato_status'] == 'Pendente' and
+                                            $propostal['proposta_status'] != 'Cancelado' and
+                                            $propostal['proposta_status'] != 'Rascunho')
                                         <tr>
                                             <td>
                                                 <a href="{{ route('propostal.resume', $propostal['id']) }}"

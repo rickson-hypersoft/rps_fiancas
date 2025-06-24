@@ -36,7 +36,7 @@ class LoginController extends Controller
 
         session(['jwt_token' => $token, 'user' => $user, 'realEstateSectorOrCompany' => $realEstateSectorOrCompany]);
 
-        return redirect('/fianca/dashboard');
+        return redirect()->route('home');
     }
 
     public function logout(): RedirectResponse
@@ -48,6 +48,6 @@ class LoginController extends Controller
             return back()->withErrors(['error' => 'Não foi possível realizar logout']);
         }
 
-        return redirect('/login');
+         return redirect()->route('login');
     }
 }

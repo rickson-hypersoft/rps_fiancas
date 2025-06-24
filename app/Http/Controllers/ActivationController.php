@@ -81,10 +81,11 @@ class ActivationController extends Controller
             ['contrato_sub_status' => 'Termo aceito pelo inquilino']
         );
 
-        $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $linkHash);
-        $data     = $response->json();
+        Http::withToken($token)->get(
+            config('api.route') . '/activation/term/' . $linkHash
+        );
 
-        return view('payments.index', ['linkHash' => $linkHash, 'data' => $data]);
+        return redirect()->route('checktou.index', ['linkHash'=> $linkHash]);
     }
 
     public function login(string $linkHash): View

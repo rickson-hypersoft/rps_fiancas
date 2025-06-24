@@ -93,7 +93,7 @@ class FinancialAccountController extends Controller
         $financialAccount                   = $validator->validated();
         $financialAccount['id_imobiliaria'] = $user['id_imobiliaria'];
 
-        $response       = Http::withToken($token)->post(config('api.route') . '/financial/financial_account/', $financialAccount);
+        $response       = Http::withToken($token)->post(config('api.route') . '/financial/financial_account', $financialAccount);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

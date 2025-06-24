@@ -21,13 +21,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('fianca')->group(function (): void {
 
-Route::redirect('/', '/login');
+Route::redirect('/', '/fianca/login');
 
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::middleware(['auth.token'])->group(function (): void {
-    Route::redirect('/', '/dashboard');
+    Route::redirect('/', '/fianca/dashboard');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
