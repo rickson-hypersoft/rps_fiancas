@@ -85,7 +85,7 @@ class UserController extends Controller
 
     public function edit(string | int $id): View
     {
-        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/users' . $id);
+        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/users/' . $id);
         $data     = $response->json();
 
         return view('user.formEdit', [

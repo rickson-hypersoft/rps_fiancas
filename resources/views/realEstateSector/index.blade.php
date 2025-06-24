@@ -249,7 +249,7 @@
                     </div>
                 `;
 
-                    fetch(`/fianca/adm/imobiliarias/setup/${setupId}`)
+                    fetch(`/adm/imobiliarias/setup/${setupId}`)
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error('Erro ao buscar dados');
@@ -346,7 +346,7 @@
             document.querySelector('.btn-add').addEventListener('click', function(e) {
                 if (!currentImobiliariaId) return;
 
-                form.action = '/fianca/adm/imobiliarias/cadastrar/setup/' +
+                form.action = '/adm/imobiliarias/cadastrar/setup/' +
                     currentImobiliariaId; // Rota de criação
                 modalTitle.textContent = 'Adicionar Configuração';
                 form.reset(); // Limpa o formulário
@@ -363,7 +363,7 @@
                     const ativo = btn.dataset.ativo;
                     const switchAtivo = document.getElementById(' user-status-switch')
 
-                    form.action = '/fianca/adm/imobiliarias/editar/setup/' + imobiliaria + '/' + id;
+                    form.action = '/adm/imobiliarias/editar/setup/' + imobiliaria + '/' + id;
                     modalTitle.textContent = 'Editar Configuração';
 
                     document.getElementById('form-id').value = id;

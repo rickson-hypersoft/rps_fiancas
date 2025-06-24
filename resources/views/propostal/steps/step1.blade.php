@@ -308,7 +308,7 @@
                     const form = e.target;
                     const formData = new FormData(form);
                     const idProposta = document.getElementById('idProposta').value;
-                    let url = '/fianca/propostas/salvar-step1';
+                    let url = '/propostas/salvar-step1';
                     if (idProposta) {
                         url += `/${idProposta}`;
                     }
@@ -333,7 +333,7 @@
                     }
 
                     // Se deu tudo certo, redireciona
-                    window.location.href = `/fianca/propostas/step2/${data.data.id}`;
+                    window.location.href = `/propostas/step2/${data.data.id}`;
 
                 } catch (error) {
                     console.error(error);

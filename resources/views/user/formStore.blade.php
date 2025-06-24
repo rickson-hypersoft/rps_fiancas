@@ -294,7 +294,7 @@
             async function loadImobiliarias() {
                 imobiliariaSelect.innerHTML = '<option>Carregando...</option>';
                 try {
-                    const response = await fetch('/fianca/adm/imobiliarias/listagem');
+                    const response = await fetch('/adm/imobiliarias/listagem');
                     const data = await response.json();
 
                     if (data.length === 0) {

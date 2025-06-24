@@ -327,10 +327,10 @@
                 const tipo = this.dataset.tipo;
                 const idContrato = this.dataset.id;
 
-                fetch(`/fianca/anexos/baixar/${idContrato}/${tipo}`)
+                fetch(`/anexos/baixar/${idContrato}/${tipo}`)
                     .then(res => {
                         if (!res.ok) throw new Error('Erro ao abrir o anexo');
-                        window.open(`/fianca/anexos/baixar/${idContrato}/${tipo}`, '_blank');
+                        window.open(`/anexos/baixar/${idContrato}/${tipo}`, '_blank');
                     })
                     .catch(error => {
                         Swal.fire('Erro', 'Arquivo não encontrado.', 'error');

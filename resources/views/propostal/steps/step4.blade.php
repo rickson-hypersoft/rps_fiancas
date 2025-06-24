@@ -318,7 +318,7 @@
                 const formData = new FormData(form);
                 const propostaId = "{{ $proposta['id'] }}";
 
-                fetch(`/fianca/propostas/cancelar/${propostaId}`, {
+                fetch(`/propostas/cancelar/${propostaId}`, {
                         method: 'POST',
                         body: formData,
                         headers: {
@@ -371,7 +371,7 @@
             const numeroWhatsAppDestino = `+55{{ $proposta['pessoa_telefone'] }}`
 
             // Envia o e-mail por AJAX
-            fetch('/fianca/propostas/email', {
+            fetch('/propostas/email', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -389,7 +389,7 @@
                 })
                 .then(data => {
                     // Após o e-mail, enviar o WhatsApp
-                    return fetch('/fianca/propostas/whatsapp', {
+                    return fetch('/propostas/whatsapp', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -413,7 +413,7 @@
                 })
                 .then(data => {
                     // Após o WhatsApp, agora atualizar o status
-                    return fetch(`/fianca/propostas/atualizar/status/${propostaId}`, {
+                    return fetch(`/propostas/atualizar/status/${propostaId}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

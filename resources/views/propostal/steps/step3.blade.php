@@ -328,7 +328,7 @@
 
             const form = e.target;
             const formData = new FormData(form);
-            const url = `/fianca/propostas/salvar-step3/${idProposta}`;
+            const url = `/propostas/salvar-step3/${idProposta}`;
 
             // Adiciona os arquivos do Dropzone
             dropzone.getAcceptedFiles().forEach((file, index) => {
@@ -363,7 +363,7 @@
                 }
 
                 // Redireciona para a próxima etapa
-                window.location.href = `/fianca/propostas/step4/${data.data.id}`;
+                window.location.href = `/propostas/step4/${data.data.id}`;
 
             } catch (error) {
                 console.error(error);
