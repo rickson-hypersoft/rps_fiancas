@@ -19,9 +19,6 @@ use App\Http\Controllers\RealEstateSectorController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('fianca')->group(function (): void {
-
-Route::redirect('/', '/fianca/login');
 
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
@@ -155,8 +152,6 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
 
     Route::get('/imobiliaria/financeiro/movimentacao/export', [FinancialMoviController::class, 'export'])->name('financial.financial_movi.export');
 
-
-
     Route::prefix('propostas')->group(function (): void {
         Route::get('/listagem', [PropostalController::class, 'index'])
             ->name('propostal.index');
@@ -248,5 +243,4 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
             ->name('checkout.confirmation.cart')
             ->middleware('verify.contract.link');
     });
-});
 });
