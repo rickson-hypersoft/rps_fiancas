@@ -52,12 +52,12 @@
                             </div>
                         </div>
                         <!--
-                        <div class="col-md-4 form-control-validation fv-plugins-icon-container">
-                            <label for="senha" class="form-label">Senha</label>
-                            <input class="form-control form-control-lg" maxlength="255" type="text" id="senha" name="senha" maxlength="100" value="{{ old('senha', $user['senha'] ?? '') }}">
-                            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                        </div>
-                    -->
+                            <div class="col-md-4 form-control-validation fv-plugins-icon-container">
+                                <label for="senha" class="form-label">Senha</label>
+                                <input class="form-control form-control-lg" maxlength="255" type="text" id="senha" name="senha" maxlength="100" value="{{ old('senha', $user['senha'] ?? '') }}">
+                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+                            </div>
+                        -->
                         <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                             <label for="nome" class="form-label">Nome</label>
                             <input class="form-control form-control-lg" type="text" name="nome" maxlength="50"
@@ -327,12 +327,12 @@
             async function loadImobiliarias() {
                 imobiliariaSelect.innerHTML = '<option>Carregando...</option>';
                 try {
-                    const response = await fetch('/adm/imobiliarias/listagem');
+                    const response = await fetch('/fianca/adm/imobiliarias/listagem');
                     const data = await response.json();
 
                     if (data.length === 0) {
                         imobiliariaSelect.innerHTML =
-                        '<option value="">Nenhuma imobiliária encontrada</option>';
+                            '<option value="">Nenhuma imobiliária encontrada</option>';
                         return;
                     }
 

@@ -73,8 +73,7 @@ class UserController extends Controller
 
         $userData['permissoes'] = $permissoesString;
         $userData['senha']      = Hash::make($request->get('senha'));
-
-        $response       = Http::withToken($token)->post(config('api.route') . '/users/', $userData);
+        $response       = Http::withToken($token)->post(config('api.route') . '/users', $userData);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {
@@ -86,7 +85,7 @@ class UserController extends Controller
 
     public function edit(string | int $id): View
     {
-        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/users/' . $id);
+        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/users' . $id);
         $data     = $response->json();
 
         return view('user.formEdit', [
@@ -148,7 +147,7 @@ class UserController extends Controller
 
     public function delete(string | int $id): RedirectResponse
     {
-        $response       = Http::withToken(session('jwt_token'))->delete(config('api.route') . '/users/' . $id);
+        $response       = Http::withToken(session('jwt_token'))->delete(config('api.route') . '/users' . $id);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

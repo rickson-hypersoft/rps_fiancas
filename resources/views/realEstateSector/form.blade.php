@@ -190,7 +190,7 @@
 
                     // Atualizar action do form
                     const form = document.getElementById("setup_form");
-                    form.action = `/adm/imobiliarias/editar/${id}`;
+                    form.action = `/fianca/adm/imobiliarias/editar/${id}`;
                 });
             });
         });
