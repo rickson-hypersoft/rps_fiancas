@@ -272,7 +272,7 @@ class FinancialMoviController extends Controller
         ];
 
         foreach ($cards as $card) {
-            if ($card['merge'] !== '' && $card['merge'] !== '0') {
+            if (!empty($card['merge'])) {
                 $sheet->getStyle($card['merge'])
                     ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER)
                     ->setVertical(Alignment::VERTICAL_CENTER)
@@ -281,7 +281,7 @@ class FinancialMoviController extends Controller
                 $sheet->getStyle($card['merge'])->getFont()->setBold(true)->getColor()->setRGB('FFFFFF');
 
                 $sheet->setCellValue($card['titleCell'], $card['label']);
-                $sheet->setCellValue($card['valueCell'], number_format($card['value'], 2, ',', '.'));
+                 $sheet->setCellValue($card['valueCell'], 'R$ ' . number_format($card['value'], 2, ',', '.'));
             } else {
                 // Para os que não tem merge (Saldo Anterior e Créditos)
                 $sheet->getStyle($card['titleCell'] . ':' . $card['valueCell'])
@@ -292,7 +292,7 @@ class FinancialMoviController extends Controller
                 $sheet->getStyle($card['titleCell'] . ':' . $card['valueCell'])->getFont()->setBold(true)->getColor()->setRGB('FFFFFF');
 
                 $sheet->setCellValue($card['titleCell'], $card['label']);
-                $sheet->setCellValue($card['valueCell'], number_format($card['value'], 2, ',', '.'));
+                $sheet->setCellValue($card['valueCell'], 'R$ ' . number_format($card['value'], 2, ',', '.'));
             }
         }
 

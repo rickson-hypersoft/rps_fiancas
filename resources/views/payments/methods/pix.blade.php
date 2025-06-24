@@ -185,7 +185,7 @@
 
                 const methodPayment = 'PIX';
 
-                fetch(`/pagamentos/checkout/pix/{{ $linkHash }}`, {
+                fetch(`/fianca/pagamentos/checkout/pix/{{ $linkHash }}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -293,7 +293,7 @@
                         </p> `
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            fetch(`/pagamentos/checkout/cancelar/${idPagamento}/{{ $linkHash }}`, {
+                            fetch(`/fianca/pagamentos/checkout/cancelar/${idPagamento}/{{ $linkHash }}`, {
                                     method: 'POST',
                                     headers: {
                                         'X-CSRF-TOKEN': '{{ csrf_token() }}',

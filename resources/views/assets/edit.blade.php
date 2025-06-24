@@ -11,7 +11,7 @@
         @endif
 
         <div class="card">
-            <div class="card-header pb-3 pt-3" style="background: #f7f7f7">
+            <div class="card-header bg-label-secondary pb-3 pt-3">
                 <h5 class="m-0 p-0">Produto</h5>
             </div>
             <div class="card-body mt-5">
@@ -113,7 +113,7 @@
         </div>
 
         <div class="card mt-5">
-            <div class="card-header pb-3 pt-3" style="background: #f7f7f7">
+            <div class="card-header bg-label-secondary pb-3 pt-3">
                 <h5 class="m-0 p-0">Localização</h5>
             </div>
             <div class="card-body mt-5">
@@ -217,7 +217,7 @@
         </div>
 
         <div class="card mt-5" id="anexos">
-            <div class="card-header pb-3 pt-3" style="background: #f7f7f7">
+            <div class="card-header bg-label-secondary pb-3 pt-3">
                 <h5 class="m-0 p-0">Anexos/Documentos</h5>
                 <p>O arquivo anexado obrigatóriamente deverá ser pdf ou umagem de no máximo 80MB</p>
             </div>
@@ -264,7 +264,7 @@
                                             {{ \Carbon\Carbon::parse($anexo['data'])->format('d/m/Y') }}
                                         </td>
                                         <td>
-                                            <a href="#" class="btn-download-anexo"
+                                            <a href="#" class="btn-download-anexo text-secondary"
                                                 data-tipo="{{ $anexo['movi_sub'] }}" data-id="{{ $data['id'] }}">
                                                 <i class="ti tabler-file-type-pdf"></i> Baixar
                                             </a>
@@ -295,19 +295,10 @@
 
                 console.log(tipo, idContrato);
 
-                fetch(`/anexos/baixar/${idContrato}/${tipo}`)
+                fetch(`/fianca/anexos/baixar/${idContrato}/${tipo}`)
                     .then(res => {
-                        if (!res.ok) throw new Error('Erro ao baixar');
-                        return res.blob();
-                    })
-                    .then(blob => {
-                        const url = window.URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = `${tipo}.pdf`; // ou .html, se for esse o formato
-                        document.body.appendChild(a);
-                        a.click();
-                        a.remove();
+                        if (!res.ok) throw new Error('Erro ao abrir o anexo');
+                        window.open(`/fianca/anexos/baixar/${idContrato}/${tipo}`, '_blank');
                     })
                     .catch(error => {
                         Swal.fire('Erro', 'Arquivo não encontrado.', 'error');

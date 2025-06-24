@@ -77,7 +77,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-0">
-                        <div class="card-header">
+                        <div class="card-header mb-0 pb-0">
                             <div class="row align-items-center pt-3">
                                 <!-- Campo de pesquisa -->
                                 <div class="col-12 mb-3">
@@ -95,7 +95,7 @@
                                     </form>
 
                                     <!-- Filtros + botões -->
-                                    <div class="col-12 mb-1">
+                                    <div class="col-12">
                                         <form method="GET">
                                             <div class="row align-items-end g-3">
                                                 <div class="col-md-2 col-12">
@@ -163,7 +163,11 @@
 
                                                 <div class="col-md-2 col-12">
                                                     <a href="{{ route('assets.export.detalhado', request()->query()) }}"
-                                                        class="btn btn-outline-success btn-lg w-100">Exportar detalhado</a>
+                                                        class="btn btn-outline-success btn-lg" data-bs-toggle="tooltip"
+                                                        data-bs-placement="bottom"
+                                                        data-bs-original-title="Exportar planilha"><i
+                                                            class="ti tabler-file-type-xls icon-lg"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </form>
@@ -171,8 +175,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive mt-4 text-nowrap pt-2" style="height: 250px">
+                        <div class="card-body mt-0 pt-0">
+                            <div class="table-responsive text-nowrap pt-2" style="height: 250px">
                                 <table class="table" style="font-size: 13px">
                                     <thead>
                                         <tr>

@@ -22,7 +22,24 @@
                     <div>
                         <p class="fw-bold mb-2 p-0">Status da proposta</p>
                         @php
-                            $badge = $proposta['proposta_status'] == 'Aprovado' ? 'success' : 'secondary';
+                            switch ($proposta['proposta_status']) {
+                                case 'Aprovado':
+                                    $badge = 'success';
+                                    break;
+                                case 'Pendente':
+                                    $badge = 'warning';
+                                    break;
+                                case 'Alteração Imobiliária':
+                                    $badge = 'warning';
+                                    break;
+                                case 'Cancelado':
+                                    $badge = 'danger';
+                                    break;
+                                default:
+                                    $badge = 'secondary';
+                                    break;
+                            }
+
                         @endphp
                         <span class="badge text-bg-{{ $badge }}"><span
                                 id="contrato_status_resumo">{{ $proposta['proposta_status'] }}</span></span>
@@ -301,7 +318,7 @@
                 const formData = new FormData(form);
                 const propostaId = "{{ $proposta['id'] }}";
 
-                fetch(`/propostas/cancelar/${propostaId}`, {
+                fetch(`/fianca/propostas/cancelar/${propostaId}`, {
                         method: 'POST',
                         body: formData,
                         headers: {
@@ -354,7 +371,7 @@
             const numeroWhatsAppDestino = `+55{{ $proposta['pessoa_telefone'] }}`
 
             // Envia o e-mail por AJAX
-            fetch('/propostas/email', {
+            fetch('/fianca/propostas/email', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -372,7 +389,7 @@
                 })
                 .then(data => {
                     // Após o e-mail, enviar o WhatsApp
-                    return fetch('/propostas/whatsapp', {
+                    return fetch('/fianca/propostas/whatsapp', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -396,7 +413,7 @@
                 })
                 .then(data => {
                     // Após o WhatsApp, agora atualizar o status
-                    return fetch(`/propostas/atualizar/status/${propostaId}`, {
+                    return fetch(`/fianca/propostas/atualizar/status/${propostaId}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

@@ -136,7 +136,7 @@
 
                 const form = e.target;
                 const formData = new FormData(form);
-                const url = `/propostas/salvar-step2/${valor}`;
+                const url = `/fianca/propostas/salvar-step2/${valor}`;
 
                 const response = await fetch(url, {
                     method: 'POST',
@@ -153,7 +153,7 @@
                 }
 
                 // Redireciona ao sucesso
-                window.location.href = `/propostas/step3/${data.data.id}`;
+                window.location.href = `/fianca/propostas/step3/${data.data.id}`;
 
             } catch (error) {
                 console.error(error);

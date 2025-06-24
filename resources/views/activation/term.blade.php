@@ -39,165 +39,250 @@
                         <div class="container py-4">
                             <div class="card d-flex flex-column p-5">
                                 <div class="mt-5 p-10">
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="2"
-                                                style="border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single">
-                                                <p style="line-height:108%; font-size:11pt" class="text-center">
-                                                    <span style="font-weight:bold">QUADRO RESUMO - CONTRATO Nº
-                                                        17</span>
-                                                </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2"
-                                                style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
-                                                <p style="line-height:108%; font-size:11pt" class="text-center"><span
-                                                        style="font-weight:bold">DADOS DO INQUILINO</span></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>1 . NOME
-                                                        COMPLETO:</strong> {{ $data['pessoa_nome'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>2 . INSCRITO NO
-                                                        CPF:</strong> {{ $data['pessoa_doc'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>3 . DATA
-                                                        NASCIMENTO:</strong> {{ $data['data_nascimento'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>4 .
-                                                        TELEFONE:</strong> {{ $data['pessoa_telefone'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>5 .
-                                                        EMAIL:</strong> {{ $data['pessoa_email'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2"
-                                                style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
-                                                <p style="line-height:108%; font-size:11pt" class="text-center">
-                                                    <span><strong>DADOS DO
-                                                            ADMINISTRADOR</strong> </span>
-                                                </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>6. NOME/RAZÃO
-                                                        SOCIAL:</strong>
-                                                    {{ session('realEstateSectorOrCompany')['razao'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>7. INSCRITO NO
-                                                        CNPJ/MF OU CPF:</strong>
-                                                    {{ session('realEstateSectorOrCompany')['cnpj'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>8. COM ENDEREÇO
-                                                        NA:</strong> Av
-                                                    {{ session('realEstateSectorOrCompany')['endereco'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>9.
-                                                        COMPLEMENTO:</strong>
-                                                    &nbsp;</span>{{ session('realEstateSectorOrCompany')['complemento'] }}
-                                            </p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>10.
-                                                        CIDADE:</strong>
-                                                    {{ session('realEstateSectorOrCompany')['cidade'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>11.
-                                                        BAIRRO:</strong>
-                                                    {{ session('realEstateSectorOrCompany')['bairro'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>12. UF:</strong>
-                                                    {{ session('realEstateSectorOrCompany')['uf'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>13. CEP:</strong>
-                                                    {{ session('realEstateSectorOrCompany')['cep'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2"
-                                                style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
-                                                <p style="line-height:108%; font-size:11pt" class="text-center"><span
-                                                        style="font-weight:bold">DADOS DO IMÓVEL DA LOCAÇÃO</span></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>14.
-                                                        ENDEREÇO:</strong> {{ $data['imovel_endereco'] }} - nº
-                                                    {{ $data['imovel_numero'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>15.
-                                                        COMPLEMENTO:</strong>
-                                                    &nbsp;</span>{{ $data['imovel_complemento'] }}</p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>16.
-                                                        BAIRRO:</strong> {{ $data['imovel_bairro'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>17.
-                                                        CIDADE:</strong> {{ $data['imovel_cidade'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>18. UF:</strong>
-                                                    {{ $data['imovel_estado'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>19. CEP:</strong>
-                                                    {{ $data['imovel_cep'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>20. TIPO
-                                                        IMÓVEL:</strong> {{ $data['imovel_tipo'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2"
-                                                style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
-                                                <p style="line-height:108%; font-size:11pt"><span
-                                                        style="font-weight:bold" class="text-center">DADOS DA
-                                                        CONTRATAÇÃO</span></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>21.
-                                                        MULTIPLICADOR:</strong> 40 (Up)</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>22. VALOR TOTAL
-                                                        CONTRATADO:</strong> R$ 8.000,00</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>23. CUSTOS DE
-                                                        SAIDA:</strong> 5x</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>24. VALOR
-                                                        LOCATÍCIO:</strong> {{ $data['imovel_aluguel'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>25. VALOR DA
-                                                        TAXA:</strong> R$ 960,00</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>26.
-                                                        SETUP:</strong> {{ $data['proposta_setup_valor'] }}</span></p>
-                                        </tr>
-                                        <tr>
-                                            <p style="line-height:108%; font-size:11pt"><span><strong>27.
-                                                        OBSERVAÇÃO:</strong> </span></p>
-                                        </tr>
-                                    </tbody>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="2"
+                                                    style="border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single">
+                                                    <p style="line-height:108%; font-size:11pt" class="text-center">
+                                                        <span style="font-weight:bold">QUADRO RESUMO - CONTRATO Nº
+                                                            17</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"
+                                                    style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
+                                                    <p style="line-height:108%; font-size:11pt" class="text-center">
+                                                        <span style="font-weight:bold">DADOS DO INQUILINO</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>1 . NOME
+                                                                COMPLETO:</strong> {{ $data['pessoa_nome'] }}</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>2 .
+                                                                INSCRITO
+                                                                NO
+                                                                CPF:</strong> {{ $data['pessoa_doc'] }}</span></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>3 . DATA
+                                                                NASCIMENTO:</strong>
+                                                            {{ $data['data_nascimento'] }}</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>4 .
+                                                                TELEFONE:</strong>
+                                                            {{ $data['pessoa_telefone'] }}</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>5 .
+                                                                EMAIL:</strong> {{ $data['pessoa_email'] }}</span></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"
+                                                    style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
+                                                    <p style="line-height:108%; font-size:11pt" class="text-center">
+                                                        <span><strong>DADOS DO
+                                                                ADMINISTRADOR</strong> </span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>6.
+                                                                NOME/RAZÃO
+                                                                SOCIAL:</strong>
+                                                            {{ session('realEstateSectorOrCompany')['razao'] }}</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>7.
+                                                                INSCRITO NO
+                                                                CNPJ/MF OU CPF:</strong>
+                                                            {{ session('realEstateSectorOrCompany')['cnpj'] }}</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>8. COM
+                                                                ENDEREÇO
+                                                                NA:</strong> Av
+                                                            {{ session('realEstateSectorOrCompany')['endereco'] }}</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>9.
+                                                                COMPLEMENTO:</strong>
+                                                            &nbsp;</span>{{ session('realEstateSectorOrCompany')['complemento'] }}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>10.
+                                                                CIDADE:</strong>
+                                                            {{ session('realEstateSectorOrCompany')['cidade'] }}</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>11.
+                                                                BAIRRO:</strong>
+                                                            {{ session('realEstateSectorOrCompany')['bairro'] }}</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>12.
+                                                                UF:</strong>
+                                                            {{ session('realEstateSectorOrCompany')['uf'] }}</span></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>13.
+                                                                CEP:</strong>
+                                                            {{ session('realEstateSectorOrCompany')['cep'] }}</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"
+                                                    style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
+                                                    <p style="line-height:108%; font-size:11pt" class="text-center">
+                                                        <span style="font-weight:bold">DADOS DO IMÓVEL DA LOCAÇÃO</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>14.
+                                                                ENDEREÇO:</strong> {{ $data['imovel_endereco'] }} - nº
+                                                            {{ $data['imovel_numero'] }}</span></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>15.
+                                                                COMPLEMENTO:</strong>
+                                                            &nbsp;</span>{{ $data['imovel_complemento'] }}</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>16.
+                                                                BAIRRO:</strong> {{ $data['imovel_bairro'] }}</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>17.
+                                                                CIDADE:</strong> {{ $data['imovel_cidade'] }}</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>18.
+                                                                UF:</strong>
+                                                            {{ $data['imovel_estado'] }}</span></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>19.
+                                                                CEP:</strong>
+                                                            {{ $data['imovel_cep'] }}</span></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>20. TIPO
+                                                                IMÓVEL:</strong> {{ $data['imovel_tipo'] }}</span></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"
+                                                    style="border-top:0.75pt solid #e2e8f0; border-bottom:0.75pt solid #e2e8f0; padding:0.75pt 0.38pt; vertical-align:middle; background-color:#ffffff; -aw-border-bottom:0.25pt single; -aw-border-top:0.25pt single">
+                                                    <p style="line-height:108%; font-size:11pt"><span
+                                                            style="font-weight:bold" class="text-center">DADOS DA
+                                                            CONTRATAÇÃO</span></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>21.
+                                                                MULTIPLICADOR:</strong> 40 (Up)</span></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>22. VALOR
+                                                                TOTAL
+                                                                CONTRATADO:</strong> R$ 8.000,00</span></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>23. CUSTOS
+                                                                DE
+                                                                SAIDA:</strong> 5x</span></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>24. VALOR
+                                                                LOCATÍCIO:</strong>
+                                                            {{ $data['imovel_aluguel'] }}</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>25. VALOR
+                                                                DA
+                                                                TAXA:</strong> R$ 960,00</span></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="line-height:108%; font-size:11pt"><span><strong>26.
+                                                                SETUP:</strong>
+                                                            {{ $data['proposta_setup_valor'] }}</span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <p style="line-height:108%; font-size:11pt"><span><strong>27.
+                                                            OBSERVAÇÃO:</strong> </span></p>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="mt-5 px-10">
                                     <p><span style="font-weight:bold">INQUILINO - TERMOS E CONDIÇÕES GERAIS DOS SERVIÇOS
@@ -1556,7 +1641,7 @@
                                             DOS
                                             SERVIÇOS INVICTA.</span></p>
 
-                                    <a href="{{ route('activation.term_active', ['linkHash' => $linkHash]) }}"
+                                    <a href="{{ route('propostas.gerar-termo', ['id' => $data['id']]) }}"
                                         class="btn btn-primary waves-effect waves-light">
                                         <span class="d-sm-inline-block d-none me-sm-2 align-middle">Li, e aceito os
                                             termos de uso</span>
@@ -1593,6 +1678,7 @@
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="{{ asset('assets/js/form-layouts.js') }}"></script>
+
 </body>
 
 </html>

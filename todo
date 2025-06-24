@@ -17,7 +17,7 @@ Contratos
 ✅ Anexar abrir tela de edição, quando tiver anexo, aparecer Anexado e fazer down
 ✅ Na tela de visualização do contrato alinhar a esquerda os dados
 ✅ Na tela de visualização do contrato trocar imagem por uma imagem mais parecida com um ícone
-[ ] Falta a parte do Termo
+✅ Falta a parte do Termo
 ✅ Input colocar R$
 ✅ Anexos de Documentos - Acrescentar Tabela com: Tipo(Contrato, Vistoria..) Nome do arquivo, data do anexo, opções: download e remover
 ✅ Na tela de contratos, ao clicar no título (Todos, Ativos...) já filtrar
@@ -52,3 +52,13 @@ Proposta
 
 Relatórios
 ✅ Remover
+
+✅ Diminuir gap grid contratos
+✅ Valor location sem a soma do seutp
+✅ diminuir a casa, aumentar a grid
+✅ gap historico
+✅ Baixar secondary
+✅ Anexar primary
+[] Exportação sempre fazer o filtro se for diferente em tela
+
+Deixar já o link em https pra o Rudielle

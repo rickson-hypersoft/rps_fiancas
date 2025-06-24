@@ -459,7 +459,7 @@
                 button.addEventListener('click', function() {
                     const id = this.dataset.id;
                     document.getElementById('propostaIdInput').value = id;
-                    form.action = "{{ url('/propostas/cancelar') }}/" + id;
+                    form.action = "{{ url('/fianca/propostas/cancelar') }}/" + id;
                     modalCancelar.show();
                 });
             });
@@ -513,7 +513,7 @@
                 Swal.fire({
                     title: 'Alteração registrada!',
                     html: `<p>Você será redirecionado para a tela de alteração.</p>
-                   <a href="/propostas/alteracao/${idProposta}?motivo=${encodeURIComponent(motivo)}&observacao=${encodeURIComponent(observacao)}" class="btn btn-primary mt-2">Ir para alteração agora</a>`,
+                   <a href="/fianca/propostas/alteracao/${idProposta}?motivo=${encodeURIComponent(motivo)}&observacao=${encodeURIComponent(observacao)}" class="btn btn-primary mt-2">Ir para alteração agora</a>`,
                     icon: 'success',
                     showConfirmButton: false,
                 });

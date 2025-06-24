@@ -11,7 +11,8 @@
                         <hr>
                     </div>
 
-                    <form id="form-proposta" method="POST">
+                    <form id="form-proposta" method="POST" action="{{ route('propostal.save.step1') }}">
+                        @csrf
                         <div class="row pb-5">
                             <div class="col-md mb-md-0 mb-3">
                                 <div class="form-check custom-option custom-option-basic">
@@ -275,66 +276,74 @@
             }
         });
 
-        document.getElementById('form-proposta').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('form-proposta').addEventListener('submit', async function(e) {
+                console.log('Interceptando submit...');
+                e.preventDefault();
 
-            // Abre o SweetAlert de carregamento ANTES de tudo
-            Swal.fire({
-                title: 'Aguarde...',
-                text: 'Análise de crédito em andamento',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => {
-                    Swal.showLoading();
+                // Abre o SweetAlert de carregamento ANTES de tudo
+                Swal.fire({
+                    title: 'Aguarde...',
+                    text: 'Análise de crédito em andamento',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                try {
+                    // Preenche endereço pelo CEP antes de enviar
+                    const cepInput = document.getElementById('imovel_cep');
+                    const cep = cepInput.value.replace(/\D/g, '');
+                    if (cep.length === 8) {
+                        const cepResponse = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                        const dataCep = await cepResponse.json();
+                        if (!dataCep.erro) {
+                            document.getElementById('imovel_estado').value = dataCep.uf;
+                            document.getElementById('imovel_cidade').value = dataCep.localidade;
+                        }
+                    }
+
+                    const form = e.target;
+                    const formData = new FormData(form);
+                    const idProposta = document.getElementById('idProposta').value;
+                    let url = '/fianca/propostas/salvar-step1';
+                    if (idProposta) {
+                        url += `/${idProposta}`;
+                    }
+                    console.log(url)
+
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: formData
+                    });
+
+                    console.log(response)
+
+                    const data = await response.json();
+
+                    console.log(data)
+
+                    if (!response.ok) {
+                        throw data;
+                    }
+
+                    // Se deu tudo certo, redireciona
+                    window.location.href = `/fianca/propostas/step2/${data.data.id}`;
+
+                } catch (error) {
+                    console.error(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: error.message || 'Houve um problema ao criar a proposta.'
+                    });
                 }
             });
-
-            try {
-                // Preenche endereço pelo CEP antes de enviar
-                const cepInput = document.getElementById('imovel_cep');
-                const cep = cepInput.value.replace(/\D/g, '');
-                if (cep.length === 8) {
-                    const cepResponse = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-                    const dataCep = await cepResponse.json();
-                    if (!dataCep.erro) {
-                        document.getElementById('imovel_estado').value = dataCep.uf;
-                        document.getElementById('imovel_cidade').value = dataCep.localidade;
-                    }
-                }
-
-                const form = e.target;
-                const formData = new FormData(form);
-                const idProposta = document.getElementById('idProposta').value;
-                let url = '/propostas/salvar-step1/';
-                if (idProposta) {
-                    url += idProposta;
-                }
-
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: formData
-                });
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw data;
-                }
-
-                // Se deu tudo certo, redireciona
-                window.location.href = `/propostas/step2/${data.data.id}`;
-
-            } catch (error) {
-                console.error(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erro!',
-                    text: error.message || 'Houve um problema ao criar a proposta.'
-                });
-            }
         });
     </script>
 @endsection

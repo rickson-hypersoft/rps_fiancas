@@ -81,7 +81,7 @@
 
                             {{-- Formulário de exportação XLSX --}}
                             <form method="GET" action="{{ route('financial.financial_movi.export') }}"
-                                class="col-md-2 d-grid">
+                                class="col-md-1 d-grid">
                                 {{-- Mantendo os filtros na exportação --}}
                                 <input type="hidden" name="id_conta" value="{{ request('id_conta') }}">
                                 <input type="hidden" name="id_categoria" value="{{ request('id_categoria') }}">
@@ -90,7 +90,10 @@
                                 <input type="hidden" name="data_final" value="{{ request('data_final') ?? $dataFinal }}">
                                 <input type="hidden" name="search" value="{{ request('search') }}">
 
-                                <button type="submit" class="btn btn-success btn-lg">Exportar XLSX</button>
+                                <button type="submit" class="btn btn-outline-success btn-lg" data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom" data-bs-original-title="Exportar planilha">
+                                    <i class="ti tabler-file-type-xls icon-lg"></i>
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -160,7 +163,7 @@
                     </div>
                 </div>
 
-                <div class="card mb-0 mt-5">
+                <div class="card mb-0 mt-3">
                     <div class="card-header">
                         <h5>Listagem das Movimentações</h5>
                         <hr>

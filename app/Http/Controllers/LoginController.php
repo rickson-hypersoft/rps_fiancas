@@ -36,7 +36,7 @@ class LoginController extends Controller
 
         session(['jwt_token' => $token, 'user' => $user, 'realEstateSectorOrCompany' => $realEstateSectorOrCompany]);
 
-        return redirect('/dashboard');
+        return redirect('/fianca/dashboard');
     }
 
     public function logout(): RedirectResponse

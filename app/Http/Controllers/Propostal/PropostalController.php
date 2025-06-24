@@ -4,14 +4,16 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Propostal;
 
-use App\Http\Controllers\Controller;
-use App\Services\EmailService;
 use DateTime;
-use Illuminate\Http\Client\Response;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Services\EmailService;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class PropostalController extends Controller
 {
@@ -135,19 +137,20 @@ class PropostalController extends Controller
         $dataResponse = [];
 
         if ($data['proposta_status'] == 'Aprovado') {
-            $data['contrato_status'] = 'Em Análise Biométrica';
             $proposta                = $this->parserValuesForInsert($data);
 
             $proposta['contrato_status'] = 'Pendente';
+            $proposta['contrato_sub_status'] = 'Em análise biométrica';
 
             $dataResponse = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
         }
 
-        if ($data['proposta_status'] == 'Alteracao Imobiliaria') {
+        if ($data['proposta_status'] == 'Alteração Imobiliária') {
             $data['proposta_status'] = 'Aprovado';
             $proposta                = $this->parserValuesForInsert($data);
 
             $proposta['contrato_status'] = 'Pendente';
+            $proposta['contrato_sub_status'] = 'Em análise biométrica';
 
             $dataResponse = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
         }
@@ -163,6 +166,20 @@ class PropostalController extends Controller
         }
 
         $styles = $this->stylesStep5($dataResponse->json()['data']);
+
+        $proposta = [
+            "id_imobiliaria" => session('user')['id_imobiliaria'],
+            "id_movi"        => $id,
+            "id_usuario"     => session('user')['id'],
+            "data"           => date('Y-m-d'),
+            "hora"           => date('H:i:s'),
+            'historico'      => "Proposta nº{$id} criada com sucesso e enviada por e-mail e WhatsApp, aguardando ativação do contrato pelo inquilino.",
+            "movi"           => "Proposta",
+        ];
+
+        $this->saveHistory([
+           $proposta
+        ], 'Contrato');
 
         return view('propostal.wizard', [
             'step'     => 'step5',
@@ -593,7 +610,7 @@ class PropostalController extends Controller
                 'data'           => $data['data'],
                 'hora'           => $data['hora'],
                 'id_usuario'     => session('user')['id'],
-                'historico'      => "Criada Solicitação #{$data['id']} do tipo {$data['imovel_tipo']}, com setup de {$data['proposta_setup_valor']} e valor do aluguel {$data['imovel_aluguel']}, valor do condomínio {$data['imovel_condominio']}, valor das taxas {$data['imovel_taxas']}, totalizando {$data['valor_total_pagamento']}. O imóvel está situado no endereço {$data['endereco_completo']}, cujo CEP é {$data['imovel_cep']}",
+                'historico'      => "Criada Solicitação nº{$data['id']} do tipo {$data['imovel_tipo']}, com setup de {$data['proposta_setup_valor']} e valor do aluguel {$data['imovel_aluguel']}, valor do condomínio {$data['imovel_condominio']}, valor das taxas {$data['imovel_taxas']}, totalizando {$data['valor_total_pagamento']}. O imóvel está situado no endereço {$data['endereco_completo']}, cujo CEP é {$data['imovel_cep']}",
             ];
 
             Http::withToken($token)->post(config('api.route') . '/history/create', $history);
@@ -605,6 +622,10 @@ class PropostalController extends Controller
 
         if ($status === 'Alteração') {
             Http::withToken($token)->post(config('api.route') . '/history/create', $data);
+        }
+
+        if ($status === 'Contrato') {
+            Http::withToken($token)->post(config('api.route') . '/history/create', $data[0]);
         }
     }
 
@@ -705,10 +726,10 @@ class PropostalController extends Controller
         $parserPropostal['hora_ultima_atualizacao'] = date('H:i:s');
         $parserPropostal['proposta_status']         = 'Alteração Imobiliária';
 
-        $historico = "Solicitação alterada #{$id} por motivo de {$motivo}";
+        $historico = "Solicitação nº{$id} alterada: {$motivo}";
 
         if ($motivoOpicional) {
-            $historico = "Solicitação alterada #{$id} por motivo de {$motivo}, explicação: {$motivoOpicional}";
+            $historico = "Solicitação nº{$id} alterada: {$motivo}, explicação da alteração: {$motivoOpicional}";
         }
 
         $historico = [
@@ -767,4 +788,41 @@ class PropostalController extends Controller
 
         return response()->json("Status atualizado com sucesso!");
     }
+
+    public function gerarTermoPDF($id)
+{
+     $token    = session('jwt_token');
+    $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
+    $data = $response->json();
+
+    $clienteNome = preg_replace('/[^A-Za-z0-9]/', '_', $data['pessoa_nome']); // Nome sem caracteres especiais
+
+    // Renderiza o Blade como HTML
+    $html = view('activation.term', compact('data'))->render();
+
+    // Gera o PDF
+    $pdf = Pdf::loadHTML($html);
+
+    $idImobiliaria = $data['id_imobiliaria'];
+    $caminho = "anexos/{$idImobiliaria}/termos/termo_{$clienteNome}.pdf";
+
+    // Salva no storage
+    Storage::disk('public')->put($caminho, $pdf->output());
+
+    return redirect()->route('activation.term_active', ['linkHash' => $data['link_hash']]);
+}
+
+ public function downloadTermo($imobiliaria, $filename)
+{
+
+    $caminho = "anexos/{$imobiliaria}/termos/{$filename}";
+
+    if (! Storage::disk('public')->exists($caminho)) {
+        abort(404, 'Arquivo não encontrado no storage');
+    }
+
+    return response()->file(storage_path("app/public/{$caminho}"), [
+        'Content-Disposition' => 'inline; filename="' . $filename . '"',
+    ]);
+}
 }

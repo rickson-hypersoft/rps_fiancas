@@ -90,8 +90,8 @@
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
                     <!-- Menu -->
-                    <aside id="layout-menu" class="bg-dark layout-menu-horizontal menu-horizontal menu flex-grow-0"
-                        data-bs-theme="dark">
+                    <aside id="layout-menu" style="background: #535B82"
+                        class="layout-menu-horizontal menu-horizontal menu flex-grow-0" data-bs-theme="dark">
                         <div class="container-xxl d-flex h-100">
                             <ul class="menu-inner">
                                 <li class="menu-item">

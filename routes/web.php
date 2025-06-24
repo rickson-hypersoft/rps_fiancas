@@ -19,6 +19,8 @@ use App\Http\Controllers\RealEstateSectorController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+Route::prefix('fianca')->group(function (): void {
+
 Route::redirect('/', '/login');
 
 Route::get('/login', [LoginController::class, 'index']);
@@ -32,6 +34,9 @@ Route::middleware(['auth.token'])->group(function (): void {
     Route::get('/minha-conta', [ProfileController::class, 'index'])->name('my-profile');
     Route::put('/minha-conta/atualizar/{usuario}', [ProfileController::class, 'update'])->name('update.my-profile');
 });
+
+Route::get('/termos/{imobiliaria}/{filename}', [PropostalController::class, 'downloadTermo'])
+     ->name('propostas.download-termo');
 
 // Fianças
 Route::middleware(['auth.token', 'check.category:Fianças'])->group(function (): void {
@@ -150,6 +155,8 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
 
     Route::get('/imobiliaria/financeiro/movimentacao/export', [FinancialMoviController::class, 'export'])->name('financial.financial_movi.export');
 
+
+
     Route::prefix('propostas')->group(function (): void {
         Route::get('/listagem', [PropostalController::class, 'index'])
             ->name('propostal.index');
@@ -182,7 +189,8 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         Route::post('/email', [PropostalController::class, 'sendNotification'])->name('propostal.send');
         Route::post('/whatsapp', [PropostalController::class, 'sendWhatsApp'])->name('propostal.send');
 
-        Route::get('/alteracao/{id}', [PropostalController::class, 'salvarMotivoAlteracao'])->name('propostal.alter');
+        Route::get('/alteracao/{id}', [PropostalController::class, 'salvarMotivoAlteracao'])->name('propostal.alter');;
+        Route::get('/{id}/gerar-termo', [PropostalController::class, 'gerarTermoPDF'])->name('propostas.gerar-termo');
     });
 
     // Contratos
@@ -240,4 +248,5 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
             ->name('checkout.confirmation.cart')
             ->middleware('verify.contract.link');
     });
+});
 });
