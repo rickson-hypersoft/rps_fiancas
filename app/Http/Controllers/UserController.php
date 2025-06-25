@@ -73,8 +73,8 @@ class UserController extends Controller
 
         $userData['permissoes'] = $permissoesString;
         $userData['senha']      = Hash::make($request->get('senha'));
-        $response       = Http::withToken($token)->post(config('api.route') . '/users', $userData);
-        $returnResponse = $response->json();
+        $response               = Http::withToken($token)->post(config('api.route') . '/users', $userData);
+        $returnResponse         = $response->json();
 
         if (! $returnResponse['success']) {
             return back()->withErrors($returnResponse['message'])->withInput();

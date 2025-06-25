@@ -24,12 +24,14 @@ class ProfileController extends Controller
 
         if ($request->hasFile('imagem')) {
             $file = $request->file('imagem');
-            $path = public_path("assets/user-profiles/{$id}.png");
+
+            $path = base_path("assets/user-profiles/{$id}.png");
 
             if (file_exists($path)) {
                 unlink($path);
             }
-            $file->move(public_path('assets/user-profiles'), "{$id}.png");
+
+            $file->move(base_path('assets/user-profiles'), "{$id}.png");
         }
 
         $validator = Validator::make($requestSanitize, [

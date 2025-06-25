@@ -195,11 +195,7 @@ class RealEstateSectorController extends Controller
         $token           = session('jwt_token');
         $requestSanitize = $this->sanitizeData($request->all(), ['taxa']);
 
-        if(isset($requestSanitize['ativo'])) {
-            $requestSanitize['ativo'] = 1;
-        } else {
-            $requestSanitize['ativo'] = 0;
-        }
+        $requestSanitize['ativo'] = isset($requestSanitize['ativo']) ? 1 : 0;
 
         $requestSanitize['id_imobiliaria'] = $id;
 

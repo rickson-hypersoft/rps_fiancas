@@ -24,7 +24,7 @@ class AuthTokenMiddleware
         if (count($parts) !== 3) {
             session()->forget('jwt_token');
 
-             return redirect()->route('login');
+            return redirect()->route('login');
         }
 
         $payload = json_decode(base64_decode(strtr($parts[1], '-_', '+/')), true);
@@ -33,7 +33,7 @@ class AuthTokenMiddleware
         if (! isset($payload['exp']) || time() >= $payload['exp']) {
             session()->forget('jwt_token');
 
-             return redirect()->route('login')->withErrors(['Sessão expirada. Faça login novamente.']);
+            return redirect()->route('login')->withErrors(['Sessão expirada. Faça login novamente.']);
         }
 
         return $next($request);

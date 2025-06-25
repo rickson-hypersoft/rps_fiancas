@@ -4,16 +4,16 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Propostal;
 
-use DateTime;
-use Illuminate\View\View;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Services\EmailService;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
+use DateTime;
 use Illuminate\Http\Client\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class PropostalController extends Controller
 {
@@ -137,9 +137,9 @@ class PropostalController extends Controller
         $dataResponse = [];
 
         if ($data['proposta_status'] == 'Aprovado') {
-            $proposta                = $this->parserValuesForInsert($data);
+            $proposta = $this->parserValuesForInsert($data);
 
-            $proposta['contrato_status'] = 'Pendente';
+            $proposta['contrato_status']     = 'Pendente';
             $proposta['contrato_sub_status'] = 'Em análise biométrica';
 
             $dataResponse = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
@@ -149,7 +149,7 @@ class PropostalController extends Controller
             $data['proposta_status'] = 'Aprovado';
             $proposta                = $this->parserValuesForInsert($data);
 
-            $proposta['contrato_status'] = 'Pendente';
+            $proposta['contrato_status']     = 'Pendente';
             $proposta['contrato_sub_status'] = 'Em análise biométrica';
 
             $dataResponse = Http::withToken($token)->post(config('api.route') . '/propostal/create', $proposta);
@@ -178,7 +178,7 @@ class PropostalController extends Controller
         ];
 
         $this->saveHistory([
-           $proposta
+            $proposta,
         ], 'Contrato');
 
         return view('propostal.wizard', [
@@ -789,40 +789,39 @@ class PropostalController extends Controller
         return response()->json("Status atualizado com sucesso!");
     }
 
-    public function gerarTermoPDF($id)
-{
-     $token    = session('jwt_token');
-    $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
-    $data = $response->json();
+    public function gerarTermoPDF(string $id)
+    {
+        $token    = session('jwt_token');
+        $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
+        $data     = $response->json();
 
-    $clienteNome = preg_replace('/[^A-Za-z0-9]/', '_', $data['pessoa_nome']); // Nome sem caracteres especiais
+        $clienteNome = preg_replace('/[^A-Za-z0-9]/', '_', (string) $data['pessoa_nome']); // Nome sem caracteres especiais
 
-    // Renderiza o Blade como HTML
-    $html = view('activation.term', compact('data'))->render();
+        // Renderiza o Blade como HTML
+        $html = view('activation.term', ['data' => $data])->render();
 
-    // Gera o PDF
-    $pdf = Pdf::loadHTML($html);
+        // Gera o PDF
+        $pdf = Pdf::loadHTML($html);
 
-    $idImobiliaria = $data['id_imobiliaria'];
-    $caminho = "anexos/{$idImobiliaria}/termos/termo_{$clienteNome}.pdf";
+        $idImobiliaria = $data['id_imobiliaria'];
+        $caminho       = "anexos/{$idImobiliaria}/termos/termo_{$clienteNome}.pdf";
 
-    // Salva no storage
-    Storage::disk('public')->put($caminho, $pdf->output());
+        // Salva no storage
+        Storage::disk('public')->put($caminho, $pdf->output());
 
-    return redirect()->route('activation.term_active', ['linkHash' => $data['link_hash']]);
-}
-
- public function downloadTermo($imobiliaria, $filename)
-{
-
-    $caminho = "anexos/{$imobiliaria}/termos/{$filename}";
-
-    if (! Storage::disk('public')->exists($caminho)) {
-        abort(404, 'Arquivo não encontrado no storage');
+        return redirect()->route('activation.term_active', ['linkHash' => $data['link_hash']]);
     }
 
-    return response()->file(storage_path("app/public/{$caminho}"), [
-        'Content-Disposition' => 'inline; filename="' . $filename . '"',
-    ]);
-}
+    public function downloadTermo($imobiliaria, string $filename)
+    {
+        $caminho = "anexos/{$imobiliaria}/termos/{$filename}";
+
+        if (! Storage::disk('public')->exists($caminho)) {
+            abort(404, 'Arquivo não encontrado no storage');
+        }
+
+        return response()->file(storage_path("app/public/{$caminho}"), [
+            'Content-Disposition' => 'inline; filename="' . $filename . '"',
+        ]);
+    }
 }

@@ -25,7 +25,7 @@
 
                     <div class="d-flex align-items-start align-items-sm-center gap-6">
                         @php
-                            $profileImage = file_exists(public_path("assets/user-profiles/{$user['id']}.png"))
+                            $profileImage = file_exists("assets/user-profiles/{$user['id']}.png")
                                 ? asset("assets/user-profiles/{$user['id']}.png")
                                 : asset('assets/user-profiles/default.png');
                         @endphp
@@ -83,14 +83,14 @@
                         </div>
 
                         <!--
-                            <div class="col-md-6">
-                                <label for="ativo" class="form-label">Ativo</label>
-                                <div class="form-check form-switch mb-2">
-                                    <input class="form-check-input" type="checkbox" id="user-status-switch" name="ativo"
-                                        {{ $user['ativo'] ? 'checked' : '' }}>
-                                </div>
-                            </div>
-                        -->
+                                                    <div class="col-md-6">
+                                                        <label for="ativo" class="form-label">Ativo</label>
+                                                        <div class="form-check form-switch mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="user-status-switch" name="ativo"
+                                                                {{ $user['ativo'] ? 'checked' : '' }}>
+                                                        </div>
+                                                    </div>
+                                                -->
 
                     </div>
                     <div class="d-flex mt-4">

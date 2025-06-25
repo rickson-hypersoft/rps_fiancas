@@ -210,36 +210,6 @@ class AssetsController extends Controller
     }
 
     public function baixarAnexo(string $idContrato, string $tipo)
-{
-    $idImobiliaria = session('user')['id_imobiliaria'];
-
-    // Buscar nome do arquivo no banco
-    $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/search/attachment', [
-        'id_imobiliaria' => $idImobiliaria,
-        'id_movi'        => $idContrato,
-        'movi'           => 'contratos',
-        'movi_sub'       => $tipo,
-    ]);
-
-    if (! $response->ok() || empty($response->json())) {
-        abort(404, 'Arquivo não encontrado');
-    }
-
-    $nomeArquivo = $response->json()[0]['NOME_ARQUIVO'] ?? null;
-
-    $caminho = "anexos/{$idImobiliaria}/contratos/{$nomeArquivo}";
-
-    if (! Storage::disk('public')->exists($caminho)) {
-        abort(404, 'Arquivo não encontrado no storage');
-    }
-
-    return response()->file(storage_path("app/public/{$caminho}"), [
-        'Content-Disposition' => 'inline; filename="' . $nomeArquivo . '"',
-    ]);
-}
-
-/*
-    public function baixarAnexo(string $idContrato, string $tipo)
     {
         $idImobiliaria = session('user')['id_imobiliaria'];
 
@@ -263,9 +233,39 @@ class AssetsController extends Controller
             abort(404, 'Arquivo não encontrado no storage');
         }
 
-        return response()->file(storage_path("app/public/{$caminho}"));
+        return response()->file(storage_path("app/public/{$caminho}"), [
+            'Content-Disposition' => 'inline; filename="' . $nomeArquivo . '"',
+        ]);
     }
-*/
+
+    /*
+        public function baixarAnexo(string $idContrato, string $tipo)
+        {
+            $idImobiliaria = session('user')['id_imobiliaria'];
+
+            // Buscar nome do arquivo no banco
+            $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/search/attachment', [
+                'id_imobiliaria' => $idImobiliaria,
+                'id_movi'        => $idContrato,
+                'movi'           => 'contratos',
+                'movi_sub'       => $tipo,
+            ]);
+
+            if (! $response->ok() || empty($response->json())) {
+                abort(404, 'Arquivo não encontrado');
+            }
+
+            $nomeArquivo = $response->json()[0]['NOME_ARQUIVO'] ?? null;
+
+            $caminho = "anexos/{$idImobiliaria}/contratos/{$nomeArquivo}";
+
+            if (! Storage::disk('public')->exists($caminho)) {
+                abort(404, 'Arquivo não encontrado no storage');
+            }
+
+            return response()->file(storage_path("app/public/{$caminho}"));
+        }
+    */
 
     public function exportDetalhado(Request $request)
     {

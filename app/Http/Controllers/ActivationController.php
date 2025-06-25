@@ -85,7 +85,7 @@ class ActivationController extends Controller
             config('api.route') . '/activation/term/' . $linkHash
         );
 
-        return redirect()->route('checktou.index', ['linkHash'=> $linkHash]);
+        return redirect()->route('checktou.index', ['linkHash' => $linkHash]);
     }
 
     public function login(string $linkHash): View
