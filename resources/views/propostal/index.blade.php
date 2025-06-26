@@ -141,7 +141,8 @@
                                         }
                                     @endphp
                                     @if (
-                                        $propostal['contrato_status'] == 'Pendente' and
+                                            $propostal['contrato_status'] == 'Pendente' or
+                                            $propostal['contrato_status'] == 'Pendente Análise' and
                                             $propostal['proposta_status'] != 'Cancelado' and
                                             $propostal['proposta_status'] != 'Rascunho')
                                         <tr>

@@ -347,6 +347,8 @@
         const button = document.getElementById('btn-enviar-proposta');
         let isSending = false;
 
+        const redirectUrl = button.getAttribute('href');
+
         button.addEventListener('click', function(event) {
             event.preventDefault(); // impede o redirecionamento imediato
 const status = `{{ $proposta['proposta_credito_status'] }}`
@@ -364,19 +366,44 @@ const status = `{{ $proposta['proposta_credito_status'] }}`
                     }
                 });
             } else {
-                 Swal.fire({
-                    title: 'Enviando proposta...',
-                    text: 'Aguarde a análise da imobiliária para continuar.',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-            }
+    Swal.fire({
+        title: 'Enviando proposta...',
+        text: 'Aguarde a análise da imobiliária para continuar.',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    // Faz a requisição e espera a resposta
+    try {
+        const response = await fetch(`/propostas/atualizar/status/${propostaId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                proposta_status: 'Pendente',
+                contrato_status: 'Pendente Análise',
+                contrato_sub_status: 'Pendente Análise',
+            })
+        });
+
+        if (response.ok) {
+            window.location.href = redirectUrl;
+        } else {
+            const errorData = await response.json();
+            Swal.fire('Erro', errorData.message || 'Falha ao atualizar a proposta.', 'error');
+        }
+    } catch (error) {
+        Swal.fire('Erro', 'Erro de conexão ou servidor.', 'error');
+        console.error(error);
+    }
+}
 
             const propostaId = button.getAttribute('data-proposta-id');
-            const redirectUrl = button.getAttribute('href');
             const nomeInquilino = `{{ $proposta['pessoa_nome'] }}`
             const emailInquilino = `{{ $proposta['pessoa_email'] }}`
             const linkInquilino = `{{ $proposta['link_hash'] }}`

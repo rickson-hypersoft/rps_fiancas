@@ -262,7 +262,7 @@ class PropostalController extends Controller
         }
 
         if ($score > 400 && $score < 700) {
-            $requestSanitize['proposta_credito_status'] = 'Pendente';
+            $requestSanitize['proposta_credito_status'] = 'Pendente Análise';
         }
 
         if ($score <= 400) {
@@ -427,7 +427,14 @@ class PropostalController extends Controller
 
         $proposta['endereco_completo'] = "{$proposta['imovel_endereco']}, {$proposta['imovel_numero']}, {$proposta['imovel_bairro']}, {$proposta['imovel_cidade']} - {$proposta['imovel_estado']}";
 
-        $parserPropostal['proposta_status'] = 'Aprovado';
+        if($parserPropostal['proposta_credito_status'] != 'Pendente Análise') {
+            $parserPropostal['proposta_status'] = 'Aprovado';
+        }
+
+        if($parserPropostal['proposta_credito_status'] == 'Pendente Análise') {
+            $parserPropostal['proposta_status'] = 'Pendente Análise';
+            $parserPropostal['contrato_status'] = 'Pendente Análise';
+        }
 
         $response = Http::withToken($token)->post(config('api.route') . '/propostal/create', $parserPropostal);
 
@@ -588,6 +595,13 @@ class PropostalController extends Controller
                 'cardStyle'     => '',
             ],
             'Pendente' => [
+                'colorText'     => 'fw-bold text-warning',
+                'text'          => 'A proposta está em análise manual pelo nosso time interno.',
+                'paragrapfCard' => 'Estaremos em contato através da nossa plataforma e por e-mail para dar retorno em até 30 minutos.',
+                'card'          => 'content-header mb-4 p-5 text-white',
+                'cardStyle'     => 'background-color: #FFA600;',
+            ],
+             'Pendente Análise' => [
                 'colorText'     => 'fw-bold text-warning',
                 'text'          => 'A proposta está em análise manual pelo nosso time interno.',
                 'paragrapfCard' => 'Estaremos em contato através da nossa plataforma e por e-mail para dar retorno em até 30 minutos.',
