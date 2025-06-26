@@ -95,7 +95,7 @@ class PropostalController extends Controller
         ]);
     }
 
-    public function step3(string | int $id): View
+    public function step3(string | int $id)
     {
         $token = session('jwt_token');
 
@@ -104,13 +104,17 @@ class PropostalController extends Controller
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
         $data     = $response->json();
 
+        if ($data['proposta_credito_status'] == 'Negado') {
+            return redirect()->route('propostal.step2', ['id' => $id]);
+        }
+
         return view('propostal.wizard', [
             'step'     => 'step3',
             'proposta' => $data,
         ]);
     }
 
-    public function step4(string | int $id): View
+    public function step4(string | int $id)
     {
         $token = session('jwt_token');
 
@@ -120,6 +124,10 @@ class PropostalController extends Controller
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
+        if ($data['proposta_credito_status'] == 'Negado') {
+            return redirect()->route('propostal.step2', ['id' => $id]);
+        }
+
         return view('propostal.wizard', [
             'step'      => 'step4',
             'proposta'  => $data,
@@ -127,12 +135,16 @@ class PropostalController extends Controller
         ]);
     }
 
-    public function step5(string | int $id): View
+    public function step5(string | int $id)
     {
         $token = session('jwt_token');
 
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
         $data     = $response->json();
+
+        if ($data['proposta_credito_status'] == 'Negado') {
+            return redirect()->route('propostal.step2', ['id' => $id]);
+        }
 
         $dataResponse = [];
 
@@ -190,6 +202,8 @@ class PropostalController extends Controller
 
     public function saveStep1(Request $request, int | string | null $id = null): JsonResponse
     {
+        $token = session('jwt_token');
+
         $requestSanitize = $this->sanitizeData(
             $request->all(),
             ['imovel_cep', 'pessoa_doc']
@@ -200,18 +214,6 @@ class PropostalController extends Controller
         $requestSanitize['imovel_taxas']      = floatval(str_replace(',', '.', str_replace('.', '', (string) ($requestSanitize['imovel_taxas'] ?? '0'))));
         $requestSanitize['proposta_status']   = 'Rascunho';
         $requestSanitize['id_imobiliaria']    = session('user')['id_imobiliaria'];
-
-        if ($requestSanitize['imovel_aluguel'] < 1500) {
-            $requestSanitize['proposta_credito_status'] = 'Aprovado';
-        }
-
-        if ($requestSanitize['imovel_aluguel'] >= 1500 && $requestSanitize['imovel_aluguel'] <= 2500) {
-            $requestSanitize['proposta_credito_status'] = 'Pendente';
-        }
-
-        if ($requestSanitize['imovel_aluguel'] > 2500) {
-            $requestSanitize['proposta_credito_status'] = 'Negado';
-        }
 
         $requestSanitize['data'] = date('Y-m-d');
         $requestSanitize['hora'] = date('H:i:s');
@@ -245,7 +247,27 @@ class PropostalController extends Controller
             return response()->json(['message' => 'Campo cpf inválido!'], 400);
         }
 
-        $token = session('jwt_token');
+        $checkScore = Http::withToken($token)->get(config('api.route') . '/consultar-score', [
+            'document' => $requestSanitize['pessoa_doc'],
+        ])->json();
+
+        if (isset($checkScore['original']['message'])) {
+            return response()->json(['message' => $checkScore['original']['mensagem']], 400);
+        }
+
+        $score = $checkScore['original']['resposta']['score']['pontos'];
+
+        if ($score >= 700) {
+            $requestSanitize['proposta_credito_status'] = 'Aprovado';
+        }
+
+        if ($score > 400 && $score < 700) {
+            $requestSanitize['proposta_credito_status'] = 'Pendente';
+        }
+
+        if ($score <= 400) {
+            $requestSanitize['proposta_credito_status'] = 'Negado';
+        }
 
         if ($id !== 0 && ($id !== '' && $id !== '0')) {
             $requestSanitize['id'] = $id;
@@ -254,7 +276,7 @@ class PropostalController extends Controller
         $response = Http::withToken($token)->post(config('api.route') . '/propostal/create', $requestSanitize);
 
         if (! $response->successful()) {
-            return response()->json(['message' => 'Erro ao criar proposta na API 3'], 400);
+            return response()->json(['message' => 'Erro ao criar proposta na API'], 400);
         }
 
         $propostaId = $response->json()['data'];

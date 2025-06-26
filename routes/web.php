@@ -19,7 +19,6 @@ use App\Http\Controllers\RealEstateSectorController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
@@ -33,7 +32,7 @@ Route::middleware(['auth.token'])->group(function (): void {
 });
 
 Route::get('/termos/{imobiliaria}/{filename}', [PropostalController::class, 'downloadTermo'])
-     ->name('propostas.download-termo');
+    ->name('propostas.download-termo');
 
 // Fianças
 Route::middleware(['auth.token', 'check.category:Fianças'])->group(function (): void {
@@ -184,7 +183,8 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         Route::post('/email', [PropostalController::class, 'sendNotification'])->name('propostal.send.email');
         Route::post('/whatsapp', [PropostalController::class, 'sendWhatsApp'])->name('propostal.send');
 
-        Route::get('/alteracao/{id}', [PropostalController::class, 'salvarMotivoAlteracao'])->name('propostal.alter');;
+        Route::get('/alteracao/{id}', [PropostalController::class, 'salvarMotivoAlteracao'])->name('propostal.alter');
+        ;
         Route::get('/{id}/gerar-termo', [PropostalController::class, 'gerarTermoPDF'])->name('propostas.gerar-termo');
     });
 

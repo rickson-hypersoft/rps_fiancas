@@ -349,19 +349,31 @@
 
         button.addEventListener('click', function(event) {
             event.preventDefault(); // impede o redirecionamento imediato
-
+const status = `{{ $proposta['proposta_credito_status'] }}`
             if (isSending) return;
             isSending = true;
 
-            Swal.fire({
-                title: 'Enviando proposta...',
-                text: 'Aguarde o envio por e-mail e WhatsApp.',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
+            if(status == 'Aprovado') {
+                Swal.fire({
+                    title: 'Enviando proposta...',
+                    text: 'Aguarde o envio por e-mail e WhatsApp.',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            } else {
+                 Swal.fire({
+                    title: 'Enviando proposta...',
+                    text: 'Aguarde a análise da imobiliária para continuar.',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            }
 
             const propostaId = button.getAttribute('data-proposta-id');
             const redirectUrl = button.getAttribute('href');
@@ -370,6 +382,8 @@
             const linkInquilino = `{{ $proposta['link_hash'] }}`
             const numeroWhatsAppDestino = `+55{{ $proposta['pessoa_telefone'] }}`
 
+
+            if(status == 'Aprovado') {
             // Envia o e-mail por AJAX
             fetch('/propostas/email', {
                     method: 'POST',
@@ -440,6 +454,7 @@
                     Swal.fire('Erro', error.message || 'Erro ao processar a proposta.', 'error');
                     isSending = false;
                 });
+            }
         });
     </script>
 @endsection
