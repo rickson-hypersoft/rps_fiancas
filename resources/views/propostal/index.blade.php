@@ -133,6 +133,12 @@
                                         if ($status == 'Pendente') {
                                             $badgeColor = 'warning';
                                         }
+                                        if ($status == 'Pendente Análise') {
+                                            $badgeColor = 'warning';
+                                        }
+                                        if ($status == 'Alteração Imobiliária') {
+                                            $badgeColor = 'warning';
+                                        }
                                         if ($status == 'Negado') {
                                             $badgeColor = 'black';
                                         }

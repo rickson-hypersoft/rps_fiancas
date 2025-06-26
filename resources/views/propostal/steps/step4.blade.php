@@ -29,6 +29,9 @@
                                 case 'Pendente':
                                     $badge = 'warning';
                                     break;
+                                 case 'Pendente Análise':
+                                    $badge = 'warning';
+                                    break;
                                 case 'Alteração Imobiliária':
                                     $badge = 'warning';
                                     break;

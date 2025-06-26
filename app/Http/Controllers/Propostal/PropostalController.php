@@ -256,7 +256,6 @@ class PropostalController extends Controller
         }
 
         $score = $checkScore['original']['resposta']['score']['pontos'];
-
         if ($score >= 700) {
             $requestSanitize['proposta_credito_status'] = 'Aprovado';
         }
@@ -266,7 +265,20 @@ class PropostalController extends Controller
         }
 
         if ($score <= 400) {
+            $requestSanitize['proposta_status'] = 'Negado';
             $requestSanitize['proposta_credito_status'] = 'Negado';
+            $historico = [
+                "id_imobiliaria" => session('user')['id_imobiliaria'],
+                "id_movi"        => $id,
+                "id_usuario"     => session('user')['id'],
+                "data"           => date('Y-m-d'),
+                "hora"           => date('H:i:s'),
+                'historico'      => "Proposta negada para o Inquilino {$requestSanitize['pessoa_nome']} devido ao score estar abaixo do aceitável",
+                "movi"           => "Proposta",
+            ];
+            $this->saveHistory(
+                $historico
+            , "Negado");
         }
 
         if ($id !== 0 && ($id !== '' && $id !== '0')) {
@@ -564,6 +576,16 @@ class PropostalController extends Controller
                 'detalhamento' => "O inquilino {$data['pessoa_nome']} do CPF {$data['pessoa_doc']} está pendente de uma análise manual para uma locação com garantia de um imóvel {$data['imovel_tipo']}, na cidade de {$data['imovel_cidade']} - {$data['imovel_estado']}",
                 'displaySetup' => 'block',
             ],
+            'Pendente Análise' => [
+                'colorText'    => 'fw-bold text-warning',
+                'text'         => 'Crédito pendente de análise!',
+                'card'         => 'content-header mb-4 p-5 text-white',
+                'cardStyle'    => 'background: #FFA600;',
+                'icon'         => 'menu-icon icon-base ti tabler-clock',
+                'badge'        => 'Simulação',
+                'detalhamento' => "O inquilino {$data['pessoa_nome']} do CPF {$data['pessoa_doc']} está pendente de uma análise manual para uma locação com garantia de um imóvel {$data['imovel_tipo']}, na cidade de {$data['imovel_cidade']} - {$data['imovel_estado']}",
+                'displaySetup' => 'block',
+            ],
             default => [
                 'colorText'    => 'fw-bold text-secondary',
                 'text'         => 'Crédito reprovado para fiança!',
@@ -653,6 +675,10 @@ class PropostalController extends Controller
         }
 
         if ($status === 'Cancelado') {
+            Http::withToken($token)->post(config('api.route') . '/history/create', $data);
+        }
+
+        if ($status === 'Negado') {
             Http::withToken($token)->post(config('api.route') . '/history/create', $data);
         }
 
