@@ -96,6 +96,46 @@
                 </div>
             </div>
 
+             <div class="col-lg-12 my-10">
+                 <div class="card p-4">
+                 <div class="accordion-item">
+                     <h2 class="accordion-header" id="headingOne">
+                            <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="false" aria-controls="accordionOne">
+                                Informações do Inquilino
+                            </button>
+                        </h2>
+
+                        <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
+                            <div class="accordion-body">
+                                <div class="table-responsive text-nowrap7">
+                                <table class="table table-borderless table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th class="text-center">Classe</th>
+                                            <th>Faixa</th>
+                                            <th>Descrição</th>
+                                            <th>Pontos</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ $scoreData['original']['dataHora'] }}</td>
+                                            <td class="text-center">{{ $scoreData['original']['resposta']['score']['classe'] }}</td>
+                                            <td>{{ $scoreData['original']['resposta']['score']['faixa']['titulo'] }}</td>
+                                            <td>{{ $scoreData['original']['resposta']['score']['faixa']['descricao'] }}</td>
+                                            <td>{{ $scoreData['original']['resposta']['score']['pontos'] }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
             <input type="hidden" id="id" value="{{ $proposta['id'] }}">
 
             <div class="col-12 d-flex justify-content-between mb-5 mt-5" id="next-setup-config">
@@ -112,6 +152,8 @@
             </div>
         </div>
     </div>
+
+
 </div>
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

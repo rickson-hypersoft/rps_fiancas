@@ -35,7 +35,7 @@
                                 if ($status == 'Pendente Análise') {
                                     $badgeColor = 'warning';
                                 }
-                                if ($status == 'Negado') {
+                                if ($status == 'Reprovado') {
                                     $badgeColor = 'dark';
                                 }
                                 if ($status == 'Cancelado') {
@@ -58,7 +58,7 @@
                         <div class="content-header">
                             <div class="d-flex justify-content-between">
                                 <h6 class="mb-0">Dados do plano</h6>
-                                @if ($proposta['proposta_status'] !== 'Negado')
+                                @if ($proposta['proposta_status'] !== 'Reprovado')
                                 @if (
                                     (in_array($proposta['proposta_status'], ['Rascunho', 'Alteração Imobiliária']) &&
                                     $proposta['contrato_status'] == 'Pendente') ||
@@ -96,7 +96,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-0">Dados da locação</h6>
-                            @if ($proposta['proposta_status'] !== 'Negado')
+                            @if ($proposta['proposta_status'] !== 'Reprovado')
                             @if (
                                 (in_array($proposta['proposta_status'], ['Rascunho', 'Alteração Imobiliária']) &&
                                     $proposta['contrato_status'] == 'Pendente') ||
@@ -148,7 +148,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-0">Endereço do imóvel</h6>
-                            @if ($proposta['proposta_status'] !== 'Negado')
+                            @if ($proposta['proposta_status'] !== 'Reprovado')
                             @if (
                                 (in_array($proposta['proposta_status'], ['Rascunho', 'Alteração Imobiliária']) &&
                                     $proposta['contrato_status'] == 'Pendente') ||
@@ -188,7 +188,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-0">Dados do inquilino</h6>
-                            @if ($proposta['proposta_status'] !== 'Negado')
+                            @if ($proposta['proposta_status'] !== 'Reprovado')
                             @if (
                                 (in_array($proposta['proposta_status'], ['Rascunho', 'Alteração Imobiliária']) &&
                                     $proposta['contrato_status'] == 'Pendente') ||

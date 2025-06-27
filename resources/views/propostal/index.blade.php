@@ -28,20 +28,20 @@
                     <button type="button" class="nav-link waves-effect" role="tab" data-bs-toggle="tab"
                         data-bs-target="#navs-excluidos" aria-controls="navs-excluidos" aria-selected="false"
                         tabindex="-1">
-                        Negados
+                        Reprovados
                     </button>
                 </li>
             </ul>
             <div class="tab-content">
                 <div class="bordered p-5" style="border-radius: 10px;">
-                    <form method="GET" action="{{ route('propostal.index') }}">
+                    <form method="GET" action="{{ route('propostal.index') }}" id="form-pesquisar">
                         <div class="row align-items-center">
                             <div class="col-md-6 col-12 mb-2">
                                 <label for="largeInput" class="form-label">Pesquisar</label>
                                 <div class="input-group input-group-merge">
                                     <span class="input-group-text" id="basic-addon-search31"><i
                                             class="icon-base ti tabler-search"></i></span>
-                                    <input type="text" name="search" class="form-control form-control-lg"
+                                    <input type="text" id="input-search" name="search" class="form-control form-control-lg"
                                         placeholder="Número da proposta, nome/razão social, CPF/CNPJ ou Tag"
                                         aria-label="Número da proposta, nome/razão social, CPF/CNPJ ou Tag"
                                         value="{{ request('search') }}">
@@ -96,7 +96,7 @@
                                     value="{{ request('created_at') }}">
                             </div>
                             <div class="col-md-2 mt-2">
-                                <button type="submit" class="btn btn-primary btn-lg waves-effect waves-light">
+                                <button type="submit" id="btn-pesquisar-propostas" class="btn btn-primary btn-lg waves-effect waves-light">
                                     <span class="icon-xs icon-base ti tabler-search me-2"></span>Pesquisar
                                 </button>
                             </div>
@@ -139,7 +139,7 @@
                                         if ($status == 'Alteração Imobiliária') {
                                             $badgeColor = 'warning';
                                         }
-                                        if ($status == 'Negado') {
+                                        if ($status == 'Reprovado') {
                                             $badgeColor = 'black';
                                         }
                                         if ($status == 'Cancelado') {
@@ -326,7 +326,7 @@
                             </thead>
                             <tbody class="table-border-bottom-0">
                                 @foreach ($propostals as $propostal)
-                                    @if ($propostal['proposta_status'] == 'Negado')
+                                    @if ($propostal['proposta_status'] == 'Reprovado')
                                         <tr>
                                             <td>
                                                 <a href="{{ route('propostal.resume', $propostal['id']) }}"
@@ -474,9 +474,27 @@
                 });
             });
 
+                const btn = document.getElementById('btn-pesquisar-propostas');
+                const formPesquisar = document.getElementById('form-pesquisar')
+
+             const inputSearch = document.getElementById('input-search');
+
+        inputSearch.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // bloqueia envio ao pressionar Enter
+            }
+        });
+
+                formPesquisar.addEventListener('submit', function() {
+
+                 btn.disabled = true;
+              btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Pesquisando...`;
+                })
+
             // Envio do formulário
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
+
 
                 const formData = new FormData(form);
 

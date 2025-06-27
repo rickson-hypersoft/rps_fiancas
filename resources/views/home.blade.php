@@ -112,7 +112,7 @@
             <div class="col-lg-4 col-md-12">
                 <div>
                     <div class="card mb-2">
-                        <form method="GET" action="{{ route('assets.index') }}">
+                        <form method="GET" action="{{ route('assets.index') }}" id="form-pesquisa">
 
                             <h5 class="card-header">
                                 Pesquisar contratos por número ou nome do
@@ -265,4 +265,18 @@
         </div>
         <!--/ Content -->
     </div>
+@section('scripts')
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('form-pesquisa');
+    const btn = document.getElementById('text-find');
+
+    form.addEventListener('submit', function (e) {
+        btn.disabled = true; // desativa o botão para evitar múltiplos cliques
+        btn.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`; // ícone de carregando opcional
+    });
+});
+</script>
 @endsection
+@endsection
+

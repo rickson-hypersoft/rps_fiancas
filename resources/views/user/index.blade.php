@@ -25,7 +25,7 @@
                         <hr>
                         <div class="row align-items-center pt-5">
                             <div class="col-sm-7 col-12 mb-1">
-                                <form action="{{ route('user.index') }}" method="GET">
+                                <form id="form-realestate-search" action="{{ route('user.index') }}" method="GET">
                                     <label for="pesquisar" class="form-label">Pesquisar</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control form-control-lg"
@@ -33,7 +33,7 @@
                                             value="{{ request('search') }}" aria-label="Pesquisar pelo nome, usuário ou CPF"
                                             aria-describedby="button-addon2">
                                         <button class="btn btn-outline-primary waves-effect" type="submit"
-                                            id="button-addon2">
+                                            id="btn-realestate-search">
                                             <i class="icon-base ti tabler-search"></i>
                                         </button>
                                     </div>
@@ -191,4 +191,24 @@
             });
         });
     </script>
+       @section('scripts')
+<script>
+     const form = document.getElementById('form-realestate-search');
+        const input = document.getElementById('input-realestate-search');
+        const button = document.getElementById('btn-realestate-search');
+
+        // Bloqueia Enter no campo de busca
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+
+        // Desativa o botão ao enviar o formulário
+        form.addEventListener('submit', function () {
+            button.disabled = true;
+            button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        });
+</script>
+@endsection
 @endsection

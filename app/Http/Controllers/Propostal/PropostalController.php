@@ -87,11 +87,20 @@ class PropostalController extends Controller
         $data['valor_parcelado'] = $valorFormatado;
         $data['valor_total']     = $valorTotalFormatado;
 
+         $checkScore = Http::withToken($token)->get(config('api.route') . '/consultar-score', [
+            'document' => $data['pessoa_doc'],
+        ])->json();
+
+          if (isset($checkScore['original']['message'])) {
+            $checkScore = [];
+        }
+
         return view('propostal.wizard', [
             'step'     => 'step2',
             'proposta' => $data,
             'styles'   => $styles,
             'setups'   => $setups['data'],
+            'scoreData' => $checkScore
         ]);
     }
 
@@ -104,7 +113,7 @@ class PropostalController extends Controller
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
         $data     = $response->json();
 
-        if ($data['proposta_credito_status'] == 'Negado') {
+        if ($data['proposta_credito_status'] == 'Reprovado') {
             return redirect()->route('propostal.step2', ['id' => $id]);
         }
 
@@ -124,7 +133,7 @@ class PropostalController extends Controller
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
-        if ($data['proposta_credito_status'] == 'Negado') {
+        if ($data['proposta_credito_status'] == 'Reprovado') {
             return redirect()->route('propostal.step2', ['id' => $id]);
         }
 
@@ -142,7 +151,7 @@ class PropostalController extends Controller
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
         $data     = $response->json();
 
-        if ($data['proposta_credito_status'] == 'Negado') {
+        if ($data['proposta_credito_status'] == 'Reprovado') {
             return redirect()->route('propostal.step2', ['id' => $id]);
         }
 
@@ -265,8 +274,8 @@ class PropostalController extends Controller
         }
 
         if ($score <= 400) {
-            $requestSanitize['proposta_status'] = 'Negado';
-            $requestSanitize['proposta_credito_status'] = 'Negado';
+            $requestSanitize['proposta_status'] = 'Reprovado';
+            $requestSanitize['proposta_credito_status'] = 'Reprovado';
             $historico = [
                 "id_imobiliaria" => session('user')['id_imobiliaria'],
                 "id_movi"        => $id,
@@ -278,7 +287,7 @@ class PropostalController extends Controller
             ];
             $this->saveHistory(
                 $historico
-            , "Negado");
+            , "Reprovado");
         }
 
         if ($id !== 0 && ($id !== '' && $id !== '0')) {
@@ -630,7 +639,7 @@ class PropostalController extends Controller
                 'card'          => 'content-header mb-4 p-5 text-white',
                 'cardStyle'     => 'background-color: #FFA600;',
             ],
-            'Negado' => [
+            'Reprovado' => [
                 'colorText'     => 'fw-bold text-secondary',
                 'text'          => 'A proposta foi negada após análise.',
                 'paragrapfCard' => 'Estaremos em contato através da nossa plataforma e por e-mail para dar retorno em até 30 minutos.',
@@ -678,7 +687,7 @@ class PropostalController extends Controller
             Http::withToken($token)->post(config('api.route') . '/history/create', $data);
         }
 
-        if ($status === 'Negado') {
+        if ($status === 'Reprovado') {
             Http::withToken($token)->post(config('api.route') . '/history/create', $data);
         }
 

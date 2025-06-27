@@ -25,7 +25,7 @@
                     <div class="card-body mb-1 pb-1">
                         <div class="row g-2 align-items-end">
                             {{-- Formulário de pesquisa --}}
-                            <form action="{{ route('financial.financial_movi.index') }}" method="GET"
+                            <form id="form-fin-movi-filtros" action="{{ route('financial.financial_movi.index') }}" method="GET"
                                 class="col-md-10 row g-2 align-items-end">
 
                                 <div class="col-md-3">
@@ -75,7 +75,7 @@
                                 </div>
 
                                 <div class="col-md-2 d-grid">
-                                    <button type="submit" class="btn btn-primary btn-lg">Pesquisar</button>
+                                    <button type="submit" id="btn-fin-movi-filtros" class="btn btn-primary btn-lg">Pesquisar</button>
                                 </div>
                             </form>
 
@@ -169,14 +169,14 @@
                         <hr>
                         <div class="row align-items-center pt-3">
                             <div class="col-sm-7 col-12 mb-1">
-                                <form action="{{ route('financial.financial_movi.index') }}" method="GET">
+                                <form id="form-fin-movi-busca" action="{{ route('financial.financial_movi.index') }}" method="GET">
                                     <label for="pesquisar" class="form-label">Pesquisar</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control form-control-lg"
                                             placeholder="Pesquisar pela conta" id="pesquisar"
                                             value="{{ request('search') }}" name="search"
                                             aria-label="Pesquisar pela conta" aria-describedby="button-addon2">
-                                        <button class="btn btn-outline-primary waves-effect" type="submit"
+                                        <button class="btn btn-outline-primary waves-effect" id="btn-fin-movi-busca" type="submit"
                                             id="button-addon2">
                                             <i class="icon-base ti tabler-search"></i>
                                         </button>
@@ -302,6 +302,33 @@
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+           const formFiltros = document.getElementById('form-fin-movi-filtros');
+        const formBusca   = document.getElementById('form-fin-movi-busca');
+
+        const btnFiltros  = document.getElementById('btn-fin-movi-filtros');
+        const btnBusca    = document.getElementById('btn-fin-movi-busca');
+        const inputBusca  = document.getElementById('pesquisar');
+
+        // Impede envio com ENTER no input de texto
+        inputBusca.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                formBusca.addEventListener('submit', travarBotoes);
+            }
+        });
+
+        // Função para travar ambos os botões
+        function travarBotoes() {
+            btnFiltros.disabled = true;
+            btnFiltros.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+
+            btnBusca.disabled = true;
+            btnBusca.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        }
+
+        // Aplica a função ao submeter qualquer formulário
+        formFiltros.addEventListener('submit', travarBotoes);
+        formBusca.addEventListener('submit', travarBotoes);
+
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.btn-excluir').forEach(function(btn) {
                 console.log(btn)

@@ -81,14 +81,14 @@
                             <div class="row align-items-center pt-3">
                                 <!-- Campo de pesquisa -->
                                 <div class="col-12 mb-3">
-                                    <form method="GET">
+                                    <form id="form-busca-texto" method="GET">
                                         <label for="pesquisar" class="form-label">Pesquisar</label>
                                         <div class="input-group">
                                             <input type="text" id="pesquisar" name="search"
                                                 class="form-control form-control-lg"
                                                 placeholder="Número do Contrato, Nome, CPF do Inquilino, Razão Social ou CNPJ"
                                                 value="{{ request('search') }}">
-                                            <button class="btn btn-outline-primary btn-lg" type="submit">
+                                            <button class="btn btn-outline-primary btn-lg" id="btn-busca-texto" type="submit">
                                                 <i class="icon-base ti tabler-search"></i>
                                             </button>
                                         </div>
@@ -96,7 +96,7 @@
 
                                     <!-- Filtros + botões -->
                                     <div class="col-12">
-                                        <form method="GET">
+                                       <form id="form-busca-filtros" method="GET">
                                             <div class="row align-items-end g-3">
                                                 <div class="col-md-2 col-12">
                                                     <label for="status" class="form-label">Status</label>
@@ -157,7 +157,7 @@
                                                 </div>
 
                                                 <div class="col-md-1 col-12">
-                                                    <button type="submit"
+                                                    <button type="submit" id="btn-busca-filtros"
                                                         class="btn btn-primary btn-lg w-100">Pesquisar</button>
                                                 </div>
 
@@ -202,18 +202,18 @@
                                                     <td>{{ $contrato['imovel_aluguel'] }}</td>
                                                     <td>
                                                         @php
-                                                            $badge = '';
+                                                            $badge = 'secondary';
                                                             switch ($contrato['contrato_status']) {
                                                                 case 'Ativo':
-                                                                    $bagde = 'success';
+                                                                    $badge = 'success';
                                                                     break;
                                                                 case 'Cancelado':
-                                                                    $bagde = 'danger';
+                                                                    $badge = 'danger';
                                                                     break;
                                                             }
                                                         @endphp
                                                         <span
-                                                            class="badge badge-sm badge bg-label-{{ $bagde }}">{{ $contrato['contrato_status'] }}</span>
+                                                            class="badge badge-sm badge bg-label-{{ $badge }}">{{ $contrato['contrato_status'] }}</span>
                                                     </td>
                                                     <td>Corretor</td>
                                                     <td>{{ \Carbon\Carbon::parse($contrato['data'])->format('d/m/Y') }}
@@ -317,4 +317,26 @@
             </div>
         </div>
     </div>
+    @section('scripts')
+    <script>
+const formBuscaTexto = document.getElementById('form-busca-texto');
+    const formBuscaFiltros = document.getElementById('form-busca-filtros');
+
+    const btnBuscaTexto = document.getElementById('btn-busca-texto');
+    const btnBuscaFiltros = document.getElementById('btn-busca-filtros');
+
+    // Função para travar ambos os botões
+    function travarBotoes() {
+        btnBuscaTexto.disabled = true;
+        btnBuscaTexto.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+
+        btnBuscaFiltros.disabled = true;
+        btnBuscaFiltros.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+    }
+
+    // Submissão de qualquer formulário trava os dois botões
+    formBuscaTexto.addEventListener('submit', travarBotoes);
+    formBuscaFiltros.addEventListener('submit', travarBotoes);
+    </script>
+@endsection
 @endsection

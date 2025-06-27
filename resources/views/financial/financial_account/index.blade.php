@@ -25,15 +25,14 @@
                         <hr>
                         <div class="row align-items-center pt-5">
                             <div class="col-sm-7 col-12 mb-1">
-                                <form action="{{ route('financial.financial_account.index') }}" method="GET">
+                               <form id="form-financeiro" action="{{ route('financial.financial_account.index') }}" method="GET">
                                     <label for="pesquisar" class="form-label">Pesquisar</label>
                                     <div class="input-group">
-                                        <input type="text" id="pesquisar" class="form-control form-control-lg"
+                                        <input type="text" id="input-financeiro" class="form-control form-control-lg"
                                             placeholder="Pesquisar pela descrição" name="search"
                                             value="{{ request('search') }}" aria-label="Pesquisar pela descrição"
-                                            aria-describedby="button-addon2">
-                                        <button class="btn btn-outline-primary waves-effect" type="submit"
-                                            id="button-addon2">
+                                            aria-describedby="btn-financeiro">
+                                        <button class="btn btn-outline-primary waves-effect" type="submit" id="btn-financeiro">
                                             <i class="icon-base ti tabler-search"></i>
                                         </button>
                                     </div>
@@ -162,6 +161,28 @@
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        const formFinanceiro = document.getElementById('form-financeiro');
+        const inputFinanceiro = document.getElementById('input-financeiro');
+        const btnFinanceiro = document.getElementById('btn-financeiro');
+
+        // Bloqueia Enter no campo de busca
+        inputFinanceiro.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                formFinanceiro.submit();
+                inputFinanceiro.disabled= true;
+                 btnFinanceiro.disabled = true;
+                 btnFinanceiro.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+            }
+        });
+
+        // Ao submeter o formulário, desativa o botão
+        formFinanceiro.addEventListener('submit', function () {
+            btnFinanceiro.disabled = true;
+            btnFinanceiro.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        });
+    });
+
         document.querySelectorAll('.btn-excluir').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 const id = this.dataset.id;
