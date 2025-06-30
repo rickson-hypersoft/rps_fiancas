@@ -121,11 +121,11 @@
 
                                     <tbody>
                                         <tr>
-                                            <td>{{ $scoreData['original']['dataHora'] }}</td>
-                                            <td class="text-center">{{ $scoreData['original']['resposta']['score']['classe'] }}</td>
-                                            <td>{{ $scoreData['original']['resposta']['score']['faixa']['titulo'] }}</td>
-                                            <td>{{ $scoreData['original']['resposta']['score']['faixa']['descricao'] }}</td>
-                                            <td>{{ $scoreData['original']['resposta']['score']['pontos'] }}</td>
+                                            <td>{{ $scoreData['original']['data']['data'] }} {{ $scoreData['original']['data']['hora'] }}</td>
+                                            <td class="text-center">{{ $scoreData['original']['data']['score_classe'] }}</td>
+                                            <td>{{ $scoreData['original']['data']['score_faixa_titulo'] }}</td>
+                                            <td>{{ $scoreData['original']['data']['score_faixa_descricao'] }}</td>
+                                            <td>{{ $scoreData['original']['data']['score_pontos'] }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

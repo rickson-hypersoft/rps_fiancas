@@ -10,13 +10,13 @@
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide m-0 p-0">
                                     <div class="row">
-                                        <img src="{{ asset('assets/img/pages/bannerinvicta2.PNG') }}" />
+                                        <img src="{{ asset('assets/img/pages/bannerinvicta2.png') }}" />
                                     </div>
                                 </div>
 
                                 <div class="swiper-slide m-0 p-0">
                                     <div class="row">
-                                        <img src="{{ asset('assets/img/pages/bannerinvicta1.PNG') }}" />
+                                        <img src="{{ asset('assets/img/pages/bannerinvicta1.png') }}" />
                                     </div>
                                 </div>
                             </div>

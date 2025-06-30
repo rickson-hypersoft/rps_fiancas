@@ -87,20 +87,20 @@ class PropostalController extends Controller
         $data['valor_parcelado'] = $valorFormatado;
         $data['valor_total']     = $valorTotalFormatado;
 
-         $checkScore = Http::withToken($token)->get(config('api.route') . '/consultar-score', [
+        $checkScore = Http::withToken($token)->get(config('api.route') . '/consultar-score', [
             'document' => $data['pessoa_doc'],
         ])->json();
 
-          if (isset($checkScore['original']['message'])) {
+        if (isset($checkScore['original']['message'])) {
             $checkScore = [];
         }
 
         return view('propostal.wizard', [
-            'step'     => 'step2',
-            'proposta' => $data,
-            'styles'   => $styles,
-            'setups'   => $setups['data'],
-            'scoreData' => $checkScore
+            'step'      => 'step2',
+            'proposta'  => $data,
+            'styles'    => $styles,
+            'setups'    => $setups['data'],
+            'scoreData' => $checkScore,
         ]);
     }
 
@@ -263,8 +263,8 @@ class PropostalController extends Controller
         if (isset($checkScore['original']['message'])) {
             return response()->json(['message' => $checkScore['original']['mensagem']], 400);
         }
+        $score = $checkScore['original']['data']['score_pontos'];
 
-        $score = $checkScore['original']['resposta']['score']['pontos'];
         if ($score >= 700) {
             $requestSanitize['proposta_credito_status'] = 'Aprovado';
         }
@@ -274,9 +274,9 @@ class PropostalController extends Controller
         }
 
         if ($score <= 400) {
-            $requestSanitize['proposta_status'] = 'Reprovado';
+            $requestSanitize['proposta_status']         = 'Reprovado';
             $requestSanitize['proposta_credito_status'] = 'Reprovado';
-            $historico = [
+            $historico                                  = [
                 "id_imobiliaria" => session('user')['id_imobiliaria'],
                 "id_movi"        => $id,
                 "id_usuario"     => session('user')['id'],
@@ -286,8 +286,9 @@ class PropostalController extends Controller
                 "movi"           => "Proposta",
             ];
             $this->saveHistory(
-                $historico
-            , "Reprovado");
+                $historico,
+                "Reprovado"
+            );
         }
 
         if ($id !== 0 && ($id !== '' && $id !== '0')) {
@@ -448,11 +449,11 @@ class PropostalController extends Controller
 
         $proposta['endereco_completo'] = "{$proposta['imovel_endereco']}, {$proposta['imovel_numero']}, {$proposta['imovel_bairro']}, {$proposta['imovel_cidade']} - {$proposta['imovel_estado']}";
 
-        if($parserPropostal['proposta_credito_status'] != 'Pendente Análise') {
+        if ($parserPropostal['proposta_credito_status'] != 'Pendente Análise') {
             $parserPropostal['proposta_status'] = 'Aprovado';
         }
 
-        if($parserPropostal['proposta_credito_status'] == 'Pendente Análise') {
+        if ($parserPropostal['proposta_credito_status'] == 'Pendente Análise') {
             $parserPropostal['proposta_status'] = 'Pendente Análise';
             $parserPropostal['contrato_status'] = 'Pendente Análise';
         }
@@ -632,7 +633,7 @@ class PropostalController extends Controller
                 'card'          => 'content-header mb-4 p-5 text-white',
                 'cardStyle'     => 'background-color: #FFA600;',
             ],
-             'Pendente Análise' => [
+            'Pendente Análise' => [
                 'colorText'     => 'fw-bold text-warning',
                 'text'          => 'A proposta está em análise manual pelo nosso time interno.',
                 'paragrapfCard' => 'Estaremos em contato através da nossa plataforma e por e-mail para dar retorno em até 30 minutos.',
