@@ -1,3 +1,5 @@
+<div class="alert alert-primary" role="alert">A última consulta realizado com esse CPF foi em: {{ \Carbon\Carbon::parse($scoreData['data'])->format('d/m/Y') }} -  {{ $scoreData['hora'] }}</div>
+
 <div id="analise-credito" class="content active fv-plugins-bootstrap5 fv-plugins-framework">
     <div style="{{ $styles['cardStyle'] }}" class="{{ $styles['card'] }}" id="card_status_propostal">
         <h4 class="fw-bold mb-0 text-center text-white" id="text_status_propostal">{{ $styles['text'] }}</h4>
@@ -120,13 +122,19 @@
                                     </thead>
 
                                     <tbody>
+                                        @if(!isset($checkScore['message']))
                                         <tr>
-                                            <td>{{ $scoreData['original']['data']['data'] }} {{ $scoreData['original']['data']['hora'] }}</td>
-                                            <td class="text-center">{{ $scoreData['original']['data']['score_classe'] }}</td>
-                                            <td>{{ $scoreData['original']['data']['score_faixa_titulo'] }}</td>
-                                            <td>{{ $scoreData['original']['data']['score_faixa_descricao'] }}</td>
-                                            <td>{{ $scoreData['original']['data']['score_pontos'] }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($scoreData['data'])->format('d/m/Y') }} {{ $scoreData['hora'] }}</td>
+                                            <td class="text-center">{{ $scoreData['score_classe'] }}</td>
+                                            <td>{{ $scoreData['score_faixa_titulo'] }}</td>
+                                            <td>{{ $scoreData['score_faixa_descricao'] }}</td>
+                                            <td>{{ $scoreData['score_pontos'] }}</td>
                                         </tr>
+                                        @else
+                                            <tr>
+                                                <td colspan="5">{{ $checkScore['message'] }}</td>
+                                            </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                                 </div>
