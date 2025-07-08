@@ -71,7 +71,7 @@ class FinancialCategoryController extends Controller
         $financialCategory                   = $validator->validated();
         $financialCategory['id_imobiliaria'] = $user['id_imobiliaria'];
 
-        $response       = Http::withToken($token)->post(config('api.route') . '/financial/financial_category/', $financialCategory);
+        $response       = Http::withToken($token)->post(config('api.route') . '/financial/financial_category', $financialCategory);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

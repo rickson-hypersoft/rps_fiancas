@@ -52,7 +52,6 @@
                             <label for="tipo" class="form-label">Tipo</label>
                             <select class="form-select form-select-lg" name="tipo" id="tipo"
                                 aria-label="Default select example">
-                                <option value="">Selecionar Tipo</option>
                                 <option value="D"
                                     {{ old('tipo', $financialCategory['tipo'] ?? '') == 'Débito' ? 'selected' : '' }}>
                                     Débito

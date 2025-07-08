@@ -34,10 +34,10 @@ class FinancialMoviController extends Controller
 
         $user = session('user');
 
-        $responseContas = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_account/' . $user['id_imobiliaria']);
+        $responseContas = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_account/' . $user['id_imobiliaria'], ['active' => 1]);
         $contas         = $responseContas->json()['data'];
 
-        $responseCategorias = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_category/' . $user['id_imobiliaria']);
+        $responseCategorias = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_category/' . $user['id_imobiliaria'], ['active' => 1]);
         $categorias         = $responseCategorias->json()['data'];
 
         $response      = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_movi/' . $user['id_imobiliaria'], $queryParams);
@@ -57,10 +57,10 @@ class FinancialMoviController extends Controller
     {
         $user = session('user');
 
-        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_account/' . $user['id_imobiliaria']);
+        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_account/' . $user['id_imobiliaria'], ['active' => 1]);
         $contas   = $response->json()['data'];
 
-        $response   = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_category/' . $user['id_imobiliaria']);
+        $response   = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_category/' . $user['id_imobiliaria'], ['active' => 1]);
         $categorias = $response->json()['data'];
 
         return view('financial.financial_movi.form', [
@@ -76,10 +76,10 @@ class FinancialMoviController extends Controller
     {
         $user = session('user');
 
-        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_account/' . $user['id_imobiliaria']);
+        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_account/' . $user['id_imobiliaria'], ['active' => 1]);
         $contas   = $response->json()['data'];
 
-        $response   = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_category/' . $user['id_imobiliaria']);
+        $response   = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_category/' . $user['id_imobiliaria'], ['active' => 1]);
         $categorias = $response->json()['data'];
 
         $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/' . $id . '/financial_movi');
@@ -99,8 +99,22 @@ class FinancialMoviController extends Controller
         $token = session('jwt_token');
         $user  = session('user');
 
-        $requestSanitize          = $request->all();
-        $requestSanitize['valor'] = (float) str_replace(',', '.', str_replace('.', '', $requestSanitize['valor']));
+        $requestSanitize = $request->all();
+
+        if (isset($requestSanitize['valor'])) {
+            $valor = $requestSanitize['valor'];
+
+            // Remove espaços
+            $valor = trim($valor);
+
+            // Remove ponto como milhar, só se existir vírgula depois
+            if (str_contains($valor, ',')) {
+                $valor = str_replace('.', '', $valor);
+                $valor = str_replace(',', '.', $valor);
+            }
+
+            $requestSanitize['valor'] = (float) $valor;
+        }
 
         if ($requestSanitize['valor'] <= 0.0) {
             return back()->withErrors(['valor' => 'O valor deve ser maior que zero.'])->withInput();
@@ -122,7 +136,7 @@ class FinancialMoviController extends Controller
         $financialMovi                   = $validator->validated();
         $financialMovi['id_imobiliaria'] = $user['id_imobiliaria'];
 
-        $response       = Http::withToken($token)->post(config('api.route') . '/financial/financial_movi/', $financialMovi);
+        $response       = Http::withToken($token)->post(config('api.route') . '/financial/financial_movi', $financialMovi);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {
@@ -137,8 +151,22 @@ class FinancialMoviController extends Controller
         $token = session('jwt_token');
         $user  = session('user');
 
-        $requestSanitize          = $request->all();
-        $requestSanitize['valor'] = (float) str_replace(',', '.', str_replace('.', '', $requestSanitize['valor']));
+        $requestSanitize = $request->all();
+
+        if (isset($requestSanitize['valor'])) {
+            $valor = $requestSanitize['valor'];
+
+            // Remove espaços
+            $valor = trim($valor);
+
+            // Remove ponto como milhar, só se existir vírgula depois
+            if (str_contains($valor, ',')) {
+                $valor = str_replace('.', '', $valor);
+                $valor = str_replace(',', '.', $valor);
+            }
+
+            $requestSanitize['valor'] = (float) $valor;
+        }
 
         $validator = Validator::make($requestSanitize, [
             'id_conta'     => 'nullable|numeric',
