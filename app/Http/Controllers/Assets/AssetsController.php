@@ -87,7 +87,7 @@ class AssetsController extends Controller
 
         $dateConvert                       = Carbon::parse($data['data']['data'])->addYear();
         $fiancaDisponivel                  = ($this->parseValor($data['data']['imovel_aluguel']) * 40);
-        $data['data']['fianca_disponivel'] = 'R$ ' . number_format(floatval($fiancaDisponivel), 2, ',', '');
+        $data['data']['fianca_disponivel'] = 'R$ ' . number_format(floatval($fiancaDisponivel), 2, ',', '.');
         $data['data']['prox_renovacao']    = $dateConvert->format('d/m/Y');
 
         return view('assets.asset', ['data' => $data['data'], 'histories' => $dataHistory['data']]);

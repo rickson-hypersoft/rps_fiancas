@@ -116,7 +116,7 @@ class ActivationController extends Controller
         // Salva na sessão que este link foi autenticado
         session(["auth_link_{$request->input('link')}" => true]);
 
-        return redirect()->route('activation.index', ['linkHash' => $request->input('link')]);
+        return redirect()->route('checktou.index', ['linkHash' => $request->input('link')]);
     }
 
     private function saveHistory(array $data): void

@@ -520,11 +520,10 @@
         const propostaId = button.getAttribute("data-proposta-id");
         const nomeInquilino = `{{ $proposta['pessoa_nome'] }}`;
         const emailInquilino = `{{ $proposta['pessoa_email'] }}`;
-        const linkInquilino = `{{ $proposta['link_hash'] }}`;
+        const linkInquilino = `{{ $proposta['link_facial'] }}`;
         const numeroWhatsAppDestino = `+55{{ $proposta['pessoa_telefone'] }}`;
-        const redirectUrl = "/alguma/pagina/desejada"; // ajuste para sua URL real
 
-        if (status === "Aprovado") {
+        if (status === "Aprovado" || status === 'Aguardando Pagamento') {
             Swal.fire({
                 title: "Enviando proposta...",
                 text: "Aguarde o envio por e-mail e WhatsApp.",

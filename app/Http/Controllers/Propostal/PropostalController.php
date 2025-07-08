@@ -87,32 +87,9 @@ class PropostalController extends Controller
         $data['valor_parcelado'] = $valorFormatado;
         $data['valor_total']     = $valorTotalFormatado;
 
-        if ($data['pessoa_doc'] == '160.549.566-20') {
-            $checkScore = Http::withToken($token)->get(config('api.route') . '/consultar-score', [
-                'document' => $data['pessoa_doc'],
-            ])->json();
-        } else {
-            $checkScore = [
-                "id"                    => 27,
-                "pessoa_doc"            => $data['pessoa_doc'],
-                "data"                  => now()->format('Y-m-d'),
-                "hora"                  => now()->format('H:i:s'),
-                "produto"               => "Assertiva Score",
-                "funcionalidade"        => "Score Completo Sem Ações - Pessoa Física",
-                "protocolo"             => "b4eefe6b-c77b-485a-8d2b-7059f84debeb",
-                "score_classe"          => "B",
-                "score_faixa_titulo"    => "Médio baixo risco",
-                "score_faixa_descricao" => "Consumidores com essa classificação de score apresentam 90% de chances de honrar seus compromissos nos próximos 6 meses.",
-                "score_pontos"          => mt_rand(100, 1000),
-                "renda_presumida"       => "5968.85",
-                "expira_em"             => "2025-07-08",
-                "faturamento_estimado"  => "0.00",
-                "tipo_consulta"         => "pf",
-                "acoes_ult_ocorrencia"  => null,
-                "acoes_valor_total"     => null,
-                "acoes_qtd"             => null,
-            ];
-        }
+        $checkScore = Http::withToken($token)->get(config('api.route') . '/consultar-score', [
+            'document' => $data['pessoa_doc'],
+        ])->json();
 
         return view('propostal.wizard', [
             'step'      => 'step2',
@@ -146,14 +123,43 @@ class PropostalController extends Controller
     {
         $token = session('jwt_token');
 
-        $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
-        $data     = $response->json();
+        $response               = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
+        $data                   = $response->json();
+        $data['total_contrato'] = $this->parseValor($data['proposta_total_valor']) + $this->parseValor($data['proposta_setup_valor']);
+
+        $html = view('activation.term-view', [
+            'linkHash' => $data['link_hash'],
+            'data'     => $data,
+        ])->render();
+
+        // gera o PDF com Browsershot
+        $pdfContent = Pdf::loadHTML($html)
+            ->setPaper('a4')
+            ->output();
+
+        $response = Http::attach(
+            'file',                   // nome do campo
+            $pdfContent,              // conteúdo do arquivo
+            "{$data['link_hash']}.pdf"         // nome do arquivo
+        )->withToken($token)->post(config('api.route') . '/activation/upload-term', [
+            'link_hash' => $data['link_hash'],
+        ]);
+
+        if (! $response->successful()) {
+            dd($response->body());
+        }
 
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
         if ($data['proposta_credito_status'] == 'Reprovado') {
             return redirect()->route('propostal.step2', ['id' => $id]);
+        }
+
+        // Criar fluxo de recuperar link para acessar
+        // Enviar o link do assertiva no lugar
+        if (! $data['link_facial']) {
+            $response = Http::withToken($token)->get(config('api.route') . '/criar-assinatura/' . $id);
         }
 
         return view('propostal.wizard', [
@@ -275,19 +281,14 @@ class PropostalController extends Controller
             return response()->json(['message' => 'Campo cpf inválido!'], 400);
         }
 
-        // TODO: Retirar depois
-        if ($requestSanitize['pessoa_doc'] == '16054956620') {
-            $checkScore = Http::withToken($token)->get(config('api.route') . '/consultar-score', [
-                'document' => $requestSanitize['pessoa_doc'],
-            ])->json();
+        $checkScore = Http::withToken($token)->get(config('api.route') . '/consultar-score', [
+            'document' => $requestSanitize['pessoa_doc'],
+        ])->json();
 
-            if (isset($checkScore['message'])) {
-                return response()->json(['message' => $checkScore['message']], 400);
-            }
-            $score = $checkScore['score_pontos'];
-        } else {
-            $score = mt_rand(100, 1000);
+        if (isset($checkScore['message'])) {
+            return response()->json(['message' => $checkScore['message']], 400);
         }
+        $score = $checkScore['score_pontos'];
 
         if ($score >= 700) {
             $requestSanitize['proposta_credito_status'] = 'Aprovado';
@@ -702,7 +703,10 @@ class PropostalController extends Controller
                 'data'           => $data['data'],
                 'hora'           => $data['hora'],
                 'id_usuario'     => session('user')['id'],
-                'historico'      => "Criada Solicitação nº{$data['id']} do tipo {$data['imovel_tipo']}, com setup de {$data['proposta_setup_valor']} e valor do aluguel {$data['imovel_aluguel']}, valor do condomínio {$data['imovel_condominio']}, valor das taxas {$data['imovel_taxas']}, totalizando {$data['valor_total_pagamento']}. O imóvel está situado no endereço {$data['endereco_completo']}, cujo CEP é {$data['imovel_cep']}",
+                'historico'      => "Criada Solicitação nº{$data['id']} do tipo {$data['imovel_tipo']},
+                com setup de {$data['proposta_setup_valor']} e valor do aluguel {$data['imovel_aluguel']},
+                valor do condomínio {$data['imovel_condominio']}, valor das taxas {$data['imovel_taxas']},
+                totalizando {$data['valor_total_pagamento']}. O imóvel está situado no endereço {$data['endereco_completo']}, cujo CEP é {$data['imovel_cep']}",
             ];
 
             Http::withToken($token)->post(config('api.route') . '/history/create', $history);

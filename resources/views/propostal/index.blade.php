@@ -33,7 +33,7 @@
                 </li>
             </ul>
             <div class="tab-content">
-                <div class="bordered p-5" style="border-radius: 10px;">
+                <div class="bordered" style="border-radius: 10px;">
                     <form method="GET" action="{{ route('propostal.index') }}" id="form-pesquisar">
                         <div class="row align-items-center">
                             <div class="col-md-6 col-12 mb-2">
@@ -95,7 +95,7 @@
                                 <input type="date" name="created_at" id="created_at" class="form-control form-control-lg"
                                     value="{{ request('created_at') }}">
                             </div>
-                            <div class="col-md-2 mt-2">
+                            <div class="col-md-2 col-12 mt-2">
                                 <button type="submit" id="btn-pesquisar-propostas" class="btn btn-primary btn-lg waves-effect waves-light">
                                     <span class="icon-xs icon-base ti tabler-search me-2"></span>Pesquisar
                                 </button>
@@ -208,7 +208,7 @@
                     </div>
 
                     <div class="table-responsive mt-4 text-nowrap pt-2">
-                        <table class="table">
+                        <table class="table" style="font-size: 13px">
                             <thead>
                                 <tr>
                                     <th>Contrato</th>
@@ -268,7 +268,7 @@
 
                 <div class="tab-pane fade" id="navs-cancelados" role="tabpanel">
                     <div class="table-responsive mt-4 text-nowrap pt-2">
-                        <table class="table">
+                        <table class="table" style="font-size: 13px">
                             <thead>
                                 <tr>
                                     <th>Contrato</th>
@@ -311,7 +311,7 @@
 
                 <div class="tab-pane fade" id="navs-excluidos" role="tabpanel">
                     <div class="table-responsive mt-4 text-nowrap pt-2">
-                        <table class="table">
+                        <table class="table" style="font-size: 13px">
                             <thead>
                                 <tr>
                                     <th>Contrato</th>
