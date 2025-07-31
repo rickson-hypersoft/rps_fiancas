@@ -60,7 +60,10 @@
                                 <div class="row gy-3">
                                     @foreach ($statusContratos as $status => $config)
                                         <div class="col-md-3 col-6">
-                                            <a href="{{ route('assets.index', ['status' => $status]) }}"
+                                            <a
+                                                @if(session('user')['categoria'] !== 'Fianças')
+                                                    href="{{ route('assets.index', ['status' => $status]) }}"
+                                                @endif
                                                 class ="text-secondary">
                                                 <div class="d-flex align-items-center">
                                                     <div class="badge bg-label-{{ $config['color'] }} me-4 rounded p-2">
@@ -89,7 +92,10 @@
                                 <div class="row gy-3">
                                     @foreach ($statusPropostas as $status => $config)
                                         <div class="col-md-3 col-6">
-                                            <a href="{{ route('propostal.index', ['status' => $status]) }}"
+                                            <a
+                                                @if(session('user')['categoria'] !== 'Fianças')
+                                                    href="{{ route('propostal.index', ['status' => $status]) }}"
+                                                @endif
                                                 class ="text-secondary">
                                                 <div class="d-flex align-items-center">
                                                     <div class="badge bg-label-{{ $config['color'] }} me-4 rounded p-2">
@@ -181,12 +187,15 @@
                                                     Motivo: {{ $card['observacao'] }}
                                                 </p>
                                             @endif
-                                            <a href="{{ $card['contrato_status'] === 'Ativo'
-                                                ? route('assets.asset', ['id' => $card['id']])
-                                                : route('propostal.resume', ['id' => $card['id']]) }}"
+                                            @if(session('user')['categoria'] !== 'Fianças')
+                                            <a
+                                                    href="{{ $card['contrato_status'] === 'Ativo'
+                                                        ? route('assets.asset', ['id' => $card['id']])
+                                                        : route('propostal.resume', ['id' => $card['id']]) }}"
                                                 class="btn btn-xs rounded-pill btn-label-secondary">
                                                 Visualizar
                                             </a>
+                                            @endif
                                         </div>
                                     </li>
                                 @endforeach

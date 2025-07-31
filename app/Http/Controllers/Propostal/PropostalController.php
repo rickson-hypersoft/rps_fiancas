@@ -285,6 +285,8 @@ class PropostalController extends Controller
             'document' => $requestSanitize['pessoa_doc'],
         ])->json();
 
+        dd($checkScore);
+
         if (isset($checkScore['message'])) {
             return response()->json(['message' => $checkScore['message']], 400);
         }

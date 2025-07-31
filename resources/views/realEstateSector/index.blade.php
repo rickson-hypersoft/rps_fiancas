@@ -184,11 +184,11 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalToggleLabel2">Modal 2</h5>
+                    <h5 class="modal-title" id="modalToggleLabel2">Adicionara Configuração</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="form-configuracao" method="POST" action="">
+                    <form id="form-configuracao" method="POST" action="#">
                         @csrf
                         <!-- Aqui será preenchido via JS -->
                         <input type="hidden" name="id" id="form-id">
@@ -224,23 +224,6 @@
 
 @section('scripts')
     <script>
-         const form = document.getElementById('form-realestate-search');
-        const input = document.getElementById('input-realestate-search');
-        const button = document.getElementById('btn-realestate-search');
-
-        // Bloqueia Enter no campo de busca
-        input.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-            }
-        });
-
-        // Desativa o botão ao enviar o formulário
-        form.addEventListener('submit', function () {
-            button.disabled = true;
-            button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
-        });
-
         IMask(document.getElementById('form-taxa'), {
             mask: Number,
             scale: 2,
@@ -266,7 +249,7 @@
                     </div>
                 `;
 
-                    fetch(`/adm/imobiliarias/setup/${setupId}`)
+                    fetch(`/fianca/adm/imobiliarias/setup/${setupId}`)
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error('Erro ao buscar dados');
@@ -363,7 +346,7 @@
             document.querySelector('.btn-add').addEventListener('click', function(e) {
                 if (!currentImobiliariaId) return;
 
-                form.action = '/adm/imobiliarias/cadastrar/setup/' +
+                form.action = '/fianca/adm/imobiliarias/cadastrar/setup/' +
                     currentImobiliariaId; // Rota de criação
                 modalTitle.textContent = 'Adicionar Configuração';
                 form.reset(); // Limpa o formulário
@@ -380,7 +363,7 @@
                     const ativo = btn.dataset.ativo;
                     const switchAtivo = document.getElementById(' user-status-switch')
 
-                    form.action = '/adm/imobiliarias/editar/setup/' + imobiliaria + '/' + id;
+                    form.action = '/fianca/adm/imobiliarias/editar/setup/' + imobiliaria + '/' + id;
                     modalTitle.textContent = 'Editar Configuração';
 
                     document.getElementById('form-id').value = id;

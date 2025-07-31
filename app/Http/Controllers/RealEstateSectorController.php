@@ -111,7 +111,7 @@ class RealEstateSectorController extends Controller
 
         $realEstateSectorData = $validator->validated();
 
-        $response       = Http::withToken($token)->post(config('api.route') . '/realestatesector/', $realEstateSectorData);
+        $response       = Http::withToken($token)->post(config('api.route') . '/realestatesector', $realEstateSectorData);
         $returnResponse = $response->json();
 
         if (! $returnResponse['success']) {

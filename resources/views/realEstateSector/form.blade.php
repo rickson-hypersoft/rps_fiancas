@@ -139,7 +139,7 @@
                                     <span class="input-group-text">%</span>
                                     <input name="taxa_padrao" style="text-align: right" id="taxa_padrao" type="text"
                                         class="form-control form-control-lg" name="taxa_padrao"
-                                        value="{{ old('taxa_padrao', $realEstateSector['taxa_padrao'] ?? '') }}" />
+                                        value="{{ old('taxa_padrao', $realEstateSector['taxa_padrao'] ?? '15') }}" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -154,10 +154,9 @@
                             <div class="col-md-4">
                                 <label for="cobertura_total" class="form-label">Cobertura Total</label>
                                 <div class="input-group input-group-merge">
-                                    <span class="input-group-text">R$</span>
                                     <input name="cobertura_total" style="text-align: right" id="cobertura_total"
                                         type="text" class="form-control form-control-lg"
-                                        value="{{ old('cobertura_total', $realEstateSector['cobertura_total'] ?? '') }}" />
+                                        value="{{ old('cobertura_total', $realEstateSector['cobertura_total'] ?? '40') }}" />
                                 </div>
                             </div>
                             <div class="mt-4 pb-4">
@@ -225,18 +224,18 @@
             autofix: true,
         });
 
-        IMask(document.getElementById("cobertura_total"), {
-            mask: Number,
-            scale: 2,
-            thousandsSeparator: ".",
-            padFractionalZeros: true,
-            normalizeZeros: true,
-            radix: ",",
-            mapToRadix: ["."],
-            min: 0,
-            max: 1000000,
-            autofix: true,
-        });
+        // IMask(document.getElementById("cobertura_total"), {
+        //     mask: Number,
+        //     scale: 2,
+        //     thousandsSeparator: ".",
+        //     padFractionalZeros: true,
+        //     normalizeZeros: true,
+        //     radix: ",",
+        //     mapToRadix: ["."],
+        //     min: 0,
+        //     max: 1000000,
+        //     autofix: true,
+        // });
 
         IMask(document.getElementById("taxa_padrao"), {
             mask: Number,
