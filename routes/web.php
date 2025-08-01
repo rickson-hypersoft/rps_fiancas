@@ -6,6 +6,7 @@ use App\Http\Controllers\ActivationController;
 use App\Http\Controllers\Assets\AssetsController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DelinquenciesController;
 use App\Http\Controllers\Financial\FinancialAccountController;
 use App\Http\Controllers\Financial\FinancialCategoryController;
 use App\Http\Controllers\Financial\FinancialMoviController;
@@ -242,5 +243,11 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         Route::get('/confirmacao/cartao/{linkHash}/{idPagamento}', [CheckoutController::class, 'cartaoConfirmacao'])
             ->name('checkout.confirmation.cart')
             ->middleware('verify.contract.link');
+    });
+
+    // Inadimplências
+    Route::prefix('inadimplencias')->group(function (): void {
+        Route::get('/{step?}', [DelinquenciesController::class, 'index'])->name('delinquencies.index');
+        Route::post('/criar-inadimplencia', [DelinquenciesController::class, 'storeStep1'])->name('delinquencies.store');
     });
 });
