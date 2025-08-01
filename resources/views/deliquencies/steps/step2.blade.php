@@ -465,6 +465,129 @@
                                 aria-describedby="defaultFormControlHelp"
                             />
                         </div>
+
+                        <!-- Seguro Incêndio -->
+                        <div
+                            class="col-4 seguro-incendio-field"
+                            style="display: none"
+                        >
+                            <label for="valor_original_gas" class="form-label"
+                                >Valor original sem multa e juros*</label
+                            >
+                            <input
+                                required
+                                type="text"
+                                class="form-control"
+                                id="valor_original_gas"
+                                placeholder="R$ 0,00"
+                                aria-describedby="defaultFormControlHelp"
+                            />
+                        </div>
+
+                        <div
+                            class="col-4 seguro-incendio-field"
+                            style="display: none"
+                        >
+                            <label
+                                for="vencimento_original_gas"
+                                class="form-label"
+                                >Vencimento original*</label
+                            >
+                            <input
+                                required
+                                type="date"
+                                class="form-control"
+                                id="vencimento_original_gas"
+                                aria-describedby="defaultFormControlHelp"
+                            />
+                        </div>
+
+                        <!-- Outros anexos -->
+                        <div
+                            class="col-12 outros-anexos-field"
+                            style="display: none"
+                        >
+                            <label for="observacoes" class="form-label"
+                                >Observações</label
+                            >
+                            <textarea
+                                class="form-control"
+                                id="observacoes"
+                                rows="3"
+                            ></textarea>
+                        </div>
+
+                        <!-- Orçamentos de Reparos -->
+                        <div
+                            class="col-4 orcamento-field"
+                            style="display: none"
+                        >
+                            <label
+                                for="valor_original_orcamentos"
+                                class="form-label"
+                                >Valor*</label
+                            >
+                            <input
+                                required
+                                type="text"
+                                class="form-control"
+                                id="valor_original_orcamentos"
+                                placeholder="R$ 0,00"
+                                aria-describedby="defaultFormControlHelp"
+                            />
+                        </div>
+
+                        <div
+                            class="col-12 orcamento-container"
+                            style="display: none"
+                        >
+                            <div class="row">
+                                <div class="col-12">
+                                    <div
+                                        class="alert alert-warning"
+                                        role="alert"
+                                    >
+                                        <i
+                                            class="icon-base ti tabler-info-circle icon-md"
+                                        ></i>
+                                        Envie dois orçamentos para análise.
+                                        <b
+                                            >No campo de valor, basta preencher
+                                            com o valor de um deles,
+                                            preferencialmente o de menor
+                                            valor.</b
+                                        >
+                                        Não se preocupe, vamos revisar os dois
+                                        orçamentos com calma para garantir a
+                                        melhor decisão.
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-4">
+                                    <h5 class="m-0">Segundo orçamento</h5>
+                                    <span class="m-0 p-0"
+                                        >Tamanho máximo 6MB</span
+                                    >
+
+                                    <div class="row gy-6 mt-3">
+                                        <div class="col-12">
+                                            <div
+                                                action="/upload"
+                                                class="dropzone needsclick dz-clickable"
+                                                id="dropzone-multi"
+                                            >
+                                                <div
+                                                    class="dz-message needsclick"
+                                                >
+                                                    Clique ou arraste o arquivo
+                                                    aqui
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-12 d-flex justify-content-end">

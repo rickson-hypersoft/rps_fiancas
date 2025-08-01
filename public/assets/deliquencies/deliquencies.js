@@ -64,13 +64,41 @@ document
 
         const gasFields = document.querySelectorAll(".gas-field");
 
-        gas.forEach((field) => {
+        gasFields.forEach((field) => {
             field.style.display =
                 this.value === "Gás" ? "block" : "none";
             document.getElementById("selecionar_mais_boletos").style.display = 'none'
             document.getElementById("bloco-comprovantes").style.display = 'none'
             document.getElementById("comprovantes-container").html = ''
         });
+
+        const seguroIncendioFields = document.querySelectorAll(".seguro-incendio-field");
+
+        seguroIncendioFields.forEach((field) => {
+            field.style.display =
+                this.value === "Seguro incêndio" ? "block" : "none";
+            document.getElementById("selecionar_mais_boletos").style.display = 'none'
+            document.getElementById("bloco-comprovantes").style.display = 'none'
+            document.getElementById("comprovantes-container").html = ''
+        });
+
+        const outrosAnexosFields = document.querySelectorAll(".outros-anexos-field");
+
+        outrosAnexosFields.forEach((field) => {
+            field.style.display =
+                this.value === "Outros anexos" ? "block" : "none";
+            document.getElementById("selecionar_mais_boletos").style.display = 'none'
+            document.getElementById("bloco-comprovantes").style.display = 'none'
+            document.getElementById("comprovantes-container").html = ''
+        });
+
+        const orcamentoField = document.querySelector(".orcamento-field");
+        const orcamentoContainer = document.querySelector(".orcamento-container");
+
+        orcamentoField.style.display =
+            this.value === "Orçamentos de Reparos" ? "block" : "none";
+        orcamentoContainer.style.display =
+            this.value === "Orçamentos de Reparos" ? "block" : "none";
     });
 
 const radios = document.querySelectorAll('input[name="customRadioTemp"]');
