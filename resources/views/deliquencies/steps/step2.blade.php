@@ -1,4 +1,10 @@
-<form onsubmit="return false">
+<form
+    action="{{ route('delinquencies.step3') }}"
+    method="POST"
+    class="needs-validation"
+    novalidate
+>
+    @csrf
     <!-- Account Details -->
     <div id="account-details" class="content active dstepper-block">
         <div
@@ -31,7 +37,10 @@
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12 mb-4">
+                        <div
+                            class="col-12 mb-4"
+                            id="comprovante-boleto-original"
+                        >
                             <h5 class="m-0">
                                 Envie o comprovante ou boleto original
                             </h5>
@@ -582,6 +591,303 @@
                                                     Clique ou arraste o arquivo
                                                     aqui
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Multa rescisória -->
+                        <div
+                            class="multa-rescisoria-container"
+                            style="display: none"
+                        >
+                            <div class="col-12 mb-4">
+                                <h5 class="m-0">Termos de recisão*</h5>
+                                <span class="m-0 p-0">Tamanho máximo 6MB</span>
+
+                                <div class="row gy-6 mt-2">
+                                    <div class="col-12">
+                                        <div
+                                            action="/upload"
+                                            class="dropzone needsclick dz-clickable"
+                                            id="dropzone-multi"
+                                        >
+                                            <div class="dz-message needsclick">
+                                                Clique ou arraste o arquivo aqui
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a
+                                    class="text-success pt-4 d-block"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalCenter"
+                                    style="cursor: pointer"
+                                >
+                                    Como comprovar a Rescisão do contrato
+                                </a>
+
+                                <div
+                                    class="modal fade"
+                                    id="modalCenter"
+                                    tabindex="-1"
+                                    style="display: none"
+                                    aria-hidden="true"
+                                >
+                                    <div
+                                        class="modal-dialog modal-dialog-centered"
+                                        role="document"
+                                    >
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5
+                                                    class="modal-title"
+                                                    id="modalCenterTitle"
+                                                >
+                                                    Como comprovar a Rescisão do
+                                                    contrato
+                                                </h5>
+                                                <button
+                                                    type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"
+                                                ></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                A comprovação da rescisão do
+                                                contrato pode ser feita por meio
+                                                de três documentos, sendo eles:
+                                                <ul>
+                                                    <li>
+                                                        Termo de entrega das
+                                                        chaves
+                                                    </li>
+                                                    <li>
+                                                        E-mail de formalização
+                                                    </li>
+                                                    <li>
+                                                        Declaração de Imissão de
+                                                        Posse
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-label-secondary waves-effect"
+                                                    data-bs-dismiss="modal"
+                                                >
+                                                    Fechar
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-primary waves-effect waves-light"
+                                                >
+                                                    <i
+                                                        class="ti tabler-file-type-pdf"
+                                                    ></i>
+                                                    Baixar modelo
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-4">
+                                <h5 class="m-0">Vistoria de saída*</h5>
+                                <span class="m-0 p-0">Tamanho máximo 6MB</span>
+
+                                <div class="row gy-6 mt-2">
+                                    <div class="col-12">
+                                        <div
+                                            action="/upload"
+                                            class="dropzone needsclick dz-clickable"
+                                            id="dropzone-multi"
+                                        >
+                                            <div class="dz-message needsclick">
+                                                Clique ou arraste o arquivo aqui
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a
+                                    class="text-success pt-4 d-block"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#vistoriaSaida"
+                                    style="cursor: pointer"
+                                >
+                                    O que não pode faltar na Vistória de Saída
+                                </a>
+
+                                <div
+                                    class="modal fade"
+                                    id="vistoriaSaida"
+                                    tabindex="-1"
+                                    style="display: none"
+                                    aria-hidden="true"
+                                >
+                                    <div
+                                        class="modal-dialog modal-dialog-centered"
+                                        role="document"
+                                    >
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5
+                                                    class="modal-title"
+                                                    id="modalCenterTitle"
+                                                >
+                                                    O que não pode faltar na
+                                                    Vistória de Saída
+                                                </h5>
+                                                <button
+                                                    type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"
+                                                ></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <ul>
+                                                    <li>
+                                                        Nome completo e CPF do
+                                                        Locatário.
+                                                    </li>
+                                                    <li>
+                                                        Endereço completo do
+                                                        imóvel.
+                                                    </li>
+                                                    <li>
+                                                        Data da realização da
+                                                        vistoria.
+                                                    </li>
+                                                    <li>
+                                                        Assinatura do
+                                                        vistoriador e/ou do
+                                                        responsável da
+                                                        imobiliária/locador.
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-label-secondary waves-effect"
+                                                    data-bs-dismiss="modal"
+                                                >
+                                                    Fechar
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-primary waves-effect waves-light"
+                                                >
+                                                    <i
+                                                        class="ti tabler-file-type-pdf"
+                                                    ></i>
+                                                    Baixar modelo
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-4">
+                                <h5 class="m-0">
+                                    Descrição de Valores em Aberto*
+                                </h5>
+                                <span class="m-0 p-0">Tamanho máximo 6MB</span>
+
+                                <div class="row gy-6 mt-2">
+                                    <div class="col-12">
+                                        <div
+                                            action="/upload"
+                                            class="dropzone needsclick dz-clickable"
+                                            id="dropzone-multi"
+                                        >
+                                            <div class="dz-message needsclick">
+                                                Clique ou arraste o arquivo aqui
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a
+                                    class="text-success pt-4 d-block"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#descricaoValoresAberto"
+                                    style="cursor: pointer"
+                                >
+                                    O que não pode faltar na Descrição dos
+                                    Valores em Aberto
+                                </a>
+
+                                <div
+                                    class="modal fade"
+                                    id="descricaoValoresAberto"
+                                    tabindex="-1"
+                                    style="display: none"
+                                    aria-hidden="true"
+                                >
+                                    <div
+                                        class="modal-dialog modal-dialog-centered"
+                                        role="document"
+                                    >
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5
+                                                    class="modal-title"
+                                                    id="modalCenterTitle"
+                                                >
+                                                    O que não pode faltar na
+                                                    Descrição dos Valores em
+                                                    Aberto
+                                                </h5>
+                                                <button
+                                                    type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"
+                                                ></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <ul>
+                                                    <li>
+                                                        Dados da imobiliária
+                                                    </li>
+                                                    <li>
+                                                        Identificação do(a)
+                                                        locador(a)
+                                                    </li>
+                                                    <li>
+                                                        Identificação dos
+                                                        locatários
+                                                    </li>
+                                                    <li>Endereço do imóvel</li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-label-secondary waves-effect"
+                                                    data-bs-dismiss="modal"
+                                                >
+                                                    Fechar
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-primary waves-effect waves-light"
+                                                >
+                                                    <i
+                                                        class="ti tabler-file-type-pdf"
+                                                    ></i>
+                                                    Baixar modelo
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

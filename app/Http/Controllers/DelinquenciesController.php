@@ -20,8 +20,15 @@ class DelinquenciesController extends Controller
 
     public function storeStep1(Request $request)
     {
-        // Valida e salva os dados do passo 1...
+        // Valida e salva os dados do passo 2...
 
         return redirect()->route('delinquencies.index', 'step2');
+    }
+
+     public function storeStep2(Request $request)
+    {
+        // Valida e salva os dados do passo 3...
+
+        return redirect()->route('delinquencies.index', 'step3');
     }
 }

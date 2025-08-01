@@ -99,6 +99,14 @@ document
             this.value === "Orçamentos de Reparos" ? "block" : "none";
         orcamentoContainer.style.display =
             this.value === "Orçamentos de Reparos" ? "block" : "none";
+
+        const boletoOriginalContainer = document.querySelector("#comprovante-boleto-original");
+        const multaRescisoriaContainer = document.querySelector(".multa-rescisoria-container");
+
+        boletoOriginalContainer.style.display =
+            this.value === "Multa rescisória" ? "none" : "block";
+        multaRescisoriaContainer.style.display =
+            this.value === "Multa rescisória" ? "block" : "none";
     });
 
 const radios = document.querySelectorAll('input[name="customRadioTemp"]');

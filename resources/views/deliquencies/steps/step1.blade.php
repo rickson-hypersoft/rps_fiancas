@@ -1,5 +1,5 @@
 
-            <form action="{{ route('delinquencies.store') }}" method="POST" class="needs-validation" novalidate>
+            <form action="{{ route('delinquencies.step2') }}" method="POST" class="needs-validation" novalidate>
                 @csrf
                 <!-- Account Details -->
                 <div id="account-details" class="content active dstepper-block">
