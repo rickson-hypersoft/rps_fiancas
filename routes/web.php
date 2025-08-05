@@ -247,7 +247,8 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
 
     // Inadimplências
     Route::prefix('inadimplencias')->group(function (): void {
-        Route::get('/{step?}', [DelinquenciesController::class, 'index'])->name('delinquencies.index');
+        Route::get('/listagem', [DelinquenciesController::class, 'index'])->name('delinquencies.index');
+        Route::get('/{step?}', [DelinquenciesController::class, 'create'])->name('delinquencies.create');
         Route::post('/criar', [DelinquenciesController::class, 'storeStep1'])->name('delinquencies.step2');
         Route::post('/atualizar', [DelinquenciesController::class, 'storeStep2'])->name('delinquencies.step3');
     });
