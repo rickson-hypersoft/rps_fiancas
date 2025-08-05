@@ -13,6 +13,11 @@ class DelinquenciesController extends Controller
         return view('deliquencies.index');
     }
 
+    public function view()
+    {
+        return view('deliquencies.view');
+    }
+
     public function create(string $step = 'step1')
     {
         // Protege contra steps inválidos, se quiser

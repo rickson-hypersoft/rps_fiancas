@@ -15,8 +15,10 @@
                             <h5 class="m-0 p-0">Solicitação</h5>
 
                             <div class="d-none d-md-flex m-0 gap-1 p-0">
-                                <a href="#" class="btn btn-outline-secondary">Abrir inadimplência</a>
-                                <a href="#" class="btn btn-outline-secondary">Acompanhar inadimplências</a>
+                                <a href="{{ route('delinquencies.create') }}" class="btn btn-outline-secondary">Abrir
+                                    inadimplência</a>
+                                <a href="{{ route('delinquencies.view') }}" class="btn btn-outline-secondary">Acompanhar
+                                    inadimplências</a>
                                 <a href="#" class="btn btn-outline-secondary" disabled>Cancelar proposta</a>
                             </div>
 
