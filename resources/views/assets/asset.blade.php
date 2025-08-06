@@ -9,6 +9,19 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
+
+                @if ($possuiInadimplencia)
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <div class="d-flex">
+                            <i class="icon-base ti tabler-info-circle icon-md me-1"></i>
+                            <h6 class="m-0 p-0">Atenção!</h6>
+                        </div>
+
+                        <h5 class="text-danger">Este contrato possui inadimplências</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
                 <div class="card">
                     <div class="card-header mb-0 pb-3 pt-3" style="background: #f7f7f7;">
                         <div class="d-flex align-items-center justify-content-between">

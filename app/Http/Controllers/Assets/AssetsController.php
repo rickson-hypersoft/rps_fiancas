@@ -90,7 +90,7 @@ class AssetsController extends Controller
         $data['data']['fianca_disponivel'] = 'R$ ' . number_format(floatval($fiancaDisponivel), 2, ',', '.');
         $data['data']['prox_renovacao']    = $dateConvert->format('d/m/Y');
 
-        return view('assets.asset', ['data' => $data['data'], 'histories' => $dataHistory['data']]);
+        return view('assets.asset', ['data' => $data['data'], 'histories' => $dataHistory['data'], 'possuiInadimplencia' => $data['inadimplencia']]);
     }
 
     public function edit(string $idContrato): View
