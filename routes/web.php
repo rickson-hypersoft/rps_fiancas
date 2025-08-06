@@ -247,10 +247,15 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
 
     // Inadimplências
     Route::prefix('inadimplencias')->group(function (): void {
-        Route::get('/listagem', [DelinquenciesController::class, 'index'])->name('delinquencies.index');
-        Route::get('/visualizar', [DelinquenciesController::class, 'view'])->name('delinquencies.view');
-        Route::get('/{step?}', [DelinquenciesController::class, 'create'])->name('delinquencies.create');
-        Route::post('/criar', [DelinquenciesController::class, 'storeStep1'])->name('delinquencies.step2');
-        Route::post('/atualizar', [DelinquenciesController::class, 'storeStep2'])->name('delinquencies.step3');
+        Route::get('/', [DelinquenciesController::class, 'index'])->name('delinquencies.index')->middleware('check.permission:4');
+        ;
+        Route::get('/visualizar', [DelinquenciesController::class, 'view'])->name('delinquencies.view')->middleware('check.permission:4');
+        ;
+        Route::get('/{step?}', [DelinquenciesController::class, 'create'])->name('delinquencies.create')->middleware('check.permission:4');
+        ;
+        Route::post('/criar', [DelinquenciesController::class, 'storeStep1'])->name('delinquencies.step2')->middleware('check.permission:4');
+        ;
+        Route::post('/atualizar', [DelinquenciesController::class, 'storeStep2'])->name('delinquencies.step3')->middleware('check.permission:4');
+        ;
     });
 });

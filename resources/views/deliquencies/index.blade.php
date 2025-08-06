@@ -106,7 +106,7 @@
                                 style="font-size: 18px;">
                                 <thead>
                                     <tr>
-                                        <th>Imóvel</th>
+                                        <th>Contrato</th>
                                         <th class="d-none d-lg-table-cell">Status</th>
                                         <th class="d-none d-xl-table-cell">Data Aviso de Inadimplência</th>
                                         <th>Valor Inadimplência</th>
@@ -115,7 +115,22 @@
                                     </tr>
                                 </thead>
                                 <tbody id="ViewNiveisLTableItens">
+                                    @foreach ($data as $item)
+                                        <tr>
+                                            <td><a
+                                                    href="{{ route('assets.asset', ['id' => $item['contrato_id']]) }}">{{ $item['contrato_id'] }}</a>
+                                            </td>
+                                            <td class="d-none d-lg-table-cell">{{ $item['status'] }}</td>
+                                            <td class="d-none d-xl-table-cell">
+                                                {{ \Carbon\Carbon::parse($item['vencimento_original'])->format('d/m/Y') }}
+                                            </td>
+                                            <td>R$ {{ number_format($item['valor_original'], 2, ',', '.') }}</td>
+                                            <td>R$ {{ number_format($item['valor_aprovado'], 2, ',', '.') }}</td>
+                                            <td class="text-center">
 
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
