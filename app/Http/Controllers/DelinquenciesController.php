@@ -20,9 +20,18 @@ class DelinquenciesController extends Controller
         return view('deliquencies.index', ['data' => $data]);
     }
 
-    public function view()
+    public function view(string | int $id)
     {
-        return view('deliquencies.view');
+        $token         = session('jwt_token');
+        $idImobiliaria = session('user')['id_imobiliaria'];
+
+        $response = Http::withToken($token)->get(config('api.route') . '/delinquencies/' . $idImobiliaria . '/' . $id);
+        $data     = $response->json();
+
+        $propostal    = $data['propostal'];
+        $deliquencies = $data['deliquencies'];
+
+        return view('deliquencies.view', ['propostal' => $propostal, 'deliquencies' => [$deliquencies]]);
     }
 
     public function create(string $step = 'step1')

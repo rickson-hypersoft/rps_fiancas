@@ -21,11 +21,11 @@
             <div class="col-12">
                 <div class="card mb-0">
                     <div class="card-header">
-                        <h5>Nome do Inquilino</h5>
-                        <span class="text-success">Contrato: Número do contrato</span>
+                        <h5>{{ $propostal['pessoa_nome'] }}</h5>
+                        <span class="text-success">Contrato: {{ $propostal['id'] }}</span>
                         <hr>
                         <span><span class="badge badge-center rounded-pill bg-success bg-glow"></span> Fiança disponível: R$
-                            120.000,00</span>
+                            {{ $propostal['imovel_aluguel'] * 40 }}</span>
                     </div>
                 </div>
 
@@ -43,15 +43,64 @@
                                         <th>Vencimento original</th>
                                         <th>Comunicação em</th>
                                         <th class="text-center">Valor atualizado</th>
-                                        <th class="text-center">Pagaemnto</th>
+                                        <th class="text-center">Pagamento</th>
                                         <th class="text-center" style="width: 100px">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody id="ViewNiveisLTableItens">
+                                    @foreach ($deliquencies as $delinquencie)
+                                        @php
+                                            $offcanvasId = 'offcanvas-' . $delinquencie['id'];
+                                        @endphp
+                                        <tr>
+                                            <td>
+                                                <button class="btn btn-primary waves-effect waves-light" type="button"
+                                                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasBackdrop"
+                                                    aria-controls="offcanvasBackdrop">
+                                                    {{ $delinquencie['id'] }}
 
+                                                </button>
+                                            </td>
+                                            <td>{{ $delinquencie['status'] }}</td>
+                                            <td>{{ $delinquencie['valor_original'] }}</td>
+                                            <td>{{ $delinquencie['vencimento_original'] }}</td>
+                                            <td></td>
+                                            <td>{{ $delinquencie['valor_aprovado'] }}</td>
+                                            <td>{{ $delinquencie['conta_bancaria_id'] }}</td>
+                                            <td>
+                                                Ações
+                                            </td>
+                                        </tr>
+
+                                        {{-- Offcanvas exclusivo para este item --}}
+                                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasBackdrop"
+                                            aria-labelledby="offcanvasBackdropLabel" aria-modal="true" role="dialog">
+                                            <div class="offcanvas-header">
+                                                <h5 id="{{ $offcanvasId }}-label" class="offcanvas-title">Detalhes da
+                                                    Dívida #{{ $delinquencie['id'] }}</h5>
+                                                <button type="button" class="btn-close text-reset"
+                                                    data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                            </div>
+                                            <div class="offcanvas-body">
+                                                <p>Status: {{ $delinquencie['status'] }}</p>
+                                                <p>Valor Original: R$
+                                                    {{ number_format($delinquencie['valor_original'], 2, ',', '.') }}</p>
+                                                <p>Vencimento: {{ $delinquencie['vencimento_original'] }}</p>
+                                                <p>Valor Aprovado: R$
+                                                    {{ number_format($delinquencie['valor_aprovado'], 2, ',', '.') }}</p>
+                                                <p>Conta Bancária: {{ $delinquencie['conta_bancaria_id'] }}</p>
+
+                                                <button type="button" class="btn btn-primary w-100 mb-2">Ação</button>
+                                                <button type="button" class="btn btn-secondary w-100"
+                                                    data-bs-dismiss="offcanvas">Fechar</button>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
+
+
 
                         {{--
                         @php

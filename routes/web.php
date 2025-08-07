@@ -249,7 +249,7 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
     Route::prefix('inadimplencias')->group(function (): void {
         Route::get('/', [DelinquenciesController::class, 'index'])->name('delinquencies.index')->middleware('check.permission:4');
         ;
-        Route::get('/visualizar', [DelinquenciesController::class, 'view'])->name('delinquencies.view')->middleware('check.permission:4');
+        Route::get('/visualizar/{id}', [DelinquenciesController::class, 'view'])->name('delinquencies.view')->middleware('check.permission:4');
         ;
         Route::get('/{step?}', [DelinquenciesController::class, 'create'])->name('delinquencies.create')->middleware('check.permission:4');
         ;
