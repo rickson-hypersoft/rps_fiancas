@@ -73,26 +73,138 @@
                                         </tr>
 
                                         {{-- Offcanvas exclusivo para este item --}}
-                                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasBackdrop"
-                                            aria-labelledby="offcanvasBackdropLabel" aria-modal="true" role="dialog">
-                                            <div class="offcanvas-header">
-                                                <h5 id="{{ $offcanvasId }}-label" class="offcanvas-title">Detalhes da
-                                                    Dívida #{{ $delinquencie['id'] }}</h5>
+                                        <div class="offcanvas offcanvas-end show m-0 p-0" tabindex="-1"
+                                            id="offcanvasBackdrop" aria-labelledby="offcanvasBackdropLabel"
+                                            aria-modal="true" role="dialog" style="width: 700px !important">
+                                            <div class="offcanvas-header mb-0 pb-0">
                                                 <button type="button" class="btn-close text-reset"
                                                     data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                             </div>
-                                            <div class="offcanvas-body">
-                                                <p>Status: {{ $delinquencie['status'] }}</p>
-                                                <p>Valor Original: R$
-                                                    {{ number_format($delinquencie['valor_original'], 2, ',', '.') }}</p>
-                                                <p>Vencimento: {{ $delinquencie['vencimento_original'] }}</p>
-                                                <p>Valor Aprovado: R$
-                                                    {{ number_format($delinquencie['valor_aprovado'], 2, ',', '.') }}</p>
-                                                <p>Conta Bancária: {{ $delinquencie['conta_bancaria_id'] }}</p>
+                                            <div class="offcanvas-body p-0">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <span class="badge bg-warning">
+                                                            {{ $delinquencie['status'] }}
+                                                        </span>
+                                                        <h3>{{ $delinquencie['id'] }}</h3>
 
-                                                <button type="button" class="btn btn-primary w-100 mb-2">Ação</button>
-                                                <button type="button" class="btn btn-secondary w-100"
-                                                    data-bs-dismiss="offcanvas">Fechar</button>
+                                                        <div class="d-flex">
+                                                            <button class="btn btn-outline-secondary">Cancelar
+                                                                inadimplêmcia</button>
+                                                            <button class="btn btn-outline-secondary">Alterar forma de
+                                                                pagamento</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="nav-align-top nav-tabs-shadow">
+                                                    <ul class="nav nav-tabs" role="tablist">
+                                                        <li class="nav-item" role="presentation">
+                                                            <button type="button" class="nav-link waves-effect active"
+                                                                role="tab" data-bs-toggle="tab"
+                                                                data-bs-target="#navs-top-home"
+                                                                aria-controls="navs-top-home" aria-selected="true">
+                                                                Detalhes
+                                                            </button>
+                                                        </li>
+                                                        <li class="nav-item" role="presentation">
+                                                            <button type="button" class="nav-link waves-effect"
+                                                                role="tab" data-bs-toggle="tab"
+                                                                data-bs-target="#navs-top-profile"
+                                                                aria-controls="navs-top-profile" aria-selected="false"
+                                                                tabindex="-1">
+                                                                Movimentações
+                                                            </button>
+                                                        </li>
+                                                        <li class="nav-item" role="presentation">
+                                                            <button type="button" class="nav-link waves-effect"
+                                                                role="tab" data-bs-toggle="tab"
+                                                                data-bs-target="#navs-top-messages"
+                                                                aria-controls="navs-top-messages" aria-selected="false"
+                                                                tabindex="-1">
+                                                                Comprovantes
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane fade active show" id="navs-top-home"
+                                                            role="tabpanel">
+                                                            <div class="row">
+                                                                <div class="col-sm-4 col-12 card-header border py-2">
+                                                                    <span>Data da comunicação</span>
+                                                                    <h6>{{ $delinquencie['vencimento_original'] }}</h6>
+                                                                </div>
+                                                                <div class="col-sm-4 col-12 card-header border py-2">
+                                                                    <span>Valor original</span>
+                                                                    <h6>{{ $delinquencie['valor_original'] }}</h6>
+                                                                </div>
+                                                                <div class="col-sm-4 col-12 card-header border py-2">
+                                                                    <span>Forme de Pagamento</span>
+                                                                    <h6>TED</h6>
+                                                                </div>
+                                                                <div class="col-sm-4 col-12 card-header border py-2">
+                                                                    <span>Tipo</span>
+                                                                    <h6>TED</h6>
+                                                                </div>
+                                                                <div class="col-sm-4 col-12 card-header border py-2">
+                                                                    <span>Valor aprovado</span>
+                                                                    <h6>TED</h6>
+                                                                </div>
+                                                                <div class="col-sm-4 col-12 card-header border py-2">
+                                                                    <span>Tipo da inadimplência</span>
+                                                                    <h6>TED</h6>
+                                                                </div>
+                                                                <div class="col-sm-6 col-12 card-header border py-2">
+                                                                    <span>Data do Pagamento</span>
+                                                                    <h6>TED</h6>
+                                                                </div>
+                                                                <div class="col-sm-6 col-12 card-header border py-2"">
+                                                                    <span>Valor Atualizado</span>
+                                                                    <h6>TED</h6>
+                                                                </div>
+                                                                <div class="col-12 card-header border py-2"">
+                                                                    <h4>Observação
+                                                                    </h4>
+                                                                    <span>Adicionadas na abertura da inadimplência</span>
+                                                                    <textarea name="" disabled id="" cols="30" rows="10">
+                                                                        Sem descrição
+                                                                    </textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="tab-pane fade" id="navs-top-profile" role="tabpanel">
+                                                            <p>
+                                                                Donut dragée jelly pie halvah. Danish gingerbread bonbon
+                                                                cookie wafer candy oat cake ice
+                                                                cream. Gummies halvah tootsie roll muffin biscuit icing
+                                                                dessert gingerbread. Pastry ice cream
+                                                                cheesecake fruitcake.
+                                                            </p>
+                                                            <p class="mb-0">
+                                                                Jelly-o jelly beans icing pastry cake cake lemon drops.
+                                                                Muffin muffin pie tiramisu halvah
+                                                                cotton candy liquorice caramels.
+                                                            </p>
+                                                        </div>
+
+                                                        <div class="tab-pane fade" id="navs-top-messages"
+                                                            role="tabpanel">
+                                                            <p>
+                                                                Oat cake chupa chups dragée donut toffee. Sweet cotton candy
+                                                                jelly beans macaroon gummies
+                                                                cupcake gummi bears cake chocolate.
+                                                            </p>
+                                                            <p class="mb-0">
+                                                                Cake chocolate bar cotton candy apple pie tootsie roll ice
+                                                                cream apple pie brownie cake. Sweet
+                                                                roll icing sesame snaps caramels danish toffee. Brownie
+                                                                biscuit dessert dessert. Pudding jelly
+                                                                jelly-o tart brownie jelly.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
