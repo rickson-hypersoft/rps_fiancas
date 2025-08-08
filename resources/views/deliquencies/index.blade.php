@@ -111,7 +111,6 @@
                                         <th class="d-none d-xl-table-cell">Data Aviso de Inadimplência</th>
                                         <th>Valor Inadimplência</th>
                                         <th>Valor Atualização</th>
-                                        <th class="text-center" style="width: 100px">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody id="ViewNiveisLTableItens">
@@ -126,9 +125,6 @@
                                             </td>
                                             <td>R$ {{ number_format($item['valor_original'], 2, ',', '.') }}</td>
                                             <td>R$ {{ number_format($item['valor_aprovado'], 2, ',', '.') }}</td>
-                                            <td class="text-center">
-
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

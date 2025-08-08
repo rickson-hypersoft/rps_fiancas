@@ -93,7 +93,7 @@ class AssetsController extends Controller
         $inadimplenciaId = 0;
 
         if (! empty($data['inadimplencia'])) {
-            $inadimplenciaId = $data['inadimplencia'][0]['ID'];
+            $inadimplenciaId = $data['inadimplencia'][0]['id'];
         }
 
         return view('assets.asset', ['data' => $data['data'], 'histories' => $dataHistory['data'], 'possuiInadimplencia' => $inadimplenciaId]);

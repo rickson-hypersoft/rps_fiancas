@@ -22,10 +22,14 @@
                 <div class="card mb-0">
                     <div class="card-header">
                         <h5>{{ $propostal['pessoa_nome'] }}</h5>
-                        <span class="text-success">Contrato: {{ $propostal['id'] }}</span>
+                        <span class="text-success">Número do Contrato: {{ $propostal['id'] }}</span>
                         <hr>
-                        <span><span class="badge badge-center rounded-pill bg-success bg-glow"></span> Fiança disponível: R$
-                            {{ $propostal['imovel_aluguel'] * 40 }}</span>
+                        <span>
+                            <span class="badge badge-center rounded-pill bg-success bg-glow"></span> Fiança disponível: R$
+                            @php
+                                $fiancaDisponivel = $propostal['imovel_aluguel'] * 40;
+                            @endphp
+                            {{ number_format($fiancaDisponivel, 2, ',', '.') }}</span>
                     </div>
                 </div>
 
@@ -42,9 +46,9 @@
                                         <th class="d-none d-xl-table-cell">Valor original</th>
                                         <th>Vencimento original</th>
                                         <th>Comunicação em</th>
-                                        <th class="text-center">Valor atualizado</th>
-                                        <th class="text-center">Pagamento</th>
-                                        <th class="text-center" style="width: 100px">Ações</th>
+                                        <th>Valor atualizado</th>
+                                        <th>Pagamento</th>
+                                        {{-- <th class="text-center" style="width: 100px">Ações</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody id="ViewNiveisLTableItens">
@@ -62,20 +66,27 @@
                                                 </button>
                                             </td>
                                             <td>{{ $delinquencie['status'] }}</td>
-                                            <td>{{ $delinquencie['valor_original'] }}</td>
-                                            <td>{{ $delinquencie['vencimento_original'] }}</td>
-                                            <td></td>
-                                            <td>{{ $delinquencie['valor_aprovado'] }}</td>
-                                            <td>{{ $delinquencie['conta_bancaria_id'] }}</td>
                                             <td>
-                                                Ações
+                                                R$ {{ number_format($delinquencie['valor_original'], 2, ',', '.') }}
                                             </td>
+                                            <td>
+                                                {{ \Carbon\Carbon::parse($delinquencie['vencimento_original'])->format('d/m/Y') }}
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                R$ {{ number_format($delinquencie['valor_aprovado'], 2, ',', '.') }}
+                                            </td>
+                                            <td> {{ \Carbon\Carbon::parse($delinquencie['data_pagamento'])->format('d/m/Y') }}
+                                            </td>
+                                            {{-- <td>
+                                                Ações
+                                            </td> --}}
                                         </tr>
 
                                         {{-- Offcanvas exclusivo para este item --}}
-                                        <div class="offcanvas offcanvas-end show m-0 p-0" tabindex="-1"
-                                            id="offcanvasBackdrop" aria-labelledby="offcanvasBackdropLabel"
-                                            aria-modal="true" role="dialog" style="width: 700px !important">
+                                        <div class="offcanvas offcanvas-end m-0 p-0" tabindex="-1" id="offcanvasBackdrop"
+                                            aria-labelledby="offcanvasBackdropLabel" aria-modal="true" role="dialog"
+                                            style="width: 700px !important">
                                             <div class="offcanvas-header mb-0 pb-0">
                                                 <button type="button" class="btn-close text-reset"
                                                     data-bs-dismiss="offcanvas" aria-label="Close"></button>
