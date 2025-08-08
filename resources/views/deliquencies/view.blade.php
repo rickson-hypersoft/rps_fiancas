@@ -52,17 +52,17 @@
                                     </tr>
                                 </thead>
                                 <tbody id="ViewNiveisLTableItens">
-                                    @foreach ($deliquencies as $delinquencie)
+                                    @foreach ($deliquencies[0] as $delinquencie)
                                         @php
                                             $offcanvasId = 'offcanvas-' . $delinquencie['id'];
                                         @endphp
                                         <tr>
                                             <td>
                                                 <button class="btn btn-primary waves-effect waves-light" type="button"
-                                                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasBackdrop"
-                                                    aria-controls="offcanvasBackdrop">
+                                                    data-bs-toggle="offcanvas"
+                                                    data-bs-target="#offcanvasBackdrop-{{ $offcanvasId }}"
+                                                    aria-controls="offcanvasBackdrop-{{ $offcanvasId }}">
                                                     {{ $delinquencie['id'] }}
-
                                                 </button>
                                             </td>
                                             <td>{{ $delinquencie['status'] }}</td>
@@ -84,7 +84,8 @@
                                         </tr>
 
                                         {{-- Offcanvas exclusivo para este item --}}
-                                        <div class="offcanvas offcanvas-end m-0 p-0" tabindex="-1" id="offcanvasBackdrop"
+                                        <div class="offcanvas offcanvas-end m-0 p-0" tabindex="-1"
+                                            id="offcanvasBackdrop-{{ $offcanvasId }}"
                                             aria-labelledby="offcanvasBackdropLabel" aria-modal="true" role="dialog"
                                             style="width: 700px !important">
                                             <div class="offcanvas-header mb-0 pb-0">

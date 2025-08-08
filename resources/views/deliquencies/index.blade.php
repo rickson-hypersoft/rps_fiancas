@@ -65,6 +65,10 @@
                                             <label for="status" class="form-label">Status</label>
                                             <select id="status" class="form-select form-select-lg">
                                                 <option>Todos</option>
+                                                <option value="Pendência Aberta">Pendência Aberta</option>
+                                                <option value="Pendência Cancelada">Pendência Cancelada</option>
+                                                <option value="Pendência Negada">Pendência Negada</option>
+                                                <option value="Acordo">Acordo</option>
                                             </select>
                                         </div>
 
@@ -131,7 +135,6 @@
                             </table>
                         </div>
 
-                        {{--
                         @php
                             $firstItem = $pagination['from'];
                             $lastItem = $pagination['to'];
@@ -184,7 +187,6 @@
                                 </div>
                             </div>
                         @endif
-                        --}}
                     </div>
                 </div>
             </div>

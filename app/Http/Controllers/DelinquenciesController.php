@@ -9,15 +9,28 @@ use Illuminate\Support\Facades\Http;
 
 class DelinquenciesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $queryParams = [
+            'page'          => $request->get('page', 1),
+            'imovel'        => $request->input('imovel'),
+            'nome'          => $request->input('nome_inquilino'),
+            'cpf'           => $request->input('cpf_inquilino'),
+            'status'        => $request->input('status'),
+            'data_inicial'  => $request->input('data_aviso_inicial'),
+            'data_final'    => $request->input('data_aviso_final'),
+            'valor_inicial' => $request->input('valor_inadimplencia_inicial'),
+            'valor_final'   => $request->input('valor_inadimplencia_final'),
+        ];
+
         $token         = session('jwt_token');
         $idImobiliaria = session('user')['id_imobiliaria'];
 
-        $response = Http::withToken($token)->get(config('api.route') . '/delinquencies/' . $idImobiliaria);
+        $response = Http::withToken($token)->get(config('api.route') . '/delinquencies/' . $idImobiliaria, $queryParams);
         $data     = $response->json();
 
-        return view('deliquencies.index', ['data' => $data]);
+        return view('deliquencies.index', ['data' => $data['data'], 'pagination' => $data['meta'],
+            'links'                               => $data['links'], ]);
     }
 
     public function view(string | int $id)
@@ -29,7 +42,7 @@ class DelinquenciesController extends Controller
         $data     = $response->json();
 
         $propostal    = $data['propostal'];
-        $deliquencies = $data['deliquencies'];
+        $deliquencies = $data['delinquencies'];
 
         return view('deliquencies.view', ['propostal' => $propostal, 'deliquencies' => [$deliquencies]]);
     }
