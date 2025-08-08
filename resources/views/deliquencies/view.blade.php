@@ -95,12 +95,21 @@
                                             <div class="offcanvas-body p-0">
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        <span class="badge bg-warning">
+                                                        @php
+                                                            $statusClass = match ($delinquencie['status']) {
+                                                                'Pendência Aberta' => 'bg-warning',
+                                                                'Pendência Cancelada' => 'bg-danger',
+                                                                'Pendência Negada' => 'bg-dark',
+                                                                'Acordo' => 'bg-success',
+                                                                default => 'bg-secondary',
+                                                            };
+                                                        @endphp
+                                                        <span class="badge {{ $statusClass }}">
                                                             {{ $delinquencie['status'] }}
                                                         </span>
-                                                        <h3>{{ $delinquencie['id'] }}</h3>
+                                                        <h3>Código da Inadimplência: {{ $delinquencie['id'] }}</h3>
 
-                                                        <div class="d-flex">
+                                                        <div class="d-flex gap-2">
                                                             <button class="btn btn-outline-secondary">Cancelar
                                                                 inadimplêmcia</button>
                                                             <button class="btn btn-outline-secondary">Alterar forma de
@@ -144,42 +153,49 @@
                                                             <div class="row">
                                                                 <div class="col-sm-4 col-12 card-header border py-2">
                                                                     <span>Data da comunicação</span>
-                                                                    <h6>{{ $delinquencie['vencimento_original'] }}</h6>
+                                                                    <h6>{{ \Carbon\Carbon::parse($delinquencie['vencimento_original'])->format('d/m/Y') }}
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="col-sm-4 col-12 card-header border py-2">
                                                                     <span>Valor original</span>
-                                                                    <h6>{{ $delinquencie['valor_original'] }}</h6>
+                                                                    <h6>R$
+                                                                        {{ number_format($delinquencie['valor_original'], 2, ',', '.') }}
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="col-sm-4 col-12 card-header border py-2">
                                                                     <span>Forme de Pagamento</span>
-                                                                    <h6>TED</h6>
+                                                                    <h6>{{ $delinquencie['forma_pagamento'] }}</h6>
                                                                 </div>
                                                                 <div class="col-sm-4 col-12 card-header border py-2">
                                                                     <span>Tipo</span>
-                                                                    <h6>TED</h6>
+                                                                    <h6>{{ $delinquencie['tipo_conta'] }}</h6>
                                                                 </div>
                                                                 <div class="col-sm-4 col-12 card-header border py-2">
                                                                     <span>Valor aprovado</span>
-                                                                    <h6>TED</h6>
+                                                                    <h6>R$
+                                                                        {{ number_format($delinquencie['valor_original'], 2, ',', '.') }}
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="col-sm-4 col-12 card-header border py-2">
                                                                     <span>Tipo da inadimplência</span>
-                                                                    <h6>TED</h6>
+                                                                    <h6>{{ $delinquencie['tipo_inadimplencia'] }}</h6>
                                                                 </div>
                                                                 <div class="col-sm-6 col-12 card-header border py-2">
                                                                     <span>Data do Pagamento</span>
-                                                                    <h6>TED</h6>
+                                                                    <h6>{{ \Carbon\Carbon::parse($delinquencie['data_pagamento'])->format('d/m/Y') }}
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="col-sm-6 col-12 card-header border py-2"">
                                                                     <span>Valor Atualizado</span>
-                                                                    <h6>TED</h6>
+                                                                    <h6>R$
+                                                                        {{ number_format($delinquencie['valor_aprovado'], 2, ',', '.') }}
                                                                 </div>
                                                                 <div class="col-12 card-header border py-2"">
                                                                     <h4>Observação
                                                                     </h4>
                                                                     <span>Adicionadas na abertura da inadimplência</span>
-                                                                    <textarea name="" disabled id="" cols="30" rows="10">
-                                                                        Sem descrição
+                                                                    <textarea style="width: 100%" name="" disabled id="" cols="30" rows="10">
+                                                                        {{ trim($delinquencie['observacao']) ?? 'Sem descrição' }}
                                                                     </textarea>
                                                                 </div>
                                                             </div>
