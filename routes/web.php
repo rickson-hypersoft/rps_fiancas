@@ -248,14 +248,17 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
     // Inadimplências
     Route::prefix('inadimplencias')->group(function (): void {
         Route::get('/', [DelinquenciesController::class, 'index'])->name('delinquencies.index')->middleware('check.permission:4');
-        ;
+
         Route::get('/visualizar/{id}', [DelinquenciesController::class, 'view'])->name('delinquencies.view')->middleware('check.permission:4');
-        ;
-        Route::get('/{step?}', [DelinquenciesController::class, 'create'])->name('delinquencies.create')->middleware('check.permission:4');
-        ;
-        Route::post('/criar', [DelinquenciesController::class, 'storeStep1'])->name('delinquencies.step2')->middleware('check.permission:4');
-        ;
-        Route::post('/atualizar', [DelinquenciesController::class, 'storeStep2'])->name('delinquencies.step3')->middleware('check.permission:4');
-        ;
+
+        Route::get('/criar/{contrato_id}/{step?}/{id?}', [DelinquenciesController::class, 'create'])->name('delinquencies.create')->middleware('check.permission:4');
+
+        Route::post('/criar/{contrato_id}', [DelinquenciesController::class, 'storeStep1'])->name('delinquencies.store')->middleware('check.permission:4');
+        Route::post('/{contrato_id}/{id}', [DelinquenciesController::class, 'storeStep2'])->name('delinquencies.storeStep2')->middleware('check.permission:4');
+
+        // Route::post('/criar', [DelinquenciesController::class, 'storeStep1'])->name('delinquencies.step2')->middleware('check.permission:4');
+        // ;
+        // Route::post('/atualizar', [DelinquenciesController::class, 'storeStep2'])->name('delinquencies.step3')->middleware('check.permission:4');
+        // ;
     });
 });

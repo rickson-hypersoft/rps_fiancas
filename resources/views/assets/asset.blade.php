@@ -28,7 +28,8 @@
                             <h5 class="m-0 p-0">Solicitação</h5>
 
                             <div class="d-none d-md-flex m-0 gap-1 p-0">
-                                <a href="{{ route('delinquencies.create') }}" class="btn btn-outline-secondary">Abrir
+                                <a href="{{ route('delinquencies.create', ['contrato_id' => $data['id']]) }}"
+                                    class="btn btn-outline-secondary">Abrir
                                     inadimplência</a>
                                 <a href="{{ route('delinquencies.view', ['id' => $possuiInadimplencia]) }}"
                                     class="btn btn-outline-secondary">Acompanhar

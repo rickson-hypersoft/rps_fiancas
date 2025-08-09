@@ -312,7 +312,6 @@
                     if (idProposta) {
                         url += `/${idProposta}`;
                     }
-                    console.log(url)
 
                     const response = await fetch(url, {
                         method: 'POST',
@@ -322,11 +321,7 @@
                         body: formData
                     });
 
-                    console.log(response)
-
                     const data = await response.json();
-
-                    console.log(data)
 
                     if (!response.ok) {
                         throw data;

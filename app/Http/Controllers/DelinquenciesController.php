@@ -47,27 +47,48 @@ class DelinquenciesController extends Controller
         return view('deliquencies.view', ['propostal' => $propostal, 'deliquencies' => [$deliquencies]]);
     }
 
-    public function create(string $step = 'step1')
+    public function create()
     {
+        $step = request()->route('step', 'step1');
+
         // Protege contra steps inválidos, se quiser
         if (! in_array($step, ['step1', 'step2', 'step3'])) {
             abort(404); // ou redirect()->route('delinquencies.index', 'step1');
         }
 
-        return view('deliquencies.create', ['step' => $step]);
+        return view('deliquencies.create', ['step' => $step, 'contrato_id' => request()->route('contrato_id'),
+            'idInadimplencia'                      => request()->route('id')]);
     }
 
-    public function storeStep1(Request $request)
+    public function storeStep1(Request $request, int $contrato_id)
     {
-        // Valida e salva os dados do passo 2...
+        $token         = session('jwt_token');
+        $idImobiliaria = session('user')['id_imobiliaria'];
 
-        return redirect()->route('delinquencies.create', 'step2');
+        $dataRequest = $request->validate([
+            'imovel_situacao' => 'required|string',
+        ]);
+        $dataRequest['contrato_id']    = $contrato_id;
+        $dataRequest['id_imobiliaria'] = $idImobiliaria;
+
+        $response = Http::withToken($token)->post(config('api.route') . '/delinquencies/', $dataRequest);
+        $data     = $response->json();
+
+        if (! $response->successful()) {
+            return redirect()->back()->withErrors($data['message'] ?? 'Erro ao salvar os dados.')->withInput();
+        }
+
+        $idInadimplencia = $data['id'];
+
+        // return redirect()->route('delinquencies.create', ['step' => 'step2'])
+        return redirect()->route('delinquencies.create', ['contrato_id' => $contrato_id, 'step' => 'step2', 'id' => $idInadimplencia]);
     }
 
-    public function storeStep2(Request $request)
+    public function storeStep2(Request $request, int $contrato_id, int $idInadimplencia)
     {
         // Valida e salva os dados do passo 3...
+        dd($request->all(), $contrato_id, $idInadimplencia);
 
-        return redirect()->route('delinquencies.create', 'step3');
+        return redirect()->route('delinquencies.create', ['contrato_id' => $contrato_id, 'step' => 'step3', 'id' => $idInadimplencia]);
     }
 }

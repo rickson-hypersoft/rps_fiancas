@@ -1,4 +1,5 @@
-<form action="{{ route('delinquencies.step3') }}" method="POST" class="needs-validation" novalidate>
+<form action="{{ route('delinquencies.storeStep2', ['contrato_id' => $contrato_id, 'id' => $idInadimplencia]) }}"
+    method="POST" class="needs-validation" novalidate>
     @csrf
     <!-- Account Details -->
     <div id="account-details" class="content active dstepper-block">
