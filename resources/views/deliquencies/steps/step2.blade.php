@@ -75,15 +75,17 @@
 
                         <!-- Aluguel -->
                         <div class="col-4 aluguel-field" style="display: none">
-                            <label for="valor_original" class="form-label">Valor original sem multa e juros*</label>
-                            <input required type="text" class="form-control" id="valor_original"
-                                placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
+                            <label for="valor_original_aluguel" class="form-label">Valor original sem multa e
+                                juros*</label>
+                            <input required type="text" class="form-control" id="valor_original_aluguel"
+                                name="valor_original_aluguel" placeholder="R$ 0,00"
+                                aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <div class="col-4 aluguel-field" style="display: none">
-                            <label for="vencimento_original" class="form-label">Vencimento original*</label>
-                            <input required type="date" class="form-control" id="vencimento_original"
-                                aria-describedby="defaultFormControlHelp" />
+                            <label for="vencimento_original_aluguel" class="form-label">Vencimento original*</label>
+                            <input required type="date" class="form-control" id="vencimento_original_aluguel"
+                                name="vencimento_original_aluguel" aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <div class="col-12 boletos-alugueis mb-4" style="display: none">
@@ -92,7 +94,7 @@
                                 <div class="col-md mb-md-0 mb-5">
                                     <div class="form-check custom-option custom-option-basic">
                                         <label class="form-check-label custom-option-content" for="customRadioTemp1">
-                                            <input name="customRadioTemp" class="form-check-input" type="radio"
+                                            <input name="maisBoletos" class="form-check-input" type="radio"
                                                 value="sim" id="customRadioTemp1" />
                                             <span class="custom-option-header">
                                                 <span class="h6 mb-0">Sim</span>
@@ -109,7 +111,7 @@
                                 <div class="col-md">
                                     <div class="form-check custom-option custom-option-basic">
                                         <label class="form-check-label custom-option-content" for="customRadioTemp2">
-                                            <input name="customRadioTemp" class="form-check-input" type="radio"
+                                            <input name="maisBoletos" class="form-check-input" type="radio"
                                                 value="não" id="customRadioTemp2" />
                                             <span class="custom-option-header">
                                                 <span class="h6 mb-0">Não</span>
@@ -217,13 +219,14 @@
                             <label for="valor_original_iptu" class="form-label">Valor original sem multa e
                                 juros*</label>
                             <input required type="text" class="form-control" id="valor_original_iptu"
-                                placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
+                                name="valor_original_iptu" placeholder="R$ 0,00"
+                                aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <div class="col-4 iptu-field" style="display: none">
                             <label for="vencimento_original_iptu" class="form-label">Vencimento original*</label>
                             <input required type="date" class="form-control" id="vencimento_original_iptu"
-                                aria-describedby="defaultFormControlHelp" />
+                                name="vencimento_original_iptu" aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <!-- Seguro -->
@@ -231,14 +234,15 @@
                             <label for="valor_original_seguro" class="form-label">Valor original sem multa e
                                 juros*</label>
                             <input required type="text" class="form-control" id="valor_original_seguro"
-                                placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
+                                name="valor_original_seguro" placeholder="R$ 0,00"
+                                aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <div class="col-4 seguro-field" style="display: none">
                             <label for="vencimento_original_seguro" class="form-label">Vencimento
                                 original*</label>
                             <input required type="date" class="form-control" id="vencimento_original_seguro"
-                                aria-describedby="defaultFormControlHelp" />
+                                name="vencimento_original_seguro" aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <!-- Água -->
@@ -246,13 +250,14 @@
                             <label for="valor_original_agua" class="form-label">Valor original sem multa e
                                 juros*</label>
                             <input required type="text" class="form-control" id="valor_original_agua"
-                                placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
+                                name="valor_original_agua" placeholder="R$ 0,00"
+                                aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <div class="col-4 agua-field" style="display: none">
                             <label for="vencimento_original_agua" class="form-label">Vencimento original*</label>
                             <input required type="date" class="form-control" id="vencimento_original_agua"
-                                aria-describedby="defaultFormControlHelp" />
+                                name="vencimento_original_agua" aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <!-- Luz -->
@@ -260,13 +265,14 @@
                             <label for="valor_original_luz" class="form-label">Valor original sem multa e
                                 juros*</label>
                             <input required type="text" class="form-control" id="valor_original_luz"
-                                placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
+                                name="valor_original_luz" placeholder="R$ 0,00"
+                                aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <div class="col-4 luz-field" style="display: none">
                             <label for="vencimento_original_luz" class="form-label">Vencimento original*</label>
                             <input required type="date" class="form-control" id="vencimento_original_luz"
-                                aria-describedby="defaultFormControlHelp" />
+                                name="vencimento_original_luz" aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <!-- Gás -->
@@ -274,13 +280,14 @@
                             <label for="valor_original_gas" class="form-label">Valor original sem multa e
                                 juros*</label>
                             <input required type="text" class="form-control" id="valor_original_gas"
-                                placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
+                                name="valor_original_gas" placeholder="R$ 0,00"
+                                aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <div class="col-4 gas-field" style="display: none">
                             <label for="vencimento_original_gas" class="form-label">Vencimento original*</label>
                             <input required type="date" class="form-control" id="vencimento_original_gas"
-                                aria-describedby="defaultFormControlHelp" />
+                                name="vencimento_original_gas" aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <!-- Seguro Incêndio -->
@@ -288,14 +295,16 @@
                             <label for="valor_original_seguro_incendio" class="form-label">Valor original sem multa e
                                 juros*</label>
                             <input required type="text" class="form-control" id="valor_original_seguro_incendio"
-                                placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
+                                name="valor_original_seguro_incendio" placeholder="R$ 0,00"
+                                aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <div class="col-4 seguro-incendio-field" style="display: none">
                             <label for="vencimento_original_seguro_incendio" class="form-label">Vencimento
                                 original*</label>
                             <input required type="date" class="form-control"
-                                id="vencimento_original_seguro_incendio" aria-describedby="defaultFormControlHelp" />
+                                id="vencimento_original_seguro_incendio" name="vencimento_original_seguro_incendio"
+                                aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <!-- Outros anexos -->

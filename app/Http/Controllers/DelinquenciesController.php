@@ -97,6 +97,10 @@ class DelinquenciesController extends Controller
 
         $dataInsert = [];
         switch ($request->all()['tipo_conta']) {
+            case 'Aluguel':
+                $dataInsert = $this->delinquenciesService->aluguel($request->all());
+
+                break;
             case 'Condomínio':
                 $dataInsert = $this->delinquenciesService->condominio($request->all());
 
@@ -127,7 +131,14 @@ class DelinquenciesController extends Controller
                 break;
         }
 
-        dd($dataInsert);
+        if (isset($request->all()['maisBoletos']) && $request->all()['maisBoletos'] == 'sim') {
+            $dataInsert['outrosBoletos'] = $this->delinquenciesService->maisBoletos($request->all());
+        }
+
+        $dataInsert['contrato_id'] = $contrato_id;
+
+        $response = Http::withToken($token)->put(config('api.route') . '/delinquencies/' . $idInadimplencia, $dataInsert);
+        $data     = $response->json();
 
         if ($request->hasFile('anexos')) {
             $file = $request->file('anexos');
@@ -142,18 +153,18 @@ class DelinquenciesController extends Controller
                     'nome_arquivo'   => $nomeOriginal,
                 ]);
 
-                if (! $verificaAnexo->ok() && ($verificaAnexo->json()['exists'] !== false)) {
+                if ($verificaAnexo->ok() && ($verificaAnexo->json()['exists'] == false)) {
                     $caminho   = "anexos/{$idImobiliaria}/inadimplencia/{$idInadimplencia}.{$ext}";
                     $nomeUnico = uniqid($idInadimplencia . '_') . '.' . $ext;
                     // Salva o arquivo localmente
-                    $file->storeAs("anexos/{$idImobiliaria}/propostas", $nomeUnico, 'public');
+                    $file->storeAs("anexos/{$idImobiliaria}/inadimplencia", $nomeUnico, 'public');
 
                     // Chamada para a API registrar o anexo no banco
-                    Http::withToken($token)->post(config('api.route') . '/attachment', [
+                    $data = Http::withToken($token)->post(config('api.route') . '/attachment', [
                         'id_imobiliaria'        => $idImobiliaria,
                         'id_movi'               => $idInadimplencia,
                         'movi'                  => 'inadimplencias',
-                        'movi_sub'              => null,
+                        'movi_sub'              => 'inadimplencias ' . $dataInsert['tipo_conta'],
                         'data'                  => now()->format('Y-m-d H:i:s'),
                         'nome_arquivo'          => $nomeUnico,
                         'nome_arquivo_original' => $nomeOriginal,
@@ -162,6 +173,8 @@ class DelinquenciesController extends Controller
                 }
             }
         }
+
+        $this->delinquenciesService->anexos($request->all(), $idImobiliaria, $idInadimplencia, $token);
 
         // return redirect()->route('delinquencies.create', ['contrato_id' => $contrato_id, 'step' => 'step3', 'id' => $idInadimplencia]);
     }
