@@ -4,11 +4,17 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
+use App\Services\Delinquencies\DelinquenciesService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class DelinquenciesController extends Controller
 {
+    public function __construct(
+        protected DelinquenciesService $delinquenciesService
+    ) {
+    }
+
     public function index(Request $request)
     {
         $queryParams = [
@@ -84,11 +90,79 @@ class DelinquenciesController extends Controller
         return redirect()->route('delinquencies.create', ['contrato_id' => $contrato_id, 'step' => 'step2', 'id' => $idInadimplencia]);
     }
 
-    public function storeStep2(Request $request, int $contrato_id, int $idInadimplencia)
+    public function storeStep2(Request $request, int $contrato_id, int $idInadimplencia): void
     {
-        // Valida e salva os dados do passo 3...
-        dd($request->all(), $contrato_id, $idInadimplencia);
+        $token         = session('jwt_token');
+        $idImobiliaria = session('user')['id_imobiliaria'];
 
-        return redirect()->route('delinquencies.create', ['contrato_id' => $contrato_id, 'step' => 'step3', 'id' => $idInadimplencia]);
+        $dataInsert = [];
+        switch ($request->all()['tipo_conta']) {
+            case 'Condomínio':
+                $dataInsert = $this->delinquenciesService->condominio($request->all());
+
+                break;
+            case 'IPTU':
+                $dataInsert = $this->delinquenciesService->iptu($request->all());
+
+                break;
+            case 'Seguro':
+                $dataInsert = $this->delinquenciesService->seguro($request->all());
+
+                break;
+            case 'Água':
+                $dataInsert = $this->delinquenciesService->agua($request->all());
+
+                break;
+            case 'Luz':
+                $dataInsert = $this->delinquenciesService->luz($request->all());
+
+                break;
+            case 'Gás':
+                $dataInsert = $this->delinquenciesService->gas($request->all());
+
+                break;
+            case 'Seguro incêndio':
+                $dataInsert = $this->delinquenciesService->seguroIncendio($request->all());
+
+                break;
+        }
+
+        dd($dataInsert);
+
+        if ($request->hasFile('anexos')) {
+            $file = $request->file('anexos');
+
+            if ($file->isValid()) {
+                $ext          = $file->getClientOriginalExtension();
+                $nomeOriginal = $file->getClientOriginalName();
+
+                $verificaAnexo = Http::withToken($token)->get(config('api.route') . '/attachment/exists', [
+                    'id_imobiliaria' => $idImobiliaria,
+                    'id_movi'        => $idInadimplencia,
+                    'nome_arquivo'   => $nomeOriginal,
+                ]);
+
+                if (! $verificaAnexo->ok() && ($verificaAnexo->json()['exists'] !== false)) {
+                    $caminho   = "anexos/{$idImobiliaria}/inadimplencia/{$idInadimplencia}.{$ext}";
+                    $nomeUnico = uniqid($idInadimplencia . '_') . '.' . $ext;
+                    // Salva o arquivo localmente
+                    $file->storeAs("anexos/{$idImobiliaria}/propostas", $nomeUnico, 'public');
+
+                    // Chamada para a API registrar o anexo no banco
+                    Http::withToken($token)->post(config('api.route') . '/attachment', [
+                        'id_imobiliaria'        => $idImobiliaria,
+                        'id_movi'               => $idInadimplencia,
+                        'movi'                  => 'inadimplencias',
+                        'movi_sub'              => null,
+                        'data'                  => now()->format('Y-m-d H:i:s'),
+                        'nome_arquivo'          => $nomeUnico,
+                        'nome_arquivo_original' => $nomeOriginal,
+                        'descricao'             => 'Arquivo anexado à Inadimplência',
+                    ]);
+                }
+            }
+        }
+
+        // return redirect()->route('delinquencies.create', ['contrato_id' => $contrato_id, 'step' => 'step3', 'id' => $idInadimplencia]);
     }
 }
