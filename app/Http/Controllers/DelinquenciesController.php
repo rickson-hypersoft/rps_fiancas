@@ -55,15 +55,39 @@ class DelinquenciesController extends Controller
 
     public function create()
     {
-        $step = request()->route('step', 'step1');
+        $step            = request()->route('step', 'step1');
+        $idInadimplencia = request()->route('id');
 
         // Protege contra steps inválidos, se quiser
         if (! in_array($step, ['step1', 'step2', 'step3'])) {
             abort(404); // ou redirect()->route('delinquencies.index', 'step1');
         }
 
-        return view('deliquencies.create', ['step' => $step, 'contrato_id' => request()->route('contrato_id'),
-            'idInadimplencia'                      => request()->route('id')]);
+        if ($step == 'step3') {
+            $user     = session('user');
+            $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_account/' . $user['id_imobiliaria'], [
+                'type'   => 'Conta Bancária',
+                'active' => 1,
+            ]);
+            $data = $response->json();
+
+            $deliquencies = Http::withToken(session('jwt_token'))->get(config('api.route') . '/delinquencies/delinquencie/' . $idInadimplencia);
+            $deliquencies = $deliquencies->json();
+
+            return view('deliquencies.create', [
+                'step'            => $step,
+                'contrato_id'     => request()->route('contrato_id'),
+                'idInadimplencia' => request()->route('id'),
+                'contas'          => $data['data'],
+                'delinquencie'    => $deliquencies['delinquencies'],
+            ]);
+        }
+
+        return view('deliquencies.create', [
+            'step'            => $step,
+            'contrato_id'     => request()->route('contrato_id'),
+            'idInadimplencia' => request()->route('id'),
+        ]);
     }
 
     public function storeStep1(Request $request, int $contrato_id)

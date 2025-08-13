@@ -27,21 +27,41 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md mb-md-0 mb-5">
+                            <label for="contas" class="form-label">Selecionar Conta</label>
+                            <select class="form-select" id="contas" aria-label="Default select example">
+                                <option value="">Selecione uma conta</option>
+                                @foreach ($contas as $conta)
+                                    <option value="{{ $conta['id'] }}"
+                                        data-beneficiario="{{ $conta['banco_titular'] }}"
+                                        data-cnpj-cpf="{{ $conta['banco_cnpj'] }}"
+                                        data-banco="{{ $conta['descricao'] }}"
+                                        data-agencia="{{ $conta['banco_agencia'] }}"
+                                        data-conta="{{ $conta['banco_conta'] }}">
+                                        {{ $conta['descricao'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="card-conta" class="card-body d-none mt-4">
+                    <div class="row">
+                        <div class="col-md mb-md-0 mb-5">
                             <div class="form-check custom-option custom-option-basic">
                                 <label class="form-check-label custom-option-content" for="customRadioTemp1">
                                     <input name="customRadioTemp" class="form-check-input" type="radio" value=""
                                         id="customRadioTemp1" checked="" />
                                     <span class="custom-option-header">
-                                        <span class="h6 mb-0">TED</span> <span
-                                            class="badge bg-label-success me-4 rounded p-2">Recomendado</span>
+                                        <span class="h6 mb-0">TED</span>
+                                        <span class="badge bg-label-success me-4 rounded p-2">Recomendado</span>
                                     </span>
                                     <span class="custom-option-body">
-                                        <small>Beneficiário: </small> <br>
-                                        <small>CNPJ/CPF: </small> <br>
-                                        <small>Banco: </small> <br>
-                                        <small>Agência: </small> <br>
-                                        <small>Conta: </small> <br>
-                                        <small>Tipo de Conta: </small>
+                                        <small>Beneficiário: <span id="beneficiario"></span></small> <br>
+                                        <small>CNPJ/CPF: <span id="cnpj-cpf"></span></small> <br>
+                                        <small>Banco: <span id="banco"></span></small> <br>
+                                        <small>Agência: <span id="agencia"></span></small> <br>
+                                        <small>Conta: <span id="conta"></span></small> <br>
                                     </span>
                                 </label>
                             </div>
@@ -58,7 +78,7 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row mb-2">
                         <div class="col-md mb-md-0 mb-5">
                             <div class="card">
                                 <table class="table-sm table-borderless table-striped table-hover table"
@@ -73,34 +93,56 @@
                                     <tbody>
                                         <tr>
                                             <td>Valores comunicados</td>
-                                            <td>R$ 3.000,00</td>
+                                            <td>R$ {{ number_format($delinquencie['valor_original'], 2, ',', '.') }}
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
 
-                        <div class="col-12">
-                            <label for="">Observações</label>
-                            <textarea name="" id="" cols="30" rows="10"></textarea>
+                        <div class="col-12 mt-4">
+                            <div>
+                                <label for="observacao" class="form-label">Observações</label>
+                                <textarea disabled class="form-control" id="observacao" rows="3">
+                                    {{ $delinquencie['observacao'] }}
+                                </textarea>
+                            </div>
+
                         </div>
 
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingOne">
-                                <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
-                                    data-bs-target="#accordionOne" aria-expanded="false" aria-controls="accordionOne">
+                        <div class="accordion-item mt-5">
+                            <h1 class="" id="headingOne">
+                                <button type="button" class="accordion-button collapsed bg-light"
+                                    data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="false"
+                                    aria-controls="accordionOne">
                                     Todos anexos
                                 </button>
-                            </h2>
+                            </h1>
 
                             <div id="accordionOne" class="accordion-collapse collapse"
                                 data-bs-parent="#accordionExample" style="">
                                 <div class="accordion-body">
-                                    Lemon drops chocolate cake gummies carrot cake chupa chups muffin topping. Sesame
-                                    snaps icing
-                                    marzipan gummi bears macaroon dragée danish caramels powder. Bear claw dragée pastry
-                                    topping
-                                    soufflé. Wafer gummi bears marshmallow pastry pie.
+                                    <table class="table-sm table-borderless table-striped table-hover m-0 table p-0"
+                                        style="font-size: 18px;">
+                                        <thead>
+                                            <tr>
+                                                <th>Tipo da conta</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <td>Aluguel</td>
+                                                <td>
+                                                    <a href="">
+                                                        <i class="ti tabler-file-type-pdf"></i> Anexo
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -117,3 +159,36 @@
         </div>
     </div>
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectContas = document.getElementById('contas');
+        const cardConta = document.getElementById('card-conta');
+
+        // Elementos do card para preencher
+        const beneficiarioSpan = document.getElementById('beneficiario');
+        const cnpjCpfSpan = document.getElementById('cnpj-cpf');
+        const bancoSpan = document.getElementById('banco');
+        const agenciaSpan = document.getElementById('agencia');
+        const contaSpan = document.getElementById('conta');
+
+        selectContas.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+
+            if (selectedOption.value !== "") {
+                // Remove a classe d-none para exibir o card
+                cardConta.classList.remove('d-none');
+
+                // Preenche os spans com os dados dos atributos data-*
+                beneficiarioSpan.textContent = selectedOption.dataset.beneficiario;
+                cnpjCpfSpan.textContent = selectedOption.dataset.cnpjCpf;
+                bancoSpan.textContent = selectedOption.dataset.banco;
+                agenciaSpan.textContent = selectedOption.dataset.agencia;
+                contaSpan.textContent = selectedOption.dataset.conta;
+            } else {
+                // Oculta o card se a opção "Selecione uma conta" for escolhida
+                cardConta.classList.add('d-none');
+            }
+        });
+    });
+</script>
