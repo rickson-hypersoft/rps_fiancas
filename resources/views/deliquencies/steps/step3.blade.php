@@ -61,14 +61,48 @@
                     <div class="row">
                         <div class="col-md mb-md-0 mb-5">
                             <div class="card">
-                                <small>Tipo</small>
-                                <h3>R$ 3.000,00</h3>
-                                <small>Valor</small>
-                                <h3>Valores comunicados</h3>
+                                <table class="table-sm table-borderless table-striped table-hover table"
+                                    style="font-size: 18px;">
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo</td>
+                                            <th>Valor</th>
+                                            </th>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>Valores comunicados</td>
+                                            <td>R$ 3.000,00</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
                         <div class="col-12">
+                            <label for="">Observações</label>
+                            <textarea name="" id="" cols="30" rows="10"></textarea>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
+                                    data-bs-target="#accordionOne" aria-expanded="false" aria-controls="accordionOne">
+                                    Todos anexos
+                                </button>
+                            </h2>
+
+                            <div id="accordionOne" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample" style="">
+                                <div class="accordion-body">
+                                    Lemon drops chocolate cake gummies carrot cake chupa chups muffin topping. Sesame
+                                    snaps icing
+                                    marzipan gummi bears macaroon dragée danish caramels powder. Bear claw dragée pastry
+                                    topping
+                                    soufflé. Wafer gummi bears marshmallow pastry pie.
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

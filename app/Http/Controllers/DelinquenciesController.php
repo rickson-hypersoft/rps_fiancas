@@ -90,7 +90,7 @@ class DelinquenciesController extends Controller
         return redirect()->route('delinquencies.create', ['contrato_id' => $contrato_id, 'step' => 'step2', 'id' => $idInadimplencia]);
     }
 
-    public function storeStep2(Request $request, int $contrato_id, int $idInadimplencia): void
+    public function storeStep2(Request $request, int $contrato_id, int $idInadimplencia)
     {
         $token         = session('jwt_token');
         $idImobiliaria = session('user')['id_imobiliaria'];
@@ -176,6 +176,6 @@ class DelinquenciesController extends Controller
 
         $this->delinquenciesService->anexos($request->all(), $idImobiliaria, $idInadimplencia, $token);
 
-        // return redirect()->route('delinquencies.create', ['contrato_id' => $contrato_id, 'step' => 'step3', 'id' => $idInadimplencia]);
+        return redirect()->route('delinquencies.create', ['contrato_id' => $contrato_id, 'step' => 'step3', 'id' => $idInadimplencia]);
     }
 }

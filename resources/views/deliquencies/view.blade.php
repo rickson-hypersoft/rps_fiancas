@@ -55,6 +55,25 @@
                                     @foreach ($deliquencies[0] as $delinquencie)
                                         @php
                                             $offcanvasId = 'offcanvas-' . $delinquencie['id'];
+
+                                            $statusBadge = '';
+                                            switch ($delinquencie['status']) {
+                                                case 'Pendência Cancelada':
+                                                    $statusBadge = 'danger';
+                                                    break;
+                                                case 'Acordo':
+                                                    $statusBadge = 'success';
+                                                    break;
+                                                case 'Pendência Negada':
+                                                    $statusBadge = 'dark';
+                                                    break;
+                                                case 'Pendência Aberta':
+                                                    $statusBadge = 'warning';
+                                                    break;
+                                                default:
+                                                    $statusBadge = 'secondary';
+                                                    break;
+                                            }
                                         @endphp
                                         <tr>
                                             <td>
@@ -65,7 +84,9 @@
                                                     {{ $delinquencie['id'] }}
                                                 </button>
                                             </td>
-                                            <td>{{ $delinquencie['status'] }}</td>
+                                            <td class="d-none d-lg-table-cell"><span
+                                                    class="badge bg-label-{{ $statusBadge }} rounded">{{ $delinquencie['status'] }}</span>
+                                            </td>
                                             <td>
                                                 R$ {{ number_format($delinquencie['valor_original'], 2, ',', '.') }}
                                             </td>

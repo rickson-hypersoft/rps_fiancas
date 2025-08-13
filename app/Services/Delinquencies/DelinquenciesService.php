@@ -88,7 +88,7 @@ class DelinquenciesService
             'gas',
             'iptu',
             'seguro',
-            'seguro_incendio'
+            'seguro_incendio',
         ];
 
         $maisBoletos = [];
@@ -124,51 +124,51 @@ class DelinquenciesService
         }
     }
 
-    private function processarAnexo($request, string $campo, string $descricao, $idImobiliaria, $idInadimplencia, $token): void
-{
-    // Se $request for array
-    if (is_array($request)) {
-        if (empty($request[$campo])) {
+    private function processarAnexo($request, string $campo, string $descricao, $idImobiliaria, string $idInadimplencia, $token): void
+    {
+        // Se $request for array
+        if (is_array($request)) {
+            if (empty($request[$campo])) {
+                return;
+            }
+            $file = $request[$campo];
+        } else {
+            // Se for um Request
+            if (! $request->hasFile($campo)) {
+                return;
+            }
+            $file = $request->file($campo);
+        }
+
+        if (! $file || ! $file->isValid()) {
             return;
         }
-        $file = $request[$campo];
-    } else {
-        // Se for um Request
-        if (! $request->hasFile($campo)) {
-            return;
-        }
-        $file = $request->file($campo);
-    }
 
-    if (! $file || ! $file->isValid()) {
-        return;
-    }
+        $ext          = $file->getClientOriginalExtension();
+        $nomeOriginal = $file->getClientOriginalName();
 
-    $ext          = $file->getClientOriginalExtension();
-    $nomeOriginal = $file->getClientOriginalName();
-
-    $verificaAnexo = Http::withToken($token)->get(config('api.route') . '/attachment/exists', [
-        'id_imobiliaria' => $idImobiliaria,
-        'id_movi'        => $idInadimplencia,
-        'nome_arquivo'   => $nomeOriginal,
-    ]);
-
-    // Aqui ajustei a lógica para "adicionar quando não existir"
-    if ($verificaAnexo->ok() && $verificaAnexo->json()['exists'] === false) {
-        $nomeUnico = uniqid($idInadimplencia . '_') . '.' . $ext;
-
-        $file->storeAs("anexos/{$idImobiliaria}/inadimplencia", $nomeUnico, 'public');
-
-        Http::withToken($token)->post(config('api.route') . '/attachment', [
-            'id_imobiliaria'        => $idImobiliaria,
-            'id_movi'               => $idInadimplencia,
-            'movi'                  => 'inadimplencias',
-            'movi_sub'              => $descricao,
-            'data'                  => now()->format('Y-m-d H:i:s'),
-            'nome_arquivo'          => $nomeUnico,
-            'nome_arquivo_original' => $nomeOriginal,
-            'descricao'             => "Arquivo anexado à {$descricao}",
+        $verificaAnexo = Http::withToken($token)->get(config('api.route') . '/attachment/exists', [
+            'id_imobiliaria' => $idImobiliaria,
+            'id_movi'        => $idInadimplencia,
+            'nome_arquivo'   => $nomeOriginal,
         ]);
+
+        // Aqui ajustei a lógica para "adicionar quando não existir"
+        if ($verificaAnexo->ok() && $verificaAnexo->json()['exists'] === false) {
+            $nomeUnico = uniqid($idInadimplencia . '_') . '.' . $ext;
+
+            $file->storeAs("anexos/{$idImobiliaria}/inadimplencia", $nomeUnico, 'public');
+
+            Http::withToken($token)->post(config('api.route') . '/attachment', [
+                'id_imobiliaria'        => $idImobiliaria,
+                'id_movi'               => $idInadimplencia,
+                'movi'                  => 'inadimplencias',
+                'movi_sub'              => $descricao,
+                'data'                  => now()->format('Y-m-d H:i:s'),
+                'nome_arquivo'          => $nomeUnico,
+                'nome_arquivo_original' => $nomeOriginal,
+                'descricao'             => "Arquivo anexado à {$descricao}",
+            ]);
+        }
     }
-}
 }

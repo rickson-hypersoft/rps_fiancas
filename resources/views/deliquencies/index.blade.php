@@ -123,7 +123,29 @@
                                             <td><a
                                                     href="{{ route('assets.asset', ['id' => $item['contrato_id']]) }}">{{ $item['contrato_id'] }}</a>
                                             </td>
-                                            <td class="d-none d-lg-table-cell">{{ $item['status'] }}</td>
+                                            @php
+                                                $statusBadge = '';
+                                                switch ($item['status']) {
+                                                    case 'Pendência Cancelada':
+                                                        $statusBadge = 'danger';
+                                                        break;
+                                                    case 'Acordo':
+                                                        $statusBadge = 'success';
+                                                        break;
+                                                    case 'Pendência Negada':
+                                                        $statusBadge = 'dark';
+                                                        break;
+                                                    case 'Pendência Aberta':
+                                                        $statusBadge = 'warning';
+                                                        break;
+                                                    default:
+                                                        $statusBadge = 'secondary';
+                                                        break;
+                                                }
+                                            @endphp
+                                            <td class="d-none d-lg-table-cell"><span
+                                                    class="badge bg-label-{{ $statusBadge }} rounded">{{ $item['status'] }}</span>
+                                            </td>
                                             <td class="d-none d-xl-table-cell">
                                                 {{ \Carbon\Carbon::parse($item['vencimento_original'])->format('d/m/Y') }}
                                             </td>
