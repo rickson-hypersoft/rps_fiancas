@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Services\Delinquencies\DelinquenciesService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class DelinquenciesController extends Controller
 {
@@ -74,12 +75,19 @@ class DelinquenciesController extends Controller
             $deliquencies = Http::withToken(session('jwt_token'))->get(config('api.route') . '/delinquencies/delinquencie/' . $idInadimplencia);
             $deliquencies = $deliquencies->json();
 
+            $anexosResponse = Http::withToken(session('jwt_token'))->get(config('api.route') . '/attachment', [
+                'id_imobiliaria' => session('user')['id_imobiliaria'],
+                'id_movi'        => $idInadimplencia,
+            ]);
+            $anexos = $anexosResponse->json();
+
             return view('deliquencies.create', [
                 'step'            => $step,
                 'contrato_id'     => request()->route('contrato_id'),
                 'idInadimplencia' => request()->route('id'),
                 'contas'          => $data['data'],
                 'delinquencie'    => $deliquencies['delinquencies'],
+                'anexos'          => $anexos,
             ]);
         }
 
@@ -201,5 +209,34 @@ class DelinquenciesController extends Controller
         $this->delinquenciesService->anexos($request->all(), $idImobiliaria, $idInadimplencia, $token);
 
         return redirect()->route('delinquencies.create', ['contrato_id' => $contrato_id, 'step' => 'step3', 'id' => $idInadimplencia]);
+    }
+
+    public function baixarAnexo(string $idInadimplencia, string $tipo)
+    {
+        $idImobiliaria = session('user')['id_imobiliaria'];
+
+        // Buscar nome do arquivo no banco
+        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/search/attachment', [
+            'id_imobiliaria' => $idImobiliaria,
+            'id_movi'        => $idInadimplencia,
+            'movi'           => 'inadimplencias',
+            'movi_sub'       => 'inadimplencias ' . $tipo,
+        ]);
+
+        if (! $response->ok() || empty($response->json())) {
+            abort(404, 'Arquivo não encontrado');
+        }
+
+        $nomeArquivo = $response->json()[0]['NOME_ARQUIVO'] ?? null;
+
+        $caminho = "anexos/{$idImobiliaria}/inadimplencia/{$nomeArquivo}";
+
+        if (! Storage::disk('public')->exists($caminho)) {
+            abort(404, 'Arquivo não encontrado no storage');
+        }
+
+        return response()->file(storage_path("app/public/{$caminho}"), [
+            'Content-Disposition' => 'inline; filename="' . $nomeArquivo . '"',
+        ]);
     }
 }

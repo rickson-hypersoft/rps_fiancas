@@ -256,6 +256,7 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         Route::post('/criar/{contrato_id}', [DelinquenciesController::class, 'storeStep1'])->name('delinquencies.store')->middleware('check.permission:4');
         Route::post('/{contrato_id}/{id}', [DelinquenciesController::class, 'storeStep2'])->name('delinquencies.storeStep2')->middleware('check.permission:4');
 
+        Route::get('/anexos/baixar/{id}/{tipo}', [DelinquenciesController::class, 'baixarAnexo']);
         // Route::post('/criar', [DelinquenciesController::class, 'storeStep1'])->name('delinquencies.step2')->middleware('check.permission:4');
         // ;
         // Route::post('/atualizar', [DelinquenciesController::class, 'storeStep2'])->name('delinquencies.step3')->middleware('check.permission:4');

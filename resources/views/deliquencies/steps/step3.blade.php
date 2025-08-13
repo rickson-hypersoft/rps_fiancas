@@ -133,14 +133,19 @@
                                         </thead>
 
                                         <tbody>
-                                            <tr>
-                                                <td>Aluguel</td>
-                                                <td>
-                                                    <a href="">
-                                                        <i class="ti tabler-file-type-pdf"></i> Anexo
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            @foreach ($anexos as $anexo)
+                                                <tr>
+                                                    <td>{{ $anexo['movi_sub'] }}</td>
+                                                    <td>
+                                                        <a href="#" class="btn-download-anexo text-secondary"
+                                                            data-tipo="{{ $delinquencie['tipo_conta'] }}"
+                                                            data-id="{{ $delinquencie['id'] }}">
+                                                            <i class="ti tabler-file-type-pdf"></i> Baixar
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -161,6 +166,25 @@
 </form>
 
 <script>
+    document.querySelectorAll('.btn-download-anexo').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const tipo = this.dataset.tipo;
+            const idContrato = this.dataset.id;
+
+            console.log(tipo, idContrato);
+
+            fetch(`/inadimplencias/anexos/baixar/${idContrato}/${tipo}`)
+                .then(res => {
+                    if (!res.ok) throw new Error('Erro ao abrir o anexo');
+                    window.open(`/inadimplencias/anexos/baixar/${idContrato}/${tipo}`, '_blank');
+                })
+                .catch(error => {
+                    Swal.fire('Erro', 'Arquivo não encontrado.', 'error');
+                });
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         const selectContas = document.getElementById('contas');
         const cardConta = document.getElementById('card-conta');
