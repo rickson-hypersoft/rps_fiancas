@@ -10,6 +10,29 @@
                     </div>
                 @endif
 
+                @if (isset($inadimplencia) && count($inadimplencia) > 0)
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Acessa o primeiro item do array de inadimplências
+                            const inadimplencia = @json($inadimplencia);
+
+                            // Formata a data
+                            const vencimentoOriginal = new Date(inadimplencia.vencimento_original).toLocaleDateString('pt-BR');
+
+                            Swal.fire({
+                                title: 'Solicitação concluída.',
+                                html: `
+                        <p>Inadimplência no valor <strong>R$ ${inadimplencia.valor_original}</strong> com data de vencimento <strong>${vencimentoOriginal}</strong>
+                        e forme de pagamento <strong>${inadimplencia.forma_pagamento}</strong> aberta</p>
+                        <p>Sua solicitação será analisada nos próximos 5 dias úteis.</p>
+                    `,
+                                icon: 'successs',
+                                confirmButtonText: 'Concluído'
+                            });
+                        });
+                    </script>
+                @endif
+
                 @if ($possuiInadimplencia !== 0)
                     <div class="alert alert-danger alert-dismissible" role="alert">
                         <div class="d-flex">

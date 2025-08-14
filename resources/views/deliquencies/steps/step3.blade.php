@@ -1,4 +1,6 @@
-<form action="" method="POST" class="needs-validation" novalidate>
+<form action="{{ route('delinquencies.storeStep3', ['contrato_id' => $contrato_id, 'id' => $idInadimplencia]) }}"
+    method="POST" class="needs-validation" novalidate>
+    @csrf
     <!-- Account Details -->
     <div id="account-details" class="content active dstepper-block">
         <div class="content-header bg-light mb-4 p-3" style="border-radius: 0.5rem">
@@ -28,7 +30,8 @@
                     <div class="row">
                         <div class="col-md mb-md-0 mb-5">
                             <label for="contas" class="form-label">Selecionar Conta</label>
-                            <select class="form-select" id="contas" aria-label="Default select example">
+                            <select class="form-select" id="contas" name="conta_bancaria_id"
+                                aria-label="Default select example">
                                 <option value="">Selecione uma conta</option>
                                 @foreach ($contas as $conta)
                                     <option value="{{ $conta['id'] }}"
@@ -49,9 +52,9 @@
                     <div class="row">
                         <div class="col-md mb-md-0 mb-5">
                             <div class="form-check custom-option custom-option-basic">
-                                <label class="form-check-label custom-option-content" for="customRadioTemp1">
-                                    <input name="customRadioTemp" class="form-check-input" type="radio" value=""
-                                        id="customRadioTemp1" checked="" />
+                                <label class="form-check-label custom-option-content" for="ted">
+                                    <input name="ted" class="form-check-input" type="radio" value="TED"
+                                        id="ted" checked="" />
                                     <span class="custom-option-header">
                                         <span class="h6 mb-0">TED</span>
                                         <span class="badge bg-label-success me-4 rounded p-2">Recomendado</span>
@@ -157,7 +160,7 @@
 
             <div class="col-12 d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary btn-next waves-effect waves-light">
-                    <span class="d-sm-inline-block d-none me-sm-2 align-middle">Próximo</span>
+                    <span class="d-sm-inline-block d-none me-sm-2 align-middle">Enviar</span>
                     <i class="icon-base ti tabler-arrow-right icon-xs"></i>
                 </button>
             </div>

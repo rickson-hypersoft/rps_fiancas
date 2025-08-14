@@ -124,7 +124,7 @@ class DelinquenciesService
         }
     }
 
-    private function processarAnexo($request, string $campo, string $descricao, $idImobiliaria, $idInadimplencia, $token): void
+    private function processarAnexo($request, string $campo, string $descricao, $idImobiliaria, string $idInadimplencia, $token): void
     {
         // Se $request for array
         if (is_array($request)) {

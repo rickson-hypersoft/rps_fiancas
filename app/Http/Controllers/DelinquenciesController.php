@@ -211,6 +211,22 @@ class DelinquenciesController extends Controller
         return redirect()->route('delinquencies.create', ['contrato_id' => $contrato_id, 'step' => 'step3', 'id' => $idInadimplencia]);
     }
 
+    public function storeStep3(Request $request, int $contrato_id, int $idInadimplencia)
+    {
+        $token = session('jwt_token');
+
+        $dataInsert = [
+            'conta_bancaria_id'  => $request->all()['conta_bancaria_id'],
+            'tipo_inadimplencia' => 'Simples',
+            'forma_pagamento'    => $request->all()['ted'],
+        ];
+
+        $response = Http::withToken($token)->put(config('api.route') . '/delinquencies/' . $idInadimplencia, $dataInsert);
+        $data = $response->json();
+
+        return redirect()->route('assets.asset', ['id' => $contrato_id, 'inadimplencia' => $idInadimplencia]);
+    }
+
     public function baixarAnexo(string $idInadimplencia, string $tipo)
     {
         $idImobiliaria = session('user')['id_imobiliaria'];
@@ -238,5 +254,12 @@ class DelinquenciesController extends Controller
         return response()->file(storage_path("app/public/{$caminho}"), [
             'Content-Disposition' => 'inline; filename="' . $nomeArquivo . '"',
         ]);
+    }
+
+    public function delete($id, $contrato_id) {
+        $response = Http::withToken(session('jwt_token'))->delete(config('api.route') . '/delinquencies/' . $id);
+        $data = $response->json();
+
+        return redirect()->route('assets.asset', ['id' => $contrato_id, 'inadimplencia' => $id]);
     }
 }

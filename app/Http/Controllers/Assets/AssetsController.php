@@ -92,11 +92,33 @@ class AssetsController extends Controller
 
         $inadimplenciaId = 0;
 
+        $inadimplencia = request()->route('inadimplencia');
+
         if (! empty($data['inadimplencia'])) {
             $inadimplenciaId = $data['inadimplencia'][0]['id'];
         }
 
-        return view('assets.asset', ['data' => $data['data'], 'histories' => $dataHistory['data'], 'possuiInadimplencia' => $inadimplenciaId]);
+        if ($inadimplencia !== null && $inadimplencia !== 0) {
+            $delinquenciesResponse = Http::withToken(session('jwt_token'))->get(config('api.route') . '/delinquencies/delinquencie/' . $inadimplencia);
+            $delinquencies         = $delinquenciesResponse->json();
+
+            // Verifique se a requisição foi bem-sucedida e se há dados
+            if ($delinquenciesResponse->successful() && ! empty($delinquencies['delinquencies'])) {
+                return view('assets.asset', [
+                    'data'                => $data['data'],
+                    'histories'           => $dataHistory['data'],
+                    'possuiInadimplencia' => $inadimplenciaId,
+                    'inadimplencia'       => $delinquencies['delinquencies'],
+                ]);
+            }
+        }
+
+        return view('assets.asset', [
+            'data'                => $data['data'],
+            'histories'           => $dataHistory['data'],
+            'possuiInadimplencia' => $inadimplenciaId ,
+            'inadimplencia'       => null,
+        ]);
     }
 
     public function edit(string $idContrato): View
