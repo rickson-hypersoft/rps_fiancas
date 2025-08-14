@@ -131,8 +131,12 @@
                                                         <h3>Código da Inadimplência: {{ $delinquencie['id'] }}</h3>
 
                                                         <div class="d-flex gap-2">
-                                                            <button class="btn btn-outline-secondary">Cancelar
-                                                                inadimplêmcia</button>
+                                                            @if ($delinquencie['status'] !== 'Pendência Cancelada' && $delinquencie['status'] !== 'Pendência Negada')
+                                                                <a href="{{ route('delinquencies.delete', $delinquencie['id']) }}"
+                                                                    class="btn btn-outline-secondary">
+                                                                    Cancelar inadimplência
+                                                                </a>
+                                                            @endif
                                                             <button class="btn btn-outline-secondary">Alterar forma de
                                                                 pagamento</button>
                                                         </div>
@@ -144,8 +148,9 @@
                                                         <li class="nav-item" role="presentation">
                                                             <button type="button" class="nav-link waves-effect active"
                                                                 role="tab" data-bs-toggle="tab"
-                                                                data-bs-target="#navs-top-home"
-                                                                aria-controls="navs-top-home" aria-selected="true">
+                                                                data-bs-target="#navs-top-home-{{ $delinquencie['id'] }}"
+                                                                aria-controls="navs-top-home-{{ $delinquencie['id'] }}"
+                                                                aria-selected="true">
                                                                 Detalhes
                                                             </button>
                                                         </li>
@@ -169,8 +174,8 @@
                                                         </li>
                                                     </ul>
                                                     <div class="tab-content">
-                                                        <div class="tab-pane fade active show" id="navs-top-home"
-                                                            role="tabpanel">
+                                                        <div class="tab-pane fade active show"
+                                                            id="navs-top-home-{{ $delinquencie['id'] }}" role="tabpanel">
                                                             <div class="row">
                                                                 <div class="col-sm-4 col-12 card-header border py-2">
                                                                     <span>Data da comunicação</span>

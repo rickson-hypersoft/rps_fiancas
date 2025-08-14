@@ -77,7 +77,8 @@ class AssetsController extends Controller
 
     public function find(string $idContrato): View
     {
-        $token = session('jwt_token');
+        $inadimplencia = request()->route('inadimplencia');
+        $token         = session('jwt_token');
 
         $response = Http::withToken($token)->get(config('api.route') . '/assets/' . session('user')['id_imobiliaria'] . '/' . $idContrato);
         $data     = $response->json();
@@ -91,8 +92,6 @@ class AssetsController extends Controller
         $data['data']['prox_renovacao']    = $dateConvert->format('d/m/Y');
 
         $inadimplenciaId = 0;
-
-        $inadimplencia = request()->route('inadimplencia');
 
         if (! empty($data['inadimplencia'])) {
             $inadimplenciaId = $data['inadimplencia'][0]['id'];

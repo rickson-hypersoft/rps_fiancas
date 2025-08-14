@@ -106,7 +106,7 @@ class DelinquenciesService
         return $maisBoletos;
     }
 
-    public function anexos($request, $idImobiliaria, $idInadimplencia, $token): void
+    public function anexos($request, $idImobiliaria, string $idInadimplencia, $token): void
     {
         $tipos = [
             'anexos-agua'            => 'Inadimplência Água',

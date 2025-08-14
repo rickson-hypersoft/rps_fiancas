@@ -222,7 +222,7 @@ class DelinquenciesController extends Controller
         ];
 
         $response = Http::withToken($token)->put(config('api.route') . '/delinquencies/' . $idInadimplencia, $dataInsert);
-        $data = $response->json();
+        $response->json();
 
         return redirect()->route('assets.asset', ['id' => $contrato_id, 'inadimplencia' => $idInadimplencia]);
     }
@@ -256,10 +256,20 @@ class DelinquenciesController extends Controller
         ]);
     }
 
-    public function delete($id, $contrato_id) {
-        $response = Http::withToken(session('jwt_token'))->delete(config('api.route') . '/delinquencies/' . $id);
-        $data = $response->json();
+    public function delete(string $id)
+    {
+        $response = Http::withToken(session('jwt_token'))
+            ->delete(config('api.route') . '/delinquencies/' . $id);
+        $response->json();
 
-        return redirect()->route('assets.asset', ['id' => $contrato_id, 'inadimplencia' => $id]);
+        if ($response->successful()) {
+            return redirect()
+                ->route('delinquencies.view', ['id' => $id])
+                ->with('success', "Inadimplência $id cancelada com sucesso!");
+        }
+
+        return redirect()
+            ->route('delinquencies.view', ['id' => $id])
+            ->with('error', 'Não foi possível cancelar a inadimplência $id.');
     }
 }
