@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Http\Controllers;
 
 use App\Services\Delinquencies\DelinquenciesService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -38,6 +39,16 @@ class DelinquenciesController extends Controller
 
         return view('deliquencies.index', ['data' => $data['data'], 'pagination' => $data['meta'],
             'links'                               => $data['links'], ]);
+    }
+
+    public function exportarRelatorio(Request $request)
+    {
+        return $this->delinquenciesService->export($request);
+    }
+
+    public function exportarExtratoFinanceiro(Request $request)
+    {
+        return $this->delinquenciesService->exportarExtratoFinanceiro($request);
     }
 
     public function view(string | int $id)
@@ -109,7 +120,7 @@ class DelinquenciesController extends Controller
         $dataRequest['contrato_id']    = $contrato_id;
         $dataRequest['id_imobiliaria'] = $idImobiliaria;
 
-        $response = Http::withToken($token)->post(config('api.route') . '/delinquencies/', $dataRequest);
+        $response = Http::withToken($token)->post(config('api.route') . '/delinquencies', $dataRequest);
         $data     = $response->json();
 
         if (! $response->successful()) {
@@ -172,6 +183,21 @@ class DelinquenciesController extends Controller
         $response = Http::withToken($token)->put(config('api.route') . '/delinquencies/' . $idInadimplencia, $dataInsert);
         $data     = $response->json();
 
+        // Adicionar histórico
+        Http::withToken($token)->post(config('api.route') . '/history/create', [
+            'id_imobiliaria' => $data['id_imobiliaria'],
+            'id_movi'        => $data['id'],
+            'movi'           => 'Inadimplência',
+            'data'           => date('Y-m-d'),
+            'hora'           => date('H:i:s'),
+            'id_usuario'     => session('user')['id'],
+            'historico'      => session('user')['nome']
+                . ' adicionou uma nova inadimplência com o valor R$ '
+                . $dataInsert['valor_original']
+                . ', Data de Vencimento Original: '
+                . Carbon::parse($data['vencimento_original'])->format('d/m/Y'),
+        ]);
+
         if ($request->hasFile('anexos')) {
             $file = $request->file('anexos');
 
@@ -196,7 +222,7 @@ class DelinquenciesController extends Controller
                         'id_imobiliaria'        => $idImobiliaria,
                         'id_movi'               => $idInadimplencia,
                         'movi'                  => 'inadimplencias',
-                        'movi_sub'              => 'inadimplencias ' . $dataInsert['tipo_conta'],
+                        'movi_sub'              => $dataInsert['tipo_conta'],
                         'data'                  => now()->format('Y-m-d H:i:s'),
                         'nome_arquivo'          => $nomeUnico,
                         'nome_arquivo_original' => $nomeOriginal,
@@ -207,6 +233,41 @@ class DelinquenciesController extends Controller
         }
 
         $this->delinquenciesService->anexos($request->all(), $idImobiliaria, $idInadimplencia, $token);
+
+        $anexosInadimplencias = Http::withToken($token)->get(config('api.route') . '/delinquencies/anexos/' . $idInadimplencia);
+
+        $contasComAnexos = [];
+
+        foreach ($anexosInadimplencias->json() as $attachments) {
+            foreach ($attachments as $attachment) {
+                if (isset($attachment['movi_sub'])) {
+                    $contasComAnexos[] = $attachment['movi_sub'];
+                }
+            }
+        }
+
+        $contasComAnexo = array_unique($contasComAnexos);
+        $qtd            = count($contasComAnexo);
+        $usuario        = session('user')['nome'];
+
+        if ($qtd === 0) {
+            $historico = "{$usuario} não adicionou anexos à inadimplência {$idInadimplencia}.";
+        } elseif ($qtd === 1) {
+            $historico = "{$usuario} atribuiu à inadimplência {$idInadimplencia} 1 anexo da conta do tipo: {$contasComAnexo[0]}.";
+        } else {
+            $listaContas = implode(', ', $contasComAnexo);
+            $historico   = "{$usuario} atribuiu à inadimplência {$idInadimplencia} {$qtd} anexos das contas do tipo: {$listaContas}.";
+        }
+
+        Http::withToken($token)->post(config('api.route') . '/history/create', [
+            'id_imobiliaria' => $idImobiliaria,
+            'id_movi'        => $idInadimplencia,
+            'movi'           => 'Inadimplência',
+            'data'           => date('Y-m-d'),
+            'hora'           => date('H:i:s'),
+            'id_usuario'     => session('user')['id'],
+            'historico'      => $historico,
+        ]);
 
         return redirect()->route('delinquencies.create', ['contrato_id' => $contrato_id, 'step' => 'step3', 'id' => $idInadimplencia]);
     }
@@ -271,5 +332,24 @@ class DelinquenciesController extends Controller
         return redirect()
             ->route('delinquencies.view', ['id' => $id])
             ->with('error', 'Não foi possível cancelar a inadimplência $id.');
+    }
+
+    public function adicionarMovimentacao(Request $request)
+    {
+        $data = Http::withToken(session('jwt_token'))->post(config('api.route') . '/history/create', [
+            'id_imobiliaria' => session('user')['id_imobiliaria'],
+            'id_movi'        => $request->input('id'),
+            'movi'           => 'Inadimplência',
+            'data'           => date('Y-m-d'),
+            'hora'           => date('H:i:s'),
+            'id_usuario'     => session('user')['id'],
+            'historico'      => $request->input('mensagem'),
+        ]);
+
+        if($data->json(['success'])) {
+            return response()->json(['success' => true, 'data' => $data->json()]);
+        } else {
+            return response()->json(['success' => false, 'data' => $data->json()]);
+        }
     }
 }

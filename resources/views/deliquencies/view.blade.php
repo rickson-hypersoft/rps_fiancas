@@ -1,5 +1,6 @@
 @extends('dashboard')
 @section('content')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="col-md-12">
         @if ($errors->any())
             <div class="alert alert-danger alert-dismissible" role="alert">
@@ -157,18 +158,18 @@
                                                         <li class="nav-item" role="presentation">
                                                             <button type="button" class="nav-link waves-effect"
                                                                 role="tab" data-bs-toggle="tab"
-                                                                data-bs-target="#navs-top-profile"
-                                                                aria-controls="navs-top-profile" aria-selected="false"
-                                                                tabindex="-1">
+                                                                data-bs-target="#navs-top-profile-{{ $delinquencie['id'] }}"
+                                                                aria-controls="navs-top-profile-{{ $delinquencie['id'] }}"
+                                                                aria-selected="false" tabindex="-1">
                                                                 Movimentações
                                                             </button>
                                                         </li>
                                                         <li class="nav-item" role="presentation">
                                                             <button type="button" class="nav-link waves-effect"
                                                                 role="tab" data-bs-toggle="tab"
-                                                                data-bs-target="#navs-top-messages"
-                                                                aria-controls="navs-top-messages" aria-selected="false"
-                                                                tabindex="-1">
+                                                                data-bs-target="#navs-top-messages-{{ $delinquencie['id'] }}"
+                                                                aria-controls="navs-top-messages-{{ $delinquencie['id'] }}"
+                                                                aria-selected="false" tabindex="-1">
                                                                 Comprovantes
                                                             </button>
                                                         </li>
@@ -227,35 +228,67 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="tab-pane fade" id="navs-top-profile" role="tabpanel">
-                                                            <p>
-                                                                Donut dragée jelly pie halvah. Danish gingerbread bonbon
-                                                                cookie wafer candy oat cake ice
-                                                                cream. Gummies halvah tootsie roll muffin biscuit icing
-                                                                dessert gingerbread. Pastry ice cream
-                                                                cheesecake fruitcake.
-                                                            </p>
-                                                            <p class="mb-0">
-                                                                Jelly-o jelly beans icing pastry cake cake lemon drops.
-                                                                Muffin muffin pie tiramisu halvah
-                                                                cotton candy liquorice caramels.
+                                                        <div class="tab-pane fade"
+                                                            id="navs-top-profile-{{ $delinquencie['id'] }}"
+                                                            role="tabpanel">
+                                                            <form
+                                                                action="{{ route('delinquencies.adicionar_movimentacao') }}"
+                                                                method="POST" class="form-movimentacao mb-2"
+                                                                data-id="{{ $delinquencie['id'] }}">
+                                                                @csrf
+                                                                <h5>Movimentações</h5>
+                                                                <label
+                                                                    for="mensagem-{{ $delinquencie['id'] }}">Mensagem</label>
+                                                                <textarea class="form-control" name="mensagem" id="mensagem-{{ $delinquencie['id'] }}" rows="3"
+                                                                    placeholder="Envie mensagem sobre alterações ou informações relevantes"></textarea>
+                                                                <button class="btn btn-secondary mt-2">Enviar</button>
+                                                            </form>
+
+
+                                                            <p class="mb-0 mt-4">
+                                                                @foreach ($delinquencie['histories'] as $history)
+                                                                    <div class="card mb-2">
+                                                                        <div class="card-body">
+                                                                            <div
+                                                                                class="d-flex align-items-center mb-3 pb-1">
+                                                                                <a href="javascript:;"
+                                                                                    class="d-flex align-items-center">
+                                                                                    <div class="text-heading h5 mb-0 me-2">
+                                                                                        {{ $history['usuario']['nome'] }}
+                                                                                    </div>
+                                                                                </a>
+                                                                                <div class="ms-auto">
+                                                                                    <ul
+                                                                                        class="list-inline d-flex align-items-center mb-0">
+                                                                                        <li class="list-inline-item">
+                                                                                            {{ \Carbon\Carbon::parse($history['data'])->format('d/m/Y') }}
+                                                                                            -
+                                                                                            {{ $history['hora'] }}
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                            <p class="mb-3 pb-1">
+                                                                                {{ $history['historico'] }}
+                                                                            </p>
+
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
                                                             </p>
                                                         </div>
 
-                                                        <div class="tab-pane fade" id="navs-top-messages"
+                                                        <div class="tab-pane fade"
+                                                            id="navs-top-messages-{{ $delinquencie['id'] }}"
                                                             role="tabpanel">
-                                                            <p>
-                                                                Oat cake chupa chups dragée donut toffee. Sweet cotton candy
-                                                                jelly beans macaroon gummies
-                                                                cupcake gummi bears cake chocolate.
-                                                            </p>
-                                                            <p class="mb-0">
-                                                                Cake chocolate bar cotton candy apple pie tootsie roll ice
-                                                                cream apple pie brownie cake. Sweet
-                                                                roll icing sesame snaps caramels danish toffee. Brownie
-                                                                biscuit dessert dessert. Pudding jelly
-                                                                jelly-o tart brownie jelly.
-                                                            </p>
+                                                            @foreach ($delinquencie['attachments'] as $attachment)
+                                                                <div class="card mb-2">
+                                                                    <div class="card-body">
+                                                                        <i class="ti tabler-file-type-pdf"></i>
+                                                                        <span>{{ $attachment['movi_sub'] }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
                                                         </div>
                                                     </div>
                                                 </div>
@@ -265,8 +298,6 @@
                                 </tbody>
                             </table>
                         </div>
-
-
 
                         {{--
                         @php
@@ -324,7 +355,123 @@
                         --}}
                     </div>
                 </div>
+
+                <div class="card mt-5">
+                    @foreach ($deliquencies[0] as $delinquencie)
+                        @foreach ($delinquencie['histories'] as $history)
+                            <div class="card-body pb-0">
+                                <div class="card-body m-0 p-0">
+                                    <div class="d-flex align-items-center">
+                                        <a href="javascript:;" class="d-flex align-items-center">
+                                            <div class="text-heading h5 mb-0 me-2">
+                                                {{ $history['usuario']['nome'] }}
+                                            </div>
+                                        </a>
+                                        <div class="ms-auto">
+                                            <ul class="list-inline d-flex align-items-center mb-0">
+                                                <li class="list-inline-item">
+                                                    {{ \Carbon\Carbon::parse($history['data'])->format('d/m/Y') }}
+                                                    -
+                                                    {{ $history['hora'] }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <p class="mb-1 pb-1">
+                                        {{ $history['historico'] }}
+                                    </p>
+
+                                </div>
+                                <hr>
+                            </div>
+                        @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
 @endsection
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".form-movimentacao").forEach(function(form) {
+            form.addEventListener("submit", function(e) {
+                e.preventDefault();
+
+                let id = form.getAttribute("data-id");
+                let token = document.querySelector('meta[name="csrf-token"]').getAttribute(
+                    "content");
+
+                let formData = new FormData(form);
+                let mensagem = formData.get("mensagem");
+
+                fetch(form.getAttribute("action"), {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": token,
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            id: id,
+                            mensagem: mensagem
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            let openedCanvas = document.querySelector(
+                                '.offcanvas.show');
+                            if (openedCanvas) {
+                                let bsOffcanvas = bootstrap.Offcanvas
+                                    .getInstance(openedCanvas);
+                                bsOffcanvas.hide();
+                            }
+
+                            Swal.fire({
+                                icon: "success",
+                                title: "Sucesso!",
+                                text: "Movimentação adicionada.",
+                                timer: 2000,
+                                showConfirmButton: false,
+                                willClose: () => {
+                                    location.reload();
+                                }
+                            });
+                            form.reset();
+                        } else {
+                            let openedCanvas = document.querySelector(
+                                '.offcanvas.show');
+                            if (openedCanvas) {
+                                let bsOffcanvas = bootstrap.Offcanvas
+                                    .getInstance(openedCanvas);
+                                bsOffcanvas.hide();
+                            }
+
+                            Swal.fire({
+                                icon: "error",
+                                title: "Erro!",
+                                text: "Não foi possível adicionar a movimentação."
+                            });
+                        }
+                    })
+                    .catch(() => {
+                        let openedCanvas = document.querySelector(
+                            '.offcanvas.show');
+                        if (openedCanvas) {
+                            let bsOffcanvas = bootstrap.Offcanvas
+                                .getInstance(openedCanvas);
+                            bsOffcanvas.hide();
+                        }
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Erro!",
+                            text: "Falha na comunicação com o servidor."
+                        });
+                    });
+            });
+        });
+    });
+</script>

@@ -5,6 +5,10 @@ declare(strict_types = 1);
 namespace App\Services\Delinquencies;
 
 use Illuminate\Support\Facades\Http;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class DelinquenciesService
 {
@@ -106,17 +110,17 @@ class DelinquenciesService
         return $maisBoletos;
     }
 
-    public function anexos($request, $idImobiliaria, string $idInadimplencia, $token): void
+    public function anexos($request, $idImobiliaria, int $idInadimplencia, $token): void
     {
         $tipos = [
-            'anexos-agua'            => 'Inadimplência Água',
-            'anexos-condominio'      => 'Inadimplência Condomínio',
-            'anexos-gas'             => 'Inadimplência Gás',
-            'anexos-iptu'            => 'Inadimplência IPTU',
-            'anexos-luz'             => 'Inadimplência Luz',
-            'anexos-seguro'          => 'Inadimplência Seguro',
-            'anexos-seguro_incendio' => 'Inadimplência Seguro Incêndio',
-            'anexos-outros_anexos'   => 'Inadimplência Outros Anexos',
+            'anexos-agua'            => 'Água',
+            'anexos-condominio'      => 'Condomínio',
+            'anexos-gas'             => 'Gás',
+            'anexos-iptu'            => 'IPTU',
+            'anexos-luz'             => 'Luz',
+            'anexos-seguro'          => 'Seguro',
+            'anexos-seguro_incendio' => 'Seguro Incêndio',
+            'anexos-outros_anexos'   => 'Outros Anexos',
         ];
 
         foreach ($tipos as $campo => $descricao) {
@@ -124,7 +128,7 @@ class DelinquenciesService
         }
     }
 
-    private function processarAnexo($request, string $campo, string $descricao, $idImobiliaria, string $idInadimplencia, $token): void
+    private function processarAnexo($request, string $campo, string $descricao, $idImobiliaria, int $idInadimplencia, $token): void
     {
         // Se $request for array
         if (is_array($request)) {
@@ -170,5 +174,134 @@ class DelinquenciesService
                 'descricao'             => "Arquivo anexado à {$descricao}",
             ]);
         }
+    }
+
+    public function export($request)
+    {
+        $queryParams = [
+            'imovel'        => $request->input('imovel'),
+            'nome'          => $request->input('nome_inquilino'),
+            'cpf'           => $request->input('cpf_inquilino'),
+            'status'        => $request->input('status'),
+            'data_inicial'  => $request->input('data_aviso_inicial'),
+            'data_final'    => $request->input('data_aviso_final'),
+            'valor_inicial' => $request->input('valor_inadimplencia_inicial'),
+            'valor_final'   => $request->input('valor_inadimplencia_final'),
+        ];
+
+        $token         = session('jwt_token');
+        $idImobiliaria = session('user')['id_imobiliaria'];
+
+        $response = Http::withToken($token)->get(config('api.route') . '/delinquencies/export/' . $idImobiliaria, $queryParams);
+        $data     = $response->json();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet       = $spreadsheet->getActiveSheet();
+
+        // ======= TABELA DE MOVIMENTAÇÕES =======
+        $linha = 1;
+        $sheet->fromArray(['Contrato', 'Cliente', 'Inicio da Fiança', 'Data Aviso de Inadimplência', 'Valor Total da Fiança', 'Valor Utilizado da Fiança', 'Valor Disponível da Fiança',
+            'Status Contrato', 'Tipo',
+        ], null, 'A' . $linha);
+        $sheet->getStyle('A' . $linha . ':I' . $linha)->getFont()->setBold(true);
+        $sheet->getStyle('A' . $linha . ':I' . $linha)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('F2F2F2');
+        $linha++;
+
+        foreach ($data['data'] as $movi) {
+            $sheet->setCellValue('A' . $linha, $movi['contrato_id']);
+            $sheet->setCellValue('B' . $linha, $movi['propostal']['pessoa_nome']);
+            $dataFormatada              = empty($movi['propostal']['data']) ? '-' : \Carbon\Carbon::parse($movi['propostal']['data'])->format('d/m/Y');
+            $dataFormatadaInadimplencia = empty($movi['vencimento_original']) ? '-' : \Carbon\Carbon::parse($movi['vencimento_original'])->format('d/m/Y');
+            $sheet->setCellValue('C' . $linha, $dataFormatada);
+            $sheet->setCellValue('D' . $linha, $dataFormatadaInadimplencia);
+            $valorFiancaTotal = floatval(($movi['propostal']['imovel_aluguel'] * 40));
+            $sheet->setCellValue('E' . $linha, $valorFiancaTotal);
+            $sheet->getStyle('E' . $linha)->getNumberFormat()->setFormatCode('"R$" #,##0.00');
+            $sheet->getStyle('E' . $linha)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+            $sheet->setCellValue('F' . $linha, floatval($movi['propostal']['imovel_aluguel']));
+            $sheet->getStyle('F' . $linha)->getNumberFormat()->setFormatCode('"R$" #,##0.00');
+            $sheet->getStyle('F' . $linha)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+            $sheet->setCellValue('G' . $linha, floatval(($valorFiancaTotal - $movi['propostal']['imovel_aluguel'])));
+            $sheet->getStyle('G' . $linha)->getNumberFormat()->setFormatCode('"R$" #,##0.00');
+            $sheet->getStyle('G' . $linha)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+            $sheet->setCellValue('H' . $linha, $movi['propostal']['contrato_status']);
+            $sheet->setCellValue('I' . $linha, $movi['propostal']['imovel_tipo']);
+            $linha++;
+        }
+
+        // AutoSize só da tabela pra frente
+        foreach (range('A', 'I') as $coluna) {
+            $sheet->getColumnDimension($coluna)->setAutoSize(true);
+        }
+
+        $writer   = new Xlsx($spreadsheet);
+        $fileName = 'relatorio_inadimplencia_' . now()->format('Ymd_His') . '.xlsx';
+
+        return response()->streamDownload(function () use ($writer): void {
+            $writer->save('php://output');
+        }, $fileName, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]);
+    }
+
+    public function exportarExtratoFinanceiro($request)
+    {
+        session('user');
+
+        $queryParams = [
+            'imovel'        => $request->input('imovel'),
+            'nome'          => $request->input('nome_inquilino'),
+            'cpf'           => $request->input('cpf_inquilino'),
+            'status'        => $request->input('status'),
+            'data_inicial'  => $request->input('data_aviso_inicial'),
+            'data_final'    => $request->input('data_aviso_final'),
+            'valor_inicial' => $request->input('valor_inadimplencia_inicial'),
+            'valor_final'   => $request->input('valor_inadimplencia_final'),
+        ];
+
+        $token         = session('jwt_token');
+        $idImobiliaria = session('user')['id_imobiliaria'];
+
+        $response = Http::withToken($token)->get(config('api.route') . '/delinquencies/' . $idImobiliaria, $queryParams);
+        $data     = $response->json();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet       = $spreadsheet->getActiveSheet();
+
+        // ======= TABELA DE MOVIMENTAÇÕES =======
+        $linha = 1;
+        $sheet->fromArray(['Contrato', 'ID Comunicação', 'Data comunicação', 'Vencimento original', 'Valor original', 'Data indenização', 'Valor indenizado',
+        ], null, 'A' . $linha);
+        $sheet->getStyle('A' . $linha . ':G' . $linha)->getFont()->setBold(true);
+        $sheet->getStyle('A' . $linha . ':G' . $linha)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('F2F2F2');
+        $linha++;
+
+        foreach ($data['data'] as $movi) {
+            $sheet->setCellValue('A' . $linha, $movi['contrato_id']);
+            $sheet->setCellValue('B' . $linha, '-');
+            $dataFormatada = empty($movi['vencimento_original']) ? '-' : \Carbon\Carbon::parse($movi['vencimento_original'])->format('d/m/Y');
+            $sheet->setCellValue('C' . $linha, '-');
+            $sheet->setCellValue('D' . $linha, $dataFormatada);
+            $sheet->setCellValue('E' . $linha, floatval($movi['valor_original']));
+            $sheet->getStyle('E' . $linha)->getNumberFormat()->setFormatCode('"R$" #,##0.00');
+            $sheet->getStyle('E' . $linha)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+            $sheet->setCellValue('F' . $linha, '-');
+            $sheet->setCellValue('G' . $linha, '-');
+            $linha++;
+        }
+
+        // AutoSize só da tabela pra frente
+        foreach (range('A', 'I') as $coluna) {
+            $sheet->getColumnDimension($coluna)->setAutoSize(true);
+        }
+
+        $writer   = new Xlsx($spreadsheet);
+        $fileName = 'relatorio_inadimplencia_extrato_financeiro' . now()->format('Ymd_His') . '.xlsx';
+
+        return response()->streamDownload(function () use ($writer): void {
+            $writer->save('php://output');
+        }, $fileName, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]);
     }
 }

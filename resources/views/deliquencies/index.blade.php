@@ -19,9 +19,69 @@
 
         <div class="row">
             <div class="col-12">
+
+
                 <div class="card mb-0">
+
                     <div class="card-header">
-                        <h5>Inadimplências</h5>
+
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h5>Inadimplências</h5>
+                            <div class="d-flex align-items-center gap-2">
+                                <form method="GET" action="{{ route('delinquencies.export') }}">
+                                    {{-- Mantendo os filtros na exportação --}}
+                                    <input type="hidden" id="imovel" class="form-control form-control-lg" name="imovel"
+                                        value="{{ request('imovel') }}">
+                                    <input type="hidden" id="nome_inquilino" class="form-control form-control-lg"
+                                        name="nome_inquilino" value="{{ request('nome_inquilino') }}">
+                                    <input type="hidden" id="cpf_inquilino" class="form-control form-control-lg"
+                                        name="cpf_inquilino" value="{{ request('cpf_inquilino') }}">
+                                    <input type="hidden" value="{{ request('status') }}" name="status">
+                                    <input type="hidden" name="data_aviso_inicial" class="form-control form-control-lg"
+                                        value="{{ request('data_aviso_inicial') }}">
+                                    <input type="hidden" name="data_aviso_final" class="form-control form-control-lg"
+                                        value="{{ request('data_aviso_final') }}">
+                                    <input type="hidden" name="valor_inadimplencia_inicial"
+                                        class="form-control form-control-lg"
+                                        value="{{ request('valor_inadimplencia_inicial') }}">
+                                    <input type="hidden" name="valor_inadimplencia_final"
+                                        class="form-control form-control-lg"
+                                        value="{{ request('valor_inadimplencia_final') }}">
+
+                                    <button type="submit" class="btn btn-outline-success btn-lg" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" data-bs-original-title="Exportar planilha">
+                                        <i class="ti tabler-file-type-xls icon-lg"></i> Exportar Relatório
+                                    </button>
+                                </form>
+
+                                <form method="GET" action="{{ route('delinquencies.export_extract') }}">
+                                    {{-- Mantendo os filtros na exportação --}}
+                                    <input type="hidden" id="imovel" class="form-control form-control-lg" name="imovel"
+                                        value="{{ request('imovel') }}">
+                                    <input type="hidden" id="nome_inquilino" class="form-control form-control-lg"
+                                        name="nome_inquilino" value="{{ request('nome_inquilino') }}">
+                                    <input type="hidden" id="cpf_inquilino" class="form-control form-control-lg"
+                                        name="cpf_inquilino" value="{{ request('cpf_inquilino') }}">
+                                    <input type="hidden" value="{{ request('status') }}" name="status">
+                                    <input type="hidden" name="data_aviso_inicial" class="form-control form-control-lg"
+                                        value="{{ request('data_aviso_inicial') }}">
+                                    <input type="hidden" name="data_aviso_final" class="form-control form-control-lg"
+                                        value="{{ request('data_aviso_final') }}">
+                                    <input type="hidden" name="valor_inadimplencia_inicial"
+                                        class="form-control form-control-lg"
+                                        value="{{ request('valor_inadimplencia_inicial') }}">
+                                    <input type="hidden" name="valor_inadimplencia_final"
+                                        class="form-control form-control-lg"
+                                        value="{{ request('valor_inadimplencia_final') }}">
+
+                                    <button type="submit" class="btn btn-outline-success btn-lg" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" data-bs-original-title="Exportar Extrato Financeiro">
+                                        <i class="ti tabler-file-type-xls icon-lg"></i> Exportar Extrato Financeiro
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
                         <hr>
                         <div class="row align-items-center pt-5">
                             <div class="col-12 mb-1">
@@ -63,12 +123,24 @@
 
                                         <div class="col-sm-2 col-12 mb-4">
                                             <label for="status" class="form-label">Status</label>
-                                            <select id="status" class="form-select form-select-lg">
-                                                <option>Todos</option>
-                                                <option value="Pendência Aberta">Pendência Aberta</option>
-                                                <option value="Pendência Cancelada">Pendência Cancelada</option>
-                                                <option value="Pendência Negada">Pendência Negada</option>
-                                                <option value="Acordo">Acordo</option>
+                                            <select id="status" name="status" class="form-select form-select-lg">
+                                                <option value="">Todos</option>
+                                                <option value="Pendência Aberta"
+                                                    {{ request('status') == 'Pendência Aberta' ? 'selected' : '' }}>
+                                                    Pendência Aberta
+                                                </option>
+                                                <option value="Pendência Cancelada"
+                                                    {{ request('status') == 'Pendência Cancelada' ? 'selected' : '' }}>
+                                                    Pendência Cancelada
+                                                </option>
+                                                <option value="Pendência Negada"
+                                                    {{ request('status') == 'Pendência Negada' ? 'selected' : '' }}>
+                                                    Pendência Negada
+                                                </option>
+                                                <option value="Acordo"
+                                                    {{ request('status') == 'Acordo' ? 'selected' : '' }}>
+                                                    Acordo
+                                                </option>
                                             </select>
                                         </div>
 
@@ -77,10 +149,12 @@
                                             <div class="input-group">
                                                 <span class="input-group-text">De</span>
                                                 <input type="date" name="data_aviso_inicial"
-                                                    class="form-control form-control-lg">
+                                                    class="form-control form-control-lg"
+                                                    value="{{ request('data_aviso_inicial') }}">
                                                 <span class="input-group-text">Até</span>
                                                 <input type="date" name="data_aviso_final"
-                                                    class="form-control form-control-lg">
+                                                    class="form-control form-control-lg"
+                                                    value="{{ request('data_aviso_final') }}">
                                             </div>
                                         </div>
 
@@ -89,18 +163,22 @@
                                             <div class="input-group">
                                                 <span class="input-group-text">De</span>
                                                 <input type="text" name="valor_inadimplencia_inicial"
-                                                    class="form-control form-control-lg">
+                                                    class="form-control form-control-lg"
+                                                    value="{{ request('valor_inadimplencia_inicial') }}">
                                                 <span class="input-group-text">Até</span>
                                                 <input type="text" name="valor_inadimplencia_final"
-                                                    class="form-control form-control-lg">
+                                                    class="form-control form-control-lg"
+                                                    value="{{ request('valor_inadimplencia_final') }}">
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4 col-12 mb-4">
+                                        <div class="col-sm-6 col-12 mb-4">
                                             <button type="submit" class="btn btn-primary btn-lg">Pesquisar</button>
                                         </div>
                                     </div>
                                 </form>
+
+
                             </div>
                         </div>
                     </div>

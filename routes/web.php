@@ -260,9 +260,8 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         Route::get('/anexos/baixar/{id}/{tipo}', [DelinquenciesController::class, 'baixarAnexo']);
 
         Route::get('/cancelar/{id}', [DelinquenciesController::class, 'delete'])->name('delinquencies.delete')->middleware('check.permission:4');
-        // Route::post('/criar', [DelinquenciesController::class, 'storeStep1'])->name('delinquencies.step2')->middleware('check.permission:4');
-        // ;
-        // Route::post('/atualizar', [DelinquenciesController::class, 'storeStep2'])->name('delinquencies.step3')->middleware('check.permission:4');
-        // ;
+        Route::get('/export', [DelinquenciesController::class, 'exportarRelatorio'])->name('delinquencies.export');
+        Route::get('/exportExtract', [DelinquenciesController::class, 'exportarExtratoFinanceiro'])->name('delinquencies.export_extract');
+        Route::post('/adicionar-movimentacao', [DelinquenciesController::class, 'adicionarMovimentacao'])->name('delinquencies.adicionar_movimentacao');
     });
 });
