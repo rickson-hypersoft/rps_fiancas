@@ -566,7 +566,7 @@
                             <div class="col-4">
                                 <div class="mb-4">
                                     <label for="defaultSelect" class="form-label">Tipo da conta</label>
-                                    <select class="form-select tipo-conta-novo" name="tipo_conta_novo[]">
+                                    <select class="form-select tipo-conta-novo" name="tipo_conta_novo">
                                         <option value="">Selecione um tipo</option>
                                         <option value="Aluguel">Aluguel</option>
                                         <option value="Condomínio">
@@ -595,17 +595,19 @@
 
                             <!-- Aluguel -->
                             <div class="col-4 aluguel-field-novo" style="display: none">
-                                <label for="valor_original_novo" class="form-label">Valor original sem multa e
+                                <label for="valor_original_aluguel_novo" class="form-label">Valor original sem multa e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original_novo"
-                                    name="valor_original_novo[]" placeholder="R$ 0,00"
+                                <input required type="text" class="form-control" id="valor_original_aluguel_novo"
+                                    name="valor_original_aluguel_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
 
                             <div class="col-4 aluguel-field-novo" style="display: none">
-                                <label for="vencimento_original_novo" class="form-label">Vencimento original*</label>
-                                <input required type="date" class="form-control" id="vencimento_original_novo"
-                                    name="vencimento_original_novo[]" aria-describedby="defaultFormControlHelp" />
+                                <label for="vencimento_original_aluguel_novo" class="form-label">Vencimento
+                                    original*</label>
+                                <input required type="date" class="form-control"
+                                    id="vencimento_original_aluguel_novo" name="vencimento_original_aluguel_novo[]"
+                                    aria-describedby="defaultFormControlHelp" />
                             </div>
 
                             <div class="col-12 boletos-alugueis-novos mb-4" style="display: none">

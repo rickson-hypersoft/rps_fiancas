@@ -98,17 +98,110 @@ class DelinquenciesService
         $maisBoletos = [];
 
         foreach ($tipos as $tipo) {
-            if (! empty($request["valor_outro_boleto_{$tipo}"])) {
-                $maisBoletos[$tipo]['valor_original'] = $request["valor_outro_boleto_{$tipo}"];
+            if (! empty($request["valor_{$tipo}_principal"])) {
+                $maisBoletos[$tipo]['valor_original'] = $request["valor_{$tipo}_principal"];
             }
 
-            if (! empty($request["vencimento_outro_boleto_{$tipo}"])) {
-                $maisBoletos[$tipo]['vencimento_original'] = $request["vencimento_outro_boleto_{$tipo}"];
+            if (! empty($request["vencimento_{$tipo}_principal"])) {
+                $maisBoletos[$tipo]['vencimento_original'] = $request["vencimento_{$tipo}_principal"];
             }
         }
 
         return $maisBoletos;
     }
+
+    public function getNovasContas(array $request): array
+{
+     // Tipos de conta reconhecidos (ajuste se precisar)
+    $tipos = [
+        'aluguel',
+        'condominio',
+        'gas',
+        'iptu',
+        'seguro',
+        'agua',
+        'luz',
+        'seguro_incendio',
+    ];
+
+    $novos = [];
+
+    // Mantém o tipo da conta, se existir
+    if (isset($request['tipo_conta_novo'])) {
+        $novos['conta']['tipo'] = $request['tipo_conta_novo'];
+    }
+
+    // Buffer para capturar valor/vencimento (não-original) e usar como fallback
+    $buffer = [];
+
+    foreach ($request as $key => $value) {
+        // só lidamos com chaves terminando em "_novo"
+        if (!str_ends_with($key, '_novo') || $key === 'tipo_conta_novo') {
+            continue;
+        }
+
+        // remove o sufixo "_novo"
+        $clean = substr($key, 0, -5);
+
+        // descobre o tipo pelo sufixo do nome (suporta tipos compostos como "seguro_incendio")
+        $matchedTipo = null;
+        $campo = null;
+        foreach ($tipos as $tipo) {
+            if (str_ends_with($clean, "_{$tipo}")) {
+                $matchedTipo = $tipo;
+                $campo = substr($clean, 0, -strlen("_{$tipo}"));
+                break;
+            }
+        }
+
+        if (!$matchedTipo || !$campo) {
+            continue;
+        }
+
+        // Guardar apenas os campos desejados; usar buffer para fallback
+        if ($campo === 'valor_original' || $campo === 'vencimento_original') {
+            $novos[$matchedTipo][$campo] = $value;
+        } elseif ($campo === 'valor' || $campo === 'vencimento') {
+            $buffer[$matchedTipo][$campo] = $value;
+        }
+    }
+
+    // Helper para checar "não vazio" inclusive quando for array com null/'' dentro
+    $notEmpty = function ($v) {
+        if (is_array($v)) {
+            foreach ($v as $vv) {
+                if ($vv !== null && $vv !== '') return true;
+            }
+            return false;
+        }
+        return $v !== null && $v !== '';
+    };
+
+    // Aplica fallback: se *_original estiver vazio, usa valor/vencimento (se existirem)
+    foreach ($tipos as $tipo) {
+        if (!isset($novos[$tipo]) && !isset($buffer[$tipo])) continue;
+
+        if (!$notEmpty($novos[$tipo]['valor_original'] ?? null)
+            && $notEmpty($buffer[$tipo]['valor'] ?? null)) {
+            $novos[$tipo]['valor_original'] = $buffer[$tipo]['valor'];
+        }
+
+        if (!$notEmpty($novos[$tipo]['vencimento_original'] ?? null)
+            && $notEmpty($buffer[$tipo]['vencimento'] ?? null)) {
+            $novos[$tipo]['vencimento_original'] = $buffer[$tipo]['vencimento'];
+        }
+
+        // Se continuar vazio, remove o tipo
+        if (
+            !$notEmpty($novos[$tipo]['valor_original'] ?? null) &&
+            !$notEmpty($novos[$tipo]['vencimento_original'] ?? null)
+        ) {
+            unset($novos[$tipo]);
+        }
+    }
+
+    return $novos;
+}
 
     public function anexos($request, $idImobiliaria, int $idInadimplencia, $token): void
     {

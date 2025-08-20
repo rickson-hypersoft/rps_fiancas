@@ -113,25 +113,25 @@ buttons.forEach((btn) => {
 
                     <div class="row mt-5">
                         <div class="col-4">
-                            <label for="valor_${contaSlug}_novo[]" class="form-label">Valor original sem multa e juros*</label>
+                            <label for="valor_${contaSlug}_principal[]" class="form-label">Valor original sem multa e juros*</label>
                             <input
                                 required
                                 type="text"
                                 class="form-control"
-                                id="valor_${contaSlug}_novo[]"
-                                name="valor_${contaSlug}_novo[]"
+                                id="valor_${contaSlug}_principal[]"
+                                name="valor_${contaSlug}_principal[]"
                                 placeholder="R$ 0,00"
                             />
                         </div>
 
                         <div class="col-4">
-                            <label for="vencimento_${contaSlug}_novo[]" class="form-label">Vencimento original*</label>
+                            <label for="vencimento_${contaSlug}_principal[]" class="form-label">Vencimento original*</label>
                             <input
                                 required
                                 type="date"
                                 class="form-control"
-                                id="vencimento_${contaSlug}_novo[]"
-                                name="vencimento_${contaSlug}_novo[]"
+                                id="vencimento_${contaSlug}_principal[]"
+                                name="vencimento_${contaSlug}_principal[]"
                             />
                         </div>
                     </div>
