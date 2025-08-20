@@ -1,115 +1,51 @@
-// Opção: Aluguel
-document
-    .getElementById("defaultSelect")
-    .addEventListener("change", function () {
-        document.querySelector(".boletos-alugueis").style.display =
-            this.value === "Aluguel" ? "block" : "none";
+// Card principal
+document.addEventListener("change", function (event) {
+    if (!event.target.classList.contains("tipo-conta")) return;
 
-        const aluguelFields = document.querySelectorAll(".aluguel-field");
+    const tipo = event.target.value;
+    const card = event.target.closest("[data-card]");
 
-        aluguelFields.forEach((field) => {
-            field.style.display =
-                this.value === "Aluguel" ? "block" : "none";
+    if (!card) return; // evita o erro se o card não for encontrado
+
+    const toggleFields = (selector, condition) => {
+        card.querySelectorAll(selector).forEach(field => {
+            field.style.display = condition ? "block" : "none";
         });
+    };
 
-        const condominioFields = document.querySelectorAll(".condominio-field");
+    document.querySelector(".boletos-alugueis").style.display =
+        tipo === "Aluguel" ? "block" : "none";
 
-        condominioFields.forEach((field) => {
-            field.style.display =
-                this.value === "Condomínio" ? "block" : "none";
-            document.getElementById("selecionar_mais_boletos").style.display = 'none'
-            document.getElementById("bloco-comprovantes").style.display = 'none'
-            document.getElementById("comprovantes-container").html = ''
-        });
+    toggleFields(".aluguel-field", tipo === "Aluguel");
+    toggleFields(".condominio-field", tipo === "Condomínio");
+    toggleFields(".iptu-field", tipo === "IPTU");
+    toggleFields(".seguro-field", tipo === "Seguro");
+    toggleFields(".agua-field", tipo === "Água");
+    toggleFields(".luz-field", tipo === "Luz");
+    toggleFields(".gas-field", tipo === "Gás");
+    toggleFields(".seguro-incendio-field", tipo === "Seguro incêndio");
+    toggleFields(".outros-anexos-field", tipo === "Outros anexos");
+    toggleFields(".orcamento-field", tipo === "Orçamentos de Reparos");
+    toggleFields(".orcamento-container", tipo === "Orçamentos de Reparos");
 
-        const iptuFields = document.querySelectorAll(".iptu-field");
+    const boletoOriginal = card.querySelector("#comprovante-boleto-original");
+    const multaRescisoria = card.querySelector(".multa-rescisoria-container");
 
-        iptuFields.forEach((field) => {
-            field.style.display =
-                this.value === "IPTU" ? "block" : "none";
-            document.getElementById("selecionar_mais_boletos").style.display = 'none'
-            document.getElementById("bloco-comprovantes").style.display = 'none'
-            document.getElementById("comprovantes-container").html = ''
-        });
+    if (boletoOriginal && multaRescisoria) {
+        boletoOriginal.style.display = tipo === "Multa rescisória" ? "none" : "block";
+        multaRescisoria.style.display = tipo === "Multa rescisória" ? "block" : "none";
+    }
 
-        const seguroFields = document.querySelectorAll(".seguro-field");
+    // Elementos globais (fora do card)
+    const globais = ["Condomínio", "IPTU", "Seguro", "Água", "Luz", "Gás", "Seguro incêndio", "Outros anexos"];
+    if (globais.includes(tipo)) {
+        document.getElementById("selecionar_mais_boletos").style.display = "none";
+        document.getElementById("bloco-comprovantes").style.display = "none";
+        document.getElementById("comprovantes-container").innerHTML = "";
+    }
+});
 
-        seguroFields.forEach((field) => {
-            field.style.display =
-                this.value === "Seguro" ? "block" : "none";
-            document.getElementById("selecionar_mais_boletos").style.display = 'none'
-            document.getElementById("bloco-comprovantes").style.display = 'none'
-            document.getElementById("comprovantes-container").html = ''
-        });
-
-        const aguaFields = document.querySelectorAll(".agua-field");
-
-        aguaFields.forEach((field) => {
-            field.style.display =
-                this.value === "Água" ? "block" : "none";
-            document.getElementById("selecionar_mais_boletos").style.display = 'none'
-            document.getElementById("bloco-comprovantes").style.display = 'none'
-            document.getElementById("comprovantes-container").html = ''
-        });
-
-        const luzFields = document.querySelectorAll(".luz-field");
-
-        luzFields.forEach((field) => {
-            field.style.display =
-                this.value === "Luz" ? "block" : "none";
-            document.getElementById("selecionar_mais_boletos").style.display = 'none'
-            document.getElementById("bloco-comprovantes").style.display = 'none'
-            document.getElementById("comprovantes-container").html = ''
-        });
-
-        const gasFields = document.querySelectorAll(".gas-field");
-
-        gasFields.forEach((field) => {
-            field.style.display =
-                this.value === "Gás" ? "block" : "none";
-            document.getElementById("selecionar_mais_boletos").style.display = 'none'
-            document.getElementById("bloco-comprovantes").style.display = 'none'
-            document.getElementById("comprovantes-container").html = ''
-        });
-
-        const seguroIncendioFields = document.querySelectorAll(".seguro-incendio-field");
-
-        seguroIncendioFields.forEach((field) => {
-            field.style.display =
-                this.value === "Seguro incêndio" ? "block" : "none";
-            document.getElementById("selecionar_mais_boletos").style.display = 'none'
-            document.getElementById("bloco-comprovantes").style.display = 'none'
-            document.getElementById("comprovantes-container").html = ''
-        });
-
-        const outrosAnexosFields = document.querySelectorAll(".outros-anexos-field");
-
-        outrosAnexosFields.forEach((field) => {
-            field.style.display =
-                this.value === "Outros anexos" ? "block" : "none";
-            document.getElementById("selecionar_mais_boletos").style.display = 'none'
-            document.getElementById("bloco-comprovantes").style.display = 'none'
-            document.getElementById("comprovantes-container").html = ''
-        });
-
-        const orcamentoField = document.querySelector(".orcamento-field");
-        const orcamentoContainer = document.querySelector(".orcamento-container");
-
-        orcamentoField.style.display =
-            this.value === "Orçamentos de Reparos" ? "block" : "none";
-        orcamentoContainer.style.display =
-            this.value === "Orçamentos de Reparos" ? "block" : "none";
-
-        const boletoOriginalContainer = document.querySelector("#comprovante-boleto-original");
-        const multaRescisoriaContainer = document.querySelector(".multa-rescisoria-container");
-
-        boletoOriginalContainer.style.display =
-            this.value === "Multa rescisória" ? "none" : "block";
-        multaRescisoriaContainer.style.display =
-            this.value === "Multa rescisória" ? "block" : "none";
-    });
-
-const radios = document.querySelectorAll('input[name="customRadioTemp"]');
+const radios = document.querySelectorAll('input[name="maisBoletos"]');
 const contasDiv = document.getElementById("selecionar_mais_boletos");
 
 radios.forEach((radio) => {
@@ -169,37 +105,33 @@ buttons.forEach((btn) => {
                         documento que comprove a existência dela. Tamanho máximo 5MB
                     </p>
 
-                    <div class="row gy-6 mt-4">
+                    <div class="row gy-6 mt-3">
                         <div class="col-12">
-                            <div class="dropzone needsclick dz-clickable" id="dropzone-${contaSlug}">
-                                <div class="dz-message needsclick">
-                                    Clique ou arraste o arquivo aqui
-                                </div>
-                            </div>
+                            <input class="form-control" name="anexos-${contaSlug}" type="file" id="formFile">
                         </div>
                     </div>
 
                     <div class="row mt-5">
                         <div class="col-4">
-                            <label for="valor_original_${contaSlug}" class="form-label">Valor original sem multa e juros*</label>
+                            <label for="valor_${contaSlug}_novo[]" class="form-label">Valor original sem multa e juros*</label>
                             <input
                                 required
                                 type="text"
                                 class="form-control"
-                                id="valor_original_${contaSlug}"
-                                name="valor_original_${contaSlug}"
+                                id="valor_${contaSlug}_novo[]"
+                                name="valor_${contaSlug}_novo[]"
                                 placeholder="R$ 0,00"
                             />
                         </div>
 
                         <div class="col-4">
-                            <label for="vencimento_original_${contaSlug}" class="form-label">Vencimento original*</label>
+                            <label for="vencimento_${contaSlug}_novo[]" class="form-label">Vencimento original*</label>
                             <input
                                 required
                                 type="date"
                                 class="form-control"
-                                id="vencimento_original_${contaSlug}"
-                                name="vencimento_original_${contaSlug}"
+                                id="vencimento_${contaSlug}_novo[]"
+                                name="vencimento_${contaSlug}_novo[]"
                             />
                         </div>
                     </div>
@@ -219,4 +151,121 @@ document.querySelectorAll(".select-btn").forEach((button) => {
         button.classList.toggle("text-white");
         button.classList.toggle("border-gray-900");
     });
+});
+
+document.addEventListener("change", function (event) {
+    if (!event.target.classList.contains("tipo-conta-novo")) return;
+
+    const tipo = event.target.value;
+    const card = event.target.closest("[data-card-novo]");
+    if (!card) return;
+
+    const toggleFields = (selector, condition) => {
+        card.querySelectorAll(selector).forEach(field => {
+            field.style.display = condition ? "block" : "none";
+        });
+    };
+
+    // Mostra/esconde apenas dentro do card atual
+    const boletosAlugueis = card.querySelector(".boletos-alugueis-novos");
+    if (boletosAlugueis) {
+        boletosAlugueis.style.display = tipo === "Aluguel" ? "block" : "none";
+    }
+
+    toggleFields(".aluguel-field-novo", tipo === "Aluguel");
+    toggleFields(".condominio-field-novo", tipo === "Condomínio");
+    toggleFields(".iptu-field-novo", tipo === "IPTU");
+    toggleFields(".seguro-field-novo", tipo === "Seguro");
+    toggleFields(".agua-field-novo", tipo === "Água");
+    toggleFields(".luz-field-novo", tipo === "Luz");
+    toggleFields(".gas-field-novo", tipo === "Gás");
+    toggleFields(".seguro-incendio-field-novo", tipo === "Seguro incêndio");
+    toggleFields(".outros-anexos-field-novo", tipo === "Outros anexos");
+    toggleFields(".orcamento-field-novo", tipo === "Orçamentos de Reparos");
+    toggleFields(".orcamento-container-novo", tipo === "Orçamentos de Reparos");
+
+    const boletoOriginal = card.querySelector("#comprovante-boleto-original-novo");
+    if (boletoOriginal) {
+        boletoOriginal.style.display = tipo === "Multa rescisória" ? "none" : "block";
+    }
+
+    const blocoComprovantes = card.querySelector("#bloco-comprovantes-novo");
+    const selecionarMaisBoletos = card.querySelector("#selecionar_mais_boletos_novo");
+    const container = card.querySelector("#comprovantes-container-novo");
+
+    // Reseta quando não for aluguel
+    if (tipo !== "Aluguel" && selecionarMaisBoletos && blocoComprovantes) {
+        selecionarMaisBoletos.style.display = "none";
+        blocoComprovantes.style.display = "none";
+        if (container) container.innerHTML = "";
+    }
+});
+
+// Radios do card novo
+document.addEventListener("change", function (event) {
+    if (!event.target.name.includes("possuiMaisBoletosNovo")) return;
+
+    const card = event.target.closest("[data-card-novo]");
+    if (!card) return;
+
+    const selecionarMaisBoletos = card.querySelector("#selecionar_mais_boletos_novo");
+    const blocoComprovantes = card.querySelector("#bloco-comprovantes-novo");
+
+    if (event.target.value === "sim") {
+        selecionarMaisBoletos.style.display = "block";
+    } else {
+        selecionarMaisBoletos.style.display = "none";
+        blocoComprovantes.style.display = "none";
+    }
+});
+
+// Botões de selecionar contas no card novo
+document.addEventListener("click", function (event) {
+    if (!event.target.classList.contains("conta-btn-novo")) return;
+
+    const btn = event.target;
+    const contaNome = btn.dataset.novo;
+    console.log(contaNome)
+    const contaSlug = slugify(contaNome);
+    const card = btn.closest("[data-card-novo]");
+    const container = card.querySelector("#comprovantes-container-novo");
+    const blocoComprovantes = card.querySelector("#bloco-comprovantes-novo");
+
+    const blocoId = `bloco-novo-${contaSlug}`;
+    const blocoExistente = container.querySelector(`#${blocoId}`);
+
+    btn.classList.toggle("ativo");
+
+    if (blocoExistente) {
+        blocoExistente.remove();
+    } else {
+        const bloco = document.createElement("div");
+        bloco.classList.add("mt-4");
+        bloco.id = blocoId;
+
+        bloco.innerHTML = `
+            <h5 class="m-0">${contaNome}</h5>
+            <p class="m-0 p-0">Anexe um documento que comprove essa conta.</p>
+            <div class="row gy-6 mt-3">
+                <div class="col-12">
+                    <input class="form-control" name="anexos_novo_${contaSlug}[]" type="file">
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-4">
+                    <label class="form-label">Valor original*</label>
+                    <input required type="text" class="form-control" name="valor_${contaSlug}_novo[]" placeholder="R$ 0,00"/>
+                </div>
+                <div class="col-4">
+                    <label class="form-label">Vencimento original*</label>
+                    <input required type="date" class="form-control" name="vencimento_${contaSlug}_novo[]"/>
+                </div>
+            </div>
+            <hr/>
+        `;
+
+        container.appendChild(bloco);
+    }
+
+    blocoComprovantes.style.display = container.children.length > 0 ? "block" : "none";
 });

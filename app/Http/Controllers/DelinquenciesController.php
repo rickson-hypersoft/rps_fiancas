@@ -135,6 +135,63 @@ class DelinquenciesController extends Controller
 
     public function storeStep2(Request $request, int $contrato_id, int $idInadimplencia)
     {
+        dd($request->all());
+        $novos = [];
+
+        if ($request->has('tipo_conta_novo')) {
+            $qtdNovos = count($request->input('tipo_conta_novo'));
+
+            for ($i = 0; $i < $qtdNovos; $i++) {
+                $tipo = $request->input('tipo_conta_novo')[$i] ?? null;
+                switch ($tipo) {
+                    case 'Água':
+                        $tipo = 'agua';
+
+                        break;
+                    case 'Condomínio':
+                        $tipo = 'condominio';
+
+                        break;
+                    case 'IPTU':
+                        $tipo = 'iptu';
+
+                        break;
+                    case 'Seguro':
+                        $tipo = 'seguro';
+
+                        break;
+
+                    case 'Luz':
+                        $tipo = 'luz';
+
+                        break;
+                    case 'Gás':
+                        $tipo = 'gas';
+
+                        break;
+                    case 'Seguro incêndio':
+                        $tipo = 'seguro_incendio';
+
+                        break;
+                }
+                // Pega os valores correspondentes ao índice $i
+                $valor      = $request->input('valor_original_' . strtolower(str_replace(' ', '_', $tipo)) . '_novo')[$i] ?? null;
+                $vencimento = $request->input('vencimento_original_' . strtolower(str_replace(' ', '_', $tipo)) . '_novo')[$i] ?? null;
+                $observacao = $request->input('observacoes_novo')[$i] ?? null;
+                $arquivo    = $request->file('anexos_novo')[$i] ?? null;
+
+                // Monta o array de cada novo card
+                $novos[] = [
+                    'tipo_conta'          => $tipo,
+                    'valor_original'      => $valor,
+                    'vencimento_original' => $vencimento,
+                    'observacao'          => $observacao,
+                    'anexo'               => $arquivo,
+                    'contrato_id'         => $contrato_id,
+                ];
+            }
+        }
+
         $token         = session('jwt_token');
         $idImobiliaria = session('user')['id_imobiliaria'];
 
@@ -179,6 +236,10 @@ class DelinquenciesController extends Controller
         }
 
         $dataInsert['contrato_id'] = $contrato_id;
+
+        if (count($novos) > 0) {
+            $dataInsert['novasContas'] = $novos;
+        }
 
         $response = Http::withToken($token)->put(config('api.route') . '/delinquencies/' . $idInadimplencia, $dataInsert);
         $data     = $response->json();
@@ -346,10 +407,10 @@ class DelinquenciesController extends Controller
             'historico'      => $request->input('mensagem'),
         ]);
 
-        if($data->json(['success'])) {
+        if ($data->json(['success'])) {
             return response()->json(['success' => true, 'data' => $data->json()]);
-        } else {
-            return response()->json(['success' => false, 'data' => $data->json()]);
         }
+
+        return response()->json(['success' => false, 'data' => $data->json()]);
     }
 }

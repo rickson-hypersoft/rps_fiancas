@@ -342,11 +342,10 @@
 
                                     <div class="row gy-6 mt-3">
                                         <div class="col-12">
-                                            <div action="/upload" class="dropzone needsclick dz-clickable"
-                                                id="dropzone-multi">
-                                                <div class="dz-message needsclick">
-                                                    Clique ou arraste o arquivo
-                                                    aqui
+                                            <div class="row gy-6 mt-3">
+                                                <div class="col-12">
+                                                    <input class="form-control" name="anexos" type="file"
+                                                        id="formFile">
                                                 </div>
                                             </div>
                                         </div>
@@ -361,14 +360,9 @@
                                 <h5 class="m-0">Termos de recisão*</h5>
                                 <span class="m-0 p-0">Tamanho máximo 6MB</span>
 
-                                <div class="row gy-6 mt-2">
+                                <div class="row gy-6 mt-3">
                                     <div class="col-12">
-                                        <div action="/upload" class="dropzone needsclick dz-clickable"
-                                            id="dropzone-multi">
-                                            <div class="dz-message needsclick">
-                                                Clique ou arraste o arquivo aqui
-                                            </div>
-                                        </div>
+                                        <input class="form-control" name="anexos" type="file" id="formFile">
                                     </div>
                                 </div>
 
@@ -427,14 +421,9 @@
                                 <h5 class="m-0">Vistoria de saída*</h5>
                                 <span class="m-0 p-0">Tamanho máximo 6MB</span>
 
-                                <div class="row gy-6 mt-2">
+                                <div class="row gy-6 mt-3">
                                     <div class="col-12">
-                                        <div action="/upload" class="dropzone needsclick dz-clickable"
-                                            id="dropzone-multi">
-                                            <div class="dz-message needsclick">
-                                                Clique ou arraste o arquivo aqui
-                                            </div>
-                                        </div>
+                                        <input class="form-control" name="anexos" type="file" id="formFile">
                                     </div>
                                 </div>
 
@@ -499,14 +488,9 @@
                                 </h5>
                                 <span class="m-0 p-0">Tamanho máximo 6MB</span>
 
-                                <div class="row gy-6 mt-2">
+                                <div class="row gy-6 mt-3">
                                     <div class="col-12">
-                                        <div action="/upload" class="dropzone needsclick dz-clickable"
-                                            id="dropzone-multi">
-                                            <div class="dz-message needsclick">
-                                                Clique ou arraste o arquivo aqui
-                                            </div>
-                                        </div>
+                                        <input class="form-control" name="anexos" type="file" id="formFile">
                                     </div>
                                 </div>
 
@@ -564,8 +548,8 @@
                     </div>
 
                     <template id="card-template">
-                        <div class="card card-body mb-4 border shadow-sm" data-card>
-                            <div class="col-12 mb-4" id="comprovante-boleto-original">
+                        <div class="card card-body mb-4 border shadow-sm" data-card-novo>
+                            <div class="col-12 mb-4" id="comprovante-boleto-original-novo">
                                 <h5 class="m-0">
                                     Envie o comprovante ou boleto original
                                 </h5>
@@ -573,12 +557,8 @@
 
                                 <div class="row gy-6 mt-3">
                                     <div class="col-12">
-                                        <div action="/upload" class="dropzone needsclick dz-clickable"
-                                            id="dropzone-multi">
-                                            <div class="dz-message needsclick">
-                                                Clique ou arraste o arquivo aqui
-                                            </div>
-                                        </div>
+                                        <input class="form-control" name="anexos_novo[]" type="file"
+                                            id="formFile">
                                     </div>
                                 </div>
                             </div>
@@ -586,7 +566,7 @@
                             <div class="col-4">
                                 <div class="mb-4">
                                     <label for="defaultSelect" class="form-label">Tipo da conta</label>
-                                    <select class="form-select tipo-conta">
+                                    <select class="form-select tipo-conta-novo" name="tipo_conta_novo[]">
                                         <option value="">Selecione um tipo</option>
                                         <option value="Aluguel">Aluguel</option>
                                         <option value="Condomínio">
@@ -614,28 +594,29 @@
                             </div>
 
                             <!-- Aluguel -->
-                            <div class="col-4 aluguel-field" style="display: none">
-                                <label for="valor_original" class="form-label">Valor original sem multa e
+                            <div class="col-4 aluguel-field-novo" style="display: none">
+                                <label for="valor_original_novo" class="form-label">Valor original sem multa e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original"
-                                    placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
-                            </div>
-
-                            <div class="col-4 aluguel-field" style="display: none">
-                                <label for="vencimento_original" class="form-label">Vencimento original*</label>
-                                <input required type="date" class="form-control" id="vencimento_original"
+                                <input required type="text" class="form-control" id="valor_original_novo"
+                                    name="valor_original_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
 
-                            <div class="col-12 boletos-alugueis mb-4" style="display: none">
+                            <div class="col-4 aluguel-field-novo" style="display: none">
+                                <label for="vencimento_original_novo" class="form-label">Vencimento original*</label>
+                                <input required type="date" class="form-control" id="vencimento_original_novo"
+                                    name="vencimento_original_novo[]" aria-describedby="defaultFormControlHelp" />
+                            </div>
+
+                            <div class="col-12 boletos-alugueis-novos mb-4" style="display: none">
                                 <p>Tem outras contas no mesmo boleto?*</p>
                                 <div class="row">
                                     <div class="col-md mb-md-0 mb-5">
                                         <div class="form-check custom-option custom-option-basic">
                                             <label class="form-check-label custom-option-content"
-                                                for="customRadioTemp1">
-                                                <input name="customRadioTemp" class="form-check-input" type="radio"
-                                                    value="sim" id="customRadioTemp1" checked="" />
+                                                for="customRadioTemp1Novo">
+                                                <input name="possuiMaisBoletosNovo[]" class="form-check-input"
+                                                    type="radio" value="sim" id="customRadioTemp1Novo" />
                                                 <span class="custom-option-header">
                                                     <span class="h6 mb-0">Sim</span>
                                                 </span>
@@ -651,9 +632,9 @@
                                     <div class="col-md">
                                         <div class="form-check custom-option custom-option-basic">
                                             <label class="form-check-label custom-option-content"
-                                                for="customRadioTemp2">
-                                                <input name="customRadioTemp" class="form-check-input" type="radio"
-                                                    value="não" id="customRadioTemp2" />
+                                                for="customRadioTemp2Novo">
+                                                <input name="possuiMaisBoletosNovo[]" class="form-check-input"
+                                                    type="radio" value="não" id="customRadioTemp2Novo" />
                                                 <span class="custom-option-header">
                                                     <span class="h6 mb-0">Não</span>
                                                 </span>
@@ -668,57 +649,57 @@
                                 </div>
                             </div>
 
-                            <div class="mt-4" style="display: none" id="selecionar_mais_boletos">
+                            <div class="mt-4" style="display: none" id="selecionar_mais_boletos_novo">
                                 <label class="mb-2 block text-sm font-medium text-gray-900">Selecione quais contas
                                     estão no
                                     mesmo
                                     boleto</label>
                                 <div class="flex flex-wrap gap-2">
                                     <button type="button"
-                                        class="conta-btn select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
-                                        data-conta="Água">
+                                        class="conta-btn-novo select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
+                                        data-novo="Água">
                                         Água
                                     </button>
                                     <button type="button"
-                                        class="conta-btn select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
-                                        data-conta="Condomínio">
+                                        class="conta-btn-novo select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
+                                        data-novo="Condomínio">
                                         Condomínio
                                     </button>
                                     <button type="button"
-                                        class="conta-btn select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
-                                        data-conta="Gás">
+                                        class="conta-btn-novo select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
+                                        data-novo="Gás">
                                         Gás
                                     </button>
                                     <button type="button"
-                                        class="conta-btn select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
-                                        data-conta="IPTU">
+                                        class="conta-btn-novo select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
+                                        data-novo="IPTU">
                                         IPTU
                                     </button>
                                     <button type="button"
-                                        class="conta-btn select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
-                                        data-conta="Luz">
+                                        class="conta-btn-novo select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
+                                        data-novo="Luz">
                                         Luz
                                     </button>
                                     <button type="button"
-                                        class="conta-btn select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
-                                        data-conta="Seguro">
+                                        class="conta-btn-novo select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
+                                        data-novo="Seguro">
                                         Seguro
                                     </button>
                                     <button type="button"
-                                        class="conta-btn select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
-                                        data-conta="Seguro incêndio">
+                                        class="conta-btn-novo select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
+                                        data-novo="Seguro incêndio">
                                         Seguro incêndio
                                     </button>
                                     <button type="button"
-                                        class="conta-btn select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
-                                        data-conta="Outros anexos">
+                                        class="conta-btn-novo select-btn rounded-full border border-gray-400 px-4 py-1 text-sm text-gray-800"
+                                        data-novo="Outros anexos">
                                         Outros anexos
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Div onde vai ser criado parte dos comprovantes de valores -->
-                            <div id="bloco-comprovantes" class="col-12 mt-5" style="display: none">
+                            <div id="bloco-comprovantes-novo" class="col-12 mt-5" style="display: none">
                                 <h4 class="mb-0">Comprovante dos valores</h4>
                                 <p class="m-0 p-0">
                                     Adicione todos os comprovantes dos valores do
@@ -734,140 +715,148 @@
 
                                 <!-- Parte que vai ser gerada após o click nas opções a mais -->
                                 <hr />
-                                <div id="comprovantes-container"></div>
+                                <div id="comprovantes-container-novo"></div>
                             </div>
                             <!-- Fim aluguel -->
 
                             <!-- Condominio -->
-                            <div class="col-4 condominio-field" style="display: none">
-                                <label for="valor_original_condominio" class="form-label">Valor original sem multa
+                            <div class="col-4 condominio-field-novo" style="display: none">
+                                <label for="valor_original_condominio_novo" class="form-label">Valor original sem
+                                    multa
                                     e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original_condominio"
+                                <input required type="text" class="form-control"
+                                    id="valor_original_condominio_novo" name="valor_original_condominio_novo[]"
                                     placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
                             </div>
 
-                            <div class="col-4 condominio-field" style="display: none">
-                                <label for="vencimento_original_condominio" class="form-label">Vencimento
+                            <div class="col-4 condominio-field-novo" style="display: none">
+                                <label for="vencimento_original_condominio_novo" class="form-label">Vencimento
                                     original*</label>
                                 <input required type="date" class="form-control"
-                                    id="vencimento_original_condominio" aria-describedby="defaultFormControlHelp" />
+                                    id="vencimento_original_condominio_novo"
+                                    name="vencimento_original_condominio_novo[]"
+                                    aria-describedby="defaultFormControlHelp" />
                             </div>
 
                             <!-- IPTU -->
-                            <div class="col-4 iptu-field" style="display: none">
-                                <label for="valor_original_iptu" class="form-label">Valor original sem multa e
+                            <div class="col-4 iptu-field-novo" style="display: none">
+                                <label for="valor_original_iptu_novo" class="form-label">Valor original sem multa e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original_iptu"
-                                    name="valor_original_iptu" placeholder="R$ 0,00"
+                                <input required type="text" class="form-control" id="valor_original_iptu_novo"
+                                    name="valor_original_iptu_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
 
-                            <div class="col-4 iptu-field" style="display: none">
-                                <label for="vencimento_original_iptu" class="form-label">Vencimento
+                            <div class="col-4 iptu-field-novo" style="display: none">
+                                <label for="vencimento_original_iptu_novo" class="form-label">Vencimento
                                     original*</label>
-                                <input required type="date" class="form-control" id="vencimento_original_iptu"
-                                    name="vencimento_original_iptu" aria-describedby="defaultFormControlHelp" />
+                                <input required type="date" class="form-control"
+                                    id="vencimento_original_iptu_novo" name="vencimento_original_iptu_novo[]"
+                                    aria-describedby="defaultFormControlHelp" />
                             </div>
 
                             <!-- Seguro -->
-                            <div class="col-4 seguro-field" style="display: none">
-                                <label for="valor_original_seguro" class="form-label">Valor original sem multa e
+                            <div class="col-4 seguro-field-novo" style="display: none">
+                                <label for="valor_original_seguro_novo" class="form-label">Valor original sem multa e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original_seguro"
-                                    name="valor_original_seguro" placeholder="R$ 0,00"
+                                <input required type="text" class="form-control" id="valor_original_seguro_novo"
+                                    name="valor_original_seguro_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
 
-                            <div class="col-4 seguro-field" style="display: none">
-                                <label for="vencimento_original_seguro" class="form-label">Vencimento
+                            <div class="col-4 seguro-field-novo" style="display: none">
+                                <label for="vencimento_original_seguro_novo" class="form-label">Vencimento
                                     original*</label>
-                                <input required type="date" class="form-control" id="vencimento_original_seguro"
-                                    name="vencimento_original_seguro" aria-describedby="defaultFormControlHelp" />
+                                <input required type="date" class="form-control"
+                                    id="vencimento_original_seguro_novo" name="vencimento_original_seguro_novo[]"
+                                    aria-describedby="defaultFormControlHelp" />
                             </div>
 
                             <!-- Água -->
-                            <div class="col-4 agua-field" style="display: none">
-                                <label for="valor_original_agua" class="form-label">Valor original sem multa e
+                            <div class="col-4 agua-field-novo" style="display: none">
+                                <label for="valor_original_agua_novo" class="form-label">Valor original sem multa e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original_agua"
-                                    name="valor_original_agua" placeholder="R$ 0,00"
+                                <input required type="text" class="form-control" id="valor_original_agua_novo"
+                                    name="valor_original_agua_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
 
-                            <div class="col-4 agua-field" style="display: none">
-                                <label for="vencimento_original_agua" class="form-label">Vencimento
+                            <div class="col-4 agua-field-novo" style="display: none">
+                                <label for="vencimento_original_agua_novo" class="form-label">Vencimento
                                     original*</label>
-                                <input required type="date" class="form-control" id="vencimento_original_agua"
-                                    name="vencimento_original_agua" aria-describedby="defaultFormControlHelp" />
+                                <input required type="date" class="form-control"
+                                    id="vencimento_original_agua_novo" name="vencimento_original_agua_novo[]"
+                                    aria-describedby="defaultFormControlHelp" />
                             </div>
 
                             <!-- Luz -->
-                            <div class="col-4 luz-field" style="display: none">
-                                <label for="valor_original_luz" class="form-label">Valor original sem multa e
+                            <div class="col-4 luz-field-novo" style="display: none">
+                                <label for="valor_original_luz_novo" class="form-label">Valor original sem multa e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original_luz"
-                                    name="valor_original_luz" placeholder="R$ 0,00"
+                                <input required type="text" class="form-control" id="valor_original_luz_novo"
+                                    name="valor_original_luz_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
 
-                            <div class="col-4 luz-field" style="display: none">
-                                <label for="vencimento_original_luz" class="form-label">Vencimento
+                            <div class="col-4 luz-field-novo" style="display: none">
+                                <label for="vencimento_original_luz_novo" class="form-label">Vencimento
                                     original*</label>
-                                <input required type="date" class="form-control" id="vencimento_original_luz"
-                                    name="vencimento_original_luz" aria-describedby="defaultFormControlHelp" />
+                                <input required type="date" class="form-control" id="vencimento_original_luz_novo"
+                                    name="vencimento_original_luz_novo[]" aria-describedby="defaultFormControlHelp" />
                             </div>
 
                             <!-- Gás -->
-                            <div class="col-4 gas-field" style="display: none">
-                                <label for="valor_original_gas" class="form-label">Valor original sem multa e
+                            <div class="col-4 gas-field-novo" style="display: none">
+                                <label for="valor_original_gas_novo" class="form-label">Valor original sem multa e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original_gas"
-                                    name="valor_original_gas" placeholder="R$ 0,00"
+                                <input required type="text" class="form-control" id="valor_original_gas_novo"
+                                    name="valor_original_gas_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
 
-                            <div class="col-4 gas-field" style="display: none">
-                                <label for="vencimento_original_gas" class="form-label">Vencimento
+                            <div class="col-4 gas-field-novo" style="display: none">
+                                <label for="vencimento_original_gas_novo" class="form-label">Vencimento
                                     original*</label>
-                                <input required type="date" class="form-control" id="vencimento_original_gas"
-                                    name="vencimento_original_gas" aria-describedby="defaultFormControlHelp" />
+                                <input required type="date" class="form-control" id="vencimento_original_gas_novo"
+                                    name="vencimento_original_gas_novo[]" aria-describedby="defaultFormControlHelp" />
                             </div>
 
                             <!-- Seguro Incêndio -->
-                            <div class="col-4 seguro-incendio-field" style="display: none">
-                                <label for="valor_original_seguro_incendio" class="form-label">Valor original sem
+                            <div class="col-4 seguro-incendio-field-novo" style="display: none">
+                                <label for="valor_original_seguro_incendio_novo" class="form-label">Valor original sem
                                     multa e
                                     juros*</label>
                                 <input required type="text" class="form-control"
-                                    id="valor_original_seguro_incendio" name="valor_original_seguro_incendio"
-                                    placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
+                                    id="valor_original_seguro_incendio_novo"
+                                    name="valor_original_seguro_incendio_novo[]" placeholder="R$ 0,00"
+                                    aria-describedby="defaultFormControlHelp" />
                             </div>
 
-                            <div class="col-4 seguro-incendio-field" style="display: none">
-                                <label for="vencimento_original_seguro_incendio" class="form-label">Vencimento
+                            <div class="col-4 seguro-incendio-field-novo" style="display: none">
+                                <label for="vencimento_original_seguro_incendio_novo" class="form-label">Vencimento
                                     original*</label>
                                 <input required type="date" class="form-control"
-                                    id="vencimento_original_seguro_incendio"
-                                    name="vencimento_original_seguro_incendio"
+                                    id="vencimento_original_seguro_incendio_novo"
+                                    name="vencimento_original_seguro_incendio_novo[]"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
 
                             <!-- Outros anexos -->
-                            <div class="col-12 outros-anexos-field" style="display: none">
+                            <div class="col-12 outros-anexos-field-novo" style="display: none">
                                 <label for="observacoes" class="form-label">Observações</label>
-                                <textarea class="form-control" id="observacoes" rows="3"></textarea>
+                                <textarea class="form-control" name="observacoes_novo[]" id="observacoes" rows="3"></textarea>
                             </div>
 
                             <!-- Orçamentos de Reparos -->
-                            <div class="col-4 orcamento-field" style="display: none">
-                                <label for="valor_original_orcamentos" class="form-label">Valor*</label>
-                                <input required type="text" class="form-control" id="valor_original_orcamentos"
-                                    name="valor_original_orcamentos" placeholder="R$ 0,00"
-                                    aria-describedby="defaultFormControlHelp" />
+                            <div class="col-4 orcamento-field-novo" style="display: none">
+                                <label for="valor_original_orcamentos_novo" class="form-label">Valor*</label>
+                                <input required type="text" class="form-control"
+                                    id="valor_original_orcamentos_novo" name="valor_original_orcamentos_novo[]"
+                                    placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
                             </div>
 
-                            <div class="col-12 orcamento-container" style="display: none">
+                            <div class="col-12 orcamento-container-novo" style="display: none">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="alert alert-warning" role="alert">
@@ -889,13 +878,8 @@
 
                                         <div class="row gy-6 mt-3">
                                             <div class="col-12">
-                                                <div action="/upload" class="dropzone needsclick dz-clickable"
-                                                    id="dropzone-multi">
-                                                    <div class="dz-message needsclick">
-                                                        Clique ou arraste o arquivo
-                                                        aqui
-                                                    </div>
-                                                </div>
+                                                <input class="form-control" name="anexos" type="file"
+                                                    id="formFile">
                                             </div>
                                         </div>
                                     </div>
@@ -903,19 +887,15 @@
                             </div>
 
                             <!-- Multa rescisória -->
-                            <div class="multa-rescisoria-container" style="display: none">
+                            <div class="multa-rescisoria-container-novo" style="display: none">
                                 <div class="col-12 mb-4">
                                     <h5 class="m-0">Termos de recisão*</h5>
                                     <span class="m-0 p-0">Tamanho máximo 6MB</span>
 
-                                    <div class="row gy-6 mt-2">
+                                    <div class="row gy-6 mt-3">
                                         <div class="col-12">
-                                            <div action="/upload" class="dropzone needsclick dz-clickable"
-                                                id="dropzone-multi">
-                                                <div class="dz-message needsclick">
-                                                    Clique ou arraste o arquivo aqui
-                                                </div>
-                                            </div>
+                                            <input class="form-control" name="anexos" type="file"
+                                                id="formFile">
                                         </div>
                                     </div>
 
@@ -975,14 +955,10 @@
                                     <h5 class="m-0">Vistoria de saída*</h5>
                                     <span class="m-0 p-0">Tamanho máximo 6MB</span>
 
-                                    <div class="row gy-6 mt-2">
+                                    <div class="row gy-6 mt-3">
                                         <div class="col-12">
-                                            <div action="/upload" class="dropzone needsclick dz-clickable"
-                                                id="dropzone-multi">
-                                                <div class="dz-message needsclick">
-                                                    Clique ou arraste o arquivo aqui
-                                                </div>
-                                            </div>
+                                            <input class="form-control" name="anexos" type="file"
+                                                id="formFile">
                                         </div>
                                     </div>
 
@@ -1048,14 +1024,10 @@
                                     </h5>
                                     <span class="m-0 p-0">Tamanho máximo 6MB</span>
 
-                                    <div class="row gy-6 mt-2">
+                                    <div class="row gy-6 mt-3">
                                         <div class="col-12">
-                                            <div action="/upload" class="dropzone needsclick dz-clickable"
-                                                id="dropzone-multi">
-                                                <div class="dz-message needsclick">
-                                                    Clique ou arraste o arquivo aqui
-                                                </div>
-                                            </div>
+                                            <input class="form-control" name="anexos" type="file"
+                                                id="formFile">
                                         </div>
                                     </div>
 
@@ -1114,15 +1086,17 @@
                         </div>
                     </template>
 
-                    <button type="button" class="btn btn-success mb-3" id="add-card-btn">
-                        Adicionar novo card
-                    </button>
+                    <div class="col-12 d-flex justify-content-between mt-5">
+                        <button type="button" class="btn btn-success btn-next waves-effect waves-light"
+                            id="add-card-btn">
+                            Adicionar novo card
+                        </button>
 
-                    <div class="col-12 d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary btn-next waves-effect waves-light">
                             <span class="d-sm-inline-block d-none me-sm-2 align-middle">Próximo</span>
                             <i class="icon-base ti tabler-arrow-right icon-xs"></i>
                         </button>
+
                     </div>
                 </div>
             </div>
