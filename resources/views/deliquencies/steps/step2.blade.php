@@ -30,7 +30,8 @@
 
                 <div class="card-body">
                     <div class="row" id="cards-container" data-card>
-                        <div class="col-12 mb-4" id="comprovante-boleto-original">
+                        <div style="@if ($situacao_imovel == 'Desocupado') display:none; @else display:block; @endif"
+                            class="col-12 mb-4" id="comprovante-boleto-original">
                             <h5 class="m-0">
                                 Envie o comprovante ou boleto original
                             </h5>
@@ -43,32 +44,43 @@
                             </div>
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-4"
+                            style="@if ($situacao_imovel == 'Desocupado') display:none; @else display:block; @endif">
                             <div class="mb-4">
                                 <label for="defaultSelect" class="form-label">Tipo da conta</label>
                                 <select name="tipo_conta" class="form-select tipo-conta">
-                                    <option value="">Selecione um tipo</option>
-                                    <option value="Aluguel">Aluguel</option>
-                                    <option value="Condomínio">
-                                        Condomínio
+                                    <option value="">Selecionar tipo de conta</option>
+                                    <option value="Aluguel"
+                                        {{ old('tipo', $tipo ?? '') == 'Aluguel' ? 'selected' : '' }}>Aluguel</option>
+                                    <option value="Condomínio"
+                                        {{ old('tipo', $tipo ?? '') == 'Condomínio' ? 'selected' : '' }}>Condomínio
                                     </option>
-                                    <option value="IPTU">IPTU</option>
-                                    <option value="Seguro">Seguro</option>
-                                    <option value="Água">Água</option>
-                                    <option value="Luz">Luz</option>
-                                    <option value="Gás">Gás</option>
-                                    <option value="Seguro incêndio">
-                                        Seguro incêndio
+                                    <option value="IPTU" {{ old('tipo', $tipo ?? '') == 'IPTU' ? 'selected' : '' }}>
+                                        IPTU</option>
+                                    <option value="Seguro" {{ old('tipo', $tipo ?? '') == 'Seguro' ? 'selected' : '' }}>
+                                        Seguro</option>
+                                    <option value="Água" {{ old('tipo', $tipo ?? '') == 'Água' ? 'selected' : '' }}>
+                                        Água</option>
+                                    <option value="Luz" {{ old('tipo', $tipo ?? '') == 'Luz' ? 'selected' : '' }}>Luz
                                     </option>
-                                    <option value="Outros anexos">
-                                        Outros anexos
+                                    <option value="Gás" {{ old('tipo', $tipo ?? '') == 'Gás' ? 'selected' : '' }}>Gás
                                     </option>
-                                    <option value="Orçamentos de Reparos">
-                                        Orçamentos de Reparos
-                                    </option>
-                                    <option value="Multa rescisória">
-                                        Multa rescisória
-                                    </option>
+                                    <option value="Seguro incêndio"
+                                        {{ old('tipo', $tipo ?? '') == 'Seguro incêndio' ? 'selected' : '' }}>Seguro
+                                        incêndio</option>
+                                    <option value="Outros anexos"
+                                        {{ old('tipo', $tipo ?? '') == 'Outros anexos' ? 'selected' : '' }}>Outros
+                                        anexos</option>
+                                    @if ($situacao_imovel == 'Desocupado')
+                                        <option value="Orçamentos de Reparos"
+                                            @if ($situacao_imovel == 'Desocupado' && (!isset($tipo) || $tipo != 'Multa rescisória')) selected @endif>
+                                            Orçamentos de Reparos
+                                        </option>
+                                        <option value="Multa rescisória"
+                                            @if ($situacao_imovel == 'Desocupado') selected @endif>
+                                            Multa rescisória
+                                        </option>
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -355,7 +367,8 @@
                         </div>
 
                         <!-- Multa rescisória -->
-                        <div class="multa-rescisoria-container" style="display: none">
+                        <div class="multa-rescisoria-container"
+                            style="@if ($situacao_imovel == 'Desocupado') display:block; @else display:none; @endif">
                             <div class="col-12 mb-4">
                                 <h5 class="m-0">Termos de recisão*</h5>
                                 <span class="m-0 p-0">Tamanho máximo 6MB</span>
@@ -1091,7 +1104,7 @@
                     <div class="col-12 d-flex justify-content-between mt-5">
                         <button type="button" class="btn btn-success btn-next waves-effect waves-light"
                             id="add-card-btn">
-                            Adicionar novo card
+                            Adicionar mais contas / boletos / faturas / orçamentos / anexos
                         </button>
 
                         <button type="submit" class="btn btn-primary btn-next waves-effect waves-light">

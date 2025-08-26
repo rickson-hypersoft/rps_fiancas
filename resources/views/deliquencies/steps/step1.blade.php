@@ -4,10 +4,18 @@
     <!-- Account Details -->
     <div id="account-details" class="content active dstepper-block">
         <div class="content-header bg-light mb-4 p-3" style="border-radius: 0.5rem">
-            <div class="d-flex mb-2">
-                <div class="d-flex align-items-center gap-2">
+
+            <div class="d-flex justify-content-between mb-2">
+                <div>
                     <h6 class="mb-0">Fiança disponível:</h6>
+                    <small class="badge text-bg-success">{{ $fianca_disponivel }}</small>
+                </div>
+                <div class="" id="cobertura-saida" style="display: none;">
+                    <h6 class="mb-0">Cobertura Saída:</h6>
                     <small class="badge text-bg-success">R$ 120.000,00</small>
+                    <i class="menu-icon icon-base ti tabler-alert-hexagon" data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title="A cobertura de saída considera os valores de multa rescisória e os orçamentos"></i>
                 </div>
             </div>
             <p class="p-0">
@@ -72,3 +80,20 @@
         </div>
     </div>
 </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const coberturaSaida = document.getElementById("cobertura-saida");
+        const radios = document.querySelectorAll('input[name="imovel_situacao"]');
+
+        radios.forEach(radio => {
+            radio.addEventListener("change", function() {
+                if (this.value === "Desocupado") {
+                    coberturaSaida.style.display = "block";
+                } else {
+                    coberturaSaida.style.display = "none";
+                }
+            });
+        });
+    });
+</script>

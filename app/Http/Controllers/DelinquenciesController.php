@@ -75,6 +75,18 @@ class DelinquenciesController extends Controller
             abort(404); // ou redirect()->route('delinquencies.index', 'step1');
         }
 
+        if ($step == 'step2') {
+            $deliquencies = Http::withToken(session('jwt_token'))->get(config('api.route') . '/delinquencies/delinquencie/' . $idInadimplencia);
+            $deliquencies = $deliquencies->json();
+
+            return view('deliquencies.create', [
+                'step'            => $step,
+                'contrato_id'     => request()->route('contrato_id'),
+                'idInadimplencia' => request()->route('id'),
+                'situacao_imovel' => $deliquencies['delinquencies']['imovel_situacao'],
+            ]);
+        }
+
         if ($step == 'step3') {
             $user     = session('user');
             $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/financial/financial_account/' . $user['id_imobiliaria'], [
@@ -102,11 +114,26 @@ class DelinquenciesController extends Controller
             ]);
         }
 
+        $response                          = Http::withToken(session('jwt_token'))->get(config('api.route') . '/assets/' . session('user')['id_imobiliaria'] . '/' . request()->route('contrato_id'));
+        $data                              = $response->json();
+        $fiancaDisponivel                  = ($this->parseValor($data['data']['imovel_aluguel']) * 40);
+        $data['data']['fianca_disponivel'] = 'R$ ' . number_format(floatval($fiancaDisponivel), 2, ',', '.');
+
         return view('deliquencies.create', [
-            'step'            => $step,
-            'contrato_id'     => request()->route('contrato_id'),
-            'idInadimplencia' => request()->route('id'),
+            'step'              => $step,
+            'contrato_id'       => request()->route('contrato_id'),
+            'idInadimplencia'   => request()->route('id'),
+            'fianca_disponivel' => $data['data']['fianca_disponivel'],
         ]);
+    }
+
+    private function parseValor(string $valor): float
+    {
+        // Remove 'R$', espaços, pontos de milhar e converte vírgula decimal para ponto
+        $limpo = str_replace(['R$', ' ', '.'], '', $valor);
+        $limpo = str_replace(',', '.', $limpo);
+
+        return floatval($limpo);
     }
 
     public function storeStep1(Request $request, int $contrato_id)
