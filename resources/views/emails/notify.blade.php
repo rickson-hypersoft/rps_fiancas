@@ -129,7 +129,7 @@
                                     <td>
                                         <p>acesse o link para encontrar oque você procura</p>
                                         <a style="color:#fff;background-color:#7367f0;padding:10px 20px;font-size:12px;border-radius:5px;text-decoration:none;display:inline-block;"
-                                            href="{{ $link }}">
+                                            href="{{ $linkFacial }}">
                                             Fazer leitura dos termos e alugar meu imóvel
                                         </a>
                                     </td>

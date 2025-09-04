@@ -15,7 +15,7 @@ class EmailNotification extends Mailable
     use Queueable;
     use SerializesModels;
 
-    public function __construct(protected string $nome, protected string $link)
+    public function __construct(protected string $nome, protected string $link, protected ?string $linkFacial = null)
     {
     }
 
@@ -37,8 +37,9 @@ class EmailNotification extends Mailable
         return new Content(
             view: 'emails.notify',
             with: [
-                'nome' => $this->nome,
-                'link' => $this->link,
+                'nome'       => $this->nome,
+                'link'       => $this->link,
+                'linkFacial' => $this->linkFacial ?? null,
             ]
         );
     }

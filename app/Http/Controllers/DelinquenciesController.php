@@ -98,6 +98,11 @@ class DelinquenciesController extends Controller
             $deliquencies = Http::withToken(session('jwt_token'))->get(config('api.route') . '/delinquencies/delinquencie/' . $idInadimplencia);
             $deliquencies = $deliquencies->json();
 
+            $responseProposta                          = Http::withToken(session('jwt_token'))->get(config('api.route') . '/assets/' . session('user')['id_imobiliaria'] . '/' . request()->route('contrato_id'));
+            $dataProposta                              = $responseProposta->json();
+            $fiancaDisponivel                          = ($this->parseValor($dataProposta['data']['imovel_aluguel']) * 40);
+            $dataProposta['data']['fianca_disponivel'] = 'R$ ' . number_format(floatval($fiancaDisponivel), 2, ',', '.');
+
             $anexosResponse = Http::withToken(session('jwt_token'))->get(config('api.route') . '/attachment', [
                 'id_imobiliaria' => session('user')['id_imobiliaria'],
                 'id_movi'        => $idInadimplencia,
@@ -105,12 +110,13 @@ class DelinquenciesController extends Controller
             $anexos = $anexosResponse->json();
 
             return view('deliquencies.create', [
-                'step'            => $step,
-                'contrato_id'     => request()->route('contrato_id'),
-                'idInadimplencia' => request()->route('id'),
-                'contas'          => $data['data'],
-                'delinquencie'    => $deliquencies['delinquencies'],
-                'anexos'          => $anexos,
+                'step'              => $step,
+                'contrato_id'       => request()->route('contrato_id'),
+                'idInadimplencia'   => request()->route('id'),
+                'contas'            => $data['data'],
+                'delinquencie'      => $deliquencies['delinquencies'],
+                'anexos'            => $anexos,
+                'fianca_disponivel' => $dataProposta['data']['fianca_disponivel'],
             ]);
         }
 
@@ -198,6 +204,10 @@ class DelinquenciesController extends Controller
             case 'Seguro incêndio':
                 $dataInsert = $this->delinquenciesService->seguroIncendio($request->all());
 
+                // no break
+            case 'Outros anexos':
+                $dataInsert = $this->delinquenciesService->outrosAnexos($request->all());
+
                 break;
         }
 
@@ -221,6 +231,19 @@ class DelinquenciesController extends Controller
         $data     = $response->json();
 
         // Adicionar histórico
+        if ($data['imovel_situacao'] == 'Desocupado') {
+            $historico = session('user')['nome']
+                . ' adicionou uma nova inadimplência com o imóvel desocupado';
+        } elseif ($data['tipo_conta'] == 'Outros anexos') {
+            $historico = session('user')['nome']
+            . ' adicionou uma nova inadimplência com o imóvel ocupado';
+        } else {
+            $historico = session('user')['nome']
+            . ' adicionou uma nova inadimplência com o valor R$ '
+            . $dataInsert['valor_original']
+            . ', Data de Vencimento Original: '
+            . Carbon::parse($data['vencimento_original'])->format('d/m/Y');
+        }
         Http::withToken($token)->post(config('api.route') . '/history/create', [
             'id_imobiliaria' => $data['id_imobiliaria'],
             'id_movi'        => $data['id'],
@@ -228,11 +251,7 @@ class DelinquenciesController extends Controller
             'data'           => date('Y-m-d'),
             'hora'           => date('H:i:s'),
             'id_usuario'     => session('user')['id'],
-            'historico'      => session('user')['nome']
-                . ' adicionou uma nova inadimplência com o valor R$ '
-                . $dataInsert['valor_original']
-                . ', Data de Vencimento Original: '
-                . Carbon::parse($data['vencimento_original'])->format('d/m/Y'),
+            'historico'      => $historico,
         ]);
 
         if ($request->hasFile('anexos')) {
@@ -265,6 +284,63 @@ class DelinquenciesController extends Controller
                         'nome_arquivo_original' => $nomeOriginal,
                         'descricao'             => 'Arquivo anexado à Inadimplência',
                     ]);
+                }
+            }
+        }
+
+        // Multas Recisórias
+        if (
+            $request->hasFile('anexos_termos_recisao') ||
+            $request->hasFile('anexos_vistoria_saida') ||
+            $request->hasFile('anexos_descricao_valores')
+        ) {
+            $anexos = [
+                'anexos_termos_recisao',
+                'anexos_vistoria_saida',
+                'anexos_descricao_valores',
+            ];
+
+            foreach ($anexos as $campo) {
+                if ($request->hasFile($campo)) {
+                    $file = $request->file($campo);
+
+                    if ($file->isValid()) {
+                        $ext          = $file->getClientOriginalExtension();
+                        $nomeOriginal = $file->getClientOriginalName();
+
+                        // Verifica se o arquivo já existe via API
+                        $verificaAnexo = Http::withToken($token)->get(config('api.route') . '/attachment/exists', [
+                            'id_imobiliaria' => $idImobiliaria,
+                            'id_movi'        => $idInadimplencia,
+                            'nome_arquivo'   => $nomeOriginal,
+                        ]);
+
+                        if ($verificaAnexo->ok() && ($verificaAnexo->json()['exists'] == false)) {
+                            // Gera nome único e salva
+                            $nomeUnico = uniqid($idInadimplencia . '_') . '.' . $ext;
+                            $file->storeAs("anexos/{$idImobiliaria}/inadimplencia", $nomeUnico, 'public');
+
+                            if ($campo === 'anexos_termos_recisao') {
+                                $dataInsert['tipo_conta'] = 'Termos Recisão';
+                            } elseif ($campo === 'anexos_vistoria_saida') {
+                                $dataInsert['tipo_conta'] = 'Vistória Saída';
+                            } elseif ($campo === 'anexos_descricao_valores') {
+                                $dataInsert['tipo_conta'] = 'Descrição de Valores';
+                            }
+
+                            // Registra na API
+                            Http::withToken($token)->post(config('api.route') . '/attachment', [
+                                'id_imobiliaria'        => $idImobiliaria,
+                                'id_movi'               => $idInadimplencia,
+                                'movi'                  => 'inadimplencias',
+                                'movi_sub'              => $dataInsert['tipo_conta'],
+                                'data'                  => now()->format('Y-m-d H:i:s'),
+                                'nome_arquivo'          => $nomeUnico,
+                                'nome_arquivo_original' => $nomeOriginal,
+                                'descricao'             => 'Arquivo anexado à Inadimplência',
+                            ]);
+                        }
+                    }
                 }
             }
         }
@@ -334,14 +410,14 @@ class DelinquenciesController extends Controller
             'id_imobiliaria' => $idImobiliaria,
             'id_movi'        => $idInadimplencia,
             'movi'           => 'inadimplencias',
-            'movi_sub'       => 'inadimplencias ' . $tipo,
+            'movi_sub'       => mb_convert_encoding($tipo, 'ISO-8859-1'),
         ]);
 
         if (! $response->ok() || empty($response->json())) {
             abort(404, 'Arquivo não encontrado');
         }
 
-        $nomeArquivo = $response->json()[0]['NOME_ARQUIVO'] ?? null;
+        $nomeArquivo = $response->json()[0]['nome_arquivo'] ?? null;
 
         $caminho = "anexos/{$idImobiliaria}/inadimplencia/{$nomeArquivo}";
 

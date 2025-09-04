@@ -84,6 +84,16 @@ class DelinquenciesService
         ];
     }
 
+    public function outrosAnexos(array $request): array
+    {
+        return [
+            'tipo_conta'          => $request['tipo_conta'],
+            'observacao'          => $request['observacoes'],
+            'valor_original'      => 0,
+            'vencimento_original' => null,
+        ];
+    }
+
     public function maisBoletos(array $request): array
     {
         $tipos = [
@@ -122,6 +132,7 @@ class DelinquenciesService
             'agua',
             'luz',
             'seguro_incendio',
+            'orcamentos',
         ];
 
         $novos = [];
@@ -237,6 +248,7 @@ class DelinquenciesService
             'anexos-seguro'          => 'Seguro',
             'anexos-seguro_incendio' => 'Seguro Incêndio',
             'anexos-outros_anexos'   => 'Outros Anexos',
+            'anexos_orcamento'       => 'Orçamentos',
         ];
 
         foreach ($tipos as $campo => $descricao) {

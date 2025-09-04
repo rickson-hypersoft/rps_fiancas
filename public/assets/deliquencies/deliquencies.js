@@ -10,9 +10,26 @@ document.addEventListener("change", function (event) {
     const toggleFields = (selector, condition) => {
         card.querySelectorAll(selector).forEach(field => {
             field.style.display = condition ? "block" : "none";
+
+            // Gerenciar os inputs internos (habilitar/desabilitar)
+            field.querySelectorAll("input, select, textarea").forEach(input => {
+                if (condition) {
+                    input.disabled = false; // habilita
+                    if (input.dataset.required === "true") {
+                        input.setAttribute("required", true); // recoloca required original
+                    }
+                } else {
+                    if (input.hasAttribute("required")) {
+                        input.dataset.required = "true"; // marca que era required
+                    }
+                    input.removeAttribute("required"); // remove required para evitar erro
+                    input.disabled = true; // desabilita para não enviar
+                }
+            });
         });
     };
 
+    // Exibe/oculta os grupos
     document.querySelector(".boletos-alugueis").style.display =
         tipo === "Aluguel" ? "block" : "none";
 
@@ -29,7 +46,7 @@ document.addEventListener("change", function (event) {
     toggleFields(".orcamento-container", tipo === "Orçamentos de Reparos");
 
     const boletoOriginal = card.querySelector("#comprovante-boleto-original");
-    const multaRescisoria = card.querySelector(".multa-rescisoria-container");
+    const multaRescisoria = card.querySelector(".multa-rescisoria-container-novo");
 
     if (boletoOriginal && multaRescisoria) {
         boletoOriginal.style.display = tipo === "Multa rescisória" ? "none" : "block";
@@ -184,9 +201,12 @@ document.addEventListener("change", function (event) {
     toggleFields(".orcamento-field-novo", tipo === "Orçamentos de Reparos");
     toggleFields(".orcamento-container-novo", tipo === "Orçamentos de Reparos");
 
+    const multaRescisoria = card.querySelector(".multa-rescisoria-container-novo");
     const boletoOriginal = card.querySelector("#comprovante-boleto-original-novo");
-    if (boletoOriginal) {
+
+    if (boletoOriginal && multaRescisoria) {
         boletoOriginal.style.display = tipo === "Multa rescisória" ? "none" : "block";
+        multaRescisoria.style.display = tipo === "Multa rescisória" ? "block" : "none";
     }
 
     const blocoComprovantes = card.querySelector("#bloco-comprovantes-novo");

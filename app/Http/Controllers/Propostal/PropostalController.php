@@ -285,8 +285,6 @@ class PropostalController extends Controller
             'document' => $requestSanitize['pessoa_doc'],
         ])->json();
 
-        dd($checkScore);
-
         if (isset($checkScore['message'])) {
             return response()->json(['message' => $checkScore['message']], 400);
         }
@@ -745,11 +743,12 @@ class PropostalController extends Controller
 
     public function sendNotification(Request $request): JsonResponse
     {
-        $name  = $request->input('name');
-        $email = $request->input('email');
-        $link  = $request->input('link');
+        $name       = $request->input('name');
+        $email      = $request->input('email');
+        $link       = $request->input('link');
+        $linkFacial = $request->input('linkFacial');
 
-        if ($this->emailService->send($email, $name, $link)) {
+        if ($this->emailService->send($email, $name, $link, $linkFacial)) {
             return response()->json(['mensagem' => 'E-mail enviado com sucesso!']);
         }
 

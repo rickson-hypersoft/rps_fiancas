@@ -282,7 +282,11 @@
                                                             id="navs-top-messages-{{ $delinquencie['id'] }}"
                                                             role="tabpanel">
                                                             @foreach ($delinquencie['attachments'] as $attachment)
-                                                                <div class="card mb-2">
+                                                                <div class="card btn-download-anexo mb-2"
+                                                                    @if ($delinquencie['imovel_situacao'] == 'Desocupado') data-tipo="{{ $attachment['movi_sub'] }}"
+                                                             @else
+                                                             data-tipo="{{ $delinquencie['tipo_conta'] }}" @endif
+                                                                    data-id="{{ $delinquencie['id'] }}">
                                                                     <div class="card-body">
                                                                         <i class="ti tabler-file-type-pdf"></i>
                                                                         <span>{{ $attachment['movi_sub'] }}</span>
@@ -394,6 +398,28 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll('.btn-download-anexo').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const tipo = this.dataset.tipo;
+                const idContrato = this.dataset.id;
+
+                fetch(`/fianca/inadimplencias/anexos/baixar/${idContrato}/${tipo}`)
+                    .then(res => {
+                        if (!res.ok) throw new Error('Erro ao abrir o anexo');
+                        window.open(
+                            `/fianca/inadimplencias/anexos/baixar/${idContrato}/${tipo}`,
+                            '_blank');
+                    })
+                    .catch(error => {
+                        Swal.fire('Erro', 'Arquivo não encontrado.', 'error');
+                    });
+            });
+        });
+    })
+
+
     document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".form-movimentacao").forEach(function(form) {
             form.addEventListener("submit", function(e) {

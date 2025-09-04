@@ -1,5 +1,5 @@
 <form action="{{ route('delinquencies.storeStep2', ['contrato_id' => $contrato_id, 'id' => $idInadimplencia]) }}"
-    method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+    method="POST" enctype="multipart/form-data">
     @csrf
     <!-- Account Details -->
     <div id="account-details" class="content active dstepper-block">
@@ -89,14 +89,14 @@
                         <div class="col-4 aluguel-field" style="display: none">
                             <label for="valor_original_aluguel" class="form-label">Valor original sem multa e
                                 juros*</label>
-                            <input required type="text" class="form-control" id="valor_original_aluguel"
+                            <input type="text" class="form-control" id="valor_original_aluguel"
                                 name="valor_original_aluguel" placeholder="R$ 0,00"
                                 aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <div class="col-4 aluguel-field" style="display: none">
                             <label for="vencimento_original_aluguel" class="form-label">Vencimento original*</label>
-                            <input required type="date" class="form-control" id="vencimento_original_aluguel"
+                            <input type="date" class="form-control" id="vencimento_original_aluguel"
                                 name="vencimento_original_aluguel" aria-describedby="defaultFormControlHelp" />
                         </div>
 
@@ -214,7 +214,7 @@
                         <div class="col-4 condominio-field" style="display: none">
                             <label for="valor_original_condominio" class="form-label">Valor original sem multa e
                                 juros*</label>
-                            <input required type="text" name="valor_original_condominio" class="form-control"
+                            <input type="text" name="valor_original_condominio" class="form-control"
                                 id="valor_original_condominio" placeholder="R$ 0,00"
                                 aria-describedby="defaultFormControlHelp" />
                         </div>
@@ -222,7 +222,7 @@
                         <div class="col-4 condominio-field" style="display: none">
                             <label for="vencimento_original_condominio" class="form-label">Vencimento
                                 original*</label>
-                            <input required type="date" class="form-control" id="vencimento_original_condominio"
+                            <input type="date" class="form-control" id="vencimento_original_condominio"
                                 name="vencimento_original_condominio" aria-describedby="defaultFormControlHelp" />
                         </div>
 
@@ -230,14 +230,14 @@
                         <div class="col-4 iptu-field" style="display: none">
                             <label for="valor_original_iptu" class="form-label">Valor original sem multa e
                                 juros*</label>
-                            <input required type="text" class="form-control" id="valor_original_iptu"
+                            <input type="text" class="form-control" id="valor_original_iptu"
                                 name="valor_original_iptu" placeholder="R$ 0,00"
                                 aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <div class="col-4 iptu-field" style="display: none">
                             <label for="vencimento_original_iptu" class="form-label">Vencimento original*</label>
-                            <input required type="date" class="form-control" id="vencimento_original_iptu"
+                            <input type="date" class="form-control" id="vencimento_original_iptu"
                                 name="vencimento_original_iptu" aria-describedby="defaultFormControlHelp" />
                         </div>
 
@@ -245,7 +245,7 @@
                         <div class="col-4 seguro-field" style="display: none">
                             <label for="valor_original_seguro" class="form-label">Valor original sem multa e
                                 juros*</label>
-                            <input required type="text" class="form-control" id="valor_original_seguro"
+                            <input type="text" class="form-control" id="valor_original_seguro"
                                 name="valor_original_seguro" placeholder="R$ 0,00"
                                 aria-describedby="defaultFormControlHelp" />
                         </div>
@@ -253,7 +253,7 @@
                         <div class="col-4 seguro-field" style="display: none">
                             <label for="vencimento_original_seguro" class="form-label">Vencimento
                                 original*</label>
-                            <input required type="date" class="form-control" id="vencimento_original_seguro"
+                            <input type="date" class="form-control" id="vencimento_original_seguro"
                                 name="vencimento_original_seguro" aria-describedby="defaultFormControlHelp" />
                         </div>
 
@@ -261,14 +261,14 @@
                         <div class="col-4 agua-field" style="display: none">
                             <label for="valor_original_agua" class="form-label">Valor original sem multa e
                                 juros*</label>
-                            <input required type="text" class="form-control" id="valor_original_agua"
+                            <input type="text" class="form-control" id="valor_original_agua"
                                 name="valor_original_agua" placeholder="R$ 0,00"
                                 aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <div class="col-4 agua-field" style="display: none">
                             <label for="vencimento_original_agua" class="form-label">Vencimento original*</label>
-                            <input required type="date" class="form-control" id="vencimento_original_agua"
+                            <input type="date" class="form-control" id="vencimento_original_agua"
                                 name="vencimento_original_agua" aria-describedby="defaultFormControlHelp" />
                         </div>
 
@@ -276,14 +276,14 @@
                         <div class="col-4 luz-field" style="display: none">
                             <label for="valor_original_luz" class="form-label">Valor original sem multa e
                                 juros*</label>
-                            <input required type="text" class="form-control" id="valor_original_luz"
+                            <input type="text" class="form-control" id="valor_original_luz"
                                 name="valor_original_luz" placeholder="R$ 0,00"
                                 aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <div class="col-4 luz-field" style="display: none">
                             <label for="vencimento_original_luz" class="form-label">Vencimento original*</label>
-                            <input required type="date" class="form-control" id="vencimento_original_luz"
+                            <input type="date" class="form-control" id="vencimento_original_luz"
                                 name="vencimento_original_luz" aria-describedby="defaultFormControlHelp" />
                         </div>
 
@@ -291,14 +291,14 @@
                         <div class="col-4 gas-field" style="display: none">
                             <label for="valor_original_gas" class="form-label">Valor original sem multa e
                                 juros*</label>
-                            <input required type="text" class="form-control" id="valor_original_gas"
+                            <input type="text" class="form-control" id="valor_original_gas"
                                 name="valor_original_gas" placeholder="R$ 0,00"
                                 aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <div class="col-4 gas-field" style="display: none">
                             <label for="vencimento_original_gas" class="form-label">Vencimento original*</label>
-                            <input required type="date" class="form-control" id="vencimento_original_gas"
+                            <input type="date" class="form-control" id="vencimento_original_gas"
                                 name="vencimento_original_gas" aria-describedby="defaultFormControlHelp" />
                         </div>
 
@@ -306,7 +306,7 @@
                         <div class="col-4 seguro-incendio-field" style="display: none">
                             <label for="valor_original_seguro_incendio" class="form-label">Valor original sem multa e
                                 juros*</label>
-                            <input required type="text" class="form-control" id="valor_original_seguro_incendio"
+                            <input type="text" class="form-control" id="valor_original_seguro_incendio"
                                 name="valor_original_seguro_incendio" placeholder="R$ 0,00"
                                 aria-describedby="defaultFormControlHelp" />
                         </div>
@@ -314,21 +314,21 @@
                         <div class="col-4 seguro-incendio-field" style="display: none">
                             <label for="vencimento_original_seguro_incendio" class="form-label">Vencimento
                                 original*</label>
-                            <input required type="date" class="form-control"
-                                id="vencimento_original_seguro_incendio" name="vencimento_original_seguro_incendio"
+                            <input type="date" class="form-control" id="vencimento_original_seguro_incendio"
+                                name="vencimento_original_seguro_incendio"
                                 aria-describedby="defaultFormControlHelp" />
                         </div>
 
                         <!-- Outros anexos -->
                         <div class="col-12 outros-anexos-field" style="display: none">
                             <label for="observacoes" class="form-label">Observações</label>
-                            <textarea class="form-control" id="observacoes" rows="3"></textarea>
+                            <textarea class="form-control" name="observacoes" id="observacoes" rows="3"></textarea>
                         </div>
 
                         <!-- Orçamentos de Reparos -->
                         <div class="col-4 orcamento-field" style="display: none">
                             <label for="valor_original_orcamentos" class="form-label">Valor*</label>
-                            <input required type="text" class="form-control" id="valor_original_orcamentos"
+                            <input type="text" class="form-control" id="valor_original_orcamentos"
                                 placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
                         </div>
 
@@ -356,8 +356,8 @@
                                         <div class="col-12">
                                             <div class="row gy-6 mt-3">
                                                 <div class="col-12">
-                                                    <input class="form-control" name="anexos" type="file"
-                                                        id="formFile">
+                                                    <input class="form-control" name="anexos_orcamento"
+                                                        type="file" id="formFile">
                                                 </div>
                                             </div>
                                         </div>
@@ -375,7 +375,8 @@
 
                                 <div class="row gy-6 mt-3">
                                     <div class="col-12">
-                                        <input class="form-control" name="anexos" type="file" id="formFile">
+                                        <input class="form-control" name="anexos_termos_recisao" type="file"
+                                            id="formFile">
                                     </div>
                                 </div>
 
@@ -436,7 +437,8 @@
 
                                 <div class="row gy-6 mt-3">
                                     <div class="col-12">
-                                        <input class="form-control" name="anexos" type="file" id="formFile">
+                                        <input class="form-control" name="anexos_vistoria_saida" type="file"
+                                            id="formFile">
                                     </div>
                                 </div>
 
@@ -503,7 +505,8 @@
 
                                 <div class="row gy-6 mt-3">
                                     <div class="col-12">
-                                        <input class="form-control" name="anexos" type="file" id="formFile">
+                                        <input class="form-control" name="anexos_descricao_valores" type="file"
+                                            id="formFile">
                                     </div>
                                 </div>
 
@@ -610,7 +613,7 @@
                             <div class="col-4 aluguel-field-novo" style="display: none">
                                 <label for="valor_original_aluguel_novo" class="form-label">Valor original sem multa e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original_aluguel_novo"
+                                <input type="text" class="form-control" id="valor_original_aluguel_novo"
                                     name="valor_original_aluguel_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
@@ -618,8 +621,8 @@
                             <div class="col-4 aluguel-field-novo" style="display: none">
                                 <label for="vencimento_original_aluguel_novo" class="form-label">Vencimento
                                     original*</label>
-                                <input required type="date" class="form-control"
-                                    id="vencimento_original_aluguel_novo" name="vencimento_original_aluguel_novo[]"
+                                <input type="date" class="form-control" id="vencimento_original_aluguel_novo"
+                                    name="vencimento_original_aluguel_novo[]"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
 
@@ -740,16 +743,15 @@
                                     multa
                                     e
                                     juros*</label>
-                                <input required type="text" class="form-control"
-                                    id="valor_original_condominio_novo" name="valor_original_condominio_novo[]"
-                                    placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
+                                <input type="text" class="form-control" id="valor_original_condominio_novo"
+                                    name="valor_original_condominio_novo[]" placeholder="R$ 0,00"
+                                    aria-describedby="defaultFormControlHelp" />
                             </div>
 
                             <div class="col-4 condominio-field-novo" style="display: none">
                                 <label for="vencimento_original_condominio_novo" class="form-label">Vencimento
                                     original*</label>
-                                <input required type="date" class="form-control"
-                                    id="vencimento_original_condominio_novo"
+                                <input type="date" class="form-control" id="vencimento_original_condominio_novo"
                                     name="vencimento_original_condominio_novo[]"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
@@ -758,7 +760,7 @@
                             <div class="col-4 iptu-field-novo" style="display: none">
                                 <label for="valor_original_iptu_novo" class="form-label">Valor original sem multa e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original_iptu_novo"
+                                <input type="text" class="form-control" id="valor_original_iptu_novo"
                                     name="valor_original_iptu_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
@@ -766,8 +768,8 @@
                             <div class="col-4 iptu-field-novo" style="display: none">
                                 <label for="vencimento_original_iptu_novo" class="form-label">Vencimento
                                     original*</label>
-                                <input required type="date" class="form-control"
-                                    id="vencimento_original_iptu_novo" name="vencimento_original_iptu_novo[]"
+                                <input type="date" class="form-control" id="vencimento_original_iptu_novo"
+                                    name="vencimento_original_iptu_novo[]"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
 
@@ -775,7 +777,7 @@
                             <div class="col-4 seguro-field-novo" style="display: none">
                                 <label for="valor_original_seguro_novo" class="form-label">Valor original sem multa e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original_seguro_novo"
+                                <input type="text" class="form-control" id="valor_original_seguro_novo"
                                     name="valor_original_seguro_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
@@ -783,8 +785,8 @@
                             <div class="col-4 seguro-field-novo" style="display: none">
                                 <label for="vencimento_original_seguro_novo" class="form-label">Vencimento
                                     original*</label>
-                                <input required type="date" class="form-control"
-                                    id="vencimento_original_seguro_novo" name="vencimento_original_seguro_novo[]"
+                                <input type="date" class="form-control" id="vencimento_original_seguro_novo"
+                                    name="vencimento_original_seguro_novo[]"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
 
@@ -792,7 +794,7 @@
                             <div class="col-4 agua-field-novo" style="display: none">
                                 <label for="valor_original_agua_novo" class="form-label">Valor original sem multa e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original_agua_novo"
+                                <input type="text" class="form-control" id="valor_original_agua_novo"
                                     name="valor_original_agua_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
@@ -800,8 +802,8 @@
                             <div class="col-4 agua-field-novo" style="display: none">
                                 <label for="vencimento_original_agua_novo" class="form-label">Vencimento
                                     original*</label>
-                                <input required type="date" class="form-control"
-                                    id="vencimento_original_agua_novo" name="vencimento_original_agua_novo[]"
+                                <input type="date" class="form-control" id="vencimento_original_agua_novo"
+                                    name="vencimento_original_agua_novo[]"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
 
@@ -809,7 +811,7 @@
                             <div class="col-4 luz-field-novo" style="display: none">
                                 <label for="valor_original_luz_novo" class="form-label">Valor original sem multa e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original_luz_novo"
+                                <input type="text" class="form-control" id="valor_original_luz_novo"
                                     name="valor_original_luz_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
@@ -817,7 +819,7 @@
                             <div class="col-4 luz-field-novo" style="display: none">
                                 <label for="vencimento_original_luz_novo" class="form-label">Vencimento
                                     original*</label>
-                                <input required type="date" class="form-control" id="vencimento_original_luz_novo"
+                                <input type="date" class="form-control" id="vencimento_original_luz_novo"
                                     name="vencimento_original_luz_novo[]" aria-describedby="defaultFormControlHelp" />
                             </div>
 
@@ -825,7 +827,7 @@
                             <div class="col-4 gas-field-novo" style="display: none">
                                 <label for="valor_original_gas_novo" class="form-label">Valor original sem multa e
                                     juros*</label>
-                                <input required type="text" class="form-control" id="valor_original_gas_novo"
+                                <input type="text" class="form-control" id="valor_original_gas_novo"
                                     name="valor_original_gas_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
@@ -833,7 +835,7 @@
                             <div class="col-4 gas-field-novo" style="display: none">
                                 <label for="vencimento_original_gas_novo" class="form-label">Vencimento
                                     original*</label>
-                                <input required type="date" class="form-control" id="vencimento_original_gas_novo"
+                                <input type="date" class="form-control" id="vencimento_original_gas_novo"
                                     name="vencimento_original_gas_novo[]" aria-describedby="defaultFormControlHelp" />
                             </div>
 
@@ -842,8 +844,7 @@
                                 <label for="valor_original_seguro_incendio_novo" class="form-label">Valor original sem
                                     multa e
                                     juros*</label>
-                                <input required type="text" class="form-control"
-                                    id="valor_original_seguro_incendio_novo"
+                                <input type="text" class="form-control" id="valor_original_seguro_incendio_novo"
                                     name="valor_original_seguro_incendio_novo[]" placeholder="R$ 0,00"
                                     aria-describedby="defaultFormControlHelp" />
                             </div>
@@ -851,7 +852,7 @@
                             <div class="col-4 seguro-incendio-field-novo" style="display: none">
                                 <label for="vencimento_original_seguro_incendio_novo" class="form-label">Vencimento
                                     original*</label>
-                                <input required type="date" class="form-control"
+                                <input type="date" class="form-control"
                                     id="vencimento_original_seguro_incendio_novo"
                                     name="vencimento_original_seguro_incendio_novo[]"
                                     aria-describedby="defaultFormControlHelp" />
@@ -866,9 +867,9 @@
                             <!-- Orçamentos de Reparos -->
                             <div class="col-4 orcamento-field-novo" style="display: none">
                                 <label for="valor_original_orcamentos_novo" class="form-label">Valor*</label>
-                                <input required type="text" class="form-control"
-                                    id="valor_original_orcamentos_novo" name="valor_original_orcamentos_novo[]"
-                                    placeholder="R$ 0,00" aria-describedby="defaultFormControlHelp" />
+                                <input type="text" class="form-control" id="valor_original_orcamentos_novo"
+                                    name="valor_original_orcamentos_novo[]" placeholder="R$ 0,00"
+                                    aria-describedby="defaultFormControlHelp" />
                             </div>
 
                             <div class="col-12 orcamento-container-novo" style="display: none">
@@ -893,7 +894,7 @@
 
                                         <div class="row gy-6 mt-3">
                                             <div class="col-12">
-                                                <input class="form-control" name="anexos" type="file"
+                                                <input class="form-control" name="anexos_orcamento" type="file"
                                                     id="formFile">
                                             </div>
                                         </div>
@@ -909,7 +910,7 @@
 
                                     <div class="row gy-6 mt-3">
                                         <div class="col-12">
-                                            <input class="form-control" name="anexos" type="file"
+                                            <input class="form-control" name="anexos_termos_recisao" type="file"
                                                 id="formFile">
                                         </div>
                                     </div>
@@ -972,7 +973,7 @@
 
                                     <div class="row gy-6 mt-3">
                                         <div class="col-12">
-                                            <input class="form-control" name="anexos" type="file"
+                                            <input class="form-control" name="anexos_vistoria_saida" type="file"
                                                 id="formFile">
                                         </div>
                                     </div>
@@ -1041,8 +1042,8 @@
 
                                     <div class="row gy-6 mt-3">
                                         <div class="col-12">
-                                            <input class="form-control" name="anexos" type="file"
-                                                id="formFile">
+                                            <input class="form-control" name="anexos_descricao_valores"
+                                                type="file" id="formFile">
                                         </div>
                                     </div>
 
@@ -1111,7 +1112,6 @@
                             <span class="d-sm-inline-block d-none me-sm-2 align-middle">Próximo</span>
                             <i class="icon-base ti tabler-arrow-right icon-xs"></i>
                         </button>
-
                     </div>
                 </div>
             </div>

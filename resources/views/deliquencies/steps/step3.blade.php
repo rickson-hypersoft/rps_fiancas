@@ -7,7 +7,7 @@
             <div class="d-flex mb-2">
                 <div class="d-flex align-items-center gap-2">
                     <h6 class="mb-0">Fiança disponível:</h6>
-                    <small class="badge text-bg-success">R$ 120.000,00</small>
+                    <small class="badge text-bg-success">{{ $fianca_disponivel }}</small>
                 </div>
             </div>
             <p class="p-0">
@@ -115,44 +115,46 @@
                         </div>
 
                         <div class="accordion-item mt-5">
-                            <h1 class="" id="headingOne">
-                                <button type="button" class="accordion-button collapsed bg-light"
+                            <h1" id="headingOne">
+                                <button type="button" class="accordion-button collapsed bg-light p-2"
                                     data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="false"
                                     aria-controls="accordionOne">
                                     Todos anexos
                                 </button>
-                            </h1>
+                                </h1>
 
-                            <div id="accordionOne" class="accordion-collapse collapse"
-                                data-bs-parent="#accordionExample" style="">
-                                <div class="accordion-body">
-                                    <table class="table-sm table-borderless table-striped table-hover m-0 table p-0"
-                                        style="font-size: 18px;">
-                                        <thead>
-                                            <tr>
-                                                <th>Tipo da conta</th>
-                                                <th>Ações</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            @foreach ($anexos as $anexo)
+                                <div id="accordionOne" class="accordion-collapse collapse"
+                                    data-bs-parent="#accordionExample" style="">
+                                    <div class="accordion-body">
+                                        <table class="table-sm table-borderless table-striped table-hover m-0 table p-0"
+                                            style="font-size: 18px;">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $anexo['movi_sub'] }}</td>
-                                                    <td>
-                                                        <a href="#" class="btn-download-anexo text-secondary"
-                                                            data-tipo="{{ $delinquencie['tipo_conta'] }}"
-                                                            data-id="{{ $delinquencie['id'] }}">
-                                                            <i class="ti tabler-file-type-pdf"></i> Baixar
-                                                        </a>
-                                                    </td>
+                                                    <th>Tipo da conta</th>
+                                                    <th>Ações</th>
                                                 </tr>
-                                            @endforeach
+                                            </thead>
 
-                                        </tbody>
-                                    </table>
+                                            <tbody>
+                                                @foreach ($anexos as $anexo)
+                                                    <tr>
+                                                        <td>{{ $anexo['movi_sub'] }}</td>
+                                                        <td>
+                                                            <a href="#" class="btn-download-anexo text-secondary"
+                                                                @if ($delinquencie['imovel_situacao'] == 'Desocupado') data-tipo="{{ $anexo['movi_sub'] }}"
+                                                             @else
+                                                             data-tipo="{{ $delinquencie['tipo_conta'] }}" @endif
+                                                                data-id="{{ $delinquencie['id'] }}">
+                                                                <i class="ti tabler-file-type-pdf"></i> Baixar
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -168,6 +170,7 @@
     </div>
 </form>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.querySelectorAll('.btn-download-anexo').forEach(link => {
         link.addEventListener('click', function(e) {
@@ -175,12 +178,14 @@
             const tipo = this.dataset.tipo;
             const idContrato = this.dataset.id;
 
+            console.log(tipo)
             console.log(tipo, idContrato);
 
-            fetch(`/inadimplencias/anexos/baixar/${idContrato}/${tipo}`)
+            fetch(`/fianca/inadimplencias/anexos/baixar/${idContrato}/${tipo}`)
                 .then(res => {
                     if (!res.ok) throw new Error('Erro ao abrir o anexo');
-                    window.open(`/inadimplencias/anexos/baixar/${idContrato}/${tipo}`, '_blank');
+                    window.open(`/fianca/inadimplencias/anexos/baixar/${idContrato}/${tipo}`,
+                        '_blank');
                 })
                 .catch(error => {
                     Swal.fire('Erro', 'Arquivo não encontrado.', 'error');
