@@ -4,16 +4,17 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
-use App\Services\Delinquencies\DelinquenciesService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Services\EmailService;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use App\Services\Delinquencies\DelinquenciesService;
 
 class DelinquenciesController extends Controller
 {
     public function __construct(
-        protected DelinquenciesService $delinquenciesService
+        protected DelinquenciesService $delinquenciesService, protected EmailService $emailService
     ) {
     }
 
@@ -396,9 +397,15 @@ class DelinquenciesController extends Controller
         ];
 
         $response = Http::withToken($token)->put(config('api.route') . '/delinquencies/' . $idInadimplencia, $dataInsert);
-        $response->json();
+        $propostal = Http::withToken($token)->get(config('api.route') . '/delinquencies/' . session('user')['id_imobiliaria'] . '/' . $idInadimplencia);
+        $data = $propostal->json();
 
-        return redirect()->route('assets.asset', ['id' => $contrato_id, 'inadimplencia' => $idInadimplencia]);
+        $name       = $data['propostal']['pessoa_nome'];
+        $email       = $data['propostal']['pessoa_email'];
+
+        $this->emailService->send($email, $name, '', '', 'delinquencies', $response->json()['valor_original'], $response->json()['vencimento_original'], $response->json()['tipo_conta']);
+
+        return redirect()->route('assets.asset', ['id' => $contrato_id, 'inadimplencia' => $idInadimplencia])->with('showSweetAlert', true);
     }
 
     public function baixarAnexo(string $idInadimplencia, string $tipo)

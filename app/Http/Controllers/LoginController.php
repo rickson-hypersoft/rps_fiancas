@@ -21,6 +21,7 @@ class LoginController extends Controller
         $response = Http::post(config('api.route') . '/login', [
             'login'    => $request->login,
             'password' => $request->password,
+            'remember' => $request->remember == 'on' ? true : false
         ]);
 
         if ($response->failed()) {

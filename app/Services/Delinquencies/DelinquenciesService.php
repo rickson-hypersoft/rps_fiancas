@@ -249,6 +249,17 @@ class DelinquenciesService
             'anexos-seguro_incendio' => 'Seguro Incêndio',
             'anexos-outros_anexos'   => 'Outros Anexos',
             'anexos_orcamento'       => 'Orçamentos',
+
+            'anexos_novo_aluguel'     => 'Aluguel',
+            'anexos_novo_condominio'  => 'Condomínio',
+            'anexos_novo_iptu'        => 'IPTU',
+            'anexos_novo_seguro'      => 'Seguro',
+            'anexos_novo_agua'        => 'Água',
+            'anexos_novo_luz'         => 'Luz',
+            'anexos_novo_gas'         => 'Gás',
+            'anexos_novo_seguro_incendio' => 'Seguro Incêndio',
+            'anexos_novo_orcamento'   => 'Orçamentos',
+            'anexos_novo_outros'      => 'Outros Anexos',
         ];
 
         foreach ($tipos as $campo => $descricao) {
@@ -257,23 +268,29 @@ class DelinquenciesService
     }
 
     private function processarAnexo($request, string $campo, string $descricao, $idImobiliaria, int $idInadimplencia, $token): void
-    {
-        // Se $request for array
-        if (is_array($request)) {
-            if (empty($request[$campo])) {
-                return;
-            }
-            $file = $request[$campo];
-        } else {
-            // Se for um Request
-            if (! $request->hasFile($campo)) {
-                return;
-            }
-            $file = $request->file($campo);
-        }
-
-        if (! $file || ! $file->isValid()) {
+{
+    // Se $request for array
+    if (is_array($request)) {
+        if (empty($request[$campo])) {
             return;
+        }
+        $files = $request[$campo];
+    } else {
+        // Se for um Request
+        if (! $request->hasFile($campo)) {
+            return;
+        }
+        $files = $request->file($campo);
+    }
+
+    // Normaliza para array (mesmo que seja apenas 1 arquivo)
+    if (! is_array($files)) {
+        $files = [$files];
+    }
+
+    foreach ($files as $file) {
+        if (! $file || ! $file->isValid()) {
+            continue;
         }
 
         $ext          = $file->getClientOriginalExtension();
@@ -285,7 +302,6 @@ class DelinquenciesService
             'nome_arquivo'   => $nomeOriginal,
         ]);
 
-        // Aqui ajustei a lógica para "adicionar quando não existir"
         if ($verificaAnexo->ok() && $verificaAnexo->json()['exists'] === false) {
             $nomeUnico = uniqid($idInadimplencia . '_') . '.' . $ext;
 
@@ -303,6 +319,7 @@ class DelinquenciesService
             ]);
         }
     }
+}
 
     public function export($request)
     {

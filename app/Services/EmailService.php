@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Mail;
 
 class EmailService
 {
-    public function send(string $email, string $nome, string $link, string $linkFacial): bool
+    public function send(string $email, string $nome, string $link, string $linkFacial, $type = null, $valorOriginal = null, $vencimentoOriginal = null, $tipoConta =null): bool
     {
         try {
-            Mail::to($email)->send(new EmailNotification($nome, $link, $linkFacial));
+            Mail::to($email)->send(new EmailNotification($nome, $link, $linkFacial, $type, $valorOriginal, $vencimentoOriginal, $tipoConta));
 
             return true;
         } catch (\Exception $e) {

@@ -10,23 +10,29 @@
                     </div>
                 @endif
 
-                @if (isset($inadimplencia) && count($inadimplencia) > 0)
+                @if (session('showSweetAlert'))
                     <script>
                         document.addEventListener('DOMContentLoaded', function() {
-                            // Acessa o primeiro item do array de inadimplências
                             const inadimplencia = @json($inadimplencia);
 
-                            // Formata a data
-                            const vencimentoOriginal = new Date(inadimplencia.vencimento_original).toLocaleDateString('pt-BR');
+                            let Message = '';
+                            if (inadimplencia && inadimplencia.vencimento_original && inadimplencia.valor_original) {
+                                const vencimentoOriginal = new Date(inadimplencia.vencimento_original)
+                                    .toLocaleDateString('pt-BR');
+
+                                Message = `<p>Inadimplência no valor <strong>R$ ${inadimplencia.valor_original}</strong>
+                           com data de vencimento <strong>${vencimentoOriginal}</strong>
+                           e forma de pagamento <strong>${inadimplencia.forma_pagamento}</strong> aberta</p>
+                           <p>Sua solicitação será analisada nos próximos 5 dias úteis.</p>`;
+                            } else {
+                                Message = `<p>Inadimplência criada com sucesso!</p>
+                           <p>Sua solicitação será analisada nos próximos 5 dias úteis.</p>`;
+                            }
 
                             Swal.fire({
                                 title: 'Solicitação concluída.',
-                                html: `
-                        <p>Inadimplência no valor <strong>R$ ${inadimplencia.valor_original}</strong> com data de vencimento <strong>${vencimentoOriginal}</strong>
-                        e forme de pagamento <strong>${inadimplencia.forma_pagamento}</strong> aberta</p>
-                        <p>Sua solicitação será analisada nos próximos 5 dias úteis.</p>
-                    `,
-                                icon: 'successs',
+                                html: Message, // 👈 corrigido
+                                icon: 'success',
                                 confirmButtonText: 'Concluído'
                             });
                         });
@@ -54,9 +60,11 @@
                                 <a href="{{ route('delinquencies.create', ['contrato_id' => $data['id']]) }}"
                                     class="btn btn-outline-secondary">Abrir
                                     inadimplência</a>
-                                <a href="{{ route('delinquencies.view', ['id' => $possuiInadimplencia]) }}"
-                                    class="btn btn-outline-secondary">Acompanhar
-                                    inadimplências</a>
+                                <a href="{{ $possuiInadimplencia ? route('delinquencies.view', ['id' => $possuiInadimplencia]) : '#' }}"
+                                    class="btn btn-outline-secondary {{ !$possuiInadimplencia ? 'disabled' : '' }}"
+                                    {{ !$possuiInadimplencia ? 'aria-disabled=true tabindex=-1' : '' }}>
+                                    Acompanhar inadimplências
+                                </a>
                                 <a href="#" class="btn btn-outline-secondary" disabled>Cancelar proposta</a>
                             </div>
 

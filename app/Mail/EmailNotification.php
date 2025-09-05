@@ -15,7 +15,14 @@ class EmailNotification extends Mailable
     use Queueable;
     use SerializesModels;
 
-    public function __construct(protected string $nome, protected string $link, protected ?string $linkFacial = null)
+    public function __construct( protected string $nome,
+        protected string $link,
+        protected ?string $linkFacial = null,
+        protected ?string $tipo = null,
+        protected ?string $valor_original = null,
+        protected ?string $vencimento_original = null,
+        protected ?string $tipo_conta = null
+        )
     {
     }
 
@@ -24,9 +31,13 @@ class EmailNotification extends Mailable
      */
     public function envelope(): Envelope
     {
-        return new Envelope(
-            subject: "Invicta - Inquilino {$this->nome}, falta pouco para finalizar!"
-        );
+         $subject = match ($this->tipo) {
+            'boas_vindas' => "Bem-vindo, {$this->nome}!",
+            'delinquencies'    => "Inadimplência aberta",
+            default       => "Invicta - Inquilino {$this->nome}, falta pouco para finalizar!",
+        };
+
+        return new Envelope(subject: $subject);
     }
 
     /**
@@ -34,12 +45,21 @@ class EmailNotification extends Mailable
      */
     public function content(): Content
     {
+        $view = match ($this->tipo) {
+            'boas_vindas' => 'emails.boas_vindas',
+            'delinquencies'    => 'emails.delinquencies',
+            default       => 'emails.notify',
+        };
+
         return new Content(
-            view: 'emails.notify',
+            view: $view,
             with: [
                 'nome'       => $this->nome,
                 'link'       => $this->link,
-                'linkFacial' => $this->linkFacial ?? null,
+                'linkFacial' => $this->linkFacial,
+                'valor_original' => $this->valor_original,
+                'vencimento_original' => $this->vencimento_original,
+                'tipo_conta' => $this->tipo_conta
             ]
         );
     }

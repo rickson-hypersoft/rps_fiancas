@@ -189,23 +189,40 @@ document.addEventListener("change", function (event) {
         boletosAlugueis.style.display = tipo === "Aluguel" ? "block" : "none";
     }
 
-    toggleFields(".aluguel-field-novo", tipo === "Aluguel");
-    toggleFields(".condominio-field-novo", tipo === "Condomínio");
-    toggleFields(".iptu-field-novo", tipo === "IPTU");
-    toggleFields(".seguro-field-novo", tipo === "Seguro");
-    toggleFields(".agua-field-novo", tipo === "Água");
-    toggleFields(".luz-field-novo", tipo === "Luz");
-    toggleFields(".gas-field-novo", tipo === "Gás");
-    toggleFields(".seguro-incendio-field-novo", tipo === "Seguro incêndio");
-    toggleFields(".outros-anexos-field-novo", tipo === "Outros anexos");
+    toggleFields("#card_aluguel", tipo === "Aluguel");
+    toggleFields("#card_condominio", tipo === "Condomínio");
+    toggleFields("#card_iptu", tipo === "IPTU");
+    toggleFields("#card_seguro", tipo === "Seguro");
+    toggleFields("#card_agua", tipo === "Água");
+    toggleFields("#card_luz", tipo === "Luz");
+    toggleFields("#card_gas", tipo === "Gás");
+    toggleFields("#card_seguro_incendio", tipo === "Seguro incêndio");
+    toggleFields("#card_outros_anexos", tipo === "Outros anexos");
+
     toggleFields(".orcamento-field-novo", tipo === "Orçamentos de Reparos");
     toggleFields(".orcamento-container-novo", tipo === "Orçamentos de Reparos");
+    toggleFields(".orcamento-container-novo", tipo === "Orçamentos de Reparos");
 
+    // toggleFields("#anexos_novo_aluguel", tipo === "Aluguel");
+    // toggleFields("#anexos_novo_condominio", tipo === "Condomínio");
+    // toggleFields("#anexos_novo_iptu", tipo === "IPTU");
+    // toggleFields("#anexos_novo_seguro", tipo === "Seguro");
+    // toggleFields("#anexos_novo_agua", tipo === "Água");
+    // toggleFields("#anexos_novo_luz", tipo === "Luz");
+    // toggleFields("#anexos_novo_gas", tipo === "Gás");
+    // toggleFields("#anexos_novo_seguro-incendio", tipo === "Seguro incêndio");
+    // toggleFields("#anexos_novo_outros-anexos", tipo === "Outros anexos");
+    // toggleFields(".orcamento", tipo === "Orçamentos de Reparos");
+    // toggleFields(".orcamento-container-novo", tipo === "Orçamentos de Reparos");
+    // toggleFields(".orcamento-container-novo", tipo === "Orçamentos de Reparos");
+
+    const orcamentos = card.querySelector(".orcamento-container-novo");
     const multaRescisoria = card.querySelector(".multa-rescisoria-container-novo");
     const boletoOriginal = card.querySelector("#comprovante-boleto-original-novo");
 
-    if (boletoOriginal && multaRescisoria) {
+    if (boletoOriginal && multaRescisoria && orcamentos) {
         boletoOriginal.style.display = tipo === "Multa rescisória" ? "none" : "block";
+        boletoOriginal.style.display = tipo === "Orçamentos de Reparos" ? "none" : "block";
         multaRescisoria.style.display = tipo === "Multa rescisória" ? "block" : "none";
     }
 

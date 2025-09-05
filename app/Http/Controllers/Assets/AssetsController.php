@@ -108,7 +108,7 @@ class AssetsController extends Controller
                     'histories'           => $dataHistory['data'],
                     'possuiInadimplencia' => $inadimplenciaId,
                     'inadimplencia'       => $delinquencies['delinquencies'],
-                ]);
+                ])->with('sweetAlert', true);
             }
         }
 
@@ -117,7 +117,7 @@ class AssetsController extends Controller
             'histories'           => $dataHistory['data'],
             'possuiInadimplencia' => $inadimplenciaId ,
             'inadimplencia'       => null,
-        ]);
+        ])->with('sweetAlert', false);
     }
 
     public function edit(string $idContrato): View

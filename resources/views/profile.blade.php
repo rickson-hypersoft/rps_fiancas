@@ -83,19 +83,19 @@
                         </div>
 
                         <!--
-                                                    <div class="col-md-6">
-                                                        <label for="ativo" class="form-label">Ativo</label>
-                                                        <div class="form-check form-switch mb-2">
-                                                            <input class="form-check-input" type="checkbox" id="user-status-switch" name="ativo"
-                                                                {{ $user['ativo'] ? 'checked' : '' }}>
+                                                        <div class="col-md-6">
+                                                            <label for="ativo" class="form-label">Ativo</label>
+                                                            <div class="form-check form-switch mb-2">
+                                                                <input class="form-check-input" type="checkbox" id="user-status-switch" name="ativo"
+                                                                    {{ $user['ativo'] ? 'checked' : '' }}>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                -->
+                                                    -->
 
                     </div>
                     <div class="d-flex mt-4">
                         <button type="submit" class="btn btn-primary me-3" id="salvar">Salvar alterações</button>
-                        <button type="reset" class="btn btn-label-secondary">Cancelar</button>
+                        <a href="{{ route('home') }}" class="btn btn-label-secondary">Cancelar</a>
                     </div>
                 </div>
                 <!-- /Account -->
