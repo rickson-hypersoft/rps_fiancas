@@ -257,9 +257,9 @@ class DelinquenciesService
             'anexos_novo_agua'        => 'Água',
             'anexos_novo_luz'         => 'Luz',
             'anexos_novo_gas'         => 'Gás',
-            'anexos_novo_seguro_incendio' => 'Seguro Incêndio',
-            'anexos_novo_orcamento'   => 'Orçamentos',
-            'anexos_novo_outros'      => 'Outros Anexos',
+            'anexos_novo_seguro-incendio' => 'Seguro Incêndio',
+            'anexos_novo_outros-anexos'   => 'Orçamentos',
+            'anexos_novo_outros-anexos'      => 'Outros Anexos',
         ];
 
         foreach ($tipos as $campo => $descricao) {

@@ -48,7 +48,7 @@
 
                                         <p>Segue o detalhamento do(s) valor(es) aprovado(s):</p>
 
-                                        <p>- {{ utf8_decode($tipo_conta) }}
+                                        <p>- {{ $tipo_conta }}
                                             ({{ \Carbon\Carbon::parse($vencimento_original)->format('d/m/Y') }}):
                                             <strong>R$ {{ number_format($valor_original, 2, ',', '.') }}</strong>
                                             (aprovado conforme o valor locatício contratado)

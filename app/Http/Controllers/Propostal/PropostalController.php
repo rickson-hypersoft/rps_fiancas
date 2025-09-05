@@ -160,6 +160,7 @@ class PropostalController extends Controller
         // Enviar o link do assertiva no lugar
         if (! $data['link_facial']) {
             $response = Http::withToken($token)->get(config('api.route') . '/criar-assinatura/' . $id);
+            $data = $response->json();
         }
 
         return view('propostal.wizard', [
@@ -365,8 +366,7 @@ class PropostalController extends Controller
             $proposta['imovel_condominio'] +
             $proposta['imovel_taxas'];
         */
-        $imobiliaria = Http::withToken(session('jwt_token'))->get(config('api.route') . '/realestatesector/' . $id);
-
+        $imobiliaria = Http::withToken(session('jwt_token'))->get(config('api.route') . '/realestatesector/' . session('user')['id_imobiliaria']);
         $taxaPadrao                       = $imobiliaria->json()['data']['taxa_padrao'];
         $taxaPadraoFormatada              = floatval($taxaPadrao) / 100;
         $cobertura                        = 12;

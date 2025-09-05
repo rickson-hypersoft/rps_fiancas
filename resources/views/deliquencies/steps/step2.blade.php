@@ -577,7 +577,7 @@
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="defaultSelect" class="form-label">Tipo da conta</label>
-                                        <select class="form-select tipo-conta-novo" name="tipo_conta_novo">
+                                        <select class="form-select tipo-conta-novo" name="tipo_conta_novo[]">
                                             <option value="">Selecione um tipo</option>
                                             <option value="Aluguel">Aluguel</option>
                                             <option value="Condomínio">
