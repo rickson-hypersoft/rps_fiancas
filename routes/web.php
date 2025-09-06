@@ -217,7 +217,29 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         Route::get('/term/active/{linkHash}', [ActivationController::class, 'activeTerm'])->name('activation.term_active')->middleware('verify.contract.link');
     });
 
-    // Pagamentos
+
+    // Inadimplências
+    Route::prefix('inadimplencias')->group(function (): void {
+        Route::get('/', [DelinquenciesController::class, 'index'])->name('delinquencies.index')->middleware('check.permission:4');
+
+        Route::get('/visualizar/{id}', [DelinquenciesController::class, 'view'])->name('delinquencies.view')->middleware('check.permission:4');
+
+        Route::get('/criar/{contrato_id}/{step?}/{id?}', [DelinquenciesController::class, 'create'])->name('delinquencies.create')->middleware('check.permission:4');
+
+        Route::post('/criar/{contrato_id}', [DelinquenciesController::class, 'storeStep1'])->name('delinquencies.store')->middleware('check.permission:4');
+        Route::post('/{contrato_id}/{id}', [DelinquenciesController::class, 'storeStep2'])->name('delinquencies.storeStep2')->middleware('check.permission:4');
+        Route::post('/finalizar/{contrato_id}/{id}', [DelinquenciesController::class, 'storeStep3'])->name('delinquencies.storeStep3')->middleware('check.permission:4');
+
+        Route::get('/anexos/baixar/{id}/{tipo}', [DelinquenciesController::class, 'baixarAnexo']);
+
+        Route::get('/cancelar/{id}', [DelinquenciesController::class, 'delete'])->name('delinquencies.delete')->middleware('check.permission:4');
+        Route::get('/export', [DelinquenciesController::class, 'exportarRelatorio'])->name('delinquencies.export');
+        Route::get('/exportExtract', [DelinquenciesController::class, 'exportarExtratoFinanceiro'])->name('delinquencies.export_extract');
+        Route::post('/adicionar-movimentacao', [DelinquenciesController::class, 'adicionarMovimentacao'])->name('delinquencies.adicionar_movimentacao');
+    });
+});
+
+ // Pagamentos
     Route::prefix('pagamentos')->group(function (): void {
         Route::get('/checkout/{linkHash}', [CheckoutController::class, 'index'])
             ->name('checktou.index')->middleware('verify.contract.link');
@@ -244,24 +266,3 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
             ->name('checkout.confirmation.cart')
             ->middleware('verify.contract.link');
     });
-
-    // Inadimplências
-    Route::prefix('inadimplencias')->group(function (): void {
-        Route::get('/', [DelinquenciesController::class, 'index'])->name('delinquencies.index')->middleware('check.permission:4');
-
-        Route::get('/visualizar/{id}', [DelinquenciesController::class, 'view'])->name('delinquencies.view')->middleware('check.permission:4');
-
-        Route::get('/criar/{contrato_id}/{step?}/{id?}', [DelinquenciesController::class, 'create'])->name('delinquencies.create')->middleware('check.permission:4');
-
-        Route::post('/criar/{contrato_id}', [DelinquenciesController::class, 'storeStep1'])->name('delinquencies.store')->middleware('check.permission:4');
-        Route::post('/{contrato_id}/{id}', [DelinquenciesController::class, 'storeStep2'])->name('delinquencies.storeStep2')->middleware('check.permission:4');
-        Route::post('/finalizar/{contrato_id}/{id}', [DelinquenciesController::class, 'storeStep3'])->name('delinquencies.storeStep3')->middleware('check.permission:4');
-
-        Route::get('/anexos/baixar/{id}/{tipo}', [DelinquenciesController::class, 'baixarAnexo']);
-
-        Route::get('/cancelar/{id}', [DelinquenciesController::class, 'delete'])->name('delinquencies.delete')->middleware('check.permission:4');
-        Route::get('/export', [DelinquenciesController::class, 'exportarRelatorio'])->name('delinquencies.export');
-        Route::get('/exportExtract', [DelinquenciesController::class, 'exportarExtratoFinanceiro'])->name('delinquencies.export_extract');
-        Route::post('/adicionar-movimentacao', [DelinquenciesController::class, 'adicionarMovimentacao'])->name('delinquencies.adicionar_movimentacao');
-    });
-});

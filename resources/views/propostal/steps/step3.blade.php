@@ -162,7 +162,8 @@
                                     <label class="form-label" for="data_nascimento">Data nascimento</label>
                                     @php
                                         $dataNascimento = null;
-                                        if (!empty($proposta['data_nascimento'])) {
+
+                                        if ($proposta['data_nascimento']) {
                                             $dataObj = DateTime::createFromFormat(
                                                 'Y-m-d',
                                                 $proposta['data_nascimento'],

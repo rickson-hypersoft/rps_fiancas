@@ -123,13 +123,13 @@ class PropostalController extends Controller
     {
         $token = session('jwt_token');
 
-        $response               = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
-        $data                   = $response->json();
-        $data['total_contrato'] = $this->parseValor($data['proposta_total_valor']) + $this->parseValor($data['proposta_setup_valor']);
+        $responseProposta               = Http::withToken($token)->get(config('api.route') . '/propostal/' . $id);
+        $dataProposta                   = $responseProposta->json();
+        $dataProposta['total_contrato'] = $this->parseValor($dataProposta['proposta_total_valor']) + $this->parseValor($dataProposta['proposta_setup_valor']);
 
         $html = view('activation.term-view', [
-            'linkHash' => $data['link_hash'],
-            'data'     => $data,
+            'linkHash' => $dataProposta['link_hash'],
+            'data'     => $dataProposta,
         ])->render();
 
         // gera o PDF com Browsershot
@@ -140,9 +140,9 @@ class PropostalController extends Controller
         $response = Http::attach(
             'file',                   // nome do campo
             $pdfContent,              // conteúdo do arquivo
-            "{$data['link_hash']}.pdf"         // nome do arquivo
+            "{$dataProposta['link_hash']}.pdf"         // nome do arquivo
         )->withToken($token)->post(config('api.route') . '/activation/upload-term', [
-            'link_hash' => $data['link_hash'],
+            'link_hash' => $dataProposta['link_hash'],
         ]);
 
         if (! $response->successful()) {
@@ -152,15 +152,17 @@ class PropostalController extends Controller
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
-        if ($data['proposta_credito_status'] == 'Reprovado') {
+        if ($dataProposta['proposta_credito_status'] == 'Reprovado') {
             return redirect()->route('propostal.step2', ['id' => $id]);
         }
 
         // Criar fluxo de recuperar link para acessar
         // Enviar o link do assertiva no lugar
-        if (! $data['link_facial']) {
+        if (! $dataProposta['link_facial']) {
             $response = Http::withToken($token)->get(config('api.route') . '/criar-assinatura/' . $id);
             $data = $response->json();
+        } else {
+            $data = $dataProposta;
         }
 
         return view('propostal.wizard', [
