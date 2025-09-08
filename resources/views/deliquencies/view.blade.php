@@ -285,7 +285,7 @@
                                                                 <div class="card btn-download-anexo mb-2"
                                                                     @if ($delinquencie['imovel_situacao'] == 'Desocupado') data-tipo="{{ $attachment['movi_sub'] }}"
                                                              @else
-                                                             data-tipo="{{ $delinquencie['tipo_conta'] }}" @endif
+                                                             data-tipo="{{ $attachment['movi_sub'] }}" @endif
                                                                     data-id="{{ $delinquencie['id'] }}">
                                                                     <div class="card-body">
                                                                         <i class="ti tabler-file-type-pdf"></i>

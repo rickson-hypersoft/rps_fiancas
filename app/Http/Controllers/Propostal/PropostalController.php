@@ -915,16 +915,19 @@ class PropostalController extends Controller
         return redirect()->route('activation.term_active', ['linkHash' => $data['link_hash']]);
     }
 
-    public function downloadTermo($imobiliaria, string $filename)
+    public function downloadTermo(string $filename)
     {
-        $caminho = "anexos/{$imobiliaria}/termos/{$filename}";
+         $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/download/' . $filename);
 
-        if (! Storage::disk('public')->exists($caminho)) {
-            abort(404, 'Arquivo não encontrado no storage');
-        }
+          if ($response->failed()) {
+        abort($response->status(), 'Arquivo não encontrado na API');
+    }
 
-        return response()->file(storage_path("app/public/{$caminho}"), [
-            'Content-Disposition' => 'inline; filename="' . $filename . '"',
-        ]);
+ return response()->streamDownload(function () use ($response) {
+        echo $response->body();
+    }, $filename, [
+        'Content-Type' => $response->header('Content-Type', 'application/pdf'),
+        'Content-Disposition' => 'inline; filename="' . $filename . '"',
+    ]);
     }
 }

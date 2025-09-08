@@ -32,7 +32,7 @@ Route::middleware(['auth.token'])->group(function (): void {
     Route::put('/minha-conta/atualizar/{usuario}', [ProfileController::class, 'update'])->name('update.my-profile');
 });
 
-Route::get('/termos/{imobiliaria}/{filename}', [PropostalController::class, 'downloadTermo'])
+Route::get('/termos/{filename}', [PropostalController::class, 'downloadTermo'])
     ->name('propostas.download-termo');
 
 // Fianças

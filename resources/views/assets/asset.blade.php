@@ -340,11 +340,10 @@
                                     $idImobiliaria = $data['id_imobiliaria'];
                                     $clienteNome = preg_replace('/[^A-Za-z0-9]/', '_', $data['pessoa_nome']);
                                 @endphp
-                                <a href="{{ route('propostas.download-termo', ['imobiliaria' => $idImobiliaria, 'filename' => "termo_{$clienteNome}.pdf"]) }}"
-                                    target="_blank"
-                                    class="btn btn-sm btn-primary d-flex align-items-center justify-content-center">
+                                <button type="button" class="btn btn-sm btn-primary download-termo-btn"
+                                    data-filename="{{ $data['link_hash'] }}">
                                     <i class="ti tabler-search"></i>
-                                </a>
+                                </button>
 
                                 <div>
                                     <strong class="text-black">Termo aprovado</strong>
@@ -369,6 +368,27 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        document.querySelectorAll('.download-termo-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const filename = this.dataset.filename;
+                const url = "{{ route('propostas.download-termo', ['filename' => ':filename']) }}".replace(
+                    ':filename', filename);
+
+                fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    })
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const fileUrl = window.URL.createObjectURL(blob);
+                        window.open(fileUrl, '_blank'); // abre em nova aba
+                    })
+                    .catch(err => console.error('Erro ao baixar o PDF:', err));
+            });
+        });
+
         document.querySelectorAll('.btn-download-anexo').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();

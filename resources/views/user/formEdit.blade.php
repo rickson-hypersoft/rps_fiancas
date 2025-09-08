@@ -52,12 +52,12 @@
                             </div>
                         </div>
                         <!--
-                                <div class="col-md-4 form-control-validation fv-plugins-icon-container">
-                                    <label for="senha" class="form-label">Senha</label>
-                                    <input class="form-control form-control-lg" maxlength="255" type="text" id="senha" name="senha" maxlength="100" value="{{ old('senha', $user['senha'] ?? '') }}">
-                                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                </div>
-                            -->
+                                                    <div class="col-md-4 form-control-validation fv-plugins-icon-container">
+                                                        <label for="senha" class="form-label">Senha</label>
+                                                        <input class="form-control form-control-lg" maxlength="255" type="text" id="senha" name="senha" maxlength="100" value="{{ old('senha', $user['senha'] ?? '') }}">
+                                                        <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+                                                    </div>
+                                                -->
                         <div class="col-md-4 form-control-validation fv-plugins-icon-container">
                             <label for="nome" class="form-label">Nome</label>
                             <input class="form-control form-control-lg" type="text" name="nome" maxlength="50"
@@ -248,6 +248,14 @@
                                     {{ in_array('16', $permissoesArray) ? 'checked' : '' }} value="16">
                                 <label class="form-check-label" for="notificacao-movimentacao-exoneracao">Notificação de
                                     movimentação de exoneração</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="score-inquilino" name="permissoes[]"
+                                    {{ in_array('17', $permissoesArray) ? 'checked' : '' }} value="17">
+                                <label class="form-check-label" for="score-inquilino">Exibir
+                                    informações do Score do Inquilino</label>
                             </div>
                         </div>
                         <div class="mt-4 pb-3">

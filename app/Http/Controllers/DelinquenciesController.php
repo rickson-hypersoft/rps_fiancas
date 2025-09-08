@@ -293,12 +293,14 @@ class DelinquenciesController extends Controller
         if (
             $request->hasFile('anexos_termos_recisao') ||
             $request->hasFile('anexos_vistoria_saida') ||
-            $request->hasFile('anexos_descricao_valores')
+            $request->hasFile('anexos_descricao_valores') ||
+            $request->hasFile('anexos_descricao_valores_novo')
         ) {
             $anexos = [
                 'anexos_termos_recisao',
                 'anexos_vistoria_saida',
                 'anexos_descricao_valores',
+                'anexos_descricao_valores_novo',
             ];
 
             foreach ($anexos as $campo) {
@@ -326,6 +328,8 @@ class DelinquenciesController extends Controller
                             } elseif ($campo === 'anexos_vistoria_saida') {
                                 $dataInsert['tipo_conta'] = 'Vistória Saída';
                             } elseif ($campo === 'anexos_descricao_valores') {
+                                $dataInsert['tipo_conta'] = 'Descrição de Valores';
+                            }elseif ($campo === 'anexos_descricao_valores_novo') {
                                 $dataInsert['tipo_conta'] = 'Descrição de Valores';
                             }
 
@@ -417,7 +421,7 @@ class DelinquenciesController extends Controller
             'id_imobiliaria' => $idImobiliaria,
             'id_movi'        => $idInadimplencia,
             'movi'           => 'inadimplencias',
-            'movi_sub'       => mb_convert_encoding($tipo, 'ISO-8859-1'),
+            'movi_sub'       => $tipo,
         ]);
 
         if (! $response->ok() || empty($response->json())) {

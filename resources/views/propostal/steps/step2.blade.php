@@ -1,4 +1,5 @@
-<div class="alert alert-primary" role="alert">A última consulta realizado com esse CPF foi em: {{ \Carbon\Carbon::parse($scoreData['data'])->format('d/m/Y') }} -  {{ $scoreData['hora'] }}</div>
+<div class="alert alert-primary" role="alert">A última consulta realizado com esse CPF foi em:
+    {{ \Carbon\Carbon::parse($scoreData['data'])->format('d/m/Y') }} - {{ $scoreData['hora'] }}</div>
 
 <div id="analise-credito" class="content active fv-plugins-bootstrap5 fv-plugins-framework">
     <div style="{{ $styles['cardStyle'] }}" class="{{ $styles['card'] }}" id="card_status_propostal">
@@ -98,51 +99,102 @@
                 </div>
             </div>
 
-             <div class="col-lg-12 my-10">
-                 <div class="card p-4">
-                 <div class="accordion-item">
-                     <h2 class="accordion-header" id="headingOne">
-                            <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="false" aria-controls="accordionOne">
-                                Informações do Inquilino
-                            </button>
-                        </h2>
+            @php
+                $permissoes = explode('|', session('user')['permissoes']);
+                $possuiPermissao = false;
+                if (in_array(17, $permissoes)) {
+                    $possuiPermissao = true;
+                }
+            @endphp
 
-                        <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
-                            <div class="accordion-body">
-                                <div class="table-responsive text-nowrap7">
-                                <table class="table table-borderless table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Data</th>
-                                            <th class="text-center">Classe</th>
-                                            <th>Faixa</th>
-                                            <th>Descrição</th>
-                                            <th>Pontos</th>
-                                        </tr>
-                                    </thead>
+            @if ($possuiPermissao)
+                <div class="col-lg-12 my-10">
+                    <div class="card p-4">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
+                                    data-bs-target="#accordionOne" aria-expanded="false" aria-controls="accordionOne">
+                                    Informações do Inquilino
+                                </button>
+                            </h2>
 
-                                    <tbody>
-                                        @if(!isset($checkScore['message']))
-                                        <tr>
-                                            <td>{{ \Carbon\Carbon::parse($scoreData['data'])->format('d/m/Y') }} {{ $scoreData['hora'] }}</td>
-                                            <td class="text-center">{{ $scoreData['score_classe'] }}</td>
-                                            <td>{{ $scoreData['score_faixa_titulo'] }}</td>
-                                            <td>{{ $scoreData['score_faixa_descricao'] }}</td>
-                                            <td>{{ $scoreData['score_pontos'] }}</td>
-                                        </tr>
-                                        @else
-                                            <tr>
-                                                <td colspan="5">{{ $checkScore['message'] }}</td>
-                                            </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
+                            <div id="accordionOne" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample" style="">
+                                <div class="accordion-body">
+                                    <div class="table-responsive text-nowrap7">
+                                        <table class="table-borderless table-sm table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Data</th>
+                                                    <th class="text-center">Classe</th>
+                                                    <th>Faixa</th>
+                                                    <th>Descrição</th>
+                                                    <th>Pontos</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @if (!isset($checkScore['message']))
+                                                    <tr>
+                                                        <td>{{ \Carbon\Carbon::parse($scoreData['data'])->format('d/m/Y') }}
+                                                            {{ $scoreData['hora'] }}</td>
+                                                        <td class="text-center">{{ $scoreData['score_classe'] }}</td>
+                                                        <td>{{ $scoreData['score_faixa_titulo'] }}</td>
+                                                        <td>{{ $scoreData['score_faixa_descricao'] }}</td>
+                                                        <td>{{ $scoreData['score_pontos'] }}</td>
+                                                    </tr>
+                                                @else
+                                                    <tr>
+                                                        <td colspan="5">{{ $checkScore['message'] }}</td>
+                                                    </tr>
+                                                @endif
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    @if ($scoreData['acoes_valor_total'])
+                                        <hr>
+                                        <div class="table-responsive text-nowrap7">
+                                            <table class="table-borderless table-sm table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Última Ocorrência</th>
+                                                        <th>Valor Ação Total</th>
+                                                        <th>Quantidade de Ações</th>
+                                                        <th>Renda Presumida</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @if (!isset($checkScore['message']))
+                                                        <tr>
+                                                            <td>{{ \Carbon\Carbon::parse($scoreData['acoes_ult_ocorrencia'])->format('d/m/Y') }}
+                                                            </td>
+                                                            <td>
+                                                                R$
+                                                                {{ number_format($scoreData['acoes_valor_total'], 2, ',', '.') }}
+                                                            </td>
+                                                            <td>{{ $scoreData['acoes_qtd'] }}</td>
+                                                            <td>
+                                                                {{ !empty(trim($scoreData['renda_presumida'] ?? ''))
+                                                                    ? 'R$ ' . number_format($scoreData['renda_presumida'], 2, ',', '.')
+                                                                    : 'Sem informação' }}
+                                                            </td>
+                                                        </tr>
+                                                    @else
+                                                        <tr>
+                                                            <td colspan="3">{{ $checkScore['message'] }}</td>
+                                                        </tr>
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                </div>
+            @endif
 
             <input type="hidden" id="id" value="{{ $proposta['id'] }}">
 
@@ -186,7 +238,7 @@
 
                 const form = e.target;
                 const formData = new FormData(form);
-                const url = `/propostas/salvar-step2/${valor}`;
+                const url = `/fianca/propostas/salvar-step2/${valor}`;
 
                 const response = await fetch(url, {
                     method: 'POST',
@@ -203,7 +255,7 @@
                 }
 
                 // Redireciona ao sucesso
-                window.location.href = `/propostas/step3/${data.data.id}`;
+                window.location.href = `/fianca/propostas/step3/${data.data.id}`;
 
             } catch (error) {
                 console.error(error);

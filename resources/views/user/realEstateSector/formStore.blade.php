@@ -170,6 +170,14 @@
                                     movimentação de exoneração</label>
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="score-inquilino" name="permissoes[]"
+                                    checked value="17">
+                                <label class="form-check-label" for="score-inquilino">Exibir
+                                    informações do Score do Inquilino</label>
+                            </div>
+                        </div>
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary waves-effect waves-light me-3">Gravar</button>
                             <a href="{{ route('realestatesector.users.index') }}"

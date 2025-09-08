@@ -1021,7 +1021,7 @@
 
                                             <div class="row gy-6 mt-3">
                                                 <div class="col-12">
-                                                    <input class="form-control" name="anexos_orcamento"
+                                                    <input class="form-control" name="anexos_novo_orcamento[]"
                                                         type="file" id="formFile">
                                                 </div>
                                             </div>
