@@ -58,14 +58,15 @@
 
                             <div class="d-none d-md-flex m-0 gap-1 p-0">
                                 <a href="{{ route('delinquencies.create', ['contrato_id' => $data['id']]) }}"
-                                    class="btn btn-outline-secondary">Abrir
-                                    inadimplência</a>
+                                    class="btn btn-outline-secondary {{ $data['contrato_status'] === 'Cancelado' ? 'disabled' : '' }}">
+                                    Abrir inadimplência
+                                </a>
                                 <a href="{{ $possuiInadimplencia ? route('delinquencies.view', ['id' => $possuiInadimplencia]) : '#' }}"
                                     class="btn btn-outline-secondary {{ !$possuiInadimplencia ? 'disabled' : '' }}"
                                     {{ !$possuiInadimplencia ? 'aria-disabled=true tabindex=-1' : '' }}>
                                     Acompanhar inadimplências
                                 </a>
-                                <a href="#" class="btn btn-outline-secondary" disabled>Cancelar proposta</a>
+                                <button disabled href="#" class="btn btn-outline-secondary">Cancelar proposta</button>
                             </div>
 
                             <div class="d-block d-md-none dropdown">
@@ -84,7 +85,7 @@
                     <div class="card-body mt-4">
                         <h5>Número do Contrato: <span class="text-success">nº {{ $data['id'] }}</span></h5>
                         <p>Situação atual: <span
-                                class="badge rounded-pill bg-{{ $data['proposta_status'] == 'Cancelado' ? 'danger' : 'success' }} badge-dot border"></span>
+                                class="badge rounded-pill bg-{{ $data['contrato_status'] == 'Cancelado' ? 'danger' : 'success' }} badge-dot border"></span>
                             {{ $data['contrato_status'] }}</p>
 
                         <p>Proxíma Renovação estimada: {{ $data['prox_renovacao'] }}</p>
@@ -108,7 +109,8 @@
                                     Ações
                                 </button>
                                 <div class="dropdown-menu" style="">
-                                    <a class="dropdown-item waves-effect" href="javascript:void(0);"><i
+                                    <a class="dropdown-item waves-effect"
+                                        href="{{ route('assets.canceled', ['idContrato' => $data['id']]) }}"><i
                                             class="icon-base ti tabler-trash me-1"></i> Rescindir</a>
                                     <a class="dropdown-item waves-effect"
                                         href="{{ route('assets.edit', ['idContrato' => $data['id']]) }}"><i
@@ -395,10 +397,10 @@
                 const tipo = this.dataset.tipo;
                 const idContrato = this.dataset.id;
 
-                fetch(`/anexos/baixar/${idContrato}/${tipo}`)
+                fetch(`/fianca/anexos/baixar/${idContrato}/${tipo}`)
                     .then(res => {
                         if (!res.ok) throw new Error('Erro ao abrir o anexo');
-                        window.open(`/anexos/baixar/${idContrato}/${tipo}`, '_blank');
+                        window.open(`/fianca/anexos/baixar/${idContrato}/${tipo}`, '_blank');
                     })
                     .catch(error => {
                         Swal.fire('Erro', 'Arquivo não encontrado.', 'error');

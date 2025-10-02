@@ -143,7 +143,7 @@
                                                             <a href="#" class="btn-download-anexo text-secondary"
                                                                 @if ($delinquencie['imovel_situacao'] == 'Desocupado') data-tipo="{{ $anexo['movi_sub'] }}"
                                                              @else
-                                                             data-tipo="{{ $delinquencie['tipo_conta'] }}" @endif
+                                                             data-tipo="{{ $anexo['movi_sub'] }}" @endif
                                                                 data-id="{{ $delinquencie['id'] }}">
                                                                 <i class="ti tabler-file-type-pdf"></i> Baixar
                                                             </a>

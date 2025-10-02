@@ -35,10 +35,8 @@ class AssetsController extends Controller
         $response = Http::withToken($token)->get(config('api.route') . '/assets/' . $idImobiliaria, $queryParams);
         $data     = $response->json();
 
-        $totalGeral = array_sum(array_column($data['contratos'], 'TOTAL'));
-
         $statusContagem = [
-            'Todos'        => $totalGeral,
+            'Todos'        => 0,
             'Ativos'       => 0,
             'Cancelados'   => 0,
             'Em renovação' => 0,
@@ -47,25 +45,34 @@ class AssetsController extends Controller
 
         if (! empty($data['contratos'])) {
             foreach ($data['contratos'] as $contrato) {
-                $status = $contrato['STATUS_PERSONALIZADO'] ?? '';
+                $status = $contrato['STATUS_PERSONALIZADO'];
                 $total  = $contrato['TOTAL'] ?? 0;
+
+                // Ignora contratos com status null
+                if (is_null($status)) {
+                    continue;
+                }
+
+                // Soma sempre no total geral
+                $statusContagem['Todos'] += $total;
 
                 // Mapear nomes conhecidos para os do card
                 switch (trim(strtolower($status))) {
                     case 'ativo':
-                        $statusContagem['Ativos'] = $total;
+                        $statusContagem['Ativos'] += $total;
 
                         break;
                     case 'cancelado':
-                        $statusContagem['Cancelados'] = $total;
+                        $statusContagem['Cancelados'] += $total;
 
                         break;
                     case 'renovando':
-                        $statusContagem['Em renovação'] = $total;
+                    case 'em renovação':
+                        $statusContagem['Em renovação'] += $total;
 
                         break;
                     case 'pendente':
-                        $statusContagem['Pendente'] = $total;
+                        $statusContagem['Pendente'] += $total;
 
                         break;
                 }
@@ -252,7 +259,7 @@ class AssetsController extends Controller
             abort(404, 'Arquivo não encontrado');
         }
 
-        $nomeArquivo = $response->json()[0]['NOME_ARQUIVO'] ?? null;
+        $nomeArquivo = $response->json()[0]['nome_arquivo'] ?? null;
 
         $caminho = "anexos/{$idImobiliaria}/contratos/{$nomeArquivo}";
 
@@ -398,5 +405,141 @@ class AssetsController extends Controller
         }, $fileName, [
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         ]);
+    }
+
+    public function reiscindirContrato(string $idContrato)
+    {
+        $token = session('jwt_token');
+
+        $response = Http::withToken($token)->get(config('api.route') . '/assets/' . session('user')['id_imobiliaria'] . '/' . $idContrato);
+        $data     = $response->json();
+
+        $anexosResponse = Http::withToken($token)->get(config('api.route') . '/attachment', [
+            'id_imobiliaria' => session('user')['id_imobiliaria'],
+            'id_movi'        => $idContrato,
+        ]);
+        $anexos = $anexosResponse->json();
+
+        $responsePayments = Http::withToken($token)->get(config('api.route') . '/payments' . '/' . $idContrato);
+        $dataPayments     = $responsePayments->json();
+
+        $dataPayments['pagamentos']['pessoa_nome']          = $data['data']['pessoa_nome'];
+        $dataPayments['pagamentos']['proposta_total_valor'] = $data['data']['proposta_total_valor'];
+
+        return view('assets.reiscindir', ['data' => $data['data'], 'anexos' => $anexos, 'payments' => $dataPayments['pagamentos']]);
+    }
+
+    public function cancelar(Request $request, string $idContrato)
+    {
+        $token         = session('jwt_token');
+        $idImobiliaria = session('user')['id_imobiliaria'];
+
+        $motivo      = $request->input('motivo_rescisao');
+        $detalhe     = $request->input('detalhe');
+        $dataEntrega = $request->input('data_entrega'); // formato Y-m-d
+
+        $data = [
+            'motivo_rescisao' => $request->input('motivo_rescisao'),
+            'detalhe'         => $request->input('detalhe'),
+            'data_entrega'    => $request->input('data_entrega'),
+        ];
+
+        // Formata a data de entrega no padrão brasileiro
+        $dataEntregaBR = $dataEntrega ? Carbon::parse($dataEntrega)->format('d/m/Y') : 'não informada';
+
+        if ($request->hasFile('arquivos') && $idContrato) {
+            foreach ($request->file('arquivos') as $tipo => $file) {
+                $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $idContrato);
+                $proposta = $response->json();
+
+                if ($tipo == 'contrato') {
+                    $proposta['anx_contrato'] = 1;
+                    $parserPropostal          = $this->parserValuesForInsert($proposta);
+                    $response                 = Http::withToken($token)->post(config('api.route') . '/propostal/create', $parserPropostal);
+                }
+
+                if ($tipo == 'vistoria') {
+                    $proposta['anx_vistoria'] = 1;
+                    $parserPropostal          = $this->parserValuesForInsert($proposta);
+                    Http::withToken($token)->post(config('api.route') . '/propostal/create', $parserPropostal);
+                }
+
+                if ($tipo == 'apolice') {
+                    $proposta['anx_apolice'] = 1;
+                    $parserPropostal         = $this->parserValuesForInsert($proposta);
+                    Http::withToken($token)->post(config('api.route') . '/propostal/create', $parserPropostal);
+                }
+
+                if ($file && $file->isValid()) {
+                    // Aqui você tem $tipo (ex: 'contrato', 'vistoria'...) e o $file
+                    // Pode usar o tipo para salvar em pastas diferentes ou no nome do arquivo
+                    $ext          = $file->getClientOriginalExtension();
+                    $nomeOriginal = $file->getClientOriginalName();
+
+                    // Verifica se já existe o arquivo para essa proposta e tipo
+                    $verificaAnexo = Http::withToken($token)->get(config('api.route') . '/attachment/exists', [
+                        'id_imobiliaria' => $idImobiliaria,
+                        'id_movi'        => $idContrato,
+                        'nome_arquivo'   => $nomeOriginal,
+                    ]);
+
+                    if ($verificaAnexo->ok() && ($verificaAnexo->json()['exists'] ?? false)) {
+                        continue; // pula para o próximo arquivo
+                    }
+
+                    $nomeUnico = uniqid($idContrato . '_' . $tipo . '_') . '.' . $ext;
+
+                    // Salva arquivo com nome único
+                    $file->storeAs("anexos/{$idImobiliaria}/contratos", $nomeUnico, 'public');
+
+                    // Registra no banco via API
+                    Http::withToken($token)->post(config('api.route') . '/attachment', [
+                        'id_imobiliaria'        => $idImobiliaria,
+                        'id_movi'               => $idContrato,
+                        'movi'                  => 'contratos',
+                        'movi_sub'              => $tipo, // salva o tipo no banco
+                        'data'                  => now()->format('Y-m-d H:i:s'),
+                        'nome_arquivo'          => $nomeUnico,
+                        'nome_arquivo_original' => $nomeOriginal,
+                        'descricao'             => "Arquivo anexado ao cancelamento do contrato ({$tipo})",
+                    ]);
+                }
+            }
+        }
+
+        $responsePayments = Http::withToken($token)->get(config('api.route') . '/payments' . '/' . $idContrato);
+        $dataPayments     = $responsePayments->json();
+
+        $historicoBase = "Usuário " . session('user')['nome'] .
+    " cancelou o contrato {$idContrato} em " . now()->format('d/m/Y H:i') .
+    " pelo motivo: {$motivo}. Detalhes: {$detalhe}. " .
+    "Data prevista para entrega da chave: {$dataEntregaBR}.";
+
+        $historico = $historicoBase;
+
+        // Se for PIX ou BOLETO confirmado → acrescenta o aviso de estorno
+        if (
+            in_array($dataPayments['pagamentos']['METODO_PAGAMENTO'], ['PIX', 'BOLETO'])
+            && $dataPayments['pagamentos']['STATUS'] === 'CONFIRMED'
+        ) {
+            $historico .= " É necessário realizar o estorno para o inquilino no valor de R$ {$dataPayments['pagamentos']['VALOR']} referente ao contrato {$idContrato}.";
+        }
+
+        $history = [
+            'id_imobiliaria' => session('user')['id_imobiliaria'],
+            'id_movi'        => $idContrato,
+            'movi'           => 'Cancelamento',
+            'data'           => now()->format('Y-m-d'),
+            'hora'           => now()->format('H:i:s'),
+            'id_usuario'     => session('user')['id'],
+            'historico'      => $historico,
+        ];
+
+        // Histórico
+        Http::withToken($token)->post(config('api.route') . '/history/create', $history);
+
+        Http::withToken($token)->put(config('api.route') . '/canceled/' . $idContrato, $data);
+
+        return redirect()->route('assets.index');
     }
 }

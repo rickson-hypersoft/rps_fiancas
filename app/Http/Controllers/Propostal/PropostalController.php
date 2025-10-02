@@ -160,7 +160,7 @@ class PropostalController extends Controller
         // Enviar o link do assertiva no lugar
         if (! $dataProposta['link_facial']) {
             $response = Http::withToken($token)->get(config('api.route') . '/criar-assinatura/' . $id);
-            $data = $response->json();
+            $data     = $response->json();
         } else {
             $data = $dataProposta;
         }
@@ -368,7 +368,7 @@ class PropostalController extends Controller
             $proposta['imovel_condominio'] +
             $proposta['imovel_taxas'];
         */
-        $imobiliaria = Http::withToken(session('jwt_token'))->get(config('api.route') . '/realestatesector/' . session('user')['id_imobiliaria']);
+        $imobiliaria                      = Http::withToken(session('jwt_token'))->get(config('api.route') . '/realestatesector/' . session('user')['id_imobiliaria']);
         $taxaPadrao                       = $imobiliaria->json()['data']['taxa_padrao'];
         $taxaPadraoFormatada              = floatval($taxaPadrao) / 100;
         $cobertura                        = 12;
@@ -432,9 +432,9 @@ class PropostalController extends Controller
             return response()->json(['message' => 'Campo número precisa ser preenchido!'], 400);
         }
 
-        if (empty($requestSanitize['imovel_complemento'])) {
-            return response()->json(['message' => 'Campo complemento precisa ser preenchido!'], 400);
-        }
+        // if (empty($requestSanitize['imovel_complemento'])) {
+        //     return response()->json(['message' => 'Campo complemento precisa ser preenchido!'], 400);
+        // }
 
         if (empty($requestSanitize['imovel_subtipo'])) {
             return response()->json(['message' => 'Campo sub-tipo do imóvel precisa ser preenchido!'], 400);
@@ -917,17 +917,17 @@ class PropostalController extends Controller
 
     public function downloadTermo(string $filename)
     {
-         $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/download/' . $filename);
+        $response = Http::withToken(session('jwt_token'))->get(config('api.route') . '/download/' . $filename);
 
-          if ($response->failed()) {
-        abort($response->status(), 'Arquivo não encontrado na API');
-    }
+        if ($response->failed()) {
+            abort($response->status(), 'Arquivo não encontrado na API');
+        }
 
- return response()->streamDownload(function () use ($response) {
-        echo $response->body();
-    }, $filename, [
-        'Content-Type' => $response->header('Content-Type', 'application/pdf'),
-        'Content-Disposition' => 'inline; filename="' . $filename . '"',
-    ]);
+        return response()->streamDownload(function () use ($response): void {
+            echo $response->body();
+        }, $filename, [
+            'Content-Type'        => $response->header('Content-Type'),
+            'Content-Disposition' => 'inline; filename="' . $filename . '"',
+        ]);
     }
 }

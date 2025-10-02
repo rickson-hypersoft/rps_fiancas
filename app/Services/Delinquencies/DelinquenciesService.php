@@ -102,6 +102,7 @@ class DelinquenciesService
             'gas',
             'iptu',
             'seguro',
+            'luz',
             'seguro_incendio',
         ];
 
@@ -250,16 +251,16 @@ class DelinquenciesService
             'anexos-outros_anexos'   => 'Outros Anexos',
             'anexos_orcamento'       => 'Orçamentos',
 
-            'anexos_novo_aluguel'     => 'Aluguel',
-            'anexos_novo_condominio'  => 'Condomínio',
-            'anexos_novo_iptu'        => 'IPTU',
-            'anexos_novo_seguro'      => 'Seguro',
-            'anexos_novo_agua'        => 'Água',
-            'anexos_novo_luz'         => 'Luz',
-            'anexos_novo_gas'         => 'Gás',
+            'anexos_novo_aluguel'         => 'Aluguel',
+            'anexos_novo_condominio'      => 'Condomínio',
+            'anexos_novo_iptu'            => 'IPTU',
+            'anexos_novo_seguro'          => 'Seguro',
+            'anexos_novo_agua'            => 'Água',
+            'anexos_novo_luz'             => 'Luz',
+            'anexos_novo_gas'             => 'Gás',
             'anexos_novo_seguro-incendio' => 'Seguro Incêndio',
-            'anexos_novo_orcamento'   => 'Orçamentos',
-            'anexos_novo_outros-anexos'      => 'Outros Anexos',
+            'anexos_novo_orcamento'       => 'Orçamentos',
+            'anexos_novo_outros-anexos'   => 'Outros Anexos',
         ];
 
         foreach ($tipos as $campo => $descricao) {
@@ -268,58 +269,61 @@ class DelinquenciesService
     }
 
     private function processarAnexo($request, string $campo, string $descricao, $idImobiliaria, int $idInadimplencia, $token): void
-{
-    // Se $request for array
-    if (is_array($request)) {
-        if (empty($request[$campo])) {
-            return;
-        }
-        $files = $request[$campo];
-    } else {
-        // Se for um Request
-        if (! $request->hasFile($campo)) {
-            return;
-        }
-        $files = $request->file($campo);
-    }
-
-    // Normaliza para array (mesmo que seja apenas 1 arquivo)
-    if (! is_array($files)) {
-        $files = [$files];
-    }
-
-    foreach ($files as $file) {
-        if (! $file || ! $file->isValid()) {
-            continue;
+    {
+        // Se $request for array
+        if (is_array($request)) {
+            if (empty($request[$campo])) {
+                return;
+            }
+            $files = $request[$campo];
+        } else {
+            // Se for um Request
+            if (! $request->hasFile($campo)) {
+                return;
+            }
+            $files = $request->file($campo);
         }
 
-        $ext          = $file->getClientOriginalExtension();
-        $nomeOriginal = $file->getClientOriginalName();
+        // Normaliza para array (mesmo que seja apenas 1 arquivo)
+        if (! is_array($files)) {
+            $files = [$files];
+        }
 
-        $verificaAnexo = Http::withToken($token)->get(config('api.route') . '/attachment/exists', [
-            'id_imobiliaria' => $idImobiliaria,
-            'id_movi'        => $idInadimplencia,
-            'nome_arquivo'   => $nomeOriginal,
-        ]);
+        foreach ($files as $file) {
+            if (! $file) {
+                continue;
+            }
 
-        if ($verificaAnexo->ok() && $verificaAnexo->json()['exists'] === false) {
-            $nomeUnico = uniqid($idInadimplencia . '_') . '.' . $ext;
+            if (! $file->isValid()) {
+                continue;
+            }
+            $ext          = $file->getClientOriginalExtension();
+            $nomeOriginal = $file->getClientOriginalName();
 
-            $file->storeAs("anexos/{$idImobiliaria}/inadimplencia", $nomeUnico, 'public');
-
-            Http::withToken($token)->post(config('api.route') . '/attachment', [
-                'id_imobiliaria'        => $idImobiliaria,
-                'id_movi'               => $idInadimplencia,
-                'movi'                  => 'inadimplencias',
-                'movi_sub'              => $descricao,
-                'data'                  => now()->format('Y-m-d H:i:s'),
-                'nome_arquivo'          => $nomeUnico,
-                'nome_arquivo_original' => $nomeOriginal,
-                'descricao'             => "Arquivo anexado à {$descricao}",
+            $verificaAnexo = Http::withToken($token)->get(config('api.route') . '/attachment/exists', [
+                'id_imobiliaria' => $idImobiliaria,
+                'id_movi'        => $idInadimplencia,
+                'nome_arquivo'   => $nomeOriginal,
             ]);
+
+            if ($verificaAnexo->ok() && $verificaAnexo->json()['exists'] === false) {
+                $nomeUnico = uniqid($idInadimplencia . '_') . '.' . $ext;
+
+                $file->storeAs("anexos/{$idImobiliaria}/inadimplencia", $nomeUnico, 'public');
+
+                Http::withToken($token)->post(config('api.route') . '/attachment', [
+                    'id_imobiliaria'        => $idImobiliaria,
+                    'id_movi'               => $idInadimplencia,
+                    'movi'                  => 'inadimplencias',
+                    'movi_sub'              => $descricao,
+                    'data'                  => now()->format('Y-m-d H:i:s'),
+                    'nome_arquivo'          => $nomeUnico,
+                    'nome_arquivo_original' => $nomeOriginal,
+                    'descricao'             => "Arquivo anexado à {$descricao}",
+                ]);
+            }
         }
     }
-}
 
     public function export($request)
     {

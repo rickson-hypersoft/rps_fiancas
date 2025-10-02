@@ -22,7 +22,7 @@
                 </div>
                 <div class="" id="cobertura-saida" style="display: none;">
                     <h6 class="mb-0">Cobertura Saída:</h6>
-                    <small class="badge text-bg-success">R$ 120.000,00</small>
+                    <small class="badge text-bg-success">{{ $cobertura_saida }}</small>
                     <i class="menu-icon icon-base ti tabler-alert-hexagon" data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         title="A cobertura de saída considera os valores de multa rescisória e os orçamentos"></i>

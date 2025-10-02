@@ -7,7 +7,7 @@
             <div class="d-flex mb-2">
                 <div class="d-flex align-items-center gap-2">
                     <h6 class="mb-0">Fiança disponível:</h6>
-                    <small class="badge text-bg-success">R$ 120.000,00</small>
+                    <small class="badge text-bg-success">{{ $fianca_disponivel }}</small>
                 </div>
             </div>
             <p class="p-0">

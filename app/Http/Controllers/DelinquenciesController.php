@@ -4,17 +4,18 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
+use App\Services\Delinquencies\DelinquenciesService;
+use App\Services\EmailService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Services\EmailService;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use App\Services\Delinquencies\DelinquenciesService;
 
 class DelinquenciesController extends Controller
 {
     public function __construct(
-        protected DelinquenciesService $delinquenciesService, protected EmailService $emailService
+        protected DelinquenciesService $delinquenciesService,
+        protected EmailService $emailService
     ) {
     }
 
@@ -77,14 +78,20 @@ class DelinquenciesController extends Controller
         }
 
         if ($step == 'step2') {
+            $responseProposta                          = Http::withToken(session('jwt_token'))->get(config('api.route') . '/assets/' . session('user')['id_imobiliaria'] . '/' . request()->route('contrato_id'));
+            $dataProposta                              = $responseProposta->json();
+            $fiancaDisponivel                          = ($this->parseValor($dataProposta['data']['imovel_aluguel']) * 40);
+            $dataProposta['data']['fianca_disponivel'] = 'R$ ' . number_format(floatval($fiancaDisponivel), 2, ',', '.');
+
             $deliquencies = Http::withToken(session('jwt_token'))->get(config('api.route') . '/delinquencies/delinquencie/' . $idInadimplencia);
             $deliquencies = $deliquencies->json();
 
             return view('deliquencies.create', [
-                'step'            => $step,
-                'contrato_id'     => request()->route('contrato_id'),
-                'idInadimplencia' => request()->route('id'),
-                'situacao_imovel' => $deliquencies['delinquencies']['imovel_situacao'],
+                'step'              => $step,
+                'contrato_id'       => request()->route('contrato_id'),
+                'idInadimplencia'   => request()->route('id'),
+                'situacao_imovel'   => $deliquencies['delinquencies']['imovel_situacao'],
+                'fianca_disponivel' => $dataProposta['data']['fianca_disponivel'],
             ]);
         }
 
@@ -102,7 +109,9 @@ class DelinquenciesController extends Controller
             $responseProposta                          = Http::withToken(session('jwt_token'))->get(config('api.route') . '/assets/' . session('user')['id_imobiliaria'] . '/' . request()->route('contrato_id'));
             $dataProposta                              = $responseProposta->json();
             $fiancaDisponivel                          = ($this->parseValor($dataProposta['data']['imovel_aluguel']) * 40);
+            $coberturaSaida                            = ($this->parseValor($dataProposta['data']['imovel_aluguel']) * 5);
             $dataProposta['data']['fianca_disponivel'] = 'R$ ' . number_format(floatval($fiancaDisponivel), 2, ',', '.');
+            $dataProposta['data']['cobertura_saida']   = 'R$ ' . number_format(floatval($coberturaSaida), 2, ',', '.');
 
             $anexosResponse = Http::withToken(session('jwt_token'))->get(config('api.route') . '/attachment', [
                 'id_imobiliaria' => session('user')['id_imobiliaria'],
@@ -118,19 +127,23 @@ class DelinquenciesController extends Controller
                 'delinquencie'      => $deliquencies['delinquencies'],
                 'anexos'            => $anexos,
                 'fianca_disponivel' => $dataProposta['data']['fianca_disponivel'],
+                'cobertura_saida'   => $dataProposta['data']['cobertura_saida'],
             ]);
         }
 
         $response                          = Http::withToken(session('jwt_token'))->get(config('api.route') . '/assets/' . session('user')['id_imobiliaria'] . '/' . request()->route('contrato_id'));
         $data                              = $response->json();
         $fiancaDisponivel                  = ($this->parseValor($data['data']['imovel_aluguel']) * 40);
+        $coberturaSaida                    = ($this->parseValor($data['data']['imovel_aluguel']) * 5);
         $data['data']['fianca_disponivel'] = 'R$ ' . number_format(floatval($fiancaDisponivel), 2, ',', '.');
+        $data['data']['cobertura_saida']   = 'R$ ' . number_format(floatval($coberturaSaida), 2, ',', '.');
 
         return view('deliquencies.create', [
             'step'              => $step,
             'contrato_id'       => request()->route('contrato_id'),
             'idInadimplencia'   => request()->route('id'),
             'fianca_disponivel' => $data['data']['fianca_disponivel'],
+            'cobertura_saida'   => $data['data']['cobertura_saida'],
         ]);
     }
 
@@ -329,7 +342,7 @@ class DelinquenciesController extends Controller
                                 $dataInsert['tipo_conta'] = 'Vistória Saída';
                             } elseif ($campo === 'anexos_descricao_valores') {
                                 $dataInsert['tipo_conta'] = 'Descrição de Valores';
-                            }elseif ($campo === 'anexos_descricao_valores_novo') {
+                            } elseif ($campo === 'anexos_descricao_valores_novo') {
                                 $dataInsert['tipo_conta'] = 'Descrição de Valores';
                             }
 
@@ -400,12 +413,12 @@ class DelinquenciesController extends Controller
             'forma_pagamento'    => $request->all()['ted'],
         ];
 
-        $response = Http::withToken($token)->put(config('api.route') . '/delinquencies/' . $idInadimplencia, $dataInsert);
+        $response  = Http::withToken($token)->put(config('api.route') . '/delinquencies/' . $idInadimplencia, $dataInsert);
         $propostal = Http::withToken($token)->get(config('api.route') . '/delinquencies/' . session('user')['id_imobiliaria'] . '/' . $idInadimplencia);
-        $data = $propostal->json();
+        $data      = $propostal->json();
 
-        $name       = $data['propostal']['pessoa_nome'];
-        $email       = $data['propostal']['pessoa_email'];
+        $name  = $data['propostal']['pessoa_nome'];
+        $email = $data['propostal']['pessoa_email'];
 
         $this->emailService->send($email, $name, '', '', 'delinquencies', $response->json()['valor_original'], $response->json()['vencimento_original'], $response->json()['tipo_conta']);
 

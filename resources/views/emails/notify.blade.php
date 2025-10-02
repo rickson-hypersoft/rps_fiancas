@@ -11,7 +11,8 @@
     <table width="100%" cellpadding="0" cellspacing="0" style="background-color: rgb(200, 200, 200); padding: 20px 0;">
         <tr>
             <td align="center">
-                <img src="http://invicta.kinghost.net/fianca/assets/img/logo.svg" alt="Logo Invicta" />
+                <img src="https://invictafiancas.com.br/fianca/assets/img/logo.png" alt="Logo Invicta"
+                    style="width: 160px" />
             </td>
         </tr>
         <tr>
