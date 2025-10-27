@@ -4,12 +4,13 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
-use App\Services\Delinquencies\DelinquenciesService;
-use App\Services\EmailService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Services\EmailService;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Services\Delinquencies\DelinquenciesService;
 
 class DelinquenciesController extends Controller
 {
@@ -403,6 +404,47 @@ class DelinquenciesController extends Controller
         return redirect()->route('delinquencies.create', ['contrato_id' => $contrato_id, 'step' => 'step3', 'id' => $idInadimplencia]);
     }
 
+     private function sendWhatsApp($numero, $tipo, $link) : JsonResponse
+    {
+        $to   = $this->corrigirNumero($numero);
+
+        $token    = session('jwt_token');
+        $response = Http::withToken($token)->post(config('api.route') . '/enviar-whatsapp/' . $tipo . '/' . $link, ['to' => $to]);
+
+        if (! $response->successful()) {
+            return response()->json("Não foi possível enviar mensagem!");
+        }
+
+        return response()->json("Mensagem enviada com sucesso!");
+    }
+
+     private function corrigirNumero($numero): string
+{
+    // Remove tudo que não for dígito
+    $numero = preg_replace('/\D/', '', (string) $numero);
+
+    // Remove possíveis zeros iniciais, DDI, etc.
+    if (str_starts_with($numero, '55')) {
+        $numero = substr($numero, 2); // tira o DDI se já vier com ele
+    }
+
+    // Se vier com 11 dígitos e começar com 9 (ex: 999911156), mantém
+    // Se vier com 9 dígitos (sem DDD), pode tratar de acordo com sua lógica
+    if (strlen($numero) === 11) {
+        // já está completo com DDD
+        return '+55' . $numero;
+    }
+
+    // Caso falte DDD, insere o 34
+    if (strlen($numero) === 9) {
+        return '+5534' . $numero;
+    }
+
+    // Fallback – retorna com +55 mesmo
+    return '+55' . $numero;
+}
+
+
     public function storeStep3(Request $request, int $contrato_id, int $idInadimplencia)
     {
         $token = session('jwt_token');
@@ -421,6 +463,7 @@ class DelinquenciesController extends Controller
         $email = $data['propostal']['pessoa_email'];
 
         $this->emailService->send($email, $name, '', '', 'delinquencies', $response->json()['valor_original'], $response->json()['vencimento_original'], $response->json()['tipo_conta']);
+        $this->sendWhatsApp($data['propostal']['pessoa_telefone'], 'abertura_inadimplencia', $data['propostal']['link_hash'],);
 
         return redirect()->route('assets.asset', ['id' => $contrato_id, 'inadimplencia' => $idInadimplencia])->with('showSweetAlert', true);
     }

@@ -481,7 +481,7 @@
                             body: JSON.stringify({
                                 to: numeroWhatsAppDestino,
                                 link: linkInquilino,
-                                type: "proposta",
+                                type: "proposta_inicial",
                             }),
                         });
 

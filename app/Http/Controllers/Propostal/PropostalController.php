@@ -291,6 +291,7 @@ class PropostalController extends Controller
         if (isset($checkScore['message'])) {
             return response()->json(['message' => $checkScore['message']], 400);
         }
+
         $score = $checkScore['score_pontos'];
 
         if ($score >= 700) {
@@ -368,6 +369,7 @@ class PropostalController extends Controller
             $proposta['imovel_condominio'] +
             $proposta['imovel_taxas'];
         */
+
         $imobiliaria                      = Http::withToken(session('jwt_token'))->get(config('api.route') . '/realestatesector/' . session('user')['id_imobiliaria']);
         $taxaPadrao                       = $imobiliaria->json()['data']['taxa_padrao'];
         $taxaPadraoFormatada              = floatval($taxaPadrao) / 100;

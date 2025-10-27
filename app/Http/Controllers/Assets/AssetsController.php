@@ -510,10 +510,57 @@ class AssetsController extends Controller
         $responsePayments = Http::withToken($token)->get(config('api.route') . '/payments' . '/' . $idContrato);
         $dataPayments     = $responsePayments->json();
 
+$rawDataPagamento = $dataPayments['pagamentos']['DATA_PAGAMENTO'] ?? null;
+try {
+    if ($rawDataPagamento && str_contains((string) $rawDataPagamento, '/')) {
+        // formato d/m/Y
+        $dataPagamento = Carbon::createFromFormat('d/m/Y', $rawDataPagamento)->startOfDay();
+    } else {
+        // tenta parse normal (Y-m-d, ISO, etc.)
+        $dataPagamento = Carbon::parse($rawDataPagamento)->startOfDay();
+    }
+} catch (\Exception) {
+    // fallback seguro (se parse falhar)
+    $dataPagamento = Carbon::today()->startOfDay();
+}
+
+$dataCancelamento = Carbon::today()->startOfDay(); // sempre hoje
+$mesesContrato = 12; // se for sempre 12 meses
+
+// cálculo de meses inteiros utilizados
+$anosDiff   = $dataCancelamento->year - $dataPagamento->year;
+$mesesDiff  = $dataCancelamento->month - $dataPagamento->month;
+$totalMonths = $anosDiff * 12 + $mesesDiff;
+
+// se o dia do cancelamento for anterior ao dia do pagamento, o mês corrente não foi completado
+if ($dataCancelamento->day < $dataPagamento->day) {
+    $totalMonths--;
+}
+
+// garante não negativo
+$mesesUsados = max($totalMonths, 0);
+
+// ---- regra de negócio: se quiser GARANTIR no mínimo 1 mês usado (como você já tinha antes),
+// mantenha a linha abaixo. Se preferir aceitar 0 meses usados quando a rescisão for antes
+// de completar 1 mês, remova ou comente a próxima linha.
+$mesesUsados = max($mesesUsados, 1);
+
+// meses restantes e cálculo proporcional do estorno
+$mesesRestantes = max($mesesContrato - $mesesUsados, 0);
+
+// melhor calcular estorno proporcional direto sobre o total para evitar erros de arredondamento
+$valorTotal = (float) $dataPayments['pagamentos']['VALOR'];
+$valorEstorno = round($valorTotal * ($mesesRestantes / $mesesContrato), 2);
+
+// formata para BR
+$valorTotalFmt   = number_format($valorTotal, 2, ',', '.');
+$valorEstornoFmt = number_format($valorEstorno, 2, ',', '.');
+
+
         $historicoBase = "Usuário " . session('user')['nome'] .
-    " cancelou o contrato {$idContrato} em " . now()->format('d/m/Y H:i') .
-    " pelo motivo: {$motivo}. Detalhes: {$detalhe}. " .
-    "Data prevista para entrega da chave: {$dataEntregaBR}.";
+            " cancelou o contrato {$idContrato} em " . now()->format('d/m/Y H:i') .
+            " pelo motivo: {$motivo}. Detalhes: {$detalhe}. " .
+            "Data prevista para entrega da chave: {$dataEntregaBR}.";
 
         $historico = $historicoBase;
 
@@ -522,7 +569,11 @@ class AssetsController extends Controller
             in_array($dataPayments['pagamentos']['METODO_PAGAMENTO'], ['PIX', 'BOLETO'])
             && $dataPayments['pagamentos']['STATUS'] === 'CONFIRMED'
         ) {
-            $historico .= " É necessário realizar o estorno para o inquilino no valor de R$ {$dataPayments['pagamentos']['VALOR']} referente ao contrato {$idContrato}.";
+            $historico .= " O inquilino pagou R$ " . $valorTotalFmt .
+                " em {$dataPagamento->format('d/m/Y')}, utilizou {$mesesUsados} mês(es) do contrato." .
+                " Restam {$mesesRestantes} mês(es) não utilizados." .
+                " Deve ser realizado estorno no valor de R$ " . $valorEstornoFmt .
+                " referente ao contrato {$idContrato}.";
         }
 
         $history = [

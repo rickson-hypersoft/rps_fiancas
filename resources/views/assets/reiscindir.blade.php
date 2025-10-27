@@ -1,8 +1,12 @@
 @extends('dashboard')
 @section('content')
     <div class="col-12">
-        <h4>Confirmar Rescisão - Dados do <b>Imóvel</b></h4>
-        <p>{{ $data['id'] }}</p>
+        <div class="card mb-5">
+            <div class="card-body pb-2">
+                <h4 class="mb-0">Confirmar Rescisão - Dados do <b>Imóvel</b></h4>
+                <h5 class="mt-0 font-bold">Contrado: {{ $data['id'] }}</h5>
+            </div>
+        </div>
 
         @if (session('success'))
             <div class="alert alert-success alert-dismissible" role="alert">
