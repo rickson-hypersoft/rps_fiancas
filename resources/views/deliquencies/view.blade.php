@@ -28,7 +28,16 @@
                         <span>
                             <span class="badge badge-center rounded-pill bg-success bg-glow"></span> Fiança disponível: R$
                             @php
-                                $fiancaDisponivel = $propostal['imovel_aluguel'] * 40;
+                                $raw = $propostal['imovel_aluguel'] ?? '0';
+
+                                // Mantém só dígitos, vírgula e ponto (remove R$, espaços, etc.)
+                                $clean = preg_replace('/[^\d,\.]/', '', $raw); // ex: "1.200,00"
+
+                                // Remove milhar (.) e troca vírgula por ponto
+                                $normalized = str_replace(['.', ','], ['', '.'], $clean); // "1200.00"
+
+                                $valor = (float) $normalized; // 1200.00
+                                $fiancaDisponivel = $valor * 40;
                             @endphp
                             {{ number_format($fiancaDisponivel, 2, ',', '.') }}</span>
                     </div>

@@ -7,7 +7,7 @@
                 </div>
                 <div class="d-flex justify-content-between w-100 align-items-center gap-2">
                     <div class="me-2">
-                        <h6 class="mb-0">Assetiva esta gerando o link para autenticação facial</h6>
+                        <h6 class="mb-0">Assertiva esta gerando o link para autenticação facial</h6>
                         <p>Este processo demora de 20 segundos a 2 minutos. Você pode atualizar a página a qualquer
                             momento para verificação do status</p>
                         <a href="{{ url()->current() }}" class="btn btn-primary btn-sm">Atualizar Página</a>

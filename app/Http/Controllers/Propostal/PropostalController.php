@@ -4,16 +4,17 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Propostal;
 
-use App\Http\Controllers\Controller;
+use DateTime;
+use Illuminate\View\View;
+use Illuminate\Http\Request;
 use App\Services\EmailService;
 use Barryvdh\DomPDF\Facade\Pdf;
-use DateTime;
-use Illuminate\Http\Client\Response;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\View\View;
 
 class PropostalController extends Controller
 {
@@ -767,6 +768,7 @@ class PropostalController extends Controller
         $to   = $this->corrigirNumero($to);
 
         $token    = session('jwt_token');
+        Log::info('Request: ', [config('api.route') . '/enviar-whatsapp/' . $type . '/' . $link, ['to' => $to]]);
         $response = Http::withToken($token)->post(config('api.route') . '/enviar-whatsapp/' . $type . '/' . $link, ['to' => $to]);
 
         if (! $response->successful()) {

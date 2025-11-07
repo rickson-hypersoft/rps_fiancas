@@ -429,6 +429,53 @@ class AssetsController extends Controller
         return view('assets.reiscindir', ['data' => $data['data'], 'anexos' => $anexos, 'payments' => $dataPayments['pagamentos']]);
     }
 
+     private function corrigirNumero($numero): string
+{
+    // Remove tudo que não for dígito
+    $numero = preg_replace('/\D/', '', (string) $numero);
+
+    // Remove possíveis zeros iniciais, DDI, etc.
+    if (str_starts_with($numero, '55')) {
+        $numero = substr($numero, 2); // tira o DDI se já vier com ele
+    }
+
+    // Se vier com 11 dígitos e começar com 9 (ex: 999911156), mantém
+    // Se vier com 9 dígitos (sem DDD), pode tratar de acordo com sua lógica
+    if (strlen($numero) === 11) {
+        // já está completo com DDD
+        return '+55' . $numero;
+    }
+
+    // Caso falte DDD, insere o 34
+    if (strlen($numero) === 9) {
+        return '+5534' . $numero;
+    }
+
+    // Fallback – retorna com +55 mesmo
+    return '+55' . $numero;
+}
+
+     private function sendWhatsApp($idContrato)
+        {
+            $token = session('jwt_token');
+
+            $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $idContrato);
+            $proposta = $response->json();
+
+            $to   = $proposta['pessoa_telefone'];
+            $type = 'cancelamento_contrato';
+            $link = $proposta['link_hash'];
+            $to   = $this->corrigirNumero($to);
+
+            $response = Http::withToken($token)->post(config('api.route') . '/enviar-whatsapp/' . $type . '/' . $link, ['to' => $to]);
+
+            if (! $response->successful()) {
+                return response()->json("Não foi possível enviar mensagem!");
+            }
+
+            return response()->json("Mensagem enviada com sucesso!");
+        }
+
     public function cancelar(Request $request, string $idContrato)
     {
         $token         = session('jwt_token');
@@ -590,6 +637,8 @@ $valorEstornoFmt = number_format($valorEstorno, 2, ',', '.');
         Http::withToken($token)->post(config('api.route') . '/history/create', $history);
 
         Http::withToken($token)->put(config('api.route') . '/canceled/' . $idContrato, $data);
+
+        $this->sendWhatsApp($idContrato);
 
         return redirect()->route('assets.index');
     }
