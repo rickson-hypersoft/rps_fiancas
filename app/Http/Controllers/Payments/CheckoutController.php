@@ -38,10 +38,22 @@ class CheckoutController extends Controller
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $linkHash);
         $data     = $response->json();
 
+        $responsePagamento = Http::withToken($token)->post(
+            config('api.route') . '/checkout/pix/' . $linkHash,
+            ['id_usuario' => session('user')['id']]
+        );
+        $dataPagamento = $responsePagamento->json();
+
+        if ($dataPagamento['pago']) {
+            $paymentInfo = $dataPagamento['pagamento'] ?? [];
+
+            return view('payments.confirmation.pix', ['paymentInfo' => $paymentInfo]);
+        }
+
         return view('payments.methods.pix', ['linkHash' => $linkHash, 'data' => $data]);
     }
 
-    public function criarPagamentoPix(string $linkHash): JsonResponse
+    public function criarPagamentoPix(Request $request, string $linkHash)
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->post(
@@ -50,6 +62,24 @@ class CheckoutController extends Controller
         );
         $data = $response->json();
 
+        if (! empty($data['pago'])) {
+            $paymentInfo = $data['pagamento'] ?? [];
+
+            if ($request->expectsJson() || $request->ajax()) {
+                $html = view('payments.confirmation.pix', ['paymentInfo' => $paymentInfo])->render();
+
+                return response()->json([
+                    'success' => true,
+                    'pago'    => true,
+                    'html'    => $html,
+                ]);
+            }
+
+            // fallback para navegação não-AJAX
+            return view('payments.confirmation.pix', ['paymentInfo' => $paymentInfo]);
+        }
+
+        // Fluxo normal (ainda aguardando pagamento): devolve o JSON da API
         return response()->json($data);
     }
 
@@ -59,10 +89,22 @@ class CheckoutController extends Controller
         $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $linkHash);
         $data     = $response->json();
 
+        $responsePagamento = Http::withToken($token)->post(
+            config('api.route') . '/checkout/pix/' . $linkHash,
+            ['id_usuario' => session('user')['id']]
+        );
+        $dataPagamento = $responsePagamento->json();
+
+        if ($dataPagamento['pago']) {
+            $paymentInfo = $dataPagamento['pagamento'] ?? [];
+
+            return view('payments.confirmation.pix', ['paymentInfo' => $paymentInfo]);
+        }
+
         return view('payments.methods.boleto', ['linkHash' => $linkHash, 'data' => $data]);
     }
 
-    public function criarPagamentoBoleto(string $linkHash): JsonResponse
+    public function criarPagamentoBoleto(Request $request, string $linkHash)
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->post(
@@ -70,6 +112,23 @@ class CheckoutController extends Controller
             ['id_usuario' => session('user')['id']]
         );
         $data = $response->json();
+
+        if (! empty($data['pago'])) {
+            $paymentInfo = $data['pagamento'] ?? [];
+
+            if ($request->expectsJson() || $request->ajax()) {
+                $html = view('payments.confirmation.pix', ['paymentInfo' => $paymentInfo])->render();
+
+                return response()->json([
+                    'success' => true,
+                    'pago'    => true,
+                    'html'    => $html,
+                ]);
+            }
+
+            // fallback para navegação não-AJAX
+            return view('payments.confirmation.pix', ['paymentInfo' => $paymentInfo]);
+        }
 
         return response()->json($data);
     }

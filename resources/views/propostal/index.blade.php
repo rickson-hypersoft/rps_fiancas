@@ -41,7 +41,8 @@
                                 <div class="input-group input-group-merge">
                                     <span class="input-group-text" id="basic-addon-search31"><i
                                             class="icon-base ti tabler-search"></i></span>
-                                    <input type="text" id="input-search" name="search" class="form-control form-control-lg"
+                                    <input type="text" id="input-search" name="search"
+                                        class="form-control form-control-lg"
                                         placeholder="Número da proposta, nome/razão social, CPF/CNPJ ou Tag"
                                         aria-label="Número da proposta, nome/razão social, CPF/CNPJ ou Tag"
                                         value="{{ request('search') }}">
@@ -96,7 +97,8 @@
                                     value="{{ request('created_at') }}">
                             </div>
                             <div class="col-md-2 col-12 mt-2">
-                                <button type="submit" id="btn-pesquisar-propostas" class="btn btn-primary btn-lg waves-effect waves-light">
+                                <button type="submit" id="btn-pesquisar-propostas"
+                                    class="btn btn-primary btn-lg waves-effect waves-light">
                                     <span class="icon-xs icon-base ti tabler-search me-2"></span>Pesquisar
                                 </button>
                             </div>
@@ -147,10 +149,10 @@
                                         }
                                     @endphp
                                     @if (
-                                            $propostal['contrato_status'] == 'Pendente' or
+                                        $propostal['contrato_status'] == 'Pendente' or
                                             $propostal['contrato_status'] == 'Pendente Análise' and
-                                            $propostal['proposta_status'] != 'Cancelado' and
-                                            $propostal['proposta_status'] != 'Rascunho')
+                                                $propostal['proposta_status'] != 'Cancelado' and
+                                                $propostal['proposta_status'] != 'Rascunho')
                                         <tr>
                                             <td>
                                                 <a href="{{ route('propostal.resume', $propostal['id']) }}"
@@ -168,29 +170,33 @@
                                             <td>{{ \Carbon\Carbon::parse($propostal['data'])->format('d/m/Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($propostal['data_ultima_atualizacao'])->format('d/m/Y') }}
                                             </td>
-                                            <td style="text-align: center">
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn dropdown-toggle hide-arrow p-0"
-                                                        data-bs-toggle="dropdown">
-                                                        <i class="icon-base ti tabler-dots-vertical"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item waves-effect btnCancelarProposta"
-                                                            data-bs-toggle="modal" data-bs-target="#modalCancelarProposta"
-                                                            href="javascript:void(0);"
-                                                            data-id="{{ $propostal['id'] }}"><i
-                                                                class="icon-base ti tabler-trash me-1"></i> Cancelar
-                                                            proposta</a>
+                                            @if (session('user')['nivel'] == 'Administrador')
+                                                <td style="text-align: center">
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn dropdown-toggle hide-arrow p-0"
+                                                            data-bs-toggle="dropdown">
+                                                            <i class="icon-base ti tabler-dots-vertical"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item waves-effect btnCancelarProposta"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#modalCancelarProposta"
+                                                                href="javascript:void(0);"
+                                                                data-id="{{ $propostal['id'] }}"><i
+                                                                    class="icon-base ti tabler-trash me-1"></i> Cancelar
+                                                                proposta</a>
 
-                                                        <a class="dropdown-item waves-effect btnAlterarProposta"
-                                                            data-bs-toggle="modal" data-bs-target="#modalAlterarProposta"
-                                                            href="javascript:void(0);"
-                                                            data-id="{{ $propostal['id'] }}"><i
-                                                                class="icon-base ti tabler-edit me-1"></i> Alteração
-                                                            imobiliária</a>
+                                                            <a class="dropdown-item waves-effect btnAlterarProposta"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#modalAlterarProposta"
+                                                                href="javascript:void(0);"
+                                                                data-id="{{ $propostal['id'] }}"><i
+                                                                    class="icon-base ti tabler-edit me-1"></i> Alteração
+                                                                imobiliária</a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endif
                                 @endforeach
@@ -242,22 +248,25 @@
                                             <td>{{ \Carbon\Carbon::parse($propostal['data'])->format('d/m/Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($propostal['data_ultima_atualizacao'])->format('d/m/Y') }}
                                             </td>
-                                            <td style="text-align: center">
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn dropdown-toggle hide-arrow p-0"
-                                                        data-bs-toggle="dropdown">
-                                                        <i class="icon-base ti tabler-dots-vertical"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item waves-effect btnCancelarProposta"
-                                                            data-bs-toggle="modal" data-bs-target="#modalCancelarProposta"
-                                                            href="javascript:void(0);"
-                                                            data-id="{{ $propostal['id'] }}"><i
-                                                                class="icon-base ti tabler-trash me-1"></i> Cancelar
-                                                            proposta</a>
+                                            @if (session('user')['nivel'] == 'Administrador')
+                                                <td style="text-align: center">
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn dropdown-toggle hide-arrow p-0"
+                                                            data-bs-toggle="dropdown">
+                                                            <i class="icon-base ti tabler-dots-vertical"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item waves-effect btnCancelarProposta"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#modalCancelarProposta"
+                                                                href="javascript:void(0);"
+                                                                data-id="{{ $propostal['id'] }}"><i
+                                                                    class="icon-base ti tabler-trash me-1"></i> Cancelar
+                                                                proposta</a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endif
                                 @endforeach
@@ -474,22 +483,23 @@
                 });
             });
 
-                const btn = document.getElementById('btn-pesquisar-propostas');
-                const formPesquisar = document.getElementById('form-pesquisar')
+            const btn = document.getElementById('btn-pesquisar-propostas');
+            const formPesquisar = document.getElementById('form-pesquisar')
 
-             const inputSearch = document.getElementById('input-search');
+            const inputSearch = document.getElementById('input-search');
 
-        inputSearch.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') {
-                e.preventDefault(); // bloqueia envio ao pressionar Enter
-            }
-        });
+            inputSearch.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // bloqueia envio ao pressionar Enter
+                }
+            });
 
-                formPesquisar.addEventListener('submit', function() {
+            formPesquisar.addEventListener('submit', function() {
 
-                 btn.disabled = true;
-              btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Pesquisando...`;
-                })
+                btn.disabled = true;
+                btn.innerHTML =
+                    `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Pesquisando...`;
+            })
 
             // Envio do formulário
             form.addEventListener('submit', function(e) {

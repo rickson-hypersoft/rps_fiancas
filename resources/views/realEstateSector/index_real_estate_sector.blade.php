@@ -154,8 +154,10 @@
                             </div>
                         </div>
                         <div class="mt-4">
-                            <button type="submit" class="btn btn-primary waves-effect waves-light me-3">Salvar
-                                alterações</button>
+                            @if (session('user')['nivel'] == 'Administrador')
+                                <button type="submit" class="btn btn-primary waves-effect waves-light me-3">Salvar
+                                    alterações</button>
+                            @endif
                             <button type="reset" class="btn btn-label-secondary">Cancelar</button>
                         </div>
                     </div>

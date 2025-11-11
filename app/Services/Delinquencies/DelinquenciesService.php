@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Services\Delinquencies;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -359,10 +360,13 @@ class DelinquenciesService
         foreach ($data['data'] as $movi) {
             $sheet->setCellValue('A' . $linha, $movi['contrato_id']);
             $sheet->setCellValue('B' . $linha, $movi['propostal']['pessoa_nome']);
-            $dataFormatada              = empty($movi['propostal']['data']) ? '-' : \Carbon\Carbon::parse($movi['propostal']['data'])->format('d/m/Y');
-            $dataFormatadaInadimplencia = empty($movi['vencimento_original']) ? '-' : \Carbon\Carbon::parse($movi['vencimento_original'])->format('d/m/Y');
-            $sheet->setCellValue('C' . $linha, $dataFormatada);
-            $sheet->setCellValue('D' . $linha, $dataFormatadaInadimplencia);
+
+            $cInicio = $this->parseBrDate($movi['propostal']['data']);
+            $cInad   = $this->parseBrDate($movi['vencimento_original']);
+
+            $sheet->setCellValue('C' . $linha, $cInicio instanceof Carbon ? $cInicio->format('d/m/Y') : '-');
+            $sheet->setCellValue('D' . $linha, $cInad instanceof Carbon ? $cInad->format('d/m/Y') : '-');
+
             $valorFiancaTotal = floatval(($movi['propostal']['imovel_aluguel'] * 40));
             $sheet->setCellValue('E' . $linha, $valorFiancaTotal);
             $sheet->getStyle('E' . $linha)->getNumberFormat()->setFormatCode('"R$" #,##0.00');
@@ -391,6 +395,22 @@ class DelinquenciesService
         }, $fileName, [
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         ]);
+    }
+
+    private function parseBrDate(?string $v): ?Carbon
+    {
+        if ($v === null || $v === '' || $v === '0') {
+            return null;
+        }
+        $v = trim($v);
+
+        // dd/mm/yyyy → parse explícito
+        if (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $v)) {
+            return Carbon::createFromFormat('d/m/Y', $v);
+        }
+
+        // outros formatos ISO/SQL → parse normal
+        return Carbon::parse($v);
     }
 
     public function exportarExtratoFinanceiro($request)
@@ -428,7 +448,7 @@ class DelinquenciesService
         foreach ($data['data'] as $movi) {
             $sheet->setCellValue('A' . $linha, $movi['contrato_id']);
             $sheet->setCellValue('B' . $linha, '-');
-            $dataFormatada = empty($movi['vencimento_original']) ? '-' : \Carbon\Carbon::parse($movi['vencimento_original'])->format('d/m/Y');
+            $dataFormatada = empty($movi['vencimento_original']) ? '-' : Carbon::parse($movi['vencimento_original'])->format('d/m/Y');
             $sheet->setCellValue('C' . $linha, '-');
             $sheet->setCellValue('D' . $linha, $dataFormatada);
             $sheet->setCellValue('E' . $linha, floatval($movi['valor_original']));

@@ -21,7 +21,8 @@
                             <hr />
                             <div class="row align-items-center pt-5">
                                 <div class="col-sm-7 col-12 mb-1">
-                                    <form id="form-realestate-search" action="{{ route('realestatesector.users.index') }}" method="GET">
+                                    <form id="form-realestate-search" action="{{ route('realestatesector.users.index') }}"
+                                        method="GET">
                                         <label for="pesquisar" class="form-label">Pesquisar</label>
                                         <div class="input-group">
                                             <input type="text" class="form-control form-control-lg"
@@ -35,10 +36,12 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div class="col-sm-5" style="text-align: right">
-                                    <a href="{{ route('realestatesector.users.create') }}"
-                                        class="btn btn-lg btn-primary waves-effect waves-light">Adicionar Usuário</a>
-                                </div>
+                                @if (session('user')['nivel'] == 'Administrador')
+                                    <div class="col-sm-5" style="text-align: right">
+                                        <a href="{{ route('realestatesector.users.create') }}"
+                                            class="btn btn-lg btn-primary waves-effect waves-light">Adicionar Usuário</a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="card-body">
@@ -63,7 +66,8 @@
                                         @foreach ($users as $user)
                                             @php
                                                 $path = public_path('assets/user-profiles/' . $user['id'] . '.png');
-                                                $image = file_exists($path) ? asset('assets/user-profiles/' . $user['id'] . '.png')
+                                                $image = file_exists($path)
+                                                    ? asset('assets/user-profiles/' . $user['id'] . '.png')
                                                     : asset('assets/user-profiles/default.png');
                                             @endphp
 
@@ -87,24 +91,27 @@
                                                         {{ $user['ativo'] ? 'Ativo' : 'Inativo' }}
                                                     </span>
                                                 </td>
-                                                <td>
-                                                    <div class="dropdown" style="text-align: center">
-                                                        <button type="button" class="btn dropdown-toggle hide-arrow p-0"
-                                                            data-bs-toggle="dropdown">
-                                                            <i class="icon-base ti tabler-dots-vertical"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu">
-                                                            <a class="dropdown-item waves-effect"
-                                                                href="{{ route('realestatesector.users.edit', $user['id']) }}"><i
-                                                                    class="icon-base ti tabler-pencil me-1"></i>
-                                                                Editar</a>
-                                                            <a class="dropdown-item waves-effect"
-                                                                href="javascript:void(0);"><i
-                                                                    class="icon-base ti tabler-trash me-1"></i>
-                                                                Excluir</a>
+                                                @if (session('user')['nivel'] == 'Administrador')
+                                                    <td>
+                                                        <div class="dropdown" style="text-align: center">
+                                                            <button type="button"
+                                                                class="btn dropdown-toggle hide-arrow p-0"
+                                                                data-bs-toggle="dropdown">
+                                                                <i class="icon-base ti tabler-dots-vertical"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item waves-effect"
+                                                                    href="{{ route('realestatesector.users.edit', $user['id']) }}"><i
+                                                                        class="icon-base ti tabler-pencil me-1"></i>
+                                                                    Editar</a>
+                                                                <a class="dropdown-item waves-effect"
+                                                                    href="javascript:void(0);"><i
+                                                                        class="icon-base ti tabler-trash me-1"></i>
+                                                                    Excluir</a>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -172,24 +179,25 @@
             </div>
     </div>
 
-    @section('scripts')
-<script>
-     const form = document.getElementById('form-realestate-search');
+@section('scripts')
+    <script>
+        const form = document.getElementById('form-realestate-search');
         const input = document.getElementById('input-realestate-search');
         const button = document.getElementById('btn-realestate-search');
 
         // Bloqueia Enter no campo de busca
-        input.addEventListener('keydown', function (e) {
+        input.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
             }
         });
 
         // Desativa o botão ao enviar o formulário
-        form.addEventListener('submit', function () {
+        form.addEventListener('submit', function() {
             button.disabled = true;
-            button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+            button.innerHTML =
+                `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
         });
-</script>
+    </script>
 @endsection
 @endsection

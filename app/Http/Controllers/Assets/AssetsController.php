@@ -429,52 +429,52 @@ class AssetsController extends Controller
         return view('assets.reiscindir', ['data' => $data['data'], 'anexos' => $anexos, 'payments' => $dataPayments['pagamentos']]);
     }
 
-     private function corrigirNumero($numero): string
-{
-    // Remove tudo que não for dígito
-    $numero = preg_replace('/\D/', '', (string) $numero);
+    private function corrigirNumero($numero): string
+    {
+        // Remove tudo que não for dígito
+        $numero = preg_replace('/\D/', '', (string) $numero);
 
-    // Remove possíveis zeros iniciais, DDI, etc.
-    if (str_starts_with($numero, '55')) {
-        $numero = substr($numero, 2); // tira o DDI se já vier com ele
-    }
+        // Remove possíveis zeros iniciais, DDI, etc.
+        if (str_starts_with((string) $numero, '55')) {
+            $numero = substr((string) $numero, 2); // tira o DDI se já vier com ele
+        }
 
-    // Se vier com 11 dígitos e começar com 9 (ex: 999911156), mantém
-    // Se vier com 9 dígitos (sem DDD), pode tratar de acordo com sua lógica
-    if (strlen($numero) === 11) {
-        // já está completo com DDD
+        // Se vier com 11 dígitos e começar com 9 (ex: 999911156), mantém
+        // Se vier com 9 dígitos (sem DDD), pode tratar de acordo com sua lógica
+        if (strlen((string) $numero) === 11) {
+            // já está completo com DDD
+            return '+55' . $numero;
+        }
+
+        // Caso falte DDD, insere o 34
+        if (strlen((string) $numero) === 9) {
+            return '+5534' . $numero;
+        }
+
+        // Fallback – retorna com +55 mesmo
         return '+55' . $numero;
     }
 
-    // Caso falte DDD, insere o 34
-    if (strlen($numero) === 9) {
-        return '+5534' . $numero;
-    }
+    private function sendWhatsApp(string $idContrato)
+    {
+        $token = session('jwt_token');
 
-    // Fallback – retorna com +55 mesmo
-    return '+55' . $numero;
-}
+        $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $idContrato);
+        $proposta = $response->json();
 
-     private function sendWhatsApp($idContrato)
-        {
-            $token = session('jwt_token');
+        $to   = $proposta['pessoa_telefone'];
+        $type = 'cancelamento_contrato';
+        $link = $proposta['link_hash'];
+        $to   = $this->corrigirNumero($to);
 
-            $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $idContrato);
-            $proposta = $response->json();
+        $response = Http::withToken($token)->post(config('api.route') . '/enviar-whatsapp/' . $type . '/' . $link, ['to' => $to]);
 
-            $to   = $proposta['pessoa_telefone'];
-            $type = 'cancelamento_contrato';
-            $link = $proposta['link_hash'];
-            $to   = $this->corrigirNumero($to);
-
-            $response = Http::withToken($token)->post(config('api.route') . '/enviar-whatsapp/' . $type . '/' . $link, ['to' => $to]);
-
-            if (! $response->successful()) {
-                return response()->json("Não foi possível enviar mensagem!");
-            }
-
-            return response()->json("Mensagem enviada com sucesso!");
+        if (! $response->successful()) {
+            return response()->json("Não foi possível enviar mensagem!");
         }
+
+        return response()->json("Mensagem enviada com sucesso!");
+    }
 
     public function cancelar(Request $request, string $idContrato)
     {
@@ -557,52 +557,52 @@ class AssetsController extends Controller
         $responsePayments = Http::withToken($token)->get(config('api.route') . '/payments' . '/' . $idContrato);
         $dataPayments     = $responsePayments->json();
 
-$rawDataPagamento = $dataPayments['pagamentos']['DATA_PAGAMENTO'] ?? null;
-try {
-    if ($rawDataPagamento && str_contains((string) $rawDataPagamento, '/')) {
-        // formato d/m/Y
-        $dataPagamento = Carbon::createFromFormat('d/m/Y', $rawDataPagamento)->startOfDay();
-    } else {
-        // tenta parse normal (Y-m-d, ISO, etc.)
-        $dataPagamento = Carbon::parse($rawDataPagamento)->startOfDay();
-    }
-} catch (\Exception) {
-    // fallback seguro (se parse falhar)
-    $dataPagamento = Carbon::today()->startOfDay();
-}
+        $rawDataPagamento = $dataPayments['pagamentos']['DATA_PAGAMENTO'] ?? null;
 
-$dataCancelamento = Carbon::today()->startOfDay(); // sempre hoje
-$mesesContrato = 12; // se for sempre 12 meses
+        try {
+            if ($rawDataPagamento && str_contains((string) $rawDataPagamento, '/')) {
+                // formato d/m/Y
+                $dataPagamento = Carbon::createFromFormat('d/m/Y', $rawDataPagamento)->startOfDay();
+            } else {
+                // tenta parse normal (Y-m-d, ISO, etc.)
+                $dataPagamento = Carbon::parse($rawDataPagamento)->startOfDay();
+            }
+        } catch (\Exception) {
+            // fallback seguro (se parse falhar)
+            $dataPagamento = Carbon::today()->startOfDay();
+        }
 
-// cálculo de meses inteiros utilizados
-$anosDiff   = $dataCancelamento->year - $dataPagamento->year;
-$mesesDiff  = $dataCancelamento->month - $dataPagamento->month;
-$totalMonths = $anosDiff * 12 + $mesesDiff;
+        $dataCancelamento = Carbon::today()->startOfDay(); // sempre hoje
+        $mesesContrato    = 12; // se for sempre 12 meses
 
-// se o dia do cancelamento for anterior ao dia do pagamento, o mês corrente não foi completado
-if ($dataCancelamento->day < $dataPagamento->day) {
-    $totalMonths--;
-}
+        // cálculo de meses inteiros utilizados
+        $anosDiff    = $dataCancelamento->year - $dataPagamento->year;
+        $mesesDiff   = $dataCancelamento->month - $dataPagamento->month;
+        $totalMonths = $anosDiff * 12 + $mesesDiff;
 
-// garante não negativo
-$mesesUsados = max($totalMonths, 0);
+        // se o dia do cancelamento for anterior ao dia do pagamento, o mês corrente não foi completado
+        if ($dataCancelamento->day < $dataPagamento->day) {
+            $totalMonths--;
+        }
 
-// ---- regra de negócio: se quiser GARANTIR no mínimo 1 mês usado (como você já tinha antes),
-// mantenha a linha abaixo. Se preferir aceitar 0 meses usados quando a rescisão for antes
-// de completar 1 mês, remova ou comente a próxima linha.
-$mesesUsados = max($mesesUsados, 1);
+        // garante não negativo
+        $mesesUsados = max($totalMonths, 0);
 
-// meses restantes e cálculo proporcional do estorno
-$mesesRestantes = max($mesesContrato - $mesesUsados, 0);
+        // ---- regra de negócio: se quiser GARANTIR no mínimo 1 mês usado (como você já tinha antes),
+        // mantenha a linha abaixo. Se preferir aceitar 0 meses usados quando a rescisão for antes
+        // de completar 1 mês, remova ou comente a próxima linha.
+        $mesesUsados = max($mesesUsados, 1);
 
-// melhor calcular estorno proporcional direto sobre o total para evitar erros de arredondamento
-$valorTotal = (float) $dataPayments['pagamentos']['VALOR'];
-$valorEstorno = round($valorTotal * ($mesesRestantes / $mesesContrato), 2);
+        // meses restantes e cálculo proporcional do estorno
+        $mesesRestantes = max($mesesContrato - $mesesUsados, 0);
 
-// formata para BR
-$valorTotalFmt   = number_format($valorTotal, 2, ',', '.');
-$valorEstornoFmt = number_format($valorEstorno, 2, ',', '.');
+        // melhor calcular estorno proporcional direto sobre o total para evitar erros de arredondamento
+        $valorTotal   = (float) $dataPayments['pagamentos']['VALOR'];
+        $valorEstorno = round($valorTotal * ($mesesRestantes / $mesesContrato), 2);
 
+        // formata para BR
+        $valorTotalFmt   = number_format($valorTotal, 2, ',', '.');
+        $valorEstornoFmt = number_format($valorEstorno, 2, ',', '.');
 
         $historicoBase = "Usuário " . session('user')['nome'] .
             " cancelou o contrato {$idContrato} em " . now()->format('d/m/Y H:i') .

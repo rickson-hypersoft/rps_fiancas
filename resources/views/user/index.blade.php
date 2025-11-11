@@ -191,24 +191,25 @@
             });
         });
     </script>
-       @section('scripts')
-<script>
-     const form = document.getElementById('form-realestate-search');
+@section('scripts')
+    <script>
+        const form = document.getElementById('form-realestate-search');
         const input = document.getElementById('input-realestate-search');
         const button = document.getElementById('btn-realestate-search');
 
         // Bloqueia Enter no campo de busca
-        input.addEventListener('keydown', function (e) {
+        input.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
             }
         });
 
         // Desativa o botão ao enviar o formulário
-        form.addEventListener('submit', function () {
+        form.addEventListener('submit', function() {
             button.disabled = true;
-            button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+            button.innerHTML =
+                `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
         });
-</script>
+    </script>
 @endsection
 @endsection

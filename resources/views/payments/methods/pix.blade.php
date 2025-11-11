@@ -185,10 +185,11 @@
 
                 const methodPayment = 'PIX';
 
-                fetch(`/pagamentos/checkout/pix/{{ $linkHash }}`, {
+                fetch(`/fianca/pagamentos/checkout/pix/{{ $linkHash }}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'Accept': 'application/json',
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
                         body: JSON.stringify({
@@ -200,7 +201,12 @@
                         return response.json();
                     })
                     .then(data => {
-                        console.log(data)
+                        if (data.pago && data.html) {
+                            // renderiza a tela de confirmação que veio pelo JSON
+                            document.documentElement.innerHTML = data.html;
+                            return;
+                        }
+
                         if (data.success) {
                             const qrCode = data.detalhe_pagamento?.encodedImage;
                             const payload = data.detalhe_pagamento?.payload;

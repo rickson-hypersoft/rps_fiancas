@@ -182,36 +182,38 @@
                                     </li>
 
                                     <!-- Financeiro -->
-                                    <li
-                                        class="menu-item {{ request()->is('imobiliaria/financeiro*', 'imobiliaria/categoria') ? 'active' : '' }}">
-                                        <a href="javascript:void(0)" class="menu-link menu-toggle">
-                                            <i class="menu-icon icon-base ti tabler-file-dollar"></i>
-                                            <div data-i18n="Financeiro">Financeiro</div>
-                                        </a>
-                                        <ul class="menu-sub">
-                                            <li
-                                                class="menu-item {{ request()->routeIs('financial.financial_account.index') ? 'active' : '' }}">
-                                                <a href="{{ route('financial.financial_account.index') }}"
-                                                    class="menu-link">
-                                                    <div data-i18n="Contas">Contas</div>
-                                                </a>
-                                            </li>
-                                            <li
-                                                class="menu-item {{ request()->routeIs('financial.financial_category.index') ? 'active' : '' }}">
-                                                <a href="{{ route('financial.financial_category.index') }}"
-                                                    class="menu-link">
-                                                    <div data-i18n="Categorias">Categorias</div>
-                                                </a>
-                                            </li>
-                                            <li
-                                                class="menu-item {{ request()->routeIs('financial.financial_movi.index') ? 'active' : '' }}">
-                                                <a href="{{ route('financial.financial_movi.index') }}"
-                                                    class="menu-link">
-                                                    <div data-i18n="Lançamentos">Lançamentos</div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                    @if (session('user')['nivel'] == 'Administrador')
+                                        <li
+                                            class="menu-item {{ request()->is('imobiliaria/financeiro*', 'imobiliaria/categoria') ? 'active' : '' }}">
+                                            <a href="javascript:void(0)" class="menu-link menu-toggle">
+                                                <i class="menu-icon icon-base ti tabler-file-dollar"></i>
+                                                <div data-i18n="Financeiro">Financeiro</div>
+                                            </a>
+                                            <ul class="menu-sub">
+                                                <li
+                                                    class="menu-item {{ request()->routeIs('financial.financial_account.index') ? 'active' : '' }}">
+                                                    <a href="{{ route('financial.financial_account.index') }}"
+                                                        class="menu-link">
+                                                        <div data-i18n="Contas">Contas</div>
+                                                    </a>
+                                                </li>
+                                                <li
+                                                    class="menu-item {{ request()->routeIs('financial.financial_category.index') ? 'active' : '' }}">
+                                                    <a href="{{ route('financial.financial_category.index') }}"
+                                                        class="menu-link">
+                                                        <div data-i18n="Categorias">Categorias</div>
+                                                    </a>
+                                                </li>
+                                                <li
+                                                    class="menu-item {{ request()->routeIs('financial.financial_movi.index') ? 'active' : '' }}">
+                                                    <a href="{{ route('financial.financial_movi.index') }}"
+                                                        class="menu-link">
+                                                        <div data-i18n="Lançamentos">Lançamentos</div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    @endif
                                 @endif
                             </ul>
                         </div>

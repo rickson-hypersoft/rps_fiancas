@@ -87,7 +87,7 @@
                                     <p>Escaneie o QR Code abaixo:</p>
                                     <img src="data:image/png;base64,{{ $qrcode }}" alt="QR Code PIX">
                                 @else
-                                    <p>Não foi possível gerar o QR Code.</p>
+                                    <p>Não foi possível gerar o QR Cod .</p>
                                 @endif
                             </div>
 

@@ -103,20 +103,22 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <h5 class="m-0 p-0">Dados da Locação</h5>
 
-                            <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                    data-bs-toggle="dropdown">
-                                    Ações
-                                </button>
-                                <div class="dropdown-menu" style="">
-                                    <a class="dropdown-item waves-effect"
-                                        href="{{ route('assets.canceled', ['idContrato' => $data['id']]) }}"><i
-                                            class="icon-base ti tabler-trash me-1"></i> Rescindir</a>
-                                    <a class="dropdown-item waves-effect"
-                                        href="{{ route('assets.edit', ['idContrato' => $data['id']]) }}"><i
-                                            class="icon-base ti tabler-pencil me-1"></i> Editar</a>
+                            @if ($data['contrato_status'] != 'Cancelado')
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown">
+                                        Ações
+                                    </button>
+                                    <div class="dropdown-menu" style="">
+                                        <a class="dropdown-item waves-effect"
+                                            href="{{ route('assets.canceled', ['idContrato' => $data['id']]) }}"><i
+                                                class="icon-base ti tabler-trash me-1"></i> Rescindir</a>
+                                        <a class="dropdown-item waves-effect"
+                                            href="{{ route('assets.edit', ['idContrato' => $data['id']]) }}"><i
+                                                class="icon-base ti tabler-pencil me-1"></i> Editar</a>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
                     <div class="card-body mt-5">

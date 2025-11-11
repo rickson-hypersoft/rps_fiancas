@@ -218,7 +218,12 @@
                 if (!response.ok) throw new Error('Erro ao gerar pagamento');
                 return response.json();
             }).then(data => {
-                console.log(data)
+                if (data.pago && data.html) {
+                    // renderiza a tela de confirmação que veio pelo JSON
+                    document.documentElement.innerHTML = data.html;
+                    return;
+                }
+
                 if (data.success) {
                     // Salva o ID do pagamento para uso posterior
                     idPagamento = data.id_pagamento;

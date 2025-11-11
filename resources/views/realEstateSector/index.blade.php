@@ -25,7 +25,8 @@
                         <hr>
                         <div class="row align-items-center pt-5">
                             <div class="col-sm-7 col-12 mb-1">
-                                <form id="form-realestate-search" action="{{ route('realestatesector.index') }}" method="GET">
+                                <form id="form-realestate-search" action="{{ route('realestatesector.index') }}"
+                                    method="GET">
                                     <label for="pesquisar" class="form-label">Pesquisar</label>
                                     <div class="input-group">
                                         <input type="text" id="pesquisar" class="form-control form-control-lg"
@@ -34,7 +35,7 @@
                                             aria-label="Pesquisar por razão, fantásia ou CNPJ"
                                             aria-describedby="button-addon2">
                                         <button class="btn btn-outline-primary waves-effect" type="submit"
-                                             id="btn-realestate-search">
+                                            id="btn-realestate-search">
                                             <i class="icon-base ti tabler-search"></i>
                                         </button>
                                     </div>
