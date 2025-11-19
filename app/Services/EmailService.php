@@ -13,7 +13,17 @@ class EmailService
     public function send(string $email, string $nome, string $link, string $linkFacial, $type = null, $valorOriginal = null, $vencimentoOriginal = null, $tipoConta = null): bool
     {
         try {
-            Mail::to($email)->send(new EmailNotification($nome, $link, $linkFacial, $type, $valorOriginal, $vencimentoOriginal, $tipoConta));
+            $cc = [
+                'atendimento@invictafiancas.com.br',
+                'corretor@invictafiancas.com.br',
+                'administracao@invictafiancas.com.br',
+                'juridico@invictafiancas.com.br'
+            ];
+
+            Mail::to($email)
+                ->cc($cc) // cópia para os três
+                // ->bcc($cc) // se preferir cópia oculta, use bcc
+                ->send(new EmailNotification($nome, $link, $linkFacial, $type, $valorOriginal, $vencimentoOriginal, $tipoConta));
 
             return true;
         } catch (\Exception $e) {

@@ -115,6 +115,30 @@
                                         <option value="Terreno"
                                             {{ ($proposta['imovel_subtipo'] ?? '') == 'Terreno' ? 'selected' : '' }}>
                                             Terreno</option>
+                                        <option value="Consultório"
+                                            {{ ($proposta['imovel_subtipo'] ?? '') == 'Consultório' ? 'selected' : '' }}>
+                                            Consultório</option>
+                                        <option value="Escritório"
+                                            {{ ($proposta['imovel_subtipo'] ?? '') == 'Escritório' ? 'selected' : '' }}>
+                                            Escritório</option>
+                                        <option value="Galpão"
+                                            {{ ($proposta['imovel_subtipo'] ?? '') == 'Galpão' ? 'selected' : '' }}>
+                                            Galpão</option>
+                                        <option value="Laje Comercial"
+                                            {{ ($proposta['imovel_subtipo'] ?? '') == 'Laje Comercial' ? 'selected' : '' }}>
+                                            Laje Comercial</option>
+                                        <option value="Loja"
+                                            {{ ($proposta['imovel_subtipo'] ?? '') == 'Loja' ? 'selected' : '' }}>
+                                            Loja</option>
+                                        <option value="Prédio Comercial"
+                                            {{ ($proposta['imovel_subtipo'] ?? '') == 'Prédio Comercial' ? 'selected' : '' }}>
+                                            Prédio Comercial</option>
+                                        <option value="Sala"
+                                            {{ ($proposta['imovel_subtipo'] ?? '') == 'Sala' ? 'selected' : '' }}>
+                                            Sala</option>
+                                        <option value="Sobreloja"
+                                            {{ ($proposta['imovel_subtipo'] ?? '') == 'Sobreloja' ? 'selected' : '' }}>
+                                            Sobreloja</option>
                                     </select>
                                 </div>
                             </div>
@@ -329,7 +353,7 @@
 
             const form = e.target;
             const formData = new FormData(form);
-            const url = `/propostas/salvar-step3/${idProposta}`;
+            const url = `/fianca/propostas/salvar-step3/${idProposta}`;
 
             // Adiciona os arquivos do Dropzone
             dropzone.getAcceptedFiles().forEach((file, index) => {
@@ -364,7 +388,7 @@
                 }
 
                 // Redireciona para a próxima etapa
-                window.location.href = `/propostas/step4/${data.data.id}`;
+                window.location.href = `/fianca/propostas/step4/${data.data.id}`;
 
             } catch (error) {
                 console.error(error);

@@ -182,6 +182,14 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         Route::post('/atualizar/status/{id}', [PropostalController::class, 'updateStatus'])
             ->name('propostal.updateStatus');
 
+        Route::get('/aprovar/proposta/{id}', [PropostalController::class, 'aprovarPropostaManual'])
+            ->name('propostal.aprovarPropostaManual');
+
+        Route::get('/reenviar-link/{id}', [PropostalController::class, 'reenviarLinkFacial'])
+            ->name('propostal.reenviarLinkFacial');
+        Route::get('/aprovar-facial/{id}', [PropostalController::class, 'aprovarFacial'])
+            ->name('propostal.aprovarFacial');
+
         Route::get('/resumo/{id}', [PropostalController::class, 'resume'])->name('propostal.resume');
         Route::post('/email', [PropostalController::class, 'sendNotification'])->name('propostal.send.email');
         Route::post('/whatsapp', [PropostalController::class, 'sendWhatsApp'])->name('propostal.send');

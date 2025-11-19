@@ -278,8 +278,17 @@
                     <i class="icon-base ti tabler-arrow-left icon-xs me-sm-2 me-0"></i>
                     <span class="d-sm-inline-block d-none align-middle">Voltar</span>
                 </a>
-                <a href="{{ route('propostal.step5', ['id' => $proposta['id']]) }}" id="btn-enviar-proposta"
-                    data-proposta-id="{{ $proposta['id'] }}"
+
+                @php
+                    $algumaUrl = null;
+                    $isPendenteAnalise = $proposta['proposta_status'] === 'Pendente Análise';
+
+                    if (!$isPendenteAnalise) {
+                        $algumaUrl = route('propostal.step5', ['id' => $proposta['id']]);
+                    }
+                @endphp
+
+                <a id="btn-enviar-proposta" href="{{ $algumaUrl ?? '#' }}"
                     class="btn btn-primary btn-next waves-effect waves-light">
                     <span class="d-sm-inline-block d-none me-sm-2 align-middle">Enviar proposta</span>
                     <i class="icon-base ti tabler-arrow-right icon-xs"></i>
@@ -371,7 +380,6 @@
     @section('scripts')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            console.log("caiu aqui");
             document.addEventListener("DOMContentLoaded", function() {
                 const modalCancelar = new bootstrap.Modal(
                     document.getElementById("modalCancelarProposta")
@@ -385,7 +393,7 @@
                     const formData = new FormData(form);
                     const propostaId = "{{ $proposta['id'] }}";
 
-                    fetch(`/fianca/propostas/cancelar/${propostaId}`, {
+                    fetch(`/propostas/cancelar/${propostaId}`, {
                             method: "POST",
                             body: formData,
                             headers: {
@@ -421,9 +429,27 @@
             let isSending = false;
 
             const redirectUrl = button.getAttribute("href");
+            const propostaStatus = `{{ $proposta['proposta_status'] }}`;
+
+            // if (propostaStatus === 'Pendente Análise') {
+            //     button.classList.add('disabled');
+            //     button.setAttribute('aria-disabled', 'true');
+            // }
 
             button.addEventListener("click", async function(event) {
+                console.log('clicou')
                 event.preventDefault(); // impede o redirecionamento imediato
+
+                if (propostaStatus === 'Pendente Análise') {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Não é possível dar continuidade",
+                        text: "A proposta está pendente de análise. Aguarde a análise para continuar.",
+                        confirmButtonText: "OK"
+                    });
+                    isSending = false;
+                    return;
+                }
 
                 if (isSending) return;
                 isSending = true;

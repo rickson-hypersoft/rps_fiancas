@@ -289,6 +289,12 @@ class PropostalController extends Controller
             'document' => $requestSanitize['pessoa_doc'],
         ])->json();
 
+        if (isset($checkScore['error'])) {
+            Log::error("Erro ao consultar score para o documento {$requestSanitize['pessoa_doc']}: {$checkScore['error']}");
+
+            return response()->json(['message' => $checkScore['error'] ?? 'Erro ao consultar score do inquilino. Por favor, tente novamente mais tarde.'], 400);
+        }
+
         if (isset($checkScore['message'])) {
             return response()->json(['message' => $checkScore['message']], 400);
         }
@@ -787,7 +793,11 @@ class PropostalController extends Controller
         $response    = Http::withToken($token)->get(config('api.route') . '/histories/' . $id);
         $dataHistory = $response->json();
 
-        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'], ]);
+        $checkScore = Http::withToken($token)->get(config('api.route') . '/consultar-score', [
+            'document' => $proposta['pessoa_doc'],
+        ])->json();
+
+        return view('propostal.resume', ['proposta' => $proposta,  'histories' => $dataHistory['data'], 'scoreData' => $checkScore]);
     }
 
     private function parserValuesForInsert(array $data): array
@@ -933,5 +943,158 @@ class PropostalController extends Controller
             'Content-Type'        => $response->header('Content-Type'),
             'Content-Disposition' => 'inline; filename="' . $filename . '"',
         ]);
+    }
+
+    public function aprovarPropostaManual(string $id)
+    {
+        $token = session('jwt_token');
+
+        $payload = [
+            'proposta_status'         => 'Aprovado',
+            'proposta_credito_status' => 'Aprovado',
+        ];
+
+        $response = Http::withToken($token)->post(config('api.route') . '/propostal/editStatus/' . $id, $payload);
+
+        if (! $response->successful()) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível atualizar status!');
+        }
+
+        $historico = [
+            "id_imobiliaria" => session('user')['id_imobiliaria'],
+            "id_movi"        => $id,
+            "id_usuario"     => session('user')['id'],
+            "data"           => date('Y-m-d'),
+            "hora"           => date('H:i:s'),
+            'historico'      => "Proposta aprovada manualmente por: " . session('user')['usuario'],
+            "movi"           => "Proposta",
+        ];
+        $this->saveHistory(
+            $historico,
+            "Alteração"
+        );
+
+        return redirect()
+            ->route('propostal.step4', ['id' => $id])
+            ->with('success', 'Status atualizado com sucesso!');
+    }
+
+    public function reenviarLinkFacial(string $id)
+    {
+        $token = session('jwt_token');
+
+        // 1) Reenvia link facial na API
+        $response = Http::withToken($token)
+            ->get(config('api.route') . '/reenviar-link-facial/' . $id);
+        $data = $response->json();
+        $messages = $data['error']['messages'];
+
+        Log::info('Response Reenviar Link Facial: ', ['messagess' => $messages]);
+
+        if (! $response->successful()){
+            return redirect()
+                ->route('propostal.index')
+                ->with('error', implode(',', $data['error']['messages']) ?? 'Não foi possível reenviar o link facial.');
+        }
+
+
+        if (empty($data['success'])) {
+            return redirect()
+                ->route('propostal.index')
+                ->with('error', 'A API retornou erro ao reenviar o link facial.');
+        }
+
+        // 2) Buscar proposta atualizada
+        $response = Http::withToken($token)
+            ->get(config('api.route') . '/propostal/' . $id);
+
+        if (! $response->successful()) {
+            return redirect()
+                ->route('propostal.index')
+                ->with('error', 'Não foi possível carregar os dados da proposta.');
+        }
+
+        $proposta = $response->json();
+
+        $name       = $proposta['pessoa_nome'];
+        $email      = $proposta['pessoa_email'];
+        $link       = $proposta['link_hash'];
+        $linkFacial = $proposta['link_facial'];
+
+        // 3) Enviar e-mail
+        if (! $this->emailService->send($email, $name, $link, $linkFacial)) {
+            return redirect()
+                ->route('propostal.index')
+                ->with('error', 'O link facial foi recriado, mas o e-mail não foi enviado com sucesso.');
+        }
+
+        // 4) Enviar WhatsApp
+        $to   = $proposta['pessoa_telefone'];
+        $type = 'proposta_inicial';
+        $to   = $this->corrigirNumero($to);
+
+        Log::info('Request WhatsApp: ', [
+            'url'  => config('api.route') . '/enviar-whatsapp/' . $type . '/' . $link,
+            'body' => ['to' => $to],
+        ]);
+
+        $response = Http::withToken($token)
+            ->post(config('api.route') . '/enviar-whatsapp/' . $type . '/' . $link, ['to' => $to]);
+
+        if (! $response->successful()) {
+            return redirect()
+                ->route('propostal.index')
+                ->with('error', 'O link facial foi recriado e o e-mail enviado, mas não foi possível enviar o WhatsApp.');
+        }
+
+        // ✅ Tudo certo
+        return redirect()
+            ->route('propostal.index')
+            ->with('success', 'Link facial reenviado com sucesso por e-mail e WhatsApp!');
+    }
+
+    public function aprovarFacial(string $id)
+    {
+        $token = session('jwt_token');
+
+        // 1) Chama a API para aprovar a facial
+        $response = Http::withToken($token)
+            ->get(config('api.route') . '/aprovar-facial/' . $id);
+
+        Log::info('Response Aprovar Facial: ', ['response' => $response->body(), 'response_status' => $response->status()]);
+
+        if (! $response->successful()) {
+            return redirect()
+                ->route('propostal.index')
+                ->with('error', 'Não foi possível aprovar a facial manualmente.');
+        }
+
+        $data = $response->json();
+
+        if (empty($data['success'])) {
+            return redirect()
+                ->route('propostal.index')
+                ->with('error', 'A API retornou erro ao aprovar a facial manualmente.');
+        }
+
+        // 2) Grava histórico
+        $historico = [
+            "id_imobiliaria" => session('user')['id_imobiliaria'],
+            "id_movi"        => $id,
+            "id_usuario"     => session('user')['id'],
+            "data"           => date('Y-m-d'),
+            "hora"           => date('H:i:s'),
+            "historico"      => "Facial aprovada manualmente por: " . session('user')['usuario'],
+            "movi"           => "Proposta",
+        ];
+
+        $this->saveHistory($historico, "Alteração");
+
+        // 3) Volta pra listagem com mensagem de sucesso
+        return redirect()
+            ->route('propostal.index')
+            ->with('success', 'Facial aprovada manualmente com sucesso!');
     }
 }

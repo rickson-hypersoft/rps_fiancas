@@ -1,5 +1,13 @@
 @extends('dashboard')
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
     <div class="col-12 mb-6">
         <h4>Análise em andamento</h4>
         <div class="nav-align-top nav-tabs-shadow">
@@ -170,22 +178,21 @@
                                             <td>{{ \Carbon\Carbon::parse($propostal['data'])->format('d/m/Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($propostal['data_ultima_atualizacao'])->format('d/m/Y') }}
                                             </td>
-                                            @if (session('user')['nivel'] == 'Administrador')
-                                                <td style="text-align: center">
-                                                    <div class="dropdown">
-                                                        <button type="button" class="btn dropdown-toggle hide-arrow p-0"
-                                                            data-bs-toggle="dropdown">
-                                                            <i class="icon-base ti tabler-dots-vertical"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu">
-                                                            <a class="dropdown-item waves-effect btnCancelarProposta"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#modalCancelarProposta"
-                                                                href="javascript:void(0);"
-                                                                data-id="{{ $propostal['id'] }}"><i
-                                                                    class="icon-base ti tabler-trash me-1"></i> Cancelar
-                                                                proposta</a>
+                                            <td style="text-align: center">
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn dropdown-toggle hide-arrow p-0"
+                                                        data-bs-toggle="dropdown">
+                                                        <i class="icon-base ti tabler-dots-vertical"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item waves-effect btnCancelarProposta"
+                                                            data-bs-toggle="modal" data-bs-target="#modalCancelarProposta"
+                                                            href="javascript:void(0);"
+                                                            data-id="{{ $propostal['id'] }}"><i
+                                                                class="icon-base ti tabler-trash me-1"></i> Cancelar
+                                                            proposta</a>
 
+                                                        @if (session('user')['nivel'] == 'Administrador')
                                                             <a class="dropdown-item waves-effect btnAlterarProposta"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#modalAlterarProposta"
@@ -193,10 +200,10 @@
                                                                 data-id="{{ $propostal['id'] }}"><i
                                                                     class="icon-base ti tabler-edit me-1"></i> Alteração
                                                                 imobiliária</a>
-                                                        </div>
+                                                        @endif
                                                     </div>
-                                                </td>
-                                            @endif
+                                                </div>
+                                            </td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -248,25 +255,22 @@
                                             <td>{{ \Carbon\Carbon::parse($propostal['data'])->format('d/m/Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($propostal['data_ultima_atualizacao'])->format('d/m/Y') }}
                                             </td>
-                                            @if (session('user')['nivel'] == 'Administrador')
-                                                <td style="text-align: center">
-                                                    <div class="dropdown">
-                                                        <button type="button" class="btn dropdown-toggle hide-arrow p-0"
-                                                            data-bs-toggle="dropdown">
-                                                            <i class="icon-base ti tabler-dots-vertical"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu">
-                                                            <a class="dropdown-item waves-effect btnCancelarProposta"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#modalCancelarProposta"
-                                                                href="javascript:void(0);"
-                                                                data-id="{{ $propostal['id'] }}"><i
-                                                                    class="icon-base ti tabler-trash me-1"></i> Cancelar
-                                                                proposta</a>
-                                                        </div>
+                                            <td style="text-align: center">
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn dropdown-toggle hide-arrow p-0"
+                                                        data-bs-toggle="dropdown">
+                                                        <i class="icon-base ti tabler-dots-vertical"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item waves-effect btnCancelarProposta"
+                                                            data-bs-toggle="modal" data-bs-target="#modalCancelarProposta"
+                                                            href="javascript:void(0);"
+                                                            data-id="{{ $propostal['id'] }}"><i
+                                                                class="icon-base ti tabler-trash me-1"></i> Cancelar
+                                                            proposta</a>
                                                     </div>
-                                                </td>
-                                            @endif
+                                                </div>
+                                            </td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -551,7 +555,7 @@
                 Swal.fire({
                     title: 'Alteração registrada!',
                     html: `<p>Você será redirecionado para a tela de alteração.</p>
-                   <a href="/propostas/alteracao/${idProposta}?motivo=${encodeURIComponent(motivo)}&observacao=${encodeURIComponent(observacao)}" class="btn btn-primary mt-2">Ir para alteração agora</a>`,
+                   <a href="/fianca/propostas/alteracao/${idProposta}?motivo=${encodeURIComponent(motivo)}&observacao=${encodeURIComponent(observacao)}" class="btn btn-primary mt-2">Ir para alteração agora</a>`,
                     icon: 'success',
                     showConfirmButton: false,
                 });
