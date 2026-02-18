@@ -90,7 +90,12 @@ class ActivationController extends Controller
 
     public function login(string $linkHash): View
     {
-        return view('activation.login', ['linkHash' => $linkHash]);
+        $token = session('jwt_token');
+
+        $response = Http::withToken($token)->get(config('api.route') . '/propostal/' . $linkHash);
+        $data     = $response->json();
+
+        return view('activation.login', ['linkHash' => $linkHash, 'pessoa_tipo' => $data['pessoa_tipo']]);
     }
 
     public function verifyLogin(Request $request): RedirectResponse
@@ -117,8 +122,19 @@ class ActivationController extends Controller
             $data['data']['pessoa_doc'] = preg_replace('/\D+/', '', $doc);
         }
 
-        if ($data['data']['pessoa_doc'] !== $request->input('cpf')) {
-            return redirect()->back()->withErrors(['message' => 'CPF inválido.']);
+        $docRequest =  $request->input('cpf');
+        if($docRequest != null) {
+            $docRequest = preg_replace('/\D+/', '',  $docRequest);
+        }
+
+        if(strlen($doc) > 11) {
+            $tipo = 'CNPJ';
+        } else {
+            $tipo = 'CPF';
+        }
+
+        if ($data['data']['pessoa_doc'] !== $docRequest) {
+            return redirect()->back()->withErrors(['message' => "{$tipo} inválido."]);
         }
 
         // Salva na sessão que este link foi autenticado

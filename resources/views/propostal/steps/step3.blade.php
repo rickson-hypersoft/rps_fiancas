@@ -171,8 +171,16 @@
                                 </div>
                             </div>
                             <div class="col-md-6 mb-2">
+                                @php
+                                    $tipo = '';
+                                    if ($proposta['pessoa_tipo'] == 'Pessoa Jurídica') {
+                                        $tipo = 'CNPJ';
+                                    } else {
+                                        $tipo = 'CPF';
+                                    }
+                                @endphp
                                 <div class="form-control-validation fv-plugins-icon-container">
-                                    <label class="form-label" for="pessoa_doc">CPF</label>
+                                    <label class="form-label" for="pessoa_doc">{{ $tipo }}</label>
                                     <input type="text" name="pessoa_doc" id="pessoa_doc_dados"
                                         class="form-control form-control-lg" value="{{ $proposta['pessoa_doc'] }}"
                                         disabled />

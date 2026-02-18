@@ -460,6 +460,7 @@
                 const emailInquilino = `{{ $proposta['pessoa_email'] }}`;
                 const linkInquilino = `{{ $proposta['link_hash'] }}`;
                 const linkFacial = `{{ $proposta['link_facial'] }}`;
+                const tipoPessoa = `{{ $proposta['pessoa_tipo'] }}`;
 
                 const numeroWhatsAppDestino = `+55{{ $proposta['pessoa_telefone'] }}`;
 
@@ -486,7 +487,8 @@
                                 name: nomeInquilino,
                                 email: emailInquilino,
                                 link: linkInquilino,
-                                linkFacial: linkFacial
+                                linkFacial: linkFacial,
+                                tipoPessoa: tipoPessoa
                             }),
                         });
 
@@ -508,6 +510,7 @@
                                 to: numeroWhatsAppDestino,
                                 link: linkInquilino,
                                 type: "proposta_inicial",
+                                tipoPessoa: tipoPessoa
                             }),
                         });
 

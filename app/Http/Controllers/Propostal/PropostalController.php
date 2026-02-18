@@ -760,6 +760,11 @@ class PropostalController extends Controller
         $email      = $request->input('email');
         $link       = $request->input('link');
         $linkFacial = $request->input('linkFacial');
+        $tipoPessoa = $request->input('tipoPessoa');
+
+        if($tipoPessoa == 'Pessoa Jurídica') {
+            return response()->json(['mensagem' => 'E-mail não precisa ser enviado por o inquilino ser do tipo CNPJ!']);
+        }
 
         if ($this->emailService->send($email, $name, $link, $linkFacial)) {
             return response()->json(['mensagem' => 'E-mail enviado com sucesso!']);
@@ -774,6 +779,11 @@ class PropostalController extends Controller
         $type = $request->input('type');
         $link = $request->input('link');
         $to   = $this->corrigirNumero($to);
+        $tipoPessoa = $request->input('tipoPessoa');
+
+        if($tipoPessoa == 'Pessoa Jurídica') {
+            return response()->json(['mensagem' => 'WhatsApp não precisa ser enviado por o inquilino ser do tipo CNPJ!']);
+        }
 
         $token = session('jwt_token');
         Log::info('Request: ', [config('api.route') . '/enviar-whatsapp/' . $type . '/' . $link, ['to' => $to]]);

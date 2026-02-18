@@ -268,6 +268,15 @@
                         </div>
                     @endif
 
+                    @php
+                        $pessoaTipo = '';
+                        if ($pessoa_tipo != 'Pessoa Física') {
+                            $pessoaTipo = 'CNPJ';
+                        } else {
+                            $pessoaTipo = 'CPF';
+                        }
+                    @endphp
+
                     <div class="card-body">
                         <h4 class="mb-1">Que bom ter você na Invicta! 👋</h4>
                         <p class="mb-6">Falta pouco para ativar o seu contrato de fiança locatária. Realize o login
@@ -278,9 +287,9 @@
                             @csrf
                             <input type="hidden" name="link" value="{{ $linkHash }}">
                             <div class="form-control-validation fv-plugins-icon-container mb-6">
-                                <label for="cpf" class="form-label">CPF:</label>
+                                <label for="cpf" class="form-label">{{ $pessoaTipo }}:</label>
                                 <input type="text" class="form-control" id="cpf" name="cpf" autofocus="">
-                                <span>Inserir o mesmo CPF informado pela imobiliária</span>
+                                <span>Inserir o mesmo {{ $pessoaTipo }} informado pela imobiliária</span>
                             </div>
 
                             <div class="mb-6">
@@ -317,9 +326,38 @@
     <script src="{{ asset('assets/js/pages-auth.js') }}"></script>
     <script src="https://unpkg.com/imask"></script>
     <script>
-        // IMask(document.getElementById('cpf'), {
-        //     mask: '000.000.000-00'
-        // });
+        const pessoa_tipo = @json($pessoa_tipo ?? 'Pessoa Física');
+        (function() {
+            const input = document.getElementById('cpf');
+            if (!input) return;
+
+            const label = document.querySelector('label[for="cpf"]');
+
+            // Considera PJ se vier "Pessoa Juridica" ou "Pessoa Jurídica" (e também aceita "PJ")
+            const isPJ = String(pessoa_tipo || '')
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // remove acentos
+                .trim().toLowerCase();
+
+            const pessoaJuridica = (isPJ === 'pessoa juridica' || isPJ === 'pj');
+
+            // Atualiza textos
+            if (label) label.textContent = pessoaJuridica ? 'CNPJ:' : 'CPF:';
+            input.placeholder = pessoaJuridica ? '00.000.000/0000-00' : '000.000.000-00';
+
+            // Se você quiser manter o name como "cpf" sempre, deixe assim.
+            // Se quiser trocar também, descomente:
+            // input.name = pessoaJuridica ? 'cnpj' : 'cpf';
+
+            // Aplica máscara
+            const maskPattern = pessoaJuridica ? '00.000.000/0000-00' : '000.000.000-00';
+
+            // Se já existir máscara anterior, remove e aplica nova
+            if (input._imask) input._imask.destroy();
+
+            input._imask = IMask(input, {
+                mask: maskPattern
+            });
+        })();
     </script>
 </body>
 
