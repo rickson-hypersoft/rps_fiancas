@@ -190,8 +190,44 @@
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        IMask(document.getElementById('pessoa_doc'), {
+        // ====== DOC (CPF/CNPJ) dinâmico ======
+        const pessoaDocEl = document.getElementById('pessoa_doc');
+        const pessoaDocLabel = document.querySelector('label[for="pessoa_doc"]');
+        const pfRadio = document.getElementById('pessoa_fisica');
+        const pjRadio = document.getElementById('pessoa_juridica');
+
+        // cria UMA máscara e depois só troca as opções
+        const pessoaDocMask = IMask(pessoaDocEl, {
             mask: '000.000.000-00'
+        }); // default CPF
+
+        function setDocMask(tipo) {
+            // limpa o valor ao trocar (opcional, mas evita CPF "quebrar" no formato CNPJ)
+            pessoaDocMask.value = '';
+
+            if (tipo === 'PJ') {
+                pessoaDocLabel.textContent = 'CNPJ';
+                pessoaDocMask.updateOptions({
+                    mask: '00.000.000/0000-00'
+                });
+                pessoaDocEl.placeholder = '00.000.000/0000-00';
+            } else {
+                pessoaDocLabel.textContent = 'CPF';
+                pessoaDocMask.updateOptions({
+                    mask: '000.000.000-00'
+                });
+                pessoaDocEl.placeholder = '000.000.000-00';
+            }
+        }
+
+        // listeners
+        pfRadio.addEventListener('change', () => pfRadio.checked && setDocMask('PF'));
+        pjRadio.addEventListener('change', () => pjRadio.checked && setDocMask('PJ'));
+
+        // ao carregar a tela, aplica a máscara conforme o radio já marcado
+        document.addEventListener('DOMContentLoaded', () => {
+            const tipoAtual = document.querySelector('input[name="pessoa_tipo"]:checked')?.value || 'PF';
+            setDocMask(tipoAtual);
         });
         IMask(document.getElementById('imovel_cep'), {
             mask: '00000-000'
@@ -308,7 +344,7 @@
                     const form = e.target;
                     const formData = new FormData(form);
                     const idProposta = document.getElementById('idProposta').value;
-                    let url = '/propostas/salvar-step1';
+                    let url = '/fianca/propostas/salvar-step1';
                     if (idProposta) {
                         url += `/${idProposta}`;
                     }
@@ -328,7 +364,7 @@
                     }
 
                     // Se deu tudo certo, redireciona
-                    window.location.href = `/propostas/step2/${data.data.id}`;
+                    window.location.href = `/fianca/propostas/step2/${data.data.id}`;
 
                 } catch (error) {
                     console.error(error);

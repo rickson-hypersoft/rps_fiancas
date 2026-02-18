@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Assets;
 
 use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -641,5 +642,25 @@ class AssetsController extends Controller
         $this->sendWhatsApp($idContrato);
 
         return redirect()->route('assets.index');
+    }
+
+    public function pdfCanceled(string $idContrato): \Illuminate\Http\Response
+    {
+        $token = session('jwt_token');
+
+        $response = Http::withToken($token)
+            ->get(config('api.route') . '/assets/' . session('user')['id_imobiliaria'] . '/' . $idContrato);
+
+        $data = $response->json();
+
+        // gera o PDF a partir da view
+        $pdf = Pdf::loadView('assets.pdf', [
+            'data' => $data['data'],
+        ])->setPaper('a4', 'portrait');
+
+        $nomeInquilino = $data['data']['pessoa_nome'] ?? $idContrato;
+
+        // força o download
+        return $pdf->download("Termo {$nomeInquilino}.pdf");
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class CheckoutController extends Controller
@@ -19,7 +20,6 @@ class CheckoutController extends Controller
         $data     = $response->json();
 
         // Marcar termo como ativado e lido
-
         return view('payments.index', ['link' => $link, 'data' => $data]);
     }
 
@@ -39,12 +39,11 @@ class CheckoutController extends Controller
         $data     = $response->json();
 
         $responsePagamento = Http::withToken($token)->post(
-            config('api.route') . '/checkout/pix/' . $linkHash,
-            ['id_usuario' => session('user')['id']]
+            config('api.route') . '/checkout/pix/' . $linkHash
         );
         $dataPagamento = $responsePagamento->json();
 
-        if ($dataPagamento['pago']) {
+        if (isset($dataPagamento['pago'])) {
             $paymentInfo = $dataPagamento['pagamento'] ?? [];
 
             return view('payments.confirmation.pix', ['paymentInfo' => $paymentInfo]);
@@ -57,8 +56,7 @@ class CheckoutController extends Controller
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->post(
-            config('api.route') . '/checkout/pix/' . $linkHash,
-            ['id_usuario' => session('user')['id']]
+            config('api.route') . '/checkout/pix/' . $linkHash
         );
         $data = $response->json();
 
@@ -90,15 +88,15 @@ class CheckoutController extends Controller
         $data     = $response->json();
 
         $responsePagamento = Http::withToken($token)->post(
-            config('api.route') . '/checkout/pix/' . $linkHash,
-            ['id_usuario' => session('user')['id']]
+            config('api.route') . '/checkout/boleto/' . $linkHash
         );
+
         $dataPagamento = $responsePagamento->json();
 
-        if ($dataPagamento['pago']) {
+        if (isset($dataPagamento['pago'])) {
             $paymentInfo = $dataPagamento['pagamento'] ?? [];
 
-            return view('payments.confirmation.pix', ['paymentInfo' => $paymentInfo]);
+            return view('payments.confirmation.boleto', ['paymentInfo' => $paymentInfo]);
         }
 
         return view('payments.methods.boleto', ['linkHash' => $linkHash, 'data' => $data]);
@@ -108,8 +106,7 @@ class CheckoutController extends Controller
     {
         $token    = session('jwt_token');
         $response = Http::withToken($token)->post(
-            config('api.route') . '/checkout/boleto/' . $linkHash,
-            ['id_usuario' => session('user')['id']]
+            config('api.route') . '/checkout/boleto/' . $linkHash
         );
         $data = $response->json();
 
@@ -164,15 +161,13 @@ class CheckoutController extends Controller
 
     public function criarPagamentoCartao(Request $request, string $linkHash)
     {
-        $request->merge([
-            'id_usuario' => session('user')['id'],
-        ]);
-
         $token    = session('jwt_token');
         $response = Http::withToken($token)->post(
             config('api.route') . '/checkout/cartao/' . $linkHash,
             $request->all()
         );
+
+        Log::info('Resposta do checkout com cartão de crédito: ', [config('api.route') . '/checkout/cartao/' . $linkHash, $request->all()]);
 
         if ($response->successful() && isset($response['detalhes_pagamentos'])) {
             // Redireciona para a rota confirmation com o id_pagamento na URL
@@ -186,6 +181,8 @@ class CheckoutController extends Controller
 
             return redirect()->route('checkout.confirmation.cart', ['linkHash' => $linkHash, 'idPagamento' => $ids]);
         }
+
+        Log::info('Erro no checkout com cartão de crédito: ', [$response->json()]);
 
         return back()->withErrors([
             'checkout' => $response->json()['message'][0]['description'],

@@ -109,6 +109,14 @@ class ActivationController extends Controller
             return redirect()->back()->withErrors(['message' => 'Link inválido.']);
         }
 
+        \Log::info("Informação:", ['data' => $data['data']['pessoa_doc'], 'cpf' => $request->input('cpf')]);
+
+        $doc = $data['data']['pessoa_doc'] ?? null;
+
+        if ($doc !== null) {
+            $data['data']['pessoa_doc'] = preg_replace('/\D+/', '', $doc);
+        }
+
         if ($data['data']['pessoa_doc'] !== $request->input('cpf')) {
             return redirect()->back()->withErrors(['message' => 'CPF inválido.']);
         }

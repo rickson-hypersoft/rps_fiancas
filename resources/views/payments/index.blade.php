@@ -73,6 +73,7 @@
                                                 </div>
                                             </div>
 
+                                            <!--
                                             <div class="col-md col-lg-12 col-xl-12">
                                                 <div class="form-check custom-option custom-option-basic">
                                                     <label
@@ -97,6 +98,7 @@
                                                     </label>
                                                 </div>
                                             </div>
+                                        -->
                                             <div class="col-md col-lg-12 col-xl-12">
                                                 <div class="form-check custom-option custom-option-basic">
                                                     <label

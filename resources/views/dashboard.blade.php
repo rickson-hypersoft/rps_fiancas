@@ -211,6 +211,13 @@
                                                         <div data-i18n="Lançamentos">Lançamentos</div>
                                                     </a>
                                                 </li>
+                                                <li
+                                                    class="menu-item {{ request()->routeIs('financial.financial_movi.extract') ? 'active' : '' }}">
+                                                    <a href="{{ route('financial.financial_movi.extract') }}"
+                                                        class="menu-link">
+                                                        <div data-i18n="Extrato Asaas">Extrato Asaas</div>
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </li>
                                     @endif

@@ -140,6 +140,8 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
 
     Route::get('/imobiliaria/financeiro/movimentacao', [FinancialMoviController::class, 'index'])
         ->name('financial.financial_movi.index');
+    Route::get('/imobiliaria/financeiro/extrato', [FinancialMoviController::class, 'extract'])
+        ->name('financial.financial_movi.extract');
     Route::get('/imobiliaria/financeiro/movimentacao/cadastrar', [FinancialMoviController::class, 'create'])
         ->name('financial.financial_movi.create');
     Route::get('/imobiliaria/financeiro/movimentacao/editar/{financeiro_movi}', [FinancialMoviController::class, 'edit'])
@@ -213,6 +215,7 @@ Route::middleware(['auth.token', 'check.category:Imobiliária'])->group(function
         ->name("assets.canceled");
     Route::post('/contratos/cancelar/{idContrato}', [AssetsController::class, 'cancelar'])
         ->name("assets.canceled.post");
+    Route::get('/contratos/cancelado/{idContrato}', [AssetsController::class, 'pdfCanceled'])->name('assets.canceled.pdf');
 
     // Inadimplências
     Route::prefix('inadimplencias')->group(function (): void {

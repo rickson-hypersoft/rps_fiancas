@@ -373,4 +373,64 @@ class FinancialMoviController extends Controller
     {
         return optional($categorias->firstWhere('id', $id))['descricao'] ?? '-';
     }
+
+    public function extract(Request $request)
+    {
+        $startDate  = $request->get('start_date');
+        $finishDate = $request->get('finish_date');
+        $direction  = $request->get('direction');
+        $page       = (int) $request->get('page', 1);
+        $perPage    = (int) $request->get('perPage', 20);
+
+        $response = Http::withToken(session('jwt_token'))
+            ->get(config('api.route') . '/extract/financial_movi', [
+                'startDate'  => $startDate,
+                'finishDate' => $finishDate,
+                'direction'  => $direction,
+                'page'       => $page,
+                'perPage'    => $perPage,
+            ]);
+
+        if (! $response->successful()) {
+            return view('financial.financial_movi.extract', [
+                'extratos'   => [],
+                'pagination' => [
+                    'total'        => 0, 'from' => 0, 'to' => 0,
+                    'current_page' => 1, 'last_page' => 1,
+                ],
+                'totals' => [
+                    'saldoTotal'   => 0,
+                    'recebimentos' => 0,
+                    'taxas'        => 0,
+                ],
+                'errorApi' => 'Não foi possível carregar o extrato.',
+            ]);
+        }
+
+        $extratos = $response->json('data') ?? [];
+        $meta     = $response->json('meta') ?? [];
+        $totals   = $response->json('totals') ?? [];
+
+        $pagination = [
+            'total'        => (int) ($meta['total'] ?? 0),
+            'from'         => (int) ($meta['from'] ?? 0),
+            'to'           => (int) ($meta['to'] ?? 0),
+            'current_page' => (int) ($meta['current_page'] ?? $page),
+            'last_page'    => (int) ($meta['last_page'] ?? 1),
+            'perPage'      => (int) ($meta['per_page'] ?? $perPage),
+        ];
+
+        // defaults caso a API não mande algum campo
+        $totals = array_merge([
+            'saldoTotal'   => 0,
+            'recebimentos' => 0,
+            'taxas'        => 0,
+        ], $totals);
+
+        return view('financial.financial_movi.extract', [
+            'extratos'   => $extratos,
+            'pagination' => $pagination,
+            'totals'     => $totals,
+        ]);
+    }
 }

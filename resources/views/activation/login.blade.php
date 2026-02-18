@@ -279,8 +279,7 @@
                             <input type="hidden" name="link" value="{{ $linkHash }}">
                             <div class="form-control-validation fv-plugins-icon-container mb-6">
                                 <label for="cpf" class="form-label">CPF:</label>
-                                <input type="text" class="form-control" id="cpf" name="cpf"
-                                    placeholder="000.000.000-00" autofocus="">
+                                <input type="text" class="form-control" id="cpf" name="cpf" autofocus="">
                                 <span>Inserir o mesmo CPF informado pela imobiliária</span>
                             </div>
 
@@ -318,9 +317,9 @@
     <script src="{{ asset('assets/js/pages-auth.js') }}"></script>
     <script src="https://unpkg.com/imask"></script>
     <script>
-        IMask(document.getElementById('cpf'), {
-            mask: '000.000.000-00'
-        });
+        // IMask(document.getElementById('cpf'), {
+        //     mask: '000.000.000-00'
+        // });
     </script>
 </body>
 

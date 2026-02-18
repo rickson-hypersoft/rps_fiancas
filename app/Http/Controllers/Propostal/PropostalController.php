@@ -281,7 +281,7 @@ class PropostalController extends Controller
             return response()->json(['message' => 'Campo valor aluguel inválido!'], 400);
         }
 
-        if (! $this->validaCpf($requestSanitize['pessoa_doc'])) {
+        if ($requestSanitize['pessoa_tipo'] == 'PF' && ! $this->validaCpf($requestSanitize['pessoa_doc'])) {
             return response()->json(['message' => 'Campo cpf inválido!'], 400);
         }
 
@@ -301,11 +301,11 @@ class PropostalController extends Controller
 
         $score = $checkScore['score_pontos'];
 
-        if ($score >= 700) {
+        if ($score >= 600) {
             $requestSanitize['proposta_credito_status'] = 'Aprovado';
         }
 
-        if ($score > 400 && $score < 700) {
+        if ($score > 400 && $score < 600) {
             $requestSanitize['proposta_credito_status'] = 'Pendente Análise';
         }
 
@@ -591,6 +591,8 @@ class PropostalController extends Controller
 
     private function styleStep2(array $data): array
     {
+        $cpfOrCnpj = $data['pessoa_tipo'] === 'Pessoa Jurídica' ? 'CNPJ' : 'CPF';
+
         return match ($data['proposta_credito_status']) {
             'Aprovado' => [
                 'colorText'    => 'fw-bold text-success',
@@ -598,7 +600,7 @@ class PropostalController extends Controller
                 'card'         => 'content-header mb-4 p-5 bg-success text-white',
                 'icon'         => 'menu-icon icon-base ti tabler-check',
                 'badge'        => 'Simulação',
-                'detalhamento' => "O inquilino {$data['pessoa_nome']} do CPF {$data['pessoa_doc']} está aprovado para uma locação com garantia de um imóvel {$data['imovel_tipo']}, na cidade de {$data['imovel_cidade']} - {$data['imovel_estado']}",
+                'detalhamento' => "O inquilino {$data['pessoa_nome']} do {$cpfOrCnpj} {$data['pessoa_doc']} está aprovado para uma locação com garantia de um imóvel {$data['imovel_tipo']}, na cidade de {$data['imovel_cidade']} - {$data['imovel_estado']}",
                 'displaySetup' => 'block',
                 'cardStyle'    => '',
             ],
@@ -988,17 +990,16 @@ class PropostalController extends Controller
         // 1) Reenvia link facial na API
         $response = Http::withToken($token)
             ->get(config('api.route') . '/reenviar-link-facial/' . $id);
-        $data = $response->json();
+        $data     = $response->json();
         $messages = $data['error']['messages'];
 
         Log::info('Response Reenviar Link Facial: ', ['messagess' => $messages]);
 
-        if (! $response->successful()){
+        if (! $response->successful()) {
             return redirect()
                 ->route('propostal.index')
                 ->with('error', implode(',', $data['error']['messages']) ?? 'Não foi possível reenviar o link facial.');
         }
-
 
         if (empty($data['success'])) {
             return redirect()

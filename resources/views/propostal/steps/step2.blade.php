@@ -1,5 +1,8 @@
-<div class="alert alert-primary" role="alert">A última consulta realizado com esse CPF foi em:
-    {{ \Carbon\Carbon::parse($scoreData['data'])->format('d/m/Y') }} - {{ $scoreData['hora'] }}</div>
+<div class="alert alert-primary" role="alert">
+    A última consulta realizada com esse
+    <strong>{{ ($proposta['pessoa_tipo'] ?? 'Pessoa Física') === 'Pessoa Jurídica' ? 'CNPJ' : 'CPF' }}</strong> foi em:
+    {{ \Carbon\Carbon::parse($scoreData['data'])->format('d/m/Y') }} - {{ $scoreData['hora'] }}
+</div>
 
 <div id="analise-credito" class="content active fv-plugins-bootstrap5 fv-plugins-framework">
     <div style="{{ $styles['cardStyle'] }}" class="{{ $styles['card'] }}" id="card_status_propostal">

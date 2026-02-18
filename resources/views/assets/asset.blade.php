@@ -67,6 +67,12 @@
                                     Acompanhar inadimplências
                                 </a>
                                 <button disabled href="#" class="btn btn-outline-secondary">Cancelar proposta</button>
+
+                                @if ($data['contrato_status'] == 'Cancelado')
+                                    <a class="btn btn-outline-secondary"
+                                        href="{{ route('assets.canceled.pdf', ['idContrato' => $data['id']]) }}">Comprovante
+                                        Cancelamento</a>
+                                @endif
                             </div>
 
                             <div class="d-block d-md-none dropdown">
